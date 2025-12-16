@@ -14,8 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from CBR import (
     ChefDigitalCBR, CBRConfig,
-    Request, EventType, Season, CulinaryStyle,
-    get_initial_cases
+    Request, EventType, Season, CulinaryStyle
 )
 
 
@@ -28,11 +27,6 @@ def demo_wedding_menu():
     # Crear sistema CBR con casos iniciales
     config = CBRConfig(verbose=True, max_proposals=3)
     cbr = ChefDigitalCBR(config)
-    
-    # Cargar casos iniciales
-    initial_cases = get_initial_cases()
-    for case in initial_cases:
-        cbr.case_base.add_case(case)
     
     # Crear solicitud
     request = Request(
@@ -69,10 +63,6 @@ def demo_corporate_vegetarian():
     config = CBRConfig(verbose=True)
     cbr = ChefDigitalCBR(config)
     
-    # Cargar casos iniciales
-    for case in get_initial_cases():
-        cbr.case_base.add_case(case)
-    
     request = Request(
         event_type=EventType.CORPORATE,
         num_guests=60,
@@ -105,10 +95,6 @@ def demo_christening_catalan():
     config = CBRConfig(verbose=True)
     cbr = ChefDigitalCBR(config)
     
-    # Cargar casos iniciales
-    for case in get_initial_cases():
-        cbr.case_base.add_case(case)
-    
     request = Request(
         event_type=EventType.CHRISTENING,
         num_guests=45,
@@ -139,10 +125,6 @@ def demo_system_stats():
     
     config = CBRConfig(verbose=False)
     cbr = ChefDigitalCBR(config)
-    
-    # Cargar casos iniciales
-    for case in get_initial_cases():
-        cbr.case_base.add_case(case)
     
     stats = cbr.get_statistics()
     

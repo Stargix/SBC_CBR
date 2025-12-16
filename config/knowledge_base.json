@@ -1,0 +1,314 @@
+{
+    "flavor_compatibility": {
+        "sweet": [
+            "salty",
+            "sour"
+        ],
+        "salty": [
+            "sweet",
+            "umami",
+            "fatty"
+        ],
+        "sour": [
+            "fatty",
+            "sweet",
+            "umami"
+        ],
+        "bitter": [
+            "sweet",
+            "umami",
+            "fatty"
+        ],
+        "umami": [
+            "sour",
+            "bitter"
+        ],
+        "fatty": [
+            "sour",
+            "bitter"
+        ],
+        "spicy": [
+            "sweet",
+            "fatty",
+            "sour"
+        ]
+    },
+    "incompatible_categories": [
+        [
+            "soup",
+            "cream"
+        ],
+        [
+            "soup",
+            "broth"
+        ],
+        [
+            "cream",
+            "broth"
+        ],
+        [
+            "legume",
+            "pasta"
+        ],
+        [
+            "legume",
+            "rice"
+        ],
+        [
+            "pasta",
+            "rice"
+        ],
+        [
+            "pasta",
+            "pasta"
+        ],
+        [
+            "rice",
+            "rice"
+        ],
+        [
+            "meat",
+            "fish"
+        ],
+        [
+            "meat",
+            "poultry"
+        ],
+        [
+            "meat",
+            "egg"
+        ],
+        [
+            "poultry",
+            "fish"
+        ],
+        [
+            "fish",
+            "poultry"
+        ],
+        [
+            "egg",
+            "egg"
+        ],
+        [
+            "tapas",
+            "snack"
+        ],
+        [
+            "tapas",
+            "soup"
+        ],
+        [
+            "snack",
+            "soup"
+        ],
+        [
+            "salad",
+            "vegetable"
+        ],
+        [
+            "fruit",
+            "fruit"
+        ]
+    ],
+    "wine_flavor_compatibility": {
+        "dry": [
+            "salty",
+            "sour",
+            "fatty"
+        ],
+        "fruity": [
+            "sweet",
+            "umami"
+        ],
+        "young": [
+            "bitter",
+            "umami"
+        ],
+        "full-bodied": [
+            "fatty",
+            "umami"
+        ],
+        "rose": [
+            "salty",
+            "sweet",
+            "umami"
+        ],
+        "sparkling": [
+            "salty",
+            "fatty",
+            "sweet"
+        ],
+        "sweet": [
+            "sweet",
+            "umami",
+            "fatty"
+        ],
+        "aged": [
+            "umami",
+            "fatty"
+        ]
+    },
+    "event_styles": {
+        "wedding": [
+            {
+                "style": "sibarita",
+                "priority": 1
+            },
+            {
+                "style": "gourmet",
+                "priority": 1
+            },
+            {
+                "style": "classic",
+                "priority": 2
+            },
+            {
+                "style": "fusion",
+                "priority": 2
+            },
+            {
+                "style": "modern",
+                "priority": 3
+            }
+        ],
+        "christening": [
+            {
+                "style": "classic",
+                "priority": 1
+            },
+            {
+                "style": "regional",
+                "priority": 1
+            },
+            {
+                "style": "modern",
+                "priority": 2
+            }
+        ],
+        "communion": [
+            {
+                "style": "classic",
+                "priority": 1
+            },
+            {
+                "style": "regional",
+                "priority": 1
+            },
+            {
+                "style": "fusion",
+                "priority": 2
+            },
+            {
+                "style": "suave",
+                "priority": 2
+            }
+        ],
+        "familiar": [
+            {
+                "style": "regional",
+                "priority": 1
+            },
+            {
+                "style": "classic",
+                "priority": 1
+            },
+            {
+                "style": "fusion",
+                "priority": 2
+            }
+        ],
+        "congress": [
+            {
+                "style": "classic",
+                "priority": 1
+            },
+            {
+                "style": "modern",
+                "priority": 1
+            },
+            {
+                "style": "fusion",
+                "priority": 2
+            },
+            {
+                "style": "gourmet",
+                "priority": 2
+            }
+        ],
+        "corporate": [
+            {
+                "style": "classic",
+                "priority": 1
+            },
+            {
+                "style": "modern",
+                "priority": 1
+            },
+            {
+                "style": "fusion",
+                "priority": 2
+            },
+            {
+                "style": "gourmet",
+                "priority": 2
+            }
+        ]
+    },
+    "event_complexity": {
+        "wedding": [
+            "medium",
+            "high"
+        ],
+        "christening": [
+            "low",
+            "medium"
+        ],
+        "communion": [
+            "low",
+            "medium"
+        ],
+        "familiar": [
+            "low",
+            "medium"
+        ],
+        "congress": [
+            "medium"
+        ],
+        "corporate": [
+            "medium"
+        ]
+    },
+    "calorie_ranges": {
+        "spring": {
+            "min": 400,
+            "max": 800
+        },
+        "summer": {
+            "min": 300,
+            "max": 700
+        },
+        "autumn": {
+            "min": 500,
+            "max": 900
+        },
+        "winter": {
+            "min": 600,
+            "max": 1000
+        },
+        "all": {
+            "min": 400,
+            "max": 900
+        }
+    },
+    "style_descriptions": {
+        "classic": "Cocina clásica tradicional con técnicas probadas y sabores reconfortantes",
+        "modern": "Cocina moderna innovadora con técnicas de vanguardia y presentaciones creativas",
+        "fusion": "Fusión de diferentes tradiciones culinarias creando combinaciones únicas",
+        "regional": "Cocina regional que celebra los productos locales y tradiciones autóctonas",
+        "sibarita": "Alta cocina con técnicas moleculares, texturas sorprendentes y presentación artística",
+        "gourmet": "Cocina gourmet refinada con ingredientes premium y técnicas clásicas perfeccionadas",
+        "classical": "Cocina clásica europea con énfasis en la tradición francesa",
+        "suave": "Cocina suave y familiar, reconfortante y accesible para todos los paladares"
+    }
+}

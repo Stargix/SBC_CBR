@@ -9,32 +9,38 @@ Este módulo contiene el conocimiento declarativo del dominio:
 - Reglas de validación gastronómica
 - Rangos de calorías por temporada
 
-Este conocimiento se utilizó previamente en el sistema CLIPS
-y ahora se adapta al paradigma CBR para enriquecer la adaptación
-y validación de casos.
+Este conocimiento se carga desde archivos de configuración JSON
+para facilitar su mantenimiento y actualización sin modificar código.
 """
 
+import json
+import os
 from typing import Dict, List, Set, Tuple
 from .models import (
     Flavor, Season, EventType, CulinaryStyle, DishCategory, 
     Temperature, Complexity, CulturalTradition
 )
 
+# Cargar configuración desde JSON
+_config_path = os.path.join(os.path.dirname(__file__), 'config', 'knowledge_base.json')
+with open(_config_path, 'r', encoding='utf-8') as f:
+    _KB_CONFIG = json.load(f)
+
+
+# Cargar configuración desde JSON
+_config_path = os.path.join(os.path.dirname(__file__), 'config', 'knowledge_base.json')
+with open(_config_path, 'r', encoding='utf-8') as f:
+    _KB_CONFIG = json.load(f)
+
 
 # ============================================================
 # COMPATIBILIDAD DE SABORES
 # ============================================================
 
-# Diccionario de sabores compatibles
-# Un sabor A es compatible con B si se complementan bien
+# Construir diccionario de sabores compatibles desde configuración
 FLAVOR_COMPATIBILITY: Dict[Flavor, List[Flavor]] = {
-    Flavor.SWEET: [Flavor.SALTY, Flavor.SOUR],
-    Flavor.SALTY: [Flavor.SWEET, Flavor.UMAMI, Flavor.FATTY],
-    Flavor.SOUR: [Flavor.FATTY, Flavor.SWEET, Flavor.UMAMI],
-    Flavor.BITTER: [Flavor.SWEET, Flavor.UMAMI, Flavor.FATTY],
-    Flavor.UMAMI: [Flavor.SOUR, Flavor.BITTER],
-    Flavor.FATTY: [Flavor.SOUR, Flavor.BITTER],
-    Flavor.SPICY: [Flavor.SWEET, Flavor.FATTY, Flavor.SOUR]
+    Flavor[k.upper()]: [Flavor[v.upper()] for v in vals]
+    for k, vals in _KB_CONFIG['flavor_compatibility'].items()
 }
 
 
@@ -71,40 +77,10 @@ def get_compatible_flavors(flavor: Flavor) -> List[Flavor]:
 # CATEGORÍAS INCOMPATIBLES DE PLATOS
 # ============================================================
 
-# Pares de categorías que no deben aparecer juntas en un menú
+# Cargar pares de categorías incompatibles desde configuración
 INCOMPATIBLE_CATEGORIES: List[Tuple[DishCategory, DishCategory]] = [
-    # Sopas y cremas no se combinan entre sí
-    (DishCategory.SOUP, DishCategory.CREAM),
-    (DishCategory.SOUP, DishCategory.BROTH),
-    (DishCategory.CREAM, DishCategory.BROTH),
-    
-    # Legumbres no con carbohidratos pesados
-    (DishCategory.LEGUME, DishCategory.PASTA),
-    (DishCategory.LEGUME, DishCategory.RICE),
-    
-    # Carbohidratos no se repiten
-    (DishCategory.PASTA, DishCategory.RICE),
-    (DishCategory.PASTA, DishCategory.PASTA),
-    (DishCategory.RICE, DishCategory.RICE),
-    
-    # Proteínas no se mezclan
-    (DishCategory.MEAT, DishCategory.FISH),
-    (DishCategory.MEAT, DishCategory.POULTRY),
-    (DishCategory.MEAT, DishCategory.EGG),
-    (DishCategory.POULTRY, DishCategory.FISH),
-    (DishCategory.FISH, DishCategory.POULTRY),
-    (DishCategory.EGG, DishCategory.EGG),
-    
-    # Tapas y snacks
-    (DishCategory.TAPAS, DishCategory.SNACK),
-    (DishCategory.TAPAS, DishCategory.SOUP),
-    (DishCategory.SNACK, DishCategory.SOUP),
-    
-    # Verduras y ensaladas
-    (DishCategory.SALAD, DishCategory.VEGETABLE),
-    
-    # Frutas no se repiten
-    (DishCategory.FRUIT, DishCategory.FRUIT),
+    (DishCategory[cat1.upper()], DishCategory[cat2.upper()])
+    for cat1, cat2 in _KB_CONFIG['incompatible_categories']
 ]
 
 
@@ -127,16 +103,10 @@ def are_categories_compatible(cat1: DishCategory, cat2: DishCategory) -> bool:
 # MARIDAJE DE VINOS
 # ============================================================
 
-# Compatibilidad de subtipos de vino con sabores
+# Cargar compatibilidad de vinos desde configuración
 WINE_FLAVOR_COMPATIBILITY: Dict[str, List[Flavor]] = {
-    "dry": [Flavor.SALTY, Flavor.SOUR, Flavor.FATTY],
-    "fruity": [Flavor.SWEET, Flavor.UMAMI],
-    "young": [Flavor.BITTER, Flavor.UMAMI],
-    "full-bodied": [Flavor.FATTY, Flavor.UMAMI],
-    "rose": [Flavor.SALTY, Flavor.SWEET, Flavor.UMAMI],
-    "sparkling": [Flavor.SALTY, Flavor.FATTY, Flavor.SWEET],
-    "sweet": [Flavor.SWEET, Flavor.UMAMI, Flavor.FATTY],  # Para postres
-    "aged": [Flavor.UMAMI, Flavor.FATTY]
+    wine_type: [Flavor[f.upper()] for f in flavors]
+    for wine_type, flavors in _KB_CONFIG['wine_flavor_compatibility'].items()
 }
 
 
@@ -197,43 +167,13 @@ def get_wine_priority(wine_subtype: str, is_dessert: bool = False) -> int:
 # ESTILOS POR TIPO DE EVENTO
 # ============================================================
 
-# Estilos recomendados por tipo de evento con prioridad
+# Cargar estilos por evento desde configuración
 EVENT_STYLES: Dict[EventType, List[Tuple[CulinaryStyle, int]]] = {
-    EventType.WEDDING: [
-        (CulinaryStyle.SIBARITA, 1),
-        (CulinaryStyle.GOURMET, 1),
-        (CulinaryStyle.CLASSIC, 2),
-        (CulinaryStyle.FUSION, 2),
-        (CulinaryStyle.MODERN, 3),
-    ],
-    EventType.CHRISTENING: [
-        (CulinaryStyle.CLASSIC, 1),
-        (CulinaryStyle.REGIONAL, 1),
-        (CulinaryStyle.MODERN, 2),
-    ],
-    EventType.COMMUNION: [
-        (CulinaryStyle.CLASSIC, 1),
-        (CulinaryStyle.REGIONAL, 1),
-        (CulinaryStyle.FUSION, 2),
-        (CulinaryStyle.SUAVE, 2),
-    ],
-    EventType.FAMILIAR: [
-        (CulinaryStyle.REGIONAL, 1),
-        (CulinaryStyle.CLASSIC, 1),
-        (CulinaryStyle.FUSION, 2),
-    ],
-    EventType.CONGRESS: [
-        (CulinaryStyle.CLASSIC, 1),
-        (CulinaryStyle.MODERN, 1),
-        (CulinaryStyle.FUSION, 2),
-        (CulinaryStyle.GOURMET, 2),
-    ],
-    EventType.CORPORATE: [
-        (CulinaryStyle.CLASSIC, 1),
-        (CulinaryStyle.MODERN, 1),
-        (CulinaryStyle.FUSION, 2),
-        (CulinaryStyle.GOURMET, 2),
-    ],
+    EventType[event.upper()]: [
+        (CulinaryStyle[item['style'].upper()], item['priority'])
+        for item in styles
+    ]
+    for event, styles in _KB_CONFIG['event_styles'].items()
 }
 
 
@@ -272,13 +212,10 @@ def is_style_appropriate_for_event(style: CulinaryStyle, event_type: EventType) 
 # COMPLEJIDAD POR TIPO DE EVENTO
 # ============================================================
 
+# Cargar complejidad por evento desde configuración
 EVENT_COMPLEXITY: Dict[EventType, List[Complexity]] = {
-    EventType.WEDDING: [Complexity.MEDIUM, Complexity.HIGH],
-    EventType.CHRISTENING: [Complexity.LOW, Complexity.MEDIUM],
-    EventType.COMMUNION: [Complexity.LOW, Complexity.MEDIUM],
-    EventType.FAMILIAR: [Complexity.LOW, Complexity.MEDIUM],
-    EventType.CONGRESS: [Complexity.MEDIUM],
-    EventType.CORPORATE: [Complexity.MEDIUM],
+    EventType[event.upper()]: [Complexity[c.upper()] for c in complexities]
+    for event, complexities in _KB_CONFIG['event_complexity'].items()
 }
 
 

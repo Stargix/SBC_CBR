@@ -63,9 +63,6 @@ from .revise import MenuReviser, ValidationResult
 from .retain import CaseRetainer, FeedbackData, RetentionDecision
 from .explanation import ExplanationGenerator, ExplanationType, Explanation
 
-# Biblioteca de casos
-from .case_library import get_initial_cases
-
 # Sistema principal
 from .main import ChefDigitalCBR, CBRConfig, CBRResult, create_cbr_system
 
@@ -83,8 +80,6 @@ __all__ = [
     'CaseRetriever', 'CaseAdapter', 'MenuReviser', 'ValidationResult',
     'CaseRetainer', 'FeedbackData', 'RetentionDecision',
     'ExplanationGenerator', 'ExplanationType', 'Explanation',
-    # Biblioteca
-    'get_initial_cases',
     # Sistema principal
     'ChefDigitalCBR', 'CBRConfig', 'CBRResult', 'create_cbr_system',
 ]
