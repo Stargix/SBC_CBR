@@ -123,9 +123,6 @@ class ChefDigitalCBR:
             "cases_rejected": 0
         }
         
-        if self.config.verbose:
-            print(f"[CBR] Procesando solicitud para {request.event_type.value}")
-        
         # FASE 1: RETRIEVE - Recuperar casos similares
         retrieved_cases = self._retrieve_phase(request)
         stats["cases_retrieved"] = len(retrieved_cases)
@@ -133,9 +130,6 @@ class ChefDigitalCBR:
         if not retrieved_cases:
             # Sin casos similares, intentar generación desde conocimiento
             retrieved_cases = self._generate_from_knowledge(request)
-        
-        if self.config.verbose:
-            print(f"[CBR] Casos recuperados: {len(retrieved_cases)}")
         
         # FASE 2-3: REUSE/ADAPT + REVISE para cada caso
         for case, similarity in retrieved_cases:
@@ -341,13 +335,8 @@ class ChefDigitalCBR:
             self.retriever = CaseRetriever(self.case_base)
             self.retainer = CaseRetainer(self.case_base)
             
-            if self.config.verbose:
-                print(f"[CBR] Base de casos cargada: {len(self.case_base.cases)} casos")
-            
             return True
         except Exception as e:
-            if self.config.verbose:
-                print(f"[CBR] Error cargando base de casos: {e}")
             return False
     
     def save_case_base(self, path: Optional[str] = None) -> bool:
@@ -365,13 +354,8 @@ class ChefDigitalCBR:
         try:
             self.case_base.save_to_file(save_path)
             
-            if self.config.verbose:
-                print(f"[CBR] Base de casos guardada en {save_path}")
-            
             return True
         except Exception as e:
-            if self.config.verbose:
-                print(f"[CBR] Error guardando base de casos: {e}")
             return False
     
     def get_statistics(self) -> Dict[str, Any]:

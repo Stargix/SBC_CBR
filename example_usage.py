@@ -186,11 +186,6 @@ def main():
     print("=" * 60)
     print("\nBienvenido al sistema de propuesta de menús basado en")
     print("Razonamiento Basado en Casos (CBR).")
-    print("\nInspirado en los grandes chefs:")
-    print("  - Ferran Adrià (elBulli)")
-    print("  - Juan Mari Arzak (Arzak)")
-    print("  - Paul Bocuse")
-    print("  - René Redzepi (Noma)")
     
     # Ejecutar demos
     demo_system_stats()

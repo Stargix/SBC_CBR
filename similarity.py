@@ -539,8 +539,6 @@ class SemanticSimilarityCalculator:
             from sentence_transformers import SentenceTransformer
             self.model = SentenceTransformer(self.model_name)
         except ImportError:
-            print("NOTA: sentence-transformers no instalado. "
-                  "Similitud semántica no disponible.")
             self.model = None
     
     def is_available(self) -> bool:

@@ -730,7 +730,3 @@ def load_cases_from_json(filepath: str) -> List[Case]:
 # Ejecutar para generar archivo inicial
 if __name__ == "__main__":
     cases = get_initial_cases()
-    print(f"Casos iniciales generados: {len(cases)}")
-    
-    for case in cases:
-        print(f"  - {case.id}: {case.request.event_type.value} / {case.request.preferred_style.value}")

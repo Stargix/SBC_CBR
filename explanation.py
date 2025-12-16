@@ -77,38 +77,7 @@ class ExplanationGenerator:
     
     def __init__(self):
         """Inicializa el generador de explicaciones"""
-        self.chef_philosophies = {
-            CulinaryStyle.SIBARITA: {
-                "chef": "Ferran Adrià",
-                "philosophy": "La cocina es un acto de amor y creatividad",
-                "emphasis": ["texturas sorprendentes", "técnicas innovadoras", "presentación artística"]
-            },
-            CulinaryStyle.GOURMET: {
-                "chef": "Paul Bocuse",
-                "philosophy": "El respeto por los ingredientes es la base de la gran cocina",
-                "emphasis": ["calidad suprema", "técnicas clásicas perfeccionadas", "elegancia"]
-            },
-            CulinaryStyle.CLASSIC: {
-                "chef": "Auguste Escoffier",
-                "philosophy": "La tradición es el pilar de la excelencia culinaria",
-                "emphasis": ["recetas tradicionales", "sabores reconfortantes", "presentación clásica"]
-            },
-            CulinaryStyle.FUSION: {
-                "chef": "Nobu Matsuhisa",
-                "philosophy": "Los sabores no conocen fronteras",
-                "emphasis": ["mezcla de culturas", "combinaciones inesperadas", "armonía de contrastes"]
-            },
-            CulinaryStyle.MODERN: {
-                "chef": "Grant Achatz",
-                "philosophy": "La innovación empuja los límites de lo posible",
-                "emphasis": ["técnicas de vanguardia", "experiencia multisensorial", "sorpresa"]
-            },
-            CulinaryStyle.REGIONAL: {
-                "chef": "Juan Mari Arzak",
-                "philosophy": "Las raíces son la fuente de la identidad culinaria",
-                "emphasis": ["productos locales", "tradición regional", "autenticidad"]
-            }
-        }
+        pass
     
     def generate_selection_explanation(self, menu: ProposedMenu, 
                                         request: Request) -> Explanation:
@@ -129,14 +98,6 @@ class ExplanationGenerator:
             f"Similitud con caso exitoso previo: {menu.similarity_score:.1%}"
         )
         
-        # Estilo culinario
-        style_info = self.chef_philosophies.get(request.preferred_style)
-        if style_info:
-            details.append(
-                f"Inspirado en la filosofía de {style_info['chef']}: "
-                f"'{style_info['philosophy']}'"
-            )
-        
         # Adecuación al evento
         event_desc = self._get_event_description(request.event_type)
         details.append(f"Diseñado específicamente para {event_desc}")
@@ -155,17 +116,10 @@ class ExplanationGenerator:
             diets = ", ".join(request.required_diets)
             details.append(f"Respeta las restricciones dietéticas: {diets}")
         
-        content = (
-            f"Este menú ha sido seleccionado por su excelente adecuación a "
-            f"sus necesidades. Con una puntuación de similitud del "
-            f"{menu.similarity_score:.1%}, representa la mejor opción entre "
-            f"los {menu.rank} menús candidatos evaluados."
-        )
-        
         return Explanation(
             type=ExplanationType.SELECTION,
             title="Por qué se seleccionó este menú",
-            content=content,
+            content="",
             details=details,
             confidence=menu.similarity_score
         )
@@ -281,18 +235,9 @@ class ExplanationGenerator:
         Returns:
             Explicación del estilo
         """
-        style_info = self.chef_philosophies.get(style, {})
         style_desc = STYLE_DESCRIPTIONS.get(style, "")
         
         details = []
-        
-        if style_info:
-            details.append(f"Chef de referencia: {style_info.get('chef', 'N/A')}")
-            details.append(f"Filosofía: \"{style_info.get('philosophy', '')}\"")
-            
-            emphasis = style_info.get('emphasis', [])
-            if emphasis:
-                details.append(f"Elementos destacados: {', '.join(emphasis)}")
         
         # Explicar cómo se refleja en el menú
         details.append("")
@@ -459,27 +404,6 @@ class ExplanationGenerator:
                 )
                 for detail in explanation.details:
                     lines.append(f"  • {detail}")
-        
-        # Recomendaciones finales
-        lines.append("\n" + "=" * 60)
-        lines.append("💡 RECOMENDACIÓN DEL CHEF")
-        lines.append("=" * 60)
-        
-        if proposed_menus:
-            best_menu = proposed_menus[0]
-            style_info = self.chef_philosophies.get(request.preferred_style, {})
-            chef_name = style_info.get('chef', 'nuestro equipo')
-            
-            lines.append(
-                f"\nSiguiendo la filosofía de {chef_name}, recomendamos "
-                f"la Opción 1 por su excelente equilibrio entre "
-                f"calidad, adecuación al evento y respeto por sus preferencias."
-            )
-        else:
-            lines.append(
-                "\nNo se encontraron menús que cumplan todos los requisitos. "
-                "Considere flexibilizar algunos criterios."
-            )
         
         lines.append("\n" + "=" * 60)
         
