@@ -19,15 +19,15 @@ from dataclasses import dataclass, field
 import random
 from copy import deepcopy
 
-from ..core.models import (
+from core.models import (
     Case, Menu, Dish, Beverage, Request,
     EventType, Season, DishType, DishCategory,
     CulinaryStyle, Flavor, Temperature, Complexity
 )
-from ..core.case_base import CaseBase
-from .retrieve import RetrievalResult
-from ..core.similarity import calculate_dish_similarity
-from ..core.knowledge import (
+from core.case_base import CaseBase
+from cycle.retrieve import RetrievalResult
+from core.similarity import calculate_dish_similarity
+from core.knowledge import (
     are_categories_compatible, are_flavors_compatible,
     is_starter_temperature_appropriate, is_calorie_count_appropriate,
     is_dessert_appropriate_after_fatty, get_preferred_styles_for_event,
@@ -481,20 +481,29 @@ class CaseAdapter:
         return adaptations
     
     def _select_best_wine(self, menu: Menu, wines: List[Beverage]) -> Beverage:
-        """Selecciona el mejor vino para el menú basado en sabores"""
+        """Selecciona el mejor vino para el menú basado en compatibilidad de sabores"""
+        from ..core.knowledge import is_wine_compatible_with_flavors
+        
         main_flavors = menu.main_course.flavors
         
-        # Buscar vino con sabores compatibles
+        # Buscar vino compatible con los sabores del plato principal
         scored_wines = []
         for wine in wines:
             score = 0
-            for flavor in wine.compatible_flavors:
-                if flavor in main_flavors:
+            
+            # Si el vino tiene subtype, usar la knowledge base para compatibilidad
+            if wine.subtype:
+                if is_wine_compatible_with_flavors(wine.subtype, main_flavors):
+                    score += 3
+            
+            # Preferir vinos tintos para carnes, blancos para pescados
+            if 'red-wine' in wine.type:
+                if any(f in ['umami', 'fatty', 'smoky'] for f in main_flavors):
                     score += 2
-                # También dar puntos por compatibilidad general
-                for menu_flavor in main_flavors:
-                    if are_flavors_compatible(flavor, menu_flavor):
-                        score += 1
+            elif 'white-wine' in wine.type:
+                if any(f in ['sour', 'fresh', 'light'] for f in main_flavors):
+                    score += 2
+            
             scored_wines.append((wine, score))
         
         scored_wines.sort(key=lambda x: x[1], reverse=True)
@@ -768,9 +777,9 @@ class CaseAdapter:
         
         # Explicación de vino
         if menu.beverage.alcoholic:
-            if 'red-wine' in menu.beverage.styles:
+            if 'red-wine' in menu.beverage.type:
                 explanations.append("Vino tinto ideal para carnes y sabores intensos")
-            elif 'white-wine' in menu.beverage.styles:
+            elif 'white-wine' in menu.beverage.type:
                 explanations.append("Vino blanco perfecto para pescados y platos ligeros")
         
         # Adaptaciones realizadas

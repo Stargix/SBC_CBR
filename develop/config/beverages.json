@@ -1,222 +1,1214 @@
-{
-  "beverages": [
-    {
-      "id": "chamomile-infusion",
-      "name": "Chamomile Infusion",
-      "alcoholic": false,
-      "price": 1.8,
-      "styles": [
-        "herbal-tea"
-      ],
-      "subtype": "none"
-    },
-    {
-      "id": "green-tea-mint",
-      "name": "Green Tea with Mint",
-      "alcoholic": false,
-      "price": 2.2,
-      "styles": [
-        "herbal-tea"
-      ],
-      "subtype": "none"
-    },
-    {
-      "id": "ginger-lemon-blend",
-      "name": "Ginger Lemon Blend",
-      "alcoholic": false,
-      "price": 3.0,
-      "styles": [
-        "herbal-tea"
-      ],
-      "subtype": "none"
-    },
-    {
-      "id": "sparkling-water",
-      "name": "Sparkling Water",
-      "alcoholic": false,
-      "price": 2.0,
-      "styles": [
-        "soft-drink"
-      ],
-      "subtype": "none"
-    },
-    {
-      "id": "still-water",
-      "name": "Still Mineral Water",
-      "alcoholic": false,
-      "price": 1.5,
-      "styles": [
-        "soft-drink"
-      ],
-      "subtype": "none"
-    },
-    {
-      "id": "lemonade",
-      "name": "Fresh Lemonade",
-      "alcoholic": false,
-      "price": 3.0,
-      "styles": [
-        "soft-drink"
-      ],
-      "subtype": "none"
-    },
-    {
-      "id": "cloudy-bay-sauvignon",
-      "name": "Cloudy Bay Sauvignon Blanc",
-      "alcoholic": true,
-      "price": 5.0,
-      "styles": [
-        "white-wine"
-      ],
-      "subtype": "dry",
-      "compatible_flavors": [
-        "salty",
-        "sour",
-        "fatty"
-      ]
-    },
-    {
-      "id": "albarino-rias-baixas",
-      "name": "Albariño Rías Baixas",
-      "alcoholic": true,
-      "price": 4.5,
-      "styles": [
-        "white-wine"
-      ],
-      "subtype": "fruity",
-      "compatible_flavors": [
-        "sweet",
-        "umami"
-      ]
-    },
-    {
-      "id": "verdejo-rueda",
-      "name": "Verdejo de Rueda",
-      "alcoholic": true,
-      "price": 4.0,
-      "styles": [
-        "white-wine"
-      ],
-      "subtype": "dry",
-      "compatible_flavors": [
-        "salty",
-        "sour"
-      ]
-    },
-    {
-      "id": "rioja-reserva",
-      "name": "Rioja Reserva",
-      "alcoholic": true,
-      "price": 6.0,
-      "styles": [
-        "red-wine"
-      ],
-      "subtype": "full-bodied",
-      "compatible_flavors": [
-        "fatty",
-        "umami"
-      ]
-    },
-    {
-      "id": "ribera-duero-crianza",
-      "name": "Ribera del Duero Crianza",
-      "alcoholic": true,
-      "price": 5.5,
-      "styles": [
-        "red-wine"
-      ],
-      "subtype": "full-bodied",
-      "compatible_flavors": [
-        "fatty",
-        "umami"
-      ]
-    },
-    {
-      "id": "priorat-reserva",
-      "name": "Priorat Reserva",
-      "alcoholic": true,
-      "price": 8.0,
-      "styles": [
-        "red-wine"
-      ],
-      "subtype": "full-bodied",
-      "compatible_flavors": [
-        "fatty",
-        "umami"
-      ]
-    },
-    {
-      "id": "garnacha-joven",
-      "name": "Garnacha Joven",
-      "alcoholic": true,
-      "price": 3.5,
-      "styles": [
-        "red-wine"
-      ],
-      "subtype": "young",
-      "compatible_flavors": [
-        "bitter",
-        "umami"
-      ]
-    },
-    {
-      "id": "rosado-navarra",
-      "name": "Rosado de Navarra",
-      "alcoholic": true,
-      "price": 4.0,
-      "styles": [
-        "rose-wine"
-      ],
-      "subtype": "rose",
-      "compatible_flavors": [
-        "salty",
-        "sweet",
-        "umami"
-      ]
-    },
-    {
-      "id": "cava-brut-nature",
-      "name": "Cava Brut Nature",
-      "alcoholic": true,
-      "price": 5.0,
-      "styles": [
-        "sparkling-wine"
-      ],
-      "subtype": "sparkling",
-      "compatible_flavors": [
-        "salty",
-        "fatty",
-        "sweet"
-      ]
-    },
-    {
-      "id": "pedro-ximenez",
-      "name": "Pedro Ximénez",
-      "alcoholic": true,
-      "price": 6.0,
-      "styles": [
-        "sweet-wine"
-      ],
-      "subtype": "sweet",
-      "compatible_flavors": [
-        "sweet",
-        "umami",
-        "fatty"
-      ]
-    },
-    {
-      "id": "moscatel-valencia",
-      "name": "Moscatel de Valencia",
-      "alcoholic": true,
-      "price": 4.5,
-      "styles": [
-        "sweet-wine"
-      ],
-      "subtype": "sweet",
-      "compatible_flavors": [
-        "sweet",
-        "fatty"
-      ]
-    }
-  ]
-}
+[
+  {
+    "id": "chamomile-infusion",
+    "name": "Chamomile Infusion",
+    "alcoholic": false,
+    "price": 1.8,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "green-tea-with-mint",
+    "name": "Green Tea with Mint",
+    "alcoholic": false,
+    "price": 2.2,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "rooibos-plain",
+    "name": "Rooibos Plain",
+    "alcoholic": false,
+    "price": 2.0,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "fennel-digestive",
+    "name": "Fennel Digestive",
+    "alcoholic": false,
+    "price": 2.5,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "peppermint-herbal",
+    "name": "Peppermint Herbal",
+    "alcoholic": false,
+    "price": 1.9,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "linden-blossom-tea",
+    "name": "Linden Blossom Tea",
+    "alcoholic": false,
+    "price": 2.4,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "ginger-lemon-blend",
+    "name": "Ginger Lemon Blend",
+    "alcoholic": false,
+    "price": 3.0,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "berry-herbal-mix",
+    "name": "Berry Herbal Mix",
+    "alcoholic": false,
+    "price": 2.8,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "anise-chamomile",
+    "name": "Anise Chamomile",
+    "alcoholic": false,
+    "price": 2.6,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "hibiscus-red-tea",
+    "name": "Hibiscus Red Tea",
+    "alcoholic": false,
+    "price": 3.2,
+    "type": "herbal-tea"
+  },
+  {
+    "id": "fanta-orange",
+    "name": "Fanta Orange",
+    "alcoholic": false,
+    "price": 2.0,
+    "type": "soft-drink"
+  },
+  {
+    "id": "fanta-lemon",
+    "name": "Fanta Lemon",
+    "alcoholic": false,
+    "price": 2.0,
+    "type": "soft-drink"
+  },
+  {
+    "id": "cocacola",
+    "name": "CocaCola",
+    "alcoholic": false,
+    "price": 2.2,
+    "type": "soft-drink"
+  },
+  {
+    "id": "sprite",
+    "name": "Sprite",
+    "alcoholic": false,
+    "price": 2.2,
+    "type": "soft-drink"
+  },
+  {
+    "id": "estrella-damm",
+    "name": "Estrella Damm",
+    "alcoholic": false,
+    "price": 2.5,
+    "type": "soft-drink"
+  },
+  {
+    "id": "schweppes",
+    "name": "Schweppes",
+    "alcoholic": false,
+    "price": 2.8,
+    "type": "soft-drink"
+  },
+  {
+    "id": "nestea",
+    "name": "Nestea",
+    "alcoholic": false,
+    "price": 2.4,
+    "type": "soft-drink"
+  },
+  {
+    "id": "aquarius",
+    "name": "Aquarius",
+    "alcoholic": false,
+    "price": 2.1,
+    "type": "soft-drink"
+  },
+  {
+    "id": "sparkling-water",
+    "name": "Sparkling Water",
+    "alcoholic": false,
+    "price": 2.0,
+    "type": "soft-drink"
+  },
+  {
+    "id": "bitter-kas",
+    "name": "Bitter Kas",
+    "alcoholic": false,
+    "price": 2.3,
+    "type": "soft-drink"
+  },
+  {
+    "id": "cloudy-bay-sauvignon-blanc",
+    "name": "Cloudy Bay Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "kim-crawford-sauvignon-blanc",
+    "name": "Kim Crawford Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "oyster-bay-marlborough-sauvignon-blanc",
+    "name": "Oyster Bay Marlborough Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "matua-marlborough-sauvignon-blanc",
+    "name": "Matua Marlborough Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "sancerre-domaine-vacheron",
+    "name": "Sancerre Domaine Vacheron",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "didier-dagueneau-silex",
+    "name": "Didier Dagueneau Silex",
+    "alcoholic": true,
+    "price": 12.0,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "la-crema-sonoma-county-sauvignon-blanc",
+    "name": "La Crema Sonoma County Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "allan-scott-sauvignon-blanc",
+    "name": "Allan Scott Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "whitehaven-sauvignon-blanc",
+    "name": "Whitehaven Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "kono-sauvignon-blanc",
+    "name": "Kono Sauvignon Blanc",
+    "alcoholic": true,
+    "price": 3.0,
+    "type": "white-wine",
+    "subtype": "dry"
+  },
+  {
+    "id": "kendall-jackson-vintners-reserve-chardonnay",
+    "name": "Kendall-Jackson Vintner's Reserve Chardonnay",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "la-crema-chardonnay",
+    "name": "La Crema Chardonnay",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "robert-mondavi-chardonnay",
+    "name": "Robert Mondavi Chardonnay",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "chateau-ste-michelle-chardonnay",
+    "name": "Chateau Ste Michelle Chardonnay",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "rombauer-chardonnay",
+    "name": "Rombauer Chardonnay",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "sonoma-cutrer-chardonnay",
+    "name": "Sonoma-Cutrer Chardonnay",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "merryvale-chardonnay",
+    "name": "Merryvale Chardonnay",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "far-niente-chardonnay",
+    "name": "Far Niente Chardonnay",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "stags-leap-chardonnay",
+    "name": "Stag's Leap Chardonnay",
+    "alcoholic": true,
+    "price": 9.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "peter-michael-chardonnay",
+    "name": "Peter Michael Chardonnay",
+    "alcoholic": true,
+    "price": 10.0,
+    "type": "white-wine",
+    "subtype": "fruity"
+  },
+  {
+    "id": "chateau-ste-michelle-riesling",
+    "name": "Chateau Ste Michelle Riesling",
+    "alcoholic": true,
+    "price": 3.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "dr-loosen-riesling",
+    "name": "Dr Loosen Riesling",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "selbach-oster-riesling",
+    "name": "Selbach-Oster Riesling",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "egon-muller-riesling",
+    "name": "Egon Muller Riesling",
+    "alcoholic": true,
+    "price": 12.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "zind-humbrecht-riesling",
+    "name": "Zind-Humbrecht Riesling",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "trimbach-riesling",
+    "name": "Trimbach Riesling",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "hugel-riesling",
+    "name": "Hugel Riesling",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "joh-jos-prum-riesling",
+    "name": "Joh. Jos. Prum Riesling",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "donnhoff-riesling",
+    "name": "Donnhoff Riesling",
+    "alcoholic": true,
+    "price": 9.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "nahe-riesling",
+    "name": "Nahe Riesling",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "meiomi-pinot-noir",
+    "name": "Meiomi Pinot Noir",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "la-crema-pinot-noir",
+    "name": "La Crema Pinot Noir",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "robert-mondavi-pinot-noir",
+    "name": "Robert Mondavi Pinot Noir",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "murphy-goode-pinot-noir",
+    "name": "Murphy-Goode Pinot Noir",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "domaine-drouhin-pinot-noir",
+    "name": "Domaine Drouhin Pinot Noir",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "beaux-freres-pinot-noir",
+    "name": "Beaux Freres Pinot Noir",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "domaine-serene-pinot-noir",
+    "name": "Domaine Serene Pinot Noir",
+    "alcoholic": true,
+    "price": 9.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "willamette-valley-pinot-noir",
+    "name": "Willamette Valley Pinot Noir",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "adelsheim-pinot-noir",
+    "name": "Adelsheim Pinot Noir",
+    "alcoholic": true,
+    "price": 6.5,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "elk-cove-pinot-noir",
+    "name": "Elk Cove Pinot Noir",
+    "alcoholic": true,
+    "price": 7.5,
+    "type": "red-wine",
+    "subtype": "young"
+  },
+  {
+    "id": "josh-cellars-cabernet-sauvignon",
+    "name": "Josh Cellars Cabernet Sauvignon",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "bogle-cabernet-sauvignon",
+    "name": "Bogle Cabernet Sauvignon",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "decoy-cabernet-sauvignon",
+    "name": "Decoy Cabernet Sauvignon",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "kendall-jackson-cabernet-sauvignon",
+    "name": "Kendall-Jackson Cabernet Sauvignon",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "caymus-cabernet-sauvignon",
+    "name": "Caymus Cabernet Sauvignon",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "opus-one",
+    "name": "Opus One",
+    "alcoholic": true,
+    "price": 20.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "silver-oak-cabernet",
+    "name": "Silver Oak Cabernet",
+    "alcoholic": true,
+    "price": 10.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "stags-leap-cabernet",
+    "name": "Stag's Leap Cabernet",
+    "alcoholic": true,
+    "price": 9.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "shafer-hillside-select",
+    "name": "Shafer Hillside Select",
+    "alcoholic": true,
+    "price": 12.0,
+    "type": "red-wine",
+    "subtype": "full-bodied"
+  },
+  {
+    "id": "la-rioja-alta-gran-reserva-890",
+    "name": "La Rioja Alta Gran Reserva 890",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "marqués-de-murrieta-castillo-ygay-gran-reserva",
+    "name": "Marqués de Murrieta Castillo Ygay Gran Reserva",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "bodegas-muga-prado-enea-gran-reserva",
+    "name": "Bodegas Muga Prado Enea Gran Reserva",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "cvne-vina-real-reserva-especial",
+    "name": "CVNE Vina Real Reserva Especial",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "la-rioja-alta-reserva",
+    "name": "La Rioja Alta Reserva",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "remírez-de-ganuza-reserva",
+    "name": "Remírez de Ganuza Reserva",
+    "alcoholic": true,
+    "price": 6.5,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "bodegas-riojanas-reserva",
+    "name": "Bodegas Riojanas Reserva",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "marqués-de-riscal-reserva",
+    "name": "Marqués de Riscal Reserva",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "lopez-de-heredia-vina-tondonia-reserva",
+    "name": "Lopez de Heredia Vina Tondonia Reserva",
+    "alcoholic": true,
+    "price": 7.5,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "valpiedra-reserva",
+    "name": "Valpiedra Reserva",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "aged"
+  },
+  {
+    "id": "whispering-angel-rosé",
+    "name": "Whispering Angel Rosé",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "domaine-tempier-bandol-rosé",
+    "name": "Domaine Tempier Bandol Rosé",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "château-desclans-garrus-rosé",
+    "name": "Château d'Esclans Garrus Rosé",
+    "alcoholic": true,
+    "price": 12.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "domaines-ott-clos-mireille-rosé",
+    "name": "Domaines Ott Clos Mireille Rosé",
+    "alcoholic": true,
+    "price": 10.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "gérard-bertrand-côte-des-roses",
+    "name": "Gérard Bertrand Côte des Roses",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "miraval-rosé",
+    "name": "Miraval Rosé",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "château-sainte-roseline-cuvée-la-chapelle",
+    "name": "Château Sainte Roseline Cuvée la Chapelle",
+    "alcoholic": true,
+    "price": 9.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "clos-cibonne-tibouren-rosé",
+    "name": "Clos Cibonne Tibouren Rosé",
+    "alcoholic": true,
+    "price": 8.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "chacra-nacha-rosé",
+    "name": "Chacra Nacha Rosé",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "istine-rosato",
+    "name": "Istine Rosato",
+    "alcoholic": true,
+    "price": 6.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "mateus-rosé",
+    "name": "Mateus Rosé",
+    "alcoholic": true,
+    "price": 3.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "dark-horse-rosé",
+    "name": "Dark Horse Rosé",
+    "alcoholic": true,
+    "price": 2.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "bonterra-rosé",
+    "name": "Bonterra Rosé",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "josh-cellars-rosé",
+    "name": "Josh Cellars Rosé",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "big-table-farm-laughing-pig-rosé",
+    "name": "Big Table Farm Laughing Pig Rosé",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "fox-run-vineyards-dry-rosé",
+    "name": "Fox Run Vineyards Dry Rosé",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "venus-la-universal-dido-la-solució-rosa",
+    "name": "Venus La Universal Dido La Solució Rosa",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "château-desclans-les-clans",
+    "name": "Château d’Esclans Les Clans",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "cakebread-cellars-vin-de-porche-rosé",
+    "name": "Cakebread Cellars Vin de Porche Rosé",
+    "alcoholic": true,
+    "price": 7.5,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "ducard-vineyards-rosé",
+    "name": "DuCard Vineyards Rosé",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "rosé"
+  },
+  {
+    "id": "piper-heidsieck-cuveé-brut",
+    "name": "Piper-Heidsieck Cuveé Brut",
+    "alcoholic": true,
+    "price": 10.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "veuve-clicquot-brut",
+    "name": "Veuve Clicquot Brut",
+    "alcoholic": true,
+    "price": 12.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "moët-and-chandon-brut",
+    "name": "Moët & Chandon Brut",
+    "alcoholic": true,
+    "price": 11.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "dom-perignon",
+    "name": "Dom Perignon",
+    "alcoholic": true,
+    "price": 25.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "krug-grande-cuvée",
+    "name": "Krug Grande Cuvée",
+    "alcoholic": true,
+    "price": 20.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "bollinger-special-cuvée",
+    "name": "Bollinger Special Cuvée",
+    "alcoholic": true,
+    "price": 13.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "ruinart-blanc-de-blancs",
+    "name": "Ruinart Blanc de Blancs",
+    "alcoholic": true,
+    "price": 14.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "taittinger-comtes-de-champagne",
+    "name": "Taittinger Comtes de Champagne",
+    "alcoholic": true,
+    "price": 18.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "pol-roger-brut",
+    "name": "Pol Roger Brut",
+    "alcoholic": true,
+    "price": 15.0,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "laurent-perrier-brut",
+    "name": "Laurent-Perrier Brut",
+    "alcoholic": true,
+    "price": 12.5,
+    "type": "red-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "freixenet-cordon-negro",
+    "name": "Freixenet Cordon Negro",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "segura-viudas-cava",
+    "name": "Segura Viudas Cava",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "codorniu-anna-de-codorniu",
+    "name": "Codorniu Anna de Codorniu",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "jaume-serra-cava",
+    "name": "Jaume Serra Cava",
+    "alcoholic": true,
+    "price": 3.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "torre-oria-cava",
+    "name": "Torre Oria Cava",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "la-marca-prosecco",
+    "name": "La Marca Prosecco",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "mionetto-prosecco",
+    "name": "Mionetto Prosecco",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "ruffino-prosecco",
+    "name": "Ruffino Prosecco",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "bisol-prosecco",
+    "name": "Bisol Prosecco",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "zonin-prosecco",
+    "name": "Zonin Prosecco",
+    "alcoholic": true,
+    "price": 3.0,
+    "type": "white-wine",
+    "subtype": "sparkling"
+  },
+  {
+    "id": "moscatel-roxo-de-setúbal",
+    "name": "Moscatel Roxo de Setúbal",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "bacalhôa-moscatel-de-setúbal",
+    "name": "Bacalhôa Moscatel de Setúbal",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "josé-maria-da-fonseca-moscatel",
+    "name": "José Maria da Fonseca Moscatel",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "terras-altas-moscatel",
+    "name": "Terras Altas Moscatel",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "adega-cartuxa-moscatel",
+    "name": "Adega Cartuxa Moscatel",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "taylors-golden-age-tawny-port",
+    "name": "Taylor's Golden Age Tawny Port",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "red-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "sandeman-40-years-old-tawny-porto",
+    "name": "Sandeman 40 Years Old Tawny Porto",
+    "alcoholic": true,
+    "price": 10.0,
+    "type": "red-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "fonseca-vintage-port",
+    "name": "Fonseca Vintage Port",
+    "alcoholic": true,
+    "price": 12.0,
+    "type": "red-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "grahams-20-year-old-tawny-port",
+    "name": "Graham's 20 Year Old Tawny Port",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "red-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "dows-vintage-port",
+    "name": "Dow's Vintage Port",
+    "alcoholic": true,
+    "price": 9.0,
+    "type": "red-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "bodegas-osborne-pedro-ximénez",
+    "name": "Bodegas Osborne Pedro Ximénez",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "bodegas-ximénez-spínola-pedro-ximénez",
+    "name": "Bodegas Ximénez-Spínola Pedro Ximénez",
+    "alcoholic": true,
+    "price": 6.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "emilio-lustau-pedro-ximénez",
+    "name": "Emilio Lustau Pedro Ximénez",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "gonzalez-byass-pedro-ximénez",
+    "name": "Gonzalez Byass Pedro Ximénez",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "valdespino-pedro-ximénez",
+    "name": "Valdespino Pedro Ximénez",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "lustau-east-india-solera-sherry",
+    "name": "Lustau East India Solera Sherry",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "gonzalez-byass-apostoles-sherry",
+    "name": "Gonzalez Byass Apostoles Sherry",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "hidalgo-la-gitana-sherry",
+    "name": "Hidalgo La Gitana Sherry",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "barbadillo-sherry-cream",
+    "name": "Barbadillo Sherry Cream",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "williams-and-humbert-sherry",
+    "name": "Williams & Humbert Sherry",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "sweet"
+  },
+  {
+    "id": "dolin-vermouth-rouge",
+    "name": "Dolin Vermouth Rouge",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "red-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "cocchi-vermouth-di-torino",
+    "name": "Cocchi Vermouth di Torino",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "red-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "carpano-antica-formula",
+    "name": "Carpano Antica Formula",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "red-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "cinzano-rosso",
+    "name": "Cinzano Rosso",
+    "alcoholic": true,
+    "price": 3.0,
+    "type": "red-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "martini-rosso",
+    "name": "Martini Rosso",
+    "alcoholic": true,
+    "price": 3.5,
+    "type": "red-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "blandys-madeira",
+    "name": "Blandy's Madeira",
+    "alcoholic": true,
+    "price": 6.0,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "barbeito-madeira",
+    "name": "Barbeito Madeira",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "henriques-and-henriques-madeira",
+    "name": "Henriques & Henriques Madeira",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "justinos-madeira",
+    "name": "Justino's Madeira",
+    "alcoholic": true,
+    "price": 4.5,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "vinhos-barbeito-madeira",
+    "name": "Vinhos Barbeito Madeira",
+    "alcoholic": true,
+    "price": 8.0,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "marco-de-bartoli-marsala",
+    "name": "Marco de Bartoli Marsala",
+    "alcoholic": true,
+    "price": 7.0,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "florio-marsala",
+    "name": "Florio Marsala",
+    "alcoholic": true,
+    "price": 5.0,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "cantine-pellegrino-marsala",
+    "name": "Cantine Pellegrino Marsala",
+    "alcoholic": true,
+    "price": 4.0,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "donnafugata-marsala",
+    "name": "Donnafugata Marsala",
+    "alcoholic": true,
+    "price": 6.5,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  },
+  {
+    "id": "mirabile-marsala",
+    "name": "Mirabile Marsala",
+    "alcoholic": true,
+    "price": 5.5,
+    "type": "white-wine",
+    "subtype": "aromatic"
+  }
+]

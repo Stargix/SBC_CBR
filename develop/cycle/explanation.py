@@ -19,11 +19,11 @@ from typing import List, Dict, Optional, Any
 from dataclasses import dataclass
 from enum import Enum
 
-from ..core.models import (
+from core.models import (
     Case, Menu, Request, Dish, ProposedMenu,
     CulinaryStyle, EventType, Season, DishType, Flavor
 )
-from ..core.knowledge import (
+from core.knowledge import (
     STYLE_DESCRIPTIONS, EVENT_STYLE_PREFERENCES,
     FLAVOR_COMPATIBILITY, CATEGORY_INCOMPATIBILITIES,
     CALORIE_RANGES, CULTURAL_TRADITIONS, WINE_COMPATIBILITY,

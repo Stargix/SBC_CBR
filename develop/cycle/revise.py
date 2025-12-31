@@ -19,12 +19,12 @@ from typing import List, Tuple, Dict, Optional, Any
 from dataclasses import dataclass, field
 from enum import Enum
 
-from ..core.models import (
+from core.models import (
     Menu, Request, Dish,
     Season, EventType, DishCategory, Flavor, Temperature, Complexity
 )
-from .adapt import AdaptationResult
-from ..core.knowledge import (
+from cycle.adapt import AdaptationResult
+from core.knowledge import (
     are_categories_compatible, are_flavors_compatible,
     is_starter_temperature_appropriate, is_calorie_count_appropriate,
     is_dessert_appropriate_after_fatty, is_complexity_appropriate,

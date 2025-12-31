@@ -26,17 +26,17 @@ from typing import List, Optional, Dict, Any, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from .core.models import (
+from core.models import (
     Request, Menu, Case, Dish, Beverage, ProposedMenu,
     EventType, Season, CulinaryStyle, DishType
 )
-from .core.case_base import CaseBase
-from .cycle.retrieve import CaseRetriever
-from .cycle.adapt import CaseAdapter
-from .cycle.revise import MenuReviser, ValidationResult
-from .cycle.retain import CaseRetainer, FeedbackData
-from .cycle.explanation import ExplanationGenerator
-from .core.knowledge import (
+from core.case_base import CaseBase
+from cycle.retrieve import CaseRetriever
+from cycle.adapt import CaseAdapter
+from cycle.revise import MenuReviser, ValidationResult
+from cycle.retain import CaseRetainer, FeedbackData
+from cycle.explanation import ExplanationGenerator
+from core.knowledge import (
     EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
     CULTURAL_TRADITIONS, CHEF_SIGNATURES
 )
@@ -234,7 +234,7 @@ class ChefDigitalCBR:
         """
         # Validación simple - por ahora aceptar todos los menús
         # TODO: Implementar validación real
-        from .cycle.revise import ValidationStatus
+        from cycle.revise import ValidationStatus
         return ValidationResult(
             menu=menu,
             status=ValidationStatus.VALID,
@@ -438,11 +438,10 @@ if __name__ == "__main__":
     request = Request(
         event_type=EventType.WEDDING,
         num_guests=100,
-        budget=75.0,
+        price_max=75.0,
         season=Season.SPRING,
         preferred_style=CulinaryStyle.GOURMET,
-        dietary_restrictions=["vegetariano"],
-        preferences=["cocina mediterránea"]
+        required_diets=["vegetariano"]
     )
     
     # Procesar solicitud

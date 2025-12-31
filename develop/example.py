@@ -53,9 +53,15 @@ def main():
     stats = cbr.get_statistics()
     print(f"\n📚 Base de Casos:")
     print(f"   Total casos: {stats['case_base']['total_cases']}")
-    print(f"   Casos exitosos: {stats['case_base']['successful_cases']}")
-    print(f"   Tasa de éxito: {stats['case_base']['success_rate']:.0%}")
-    print(f"   Feedback promedio: {stats['case_base']['avg_feedback']:.1f}/5\n")
+    
+    # Obtener stats de la case_base directamente
+    cb_stats = cbr.case_base.get_statistics()
+    print(f"   Platos disponibles: {cb_stats['total_dishes']}")
+    print(f"   Bebidas disponibles: {cb_stats['total_beverages']}")
+    if cb_stats['total_cases'] > 0:
+        print(f"   Casos exitosos: {cb_stats['successful_cases']}")
+        print(f"   Feedback promedio: {cb_stats['average_feedback']:.1f}/5")
+    print()
 
 
 if __name__ == "__main__":

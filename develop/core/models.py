@@ -212,29 +212,28 @@ class Beverage:
         name: Nombre de la bebida
         alcoholic: Si contiene alcohol
         price: Precio por persona
-        styles: Estilos (red-wine, white-wine, herbal-tea, soft-drink, etc.)
-        subtype: Subtipo (dry, fruity, young, full-bodied, sweet, sparkling, etc.)
-        compatible_flavors: Sabores con los que combina bien
+        type: Tipo de bebida (red-wine, white-wine, herbal-tea, soft-drink, etc.)
+        subtype: Subtipo opcional (dry, fruity, sweet, sparkling, etc.)
     """
     id: str
     name: str
     alcoholic: bool
     price: float
-    styles: List[str] = field(default_factory=list)
-    subtype: str = "none"
-    compatible_flavors: List[Flavor] = field(default_factory=list)
+    type: str
+    subtype: Optional[str] = None
     
     def to_dict(self) -> Dict[str, Any]:
         """Convierte la bebida a diccionario"""
-        return {
+        result = {
             'id': self.id,
             'name': self.name,
             'alcoholic': self.alcoholic,
             'price': self.price,
-            'styles': self.styles,
-            'subtype': self.subtype,
-            'compatible_flavors': [f.value for f in self.compatible_flavors]
+            'type': self.type
         }
+        if self.subtype:
+            result['subtype'] = self.subtype
+        return result
 
 
 @dataclass
