@@ -46,10 +46,16 @@ def print_menu_details(menu, title="MENÚ"):
     if menu.cultural_adaptations:
         print(f"\n🔄 ADAPTACIONES CULTURALES:")
         for adaptation in menu.cultural_adaptations:
-            print(f"   • {adaptation['dish_name']}:")
-            print(f"     {adaptation['original_ingredient']} → {adaptation['adapted_ingredient']}")
-            print(f"     Razón: {adaptation['reason']}")
-            print(f"     Confianza: {adaptation['confidence']*100:.0f}%")
+            # Hay dos tipos: dish_replacement y adaptación de ingredientes
+            if 'adaptation_type' in adaptation and adaptation['adaptation_type'] == 'dish_replacement':
+                print(f"   • 🔄 PLATO REEMPLAZADO: {adaptation['original_dish']} → {adaptation['dish_name']}")
+                print(f"     Razón: {adaptation['reason']}")
+            else:
+                # Adaptación de ingrediente
+                print(f"   • {adaptation['dish_name']}:")
+                print(f"     {adaptation['original_ingredient']} → {adaptation['adapted_ingredient']}")
+                print(f"     Razón: {adaptation['reason']}")
+                print(f"     Confianza: {adaptation['confidence']*100:.0f}%")
 
 
 def demo_cultural_adaptation():

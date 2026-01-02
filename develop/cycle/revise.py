@@ -145,7 +145,12 @@ class MenuReviser:
         issues.extend(price_issues)
         explanations.extend(price_exp)
         
-        # 2. Validar temperatura del starter para temporada
+        # 2. Validar cultura si fue solicitada
+        cultural_issues, cultural_exp = self._validate_culture(menu, request)
+        issues.extend(cultural_issues)
+        explanations.extend(cultural_exp)
+        
+        # 3. Validar temperatura del starter para temporada
         temp_issues, temp_exp = self._validate_temperature(menu, request)
         issues.extend(temp_issues)
         explanations.extend(temp_exp)
@@ -242,6 +247,69 @@ class MenuReviser:
         else:
             explanations.append(
                 f"Precio {menu.total_price:.2f}€ dentro del presupuesto"
+            )
+        
+        return issues, explanations
+    
+    def _validate_culture(self, menu: Menu,
+                          request: Request) -> Tuple[List[ValidationIssue], List[str]]:
+        """Valida la adaptación cultural del menú"""
+        issues = []
+        explanations = []
+        
+        # Solo validar si el usuario pidió una cultura específica
+        if not request.cultural_preference:
+            return issues, explanations
+        
+        # Verificar si el menú tiene tema cultural
+        if menu.cultural_theme:
+            if menu.cultural_theme == request.cultural_preference:
+                explanations.append(
+                    f"Menú adaptado a cultura {request.cultural_preference.value}"
+                )
+            else:
+                # Diferente cultura - calcular qué tan bien se adaptó
+                from cycle.ingredient_adapter import get_ingredient_adapter
+                adapter = get_ingredient_adapter()
+                
+                cultural_scores = []
+                for dish_attr in ['starter', 'main_course', 'dessert']:
+                    dish = getattr(menu, dish_attr)
+                    if dish.ingredients:
+                        score = adapter.get_cultural_score(
+                            dish.ingredients, 
+                            request.cultural_preference
+                        )
+                        cultural_scores.append(score)
+                
+                if cultural_scores:
+                    avg_score = sum(cultural_scores) / len(cultural_scores)
+                    
+                    if avg_score >= 0.6:
+                        explanations.append(
+                            f"Menú bien adaptado a {request.cultural_preference.value} "
+                            f"(score cultural: {avg_score:.0%})"
+                        )
+                    elif avg_score >= 0.4:
+                        issues.append(ValidationIssue(
+                            severity="info",
+                            category="culture",
+                            message=f"Adaptación cultural moderada ({avg_score:.0%})",
+                            suggestion=None
+                        ))
+                    else:
+                        issues.append(ValidationIssue(
+                            severity="warning",
+                            category="culture",
+                            message=f"Adaptación cultural limitada ({avg_score:.0%})",
+                            suggestion="Considerar platos más representativos de la cultura"
+                        ))
+        
+        # Informar sobre adaptaciones realizadas
+        if menu.cultural_adaptations:
+            num_adaptations = len(menu.cultural_adaptations)
+            explanations.append(
+                f"Se realizaron {num_adaptations} adaptaciones culturales"
             )
         
         return issues, explanations

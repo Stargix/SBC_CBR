@@ -61,7 +61,16 @@ class IngredientAdapter:
         """Construye un índice de cultura -> conjunto de ingredientes"""
         culture_map = {}
         
-        for ingredient, cultures in self.ingredient_to_cultures.items():
+        # También extraer non_compliant_labels para cada ingrediente
+        self.ingredient_non_compliant = {}
+        
+        for ingredient, data in self.ingredient_to_cultures.items():
+            # Extraer non_compliant_labels si existe
+            if 'non_compliant_labels' in data:
+                self.ingredient_non_compliant[ingredient] = set(data['non_compliant_labels'])
+            
+            # Extraer cultures
+            cultures = data.get('cultures', [])
             for culture in cultures:
                 if culture not in culture_map:
                     culture_map[culture] = set()
@@ -92,12 +101,70 @@ class IngredientAdapter:
         culture_name = culture.value.capitalize()
         return self.culture_to_ingredients.get(culture_name, set())
     
-    def is_ingredient_cultural(self, ingredient: str, culture: CulturalTradition) -> bool:
+    def is_ingredient_cultural(self, ingredient: str, culture) -> bool:
         """
         Verifica si un ingrediente es apropiado para una cultura.
         
         Args:
             ingredient: Nombre del ingrediente
+            culture: Tradición cultural (enum o string)
+            
+        Returns:
+            True si es apropiado, False si no
+        """
+        cultures = self.ingredient_to_cultures.get(ingredient, {})
+        if isinstance(cultures, dict):
+            cultures = cultures.get('cultures', [])
+        
+        # Universal siempre es apropiado
+        if 'Universal' in cultures:
+            return True
+        
+        # Manejar cultura como string o enum
+        if isinstance(culture, str):
+            culture_name = culture.capitalize()
+        else:
+            culture_name = culture.value.capitalize()
+        
+        return culture_name in cultures
+    
+    def violates_dietary_restriction(self, ingredient: str, dietary_label: str) -> bool:
+        """
+        Verifica si un ingrediente viola una restricción dietética.
+        
+        Args:
+            ingredient: Nombre del ingrediente
+            dietary_label: Etiqueta dietética (ej: 'vegan', 'gluten-free')
+            
+        Returns:
+            True si el ingrediente NO cumple la restricción (la viola)
+        """
+        non_compliant = self.ingredient_non_compliant.get(ingredient, set())
+        return dietary_label in non_compliant
+    
+    def get_compliant_ingredients(self, dietary_label: str) -> Set[str]:
+        """
+        Obtiene ingredientes que cumplen una restricción dietética.
+        
+        Args:
+            dietary_label: Etiqueta dietética (ej: 'vegan', 'gluten-free')
+            
+        Returns:
+            Conjunto de ingredientes que NO violan la restricción
+        """
+        compliant = set()
+        for ingredient in self.ingredient_to_cultures.keys():
+            if not self.violates_dietary_restriction(ingredient, dietary_label):
+                compliant.add(ingredient)
+        return compliant
+    
+    def is_ingredient_cultural(self, ingredient: str, 
+                              culture: CulturalTradition) -> bool:
+        """
+        Verifica si un ingrediente es apropiado para una cultura.
+        
+        Args:
+            ingredient: Ingrediente a verificar
             culture: Tradición cultural
             
         Returns:
@@ -109,7 +176,12 @@ class IngredientAdapter:
         if 'Universal' in cultures:
             return True
         
-        culture_name = culture.value.capitalize()
+        # Manejar cultura como string o enum
+        if isinstance(culture, str):
+            culture_name = culture.capitalize()
+        else:
+            culture_name = culture.value.capitalize()
+        
         return culture_name in cultures
     
     def find_substitution(self, ingredient: str, 
@@ -133,7 +205,11 @@ class IngredientAdapter:
         if self.is_ingredient_cultural(ingredient, target_culture):
             return None
         
-        culture_name = target_culture.value.capitalize()
+        # Manejar culture como string o enum
+        if isinstance(target_culture, str):
+            culture_name = target_culture.capitalize()
+        else:
+            culture_name = target_culture.value.capitalize()
         
         # Estrategia 1: Buscar en el mismo grupo un ingrediente ESPECÍFICO de la cultura
         if ingredient in self.ingredient_to_group:
@@ -228,6 +304,53 @@ class IngredientAdapter:
         )
         
         return appropriate_count / len(ingredients)
+    
+    def find_dietary_substitution(self, ingredient: str, dietary_labels: List[str]) -> Optional[IngredientSubstitution]:
+        """
+        Busca una sustitución de ingrediente que cumpla restricciones dietéticas.
+        
+        IMPORTANTE: Solo sustituye ingredientes del MISMO GRUPO para mantener
+        la coherencia gastronómica del plato. Si no hay sustituto en el mismo
+        grupo, devuelve None (el plato no se puede adaptar).
+        
+        Args:
+            ingredient: Ingrediente a sustituir
+            dietary_labels: Lista de restricciones dietéticas a cumplir (ej: ['vegan', 'gluten-free'])
+            
+        Returns:
+            Sustitución del mismo grupo o None si no hay alternativa adecuada
+        """
+        # Verificar si el ingrediente actual viola alguna restricción
+        violates = [label for label in dietary_labels if self.violates_dietary_restriction(ingredient, label)]
+        
+        if not violates:
+            # Ya cumple todas las restricciones
+            return None
+        
+        # SOLO buscar en el mismo grupo (mantener coherencia gastronómica)
+        if ingredient in self.ingredient_to_group:
+            group_name = self.ingredient_to_group[ingredient]
+            group_ingredients = self.groups[group_name]
+            
+            # Filtrar ingredientes del grupo que cumplan TODAS las restricciones
+            compliant_matches = [
+                ing for ing in group_ingredients
+                if ing != ingredient and 
+                all(not self.violates_dietary_restriction(ing, label) for label in dietary_labels)
+            ]
+            
+            if compliant_matches:
+                replacement = compliant_matches[0]
+                violated_str = ', '.join(violates)
+                return IngredientSubstitution(
+                    original=ingredient,
+                    replacement=replacement,
+                    reason=f"Dietary: violates {violated_str}, same group ({group_name})",
+                    confidence=0.9
+                )
+        
+        # No hay sustituto adecuado en el mismo grupo
+        return None
 
 
 # Instancia global para reutilización
