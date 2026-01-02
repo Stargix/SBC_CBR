@@ -86,6 +86,7 @@ class CaseAdapter:
             Lista de menús adaptados
         """
         adapted_menus = []
+        rejected_by_negatives = 0
         
         for result in retrieval_results:
             # Intentar adaptar este caso
@@ -93,14 +94,33 @@ class CaseAdapter:
             
             if adapted:
                 adapted_menus.append(adapted)
+            else:
+                # Caso rechazado (probablemente por similitud a negativo)
+                rejected_by_negatives += 1
             
             if len(adapted_menus) >= num_proposals:
                 break
         
+        # Advertir si se rechazaron casos por similitud a failures
+        if rejected_by_negatives > 0:
+            print(f"⚠️  {rejected_by_negatives} caso(s) rechazado(s) por similitud a failures previos")
+        
         # Si no hay suficientes, generar menús nuevos
-        while len(adapted_menus) < num_proposals:
+        attempts = 0
+        max_attempts = num_proposals * 3  # Límite de intentos
+        
+        while len(adapted_menus) < num_proposals and attempts < max_attempts:
+            attempts += 1
             new_menu = self._generate_new_menu(request)
+            
             if new_menu:
+                # Verificar que el nuevo menú no sea similar a casos negativos
+                neg_sim = self._check_against_negative_cases(request, new_menu.adapted_menu)
+                
+                if neg_sim > 0.75:
+                    print(f"⚠️  Menú generado rechazado: {neg_sim:.0%} similar a failure")
+                    continue  # Intentar otro
+                
                 adapted_menus.append(new_menu)
             else:
                 break  # No se pueden generar más
@@ -127,6 +147,14 @@ class CaseAdapter:
         adaptations = []
         adapted_menu = deepcopy(case.menu)
         adapted_menu.id = f"adapted-{case.id}-{random.randint(1000, 9999)}"
+        
+        # CRÍTICO: Verificar que no estamos cerca de un caso negativo
+        negative_similarity = self._check_against_negative_cases(request, adapted_menu)
+        if negative_similarity > 0.75:  # Similar a un failure previo
+            adaptations.append(
+                f"⚠️ RECHAZADO: {negative_similarity:.0%} similar a un caso negativo"
+            )
+            return None  # No usar este caso
         
         # 1. Adaptar restricciones dietéticas
         diet_ok, diet_adaptations = self._adapt_for_diets(
@@ -482,7 +510,7 @@ class CaseAdapter:
     
     def _select_best_wine(self, menu: Menu, wines: List[Beverage]) -> Beverage:
         """Selecciona el mejor vino para el menú basado en compatibilidad de sabores"""
-        from ..core.knowledge import is_wine_compatible_with_flavors
+        from core.knowledge import is_wine_compatible_with_flavors
         
         main_flavors = menu.main_course.flavors
         
@@ -690,6 +718,43 @@ class CaseAdapter:
             )
         
         return None
+    
+    def _check_against_negative_cases(self, request: Request, proposed_menu: Menu) -> float:
+        """
+        Verifica si el menú propuesto es similar a casos negativos (failures).
+        
+        Args:
+            request: Solicitud del cliente
+            proposed_menu: Menú que estamos considerando proponer
+            
+        Returns:
+            Similitud máxima con casos negativos (0-1)
+        """
+        from core.similarity import SimilarityCalculator, calculate_menu_similarity
+        
+        # Obtener todos los casos negativos
+        all_cases = self.case_base.get_all_cases()
+        negative_cases = [c for c in all_cases if c.is_negative]
+        
+        if not negative_cases:
+            return 0.0  # No hay casos negativos, safe
+        
+        max_similarity = 0.0
+        similarity_calc = SimilarityCalculator()
+        
+        for neg_case in negative_cases:
+            # Similitud del request
+            req_sim = similarity_calc.calculate_similarity(request, neg_case)
+            
+            # Similitud del menú propuesto con el menú del caso negativo
+            menu_sim = calculate_menu_similarity(proposed_menu, neg_case.menu)
+            
+            # Similitud combinada (más peso al menú)
+            combined_sim = 0.4 * req_sim + 0.6 * menu_sim
+            
+            max_similarity = max(max_similarity, combined_sim)
+        
+        return max_similarity
     
     def _classify_by_price(self, results: List[AdaptationResult],
                            request: Request):

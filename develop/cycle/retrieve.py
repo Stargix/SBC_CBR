@@ -93,6 +93,7 @@ class CaseRetriever:
         1. Pre-filtrado rápido por índices
         2. Cálculo de similitud detallado
         3. Ranking y selección de top-k
+        4. Filtrado de casos negativos (solo se usan para evitarlos)
         
         Args:
             request: Solicitud del cliente
@@ -107,6 +108,9 @@ class CaseRetriever:
         if not candidates:
             # Si no hay candidatos con pre-filtrado, usar todos
             candidates = self.case_base.get_all_cases()
+        
+        # Filtrar casos negativos (solo queremos casos exitosos para adaptar)
+        candidates = [c for c in candidates if not c.is_negative]
         
         # Limitar candidatos para eficiencia
         candidates = candidates[:self.max_candidates]
@@ -309,3 +313,31 @@ class CaseRetriever:
             "median_similarity": similarities[len(similarities)//2] if similarities else 0,
             "top_5_similarities": similarities[:5]
         }
+    
+    def check_negative_cases(self, request: Request, threshold: float = 0.80) -> List[Tuple[Case, float]]:
+        """
+        Verifica si hay casos negativos (failures) similares al request.
+        
+        Esto permite advertir: "Este tipo de menú falló anteriormente".
+        
+        Args:
+            request: Solicitud del cliente
+            threshold: Umbral mínimo de similitud (0.80 = 80%)
+            
+        Returns:
+            Lista de tuplas (caso_negativo, similitud) ordenadas por similitud
+        """
+        all_cases = self.case_base.get_all_cases()
+        negative_cases = [c for c in all_cases if c.is_negative]
+        
+        warnings = []
+        for case in negative_cases:
+            similarity = self.similarity_calc.calculate_similarity(request, case)
+            
+            if similarity >= threshold:
+                warnings.append((case, similarity))
+        
+        # Ordenar por similitud descendente
+        warnings.sort(key=lambda x: x[1], reverse=True)
+        
+        return warnings

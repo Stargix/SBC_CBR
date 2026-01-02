@@ -69,8 +69,16 @@ class CaseRetainer:
         
         # Umbrales de retención
         self.novelty_threshold = 0.85  # Si similitud < este, es novedoso
-        self.quality_threshold = 3.5   # Mínimo feedback para retener
+        self.quality_threshold = 3.5   # Mínimo feedback para retener como positivo
+        self.negative_threshold = 3.0  # Feedback < 3.0 se guarda como caso negativo
         self.max_cases_per_event = 50  # Límite de casos por tipo de evento
+        
+        # Mantenimiento periódico (no en cada inserción)
+        self.maintenance_frequency = 10  # Cada 10 casos añadidos
+        self.cases_since_maintenance = 0
+        
+        # Umbral de redundancia para eliminar casos duplicados
+        self.redundancy_threshold = 0.90  # Casos con sim > 0.90 son redundantes
     
     def evaluate_retention(self, request: Request, menu: Menu,
                            feedback: FeedbackData) -> RetentionDecision:
@@ -85,11 +93,23 @@ class CaseRetainer:
         Returns:
             Decisión de retención
         """
-        # 1. Verificar calidad mínima
-        if feedback.score < self.quality_threshold:
+        # 1. Verificar si es caso negativo (failure)
+        is_negative = feedback.score < self.negative_threshold
+        
+        if is_negative:
+            # Guardar como caso negativo para evitar repetir errores
+            return RetentionDecision(
+                should_retain=True,
+                reason=f"Caso negativo - evitar repetir este error ({feedback.score}/5)",
+                similarity_to_existing=0.0,
+                most_similar_case=None,
+                action="add_negative"
+            )
+        elif feedback.score < self.quality_threshold:
+            # No es suficientemente malo para aprender, ni suficientemente bueno
             return RetentionDecision(
                 should_retain=False,
-                reason=f"Feedback insuficiente ({feedback.score}/5)",
+                reason=f"Feedback medio - no aporta aprendizaje ({feedback.score}/5)",
                 similarity_to_existing=0.0,
                 most_similar_case=None,
                 action="discard"
@@ -173,7 +193,10 @@ class CaseRetainer:
         if not decision.should_retain:
             return False, decision.reason
         
-        if decision.action == "add_new":
+        if decision.action == "add_new" or decision.action == "add_negative":
+            # Determinar si es caso negativo
+            is_negative = decision.action == "add_negative"
+            
             # Crear y añadir nuevo caso
             new_case = Case(
                 id=f"case-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{random.randint(100, 999)}",
@@ -182,15 +205,20 @@ class CaseRetainer:
                 success=feedback.success,
                 feedback_score=feedback.score,
                 feedback_comments=feedback.comments,
-                source="learned"
+                source="learned",
+                is_negative=is_negative
             )
             
             self.case_base.add_case(new_case)
+            self.cases_since_maintenance += 1
             
-            # Verificar si hay que hacer limpieza
-            self._maintenance_if_needed(request.event_type)
+            # Verificar si hay que hacer limpieza (periódicamente, no cada vez)
+            if self.cases_since_maintenance >= self.maintenance_frequency:
+                self._maintenance_if_needed(request.event_type)
+                self.cases_since_maintenance = 0
             
-            return True, f"Nuevo caso añadido: {new_case.id}"
+            tipo = "negativo (failure)" if is_negative else "positivo"
+            return True, f"Nuevo caso {tipo} añadido: {new_case.id}"
         
         elif decision.action == "update_existing":
             # Actualizar caso existente
@@ -246,30 +274,139 @@ class CaseRetainer:
         """
         Realiza mantenimiento de la base si es necesario.
         
-        Elimina casos de baja calidad cuando se excede el límite.
+        Nueva estrategia: elimina casos REDUNDANTES (muy similares)
+        en vez de casos de baja calidad.
         """
         event_cases = self.case_base.get_cases_by_event(event_type)
         
         if len(event_cases) > self.max_cases_per_event:
-            # Ordenar por calidad y uso
-            scored_cases = []
-            for case in event_cases:
-                utility = self._calculate_case_utility(case)
-                scored_cases.append((case, utility))
+            # Nueva estrategia: eliminar redundantes
+            to_remove = self._identify_redundant_cases(event_cases)
             
-            scored_cases.sort(key=lambda x: x[1], reverse=True)
-            
-            # Mantener solo los mejores
-            to_keep = {c.id for c, _ in scored_cases[:self.max_cases_per_event]}
-            
-            # Eliminar los demás
-            self.case_base.cases = [
-                c for c in self.case_base.cases
-                if c.id in to_keep or c.request.event_type != event_type
-            ]
+            if to_remove:
+                # Eliminar casos redundantes
+                self.case_base.cases = [
+                    c for c in self.case_base.cases if c.id not in to_remove
+                ]
+                print(f"🧹 Mantenimiento: {len(to_remove)} casos redundantes eliminados")
+            else:
+                # Si no hay redundantes, eliminar los de menor utilidad
+                # (como último recurso)
+                self._fallback_remove_by_utility(event_cases)
             
             # Reconstruir índices
             self._rebuild_indexes()
+    
+    def _identify_redundant_cases(self, cases: List[Case]) -> set:
+        """
+        Identifica casos redundantes (muy similares entre sí).
+        
+        Estrategia: Para cada grupo de casos muy similares,
+        mantener solo el mejor (mayor feedback + uso).
+        
+        Returns:
+            Set de IDs de casos a eliminar
+        """
+        to_remove = set()
+        processed = set()
+        
+        # Separar casos positivos y negativos
+        positive_cases = [c for c in cases if not c.is_negative]
+        negative_cases = [c for c in cases if c.is_negative]
+        
+        # Eliminar redundancia en positivos
+        for i, case1 in enumerate(positive_cases):
+            if case1.id in processed or case1.id in to_remove:
+                continue
+            
+            # Buscar casos muy similares
+            similar_group = [case1]
+            
+            for case2 in positive_cases[i+1:]:
+                if case2.id in to_remove:
+                    continue
+                
+                # Calcular similitud request + menu
+                req_sim = self.similarity_calc.calculate_similarity(
+                    case1.request, case2.request
+                )
+                menu_sim = calculate_menu_similarity(case1.menu, case2.menu)
+                combined_sim = 0.6 * req_sim + 0.4 * menu_sim
+                
+                if combined_sim >= self.redundancy_threshold:
+                    similar_group.append(case2)
+            
+            # Si hay casos redundantes, mantener solo el mejor
+            if len(similar_group) > 1:
+                # Ordenar por utilidad
+                similar_group.sort(
+                    key=lambda c: self._calculate_case_utility(c),
+                    reverse=True
+                )
+                
+                # Mantener el primero (mejor), eliminar los demás
+                for case in similar_group[1:]:
+                    to_remove.add(case.id)
+                    processed.add(case.id)
+            
+            processed.add(case1.id)
+        
+        # Los casos negativos también se pueden condensar
+        # pero con menor agresividad (queremos recordar varios tipos de errores)
+        neg_redundancy_threshold = 0.95  # Más restrictivo
+        processed_neg = set()
+        
+        for i, case1 in enumerate(negative_cases):
+            if case1.id in processed_neg or case1.id in to_remove:
+                continue
+            
+            similar_neg = [case1]
+            for case2 in negative_cases[i+1:]:
+                if case2.id in to_remove:
+                    continue
+                
+                req_sim = self.similarity_calc.calculate_similarity(
+                    case1.request, case2.request
+                )
+                menu_sim = calculate_menu_similarity(case1.menu, case2.menu)
+                combined_sim = 0.6 * req_sim + 0.4 * menu_sim
+                
+                if combined_sim >= neg_redundancy_threshold:
+                    similar_neg.append(case2)
+            
+            if len(similar_neg) > 1:
+                # Para negativos, mantener el de peor score (más representativo del error)
+                similar_neg.sort(key=lambda c: c.feedback_score)
+                for case in similar_neg[1:]:
+                    to_remove.add(case.id)
+                    processed_neg.add(case.id)
+            
+            processed_neg.add(case1.id)
+        
+        return to_remove
+    
+    def _fallback_remove_by_utility(self, event_cases: List[Case]):
+        """
+        Estrategia de respaldo: si no hay redundantes, eliminar por utilidad.
+        """
+        scored_cases = []
+        for case in event_cases:
+            utility = self._calculate_case_utility(case)
+            scored_cases.append((case, utility))
+        
+        scored_cases.sort(key=lambda x: x[1], reverse=True)
+        
+        # Mantener solo los mejores
+        to_keep = {c.id for c, _ in scored_cases[:self.max_cases_per_event]}
+        
+        # Eliminar los demás
+        self.case_base.cases = [
+            c for c in self.case_base.cases
+            if c.id in to_keep or c.request.event_type not in [case.request.event_type for case in event_cases]
+        ]
+        
+        removed_count = len(event_cases) - len(to_keep)
+        print(f"⚠️ Mantenimiento fallback: {removed_count} casos de baja utilidad eliminados")
     
     def _calculate_case_utility(self, case: Case) -> float:
         """
@@ -332,6 +469,10 @@ class CaseRetainer:
         if not cases:
             return {"total_cases": 0}
         
+        # Separar casos positivos y negativos
+        positive_cases = [c for c in cases if not c.is_negative]
+        negative_cases = [c for c in cases if c.is_negative]
+        
         # Calcular estadísticas
         feedbacks = [c.feedback_score for c in cases]
         usages = [c.usage_count for c in cases]
@@ -344,8 +485,10 @@ class CaseRetainer:
         
         return {
             "total_cases": len(cases),
+            "positive_cases": len(positive_cases),
+            "negative_cases": len(negative_cases),
             "successful_cases": successes,
-            "success_rate": successes / len(cases),
+            "success_rate": successes / len(cases) if cases else 0,
             "avg_feedback": sum(feedbacks) / len(feedbacks),
             "min_feedback": min(feedbacks),
             "max_feedback": max(feedbacks),

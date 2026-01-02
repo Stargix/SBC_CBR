@@ -404,6 +404,7 @@ class Case:
         last_used: Última vez que se usó
         adaptation_notes: Notas sobre adaptaciones realizadas
         source: Origen del caso (manual, generated, adapted)
+        is_negative: Si es un caso de failure (para evitar repetir errores)
     """
     id: str
     request: Request
@@ -416,6 +417,7 @@ class Case:
     last_used: str = ""
     adaptation_notes: List[str] = field(default_factory=list)
     source: str = "manual"
+    is_negative: bool = False  # True si es un caso de failure (score < 3.0)
     
     def __post_init__(self):
         """Inicializa timestamps si no existen"""
@@ -442,7 +444,8 @@ class Case:
             'created_at': self.created_at,
             'last_used': self.last_used,
             'adaptation_notes': self.adaptation_notes,
-            'source': self.source
+            'source': self.source,
+            'is_negative': self.is_negative
         }
 
 

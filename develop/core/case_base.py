@@ -246,7 +246,8 @@ class CaseBase:
                 menu=menu,
                 success=template["success"],
                 feedback_score=template["feedback"],
-                source="initial"
+                source="initial",
+                is_negative=template.get("is_negative", False)  # Soporte para casos negativos
             )
             
             self.add_case(case)
