@@ -1,0 +1,1263 @@
+{
+    "groups": {
+        "butter_group": [
+            "butter",
+            "margarine",
+            "shortening"
+        ],
+        "milk_group": [
+            "milk",
+            "yogurt",
+            "sour cream",
+            "heavy cream",
+            "half-and-half",
+            "buttermilk",
+            "almond milk",
+            "coconut milk",
+            "soy milk",
+            "evaporated milk",
+            "sweetened condensed milk"
+        ],
+        "sweetener_group": [
+            "sugar",
+            "brown sugar",
+            "powdered sugar"
+        ],
+        "liquid_sweetener_group": [
+            "honey",
+            "maple syrup",
+            "molasses",
+            "agave",
+            "light corn syrup",
+            "syrup"
+        ],
+        "vinegar_group": [
+            "white vinegar",
+            "apple cider vinegar",
+            "rice vinegar",
+            "red wine vinegar",
+            "cider vinegar",
+            "balsamic vinegar",
+            "white wine vinegar",
+            "vinegar"
+        ],
+        "acid_group": [
+            "lemon juice",
+            "lime juice",
+            "orange juice"
+        ],
+        "zest_group": [
+            "lemon zest",
+            "lime zest",
+            "orange zest",
+            "orange peel",
+            "lemon peel"
+        ],
+        "citrus_group": [
+            "lemon",
+            "lime",
+            "orange",
+            "oranges"
+        ],
+        "onion_group": [
+            "onion",
+            "red onion",
+            "yellow onions",
+            "sweet onion",
+            "shallot",
+            "leek",
+            "green onion",
+            "scallion",
+            "onions",
+            "shallots",
+            "red onions"
+        ],
+        "pepper_group": [
+            "black pepper",
+            "white pepper"
+        ],
+        "bell_pepper_group": [
+            "red bell pepper",
+            "green bell pepper",
+            "bell pepper",
+            "bell peppers",
+            "green pepper",
+            "red pepper",
+            "sweet red pepper",
+            "red bell peppers",
+            "green bell peppers"
+        ],
+        "chili_group": [
+            "cayenne pepper",
+            "red pepper flakes",
+            "chili powder",
+            "smoked paprika",
+            "paprika",
+            "sweet paprika",
+            "jalapeno",
+            "green chilies",
+            "chili peppers"
+        ],
+        "leafy_green_group": [
+            "spinach",
+            "kale",
+            "arugula",
+            "lettuce",
+            "romaine lettuce",
+            "salad greens"
+        ],
+        "root_veggie_group": [
+            "carrots",
+            "potatoes",
+            "sweet potatoes",
+            "russet potatoes",
+            "red potatoes",
+            "beets",
+            "radishes"
+        ],
+        "squash_group": [
+            "zucchini",
+            "butternut squash",
+            "pumpkin",
+            "squash"
+        ],
+        "cruciferous_group": [
+            "broccoli",
+            "cauliflower",
+            "cabbage",
+            "red cabbage",
+            "green cabbage",
+            "broccoli florets"
+        ],
+        "fruit_group": [
+            "apples",
+            "pears",
+            "peaches",
+            "mango",
+            "pineapple",
+            "bananas",
+            "banana",
+            "tart apples",
+            "apple"
+        ],
+        "berry_group": [
+            "strawberries",
+            "blueberries",
+            "raspberries",
+            "blackberries",
+            "cherries",
+            "berries"
+        ],
+        "dried_fruit_group": [
+            "raisins",
+            "dried cranberries",
+            "dates"
+        ],
+        "nut_group": [
+            "almonds",
+            "walnuts",
+            "pecans",
+            "hazelnuts",
+            "cashews",
+            "pistachios",
+            "peanuts",
+            "pine nuts",
+            "pecan",
+            "walnut",
+            "almond",
+            "pumpkin seeds",
+            "sunflower seeds",
+            "ground flaxseed",
+            "chia seeds"
+        ],
+        "bean_group": [
+            "black beans",
+            "chickpeas",
+            "cannellini beans",
+            "beans"
+        ],
+        "rice_group": [
+            "rice",
+            "cooked rice",
+            "white rice",
+            "brown rice",
+            "basmati rice",
+            "arborio rice",
+            "long grain rice",
+            "cooked brown rice"
+        ],
+        "bread_group": [
+            "bread",
+            "white bread",
+            "bread crumbs",
+            "breadcrumbs",
+            "panko bread crumbs",
+            "panko",
+            "dough"
+        ],
+        "pasta_group": [
+            "pasta",
+            "noodles",
+            "spaghetti",
+            "flour tortillas"
+        ],
+        "meat_group": [
+            "chicken breasts",
+            "chicken thighs",
+            "chicken wings",
+            "chicken drumsticks",
+            "chicken",
+            "cooked chicken",
+            "boneless",
+            "ground beef",
+            "ground turkey",
+            "ground pork",
+            "beef",
+            "pork",
+            "pork sausage",
+            "sausage",
+            "bacon",
+            "ham"
+        ],
+        "seafood_group": [
+            "shrimp",
+            "fish"
+        ],
+        "chocolate_group": [
+            "unsweetened cocoa powder",
+            "chocolate chips",
+            "semi-sweet chocolate",
+            "dark chocolate",
+            "chocolate",
+            "white chocolate",
+            "semisweet chocolate",
+            "mini chocolate chips",
+            "white chocolate chips"
+        ],
+        "egg_group": [
+            "eggs",
+            "egg yolks",
+            "egg whites"
+        ],
+        "alcohol_group": [
+            "white wine",
+            "dry white wine",
+            "red wine",
+            "bourbon",
+            "rum",
+            "brandy",
+            "sherry"
+        ],
+        "mustard_group": [
+            "dijon mustard",
+            "mustard",
+            "ground mustard",
+            "mustard seeds"
+        ],
+        "sauce_group": [
+            "soy sauce",
+            "worcestershire sauce",
+            "fish sauce",
+            "hot sauce",
+            "chili sauce",
+            "tomato sauce",
+            "spaghetti sauce",
+            "ketchup",
+            "salsa",
+            "mayonnaise"
+        ],
+        "broth_group": [
+            "chicken broth",
+            "beef broth",
+            "vegetable broth",
+            "beef stock",
+            "vegetable stock",
+            "broth"
+        ],
+        "fresh_herb_group": [
+            "parsley",
+            "cilantro",
+            "fresh basil",
+            "mint",
+            "chives",
+            "fresh dill",
+            "basil",
+            "dried basil",
+            "dried parsley",
+            "herbs"
+        ],
+        "spice_group": [
+            "black pepper",
+            "garlic powder",
+            "onion powder",
+            "ground cinnamon",
+            "cayenne pepper",
+            "chili powder",
+            "paprika",
+            "smoked paprika",
+            "sweet paprika",
+            "cumin",
+            "dried oregano",
+            "oregano",
+            "thyme",
+            "rosemary",
+            "sage",
+            "turmeric",
+            "ground ginger",
+            "curry powder",
+            "ground cloves",
+            "nutmeg",
+            "ground nutmeg",
+            "allspice",
+            "cardamom",
+            "fennel seeds",
+            "coriander",
+            "ground turmeric",
+            "italian seasoning",
+            "seasoning",
+            "pumpkin pie spice"
+        ],
+        "flour_group": [
+            "all-purpose flour",
+            "whole wheat flour",
+            "cake flour",
+            "bread flour",
+            "almond flour",
+            "coconut flour"
+        ],
+        "thickener_group": [
+            "cornstarch",
+            "potato starch",
+            "starch"
+        ],
+        "oil_group": [
+            "vegetable oil",
+            "coconut oil",
+            "sesame oil",
+            "toasted sesame oil",
+            "peanut oil",
+            "sunflower oil"
+        ],
+        "cheese_group": [
+            "cheddar cheese",
+            "jack cheese",
+            "swiss cheese",
+            "american cheese"
+        ]
+    },
+    "ingredient_to_cultures": {
+        "butter": [
+            "French",
+            "Italian",
+            "American",
+            "Indian"
+        ],
+        "margarine": [
+            "American"
+        ],
+        "shortening": [
+            "American"
+        ],
+        "milk": [
+            "French",
+            "Indian",
+            "American"
+        ],
+        "yogurt": [
+            "Indian",
+            "Lebanese"
+        ],
+        "sour cream": [
+            "French",
+            "American"
+        ],
+        "heavy cream": [
+            "French",
+            "Italian",
+            "American"
+        ],
+        "half-and-half": [
+            "American"
+        ],
+        "buttermilk": [
+            "American",
+            "Indian"
+        ],
+        "almond milk": [],
+        "coconut milk": [
+            "Thai",
+            "Indian",
+            "Vietnamese"
+        ],
+        "soy milk": [
+            "Chinese",
+            "Japanese",
+            "Korean"
+        ],
+        "evaporated milk": [
+            "American"
+        ],
+        "sweetened condensed milk": [
+            "American",
+            "Thai"
+        ],
+        "sugar": [
+            "Universal"
+        ],
+        "brown sugar": [
+            "Universal"
+        ],
+        "powdered sugar": [
+            "Universal"
+        ],
+        "honey": [
+            "Universal"
+        ],
+        "maple syrup": [
+            "American"
+        ],
+        "molasses": [
+            "American"
+        ],
+        "agave": [
+            "Mexican"
+        ],
+        "light corn syrup": [
+            "American"
+        ],
+        "syrup": [
+            "American"
+        ],
+        "white vinegar": [
+            "Universal"
+        ],
+        "apple cider vinegar": [
+            "American"
+        ],
+        "rice vinegar": [
+            "Chinese",
+            "Japanese",
+            "Korean"
+        ],
+        "red wine vinegar": [
+            "French",
+            "Italian",
+            "Spanish"
+        ],
+        "cider vinegar": [
+            "American"
+        ],
+        "balsamic vinegar": [
+            "Italian"
+        ],
+        "white wine vinegar": [
+            "French",
+            "Italian"
+        ],
+        "vinegar": [
+            "Universal"
+        ],
+        "lemon juice": [
+            "Lebanese",
+            "Mexican",
+            "Italian",
+            "French"
+        ],
+        "lime juice": [
+            "Mexican",
+            "Thai",
+            "Vietnamese"
+        ],
+        "orange juice": [
+            "Universal"
+        ],
+        "lemon zest": [
+            "Lebanese",
+            "Italian",
+            "French"
+        ],
+        "lime zest": [
+            "Mexican",
+            "Thai"
+        ],
+        "orange zest": [
+            "Universal"
+        ],
+        "orange peel": [
+            "Universal"
+        ],
+        "lemon peel": [
+            "Universal"
+        ],
+        "lemon": [
+            "Lebanese",
+            "Mexican",
+            "Italian",
+            "French"
+        ],
+        "lime": [
+            "Mexican",
+            "Thai",
+            "Vietnamese"
+        ],
+        "orange": [
+            "Universal"
+        ],
+        "oranges": [
+            "Universal"
+        ],
+        "onion": [
+            "Universal"
+        ],
+        "red onion": [
+            "Universal"
+        ],
+        "yellow onions": [
+            "Universal"
+        ],
+        "sweet onion": [
+            "Universal"
+        ],
+        "shallot": [
+            "French",
+            "Thai",
+            "Vietnamese"
+        ],
+        "leek": [
+            "French"
+        ],
+        "green onion": [
+            "Chinese",
+            "Japanese",
+            "Korean",
+            "Thai",
+            "Vietnamese"
+        ],
+        "scallion": [
+            "Chinese",
+            "Japanese",
+            "Korean",
+            "Thai",
+            "Vietnamese"
+        ],
+        "onions": [
+            "Universal"
+        ],
+        "shallots": [
+            "French",
+            "Thai",
+            "Vietnamese"
+        ],
+        "red onions": [
+            "Universal"
+        ],
+        "black pepper": [
+            "Universal"
+        ],
+        "white pepper": [
+            "Chinese",
+            "Thai"
+        ],
+        "red bell pepper": [
+            "Mexican",
+            "Spanish"
+        ],
+        "green bell pepper": [
+            "Mexican",
+            "Spanish"
+        ],
+        "bell pepper": [
+            "Mexican",
+            "Spanish"
+        ],
+        "bell peppers": [
+            "Mexican",
+            "Spanish"
+        ],
+        "green pepper": [
+            "Mexican",
+            "Spanish"
+        ],
+        "red pepper": [
+            "Mexican",
+            "Spanish"
+        ],
+        "sweet red pepper": [
+            "Mexican",
+            "Spanish"
+        ],
+        "red bell peppers": [
+            "Mexican",
+            "Spanish"
+        ],
+        "green bell peppers": [
+            "Mexican",
+            "Spanish"
+        ],
+        "cayenne pepper": [
+            "Mexican",
+            "Indian",
+            "Thai"
+        ],
+        "red pepper flakes": [
+            "Italian",
+            "Korean"
+        ],
+        "chili powder": [
+            "Mexican",
+            "Indian",
+            "Korean"
+        ],
+        "smoked paprika": [
+            "Spanish"
+        ],
+        "paprika": [
+            "Spanish"
+        ],
+        "sweet paprika": [
+            "Spanish"
+        ],
+        "jalapeno": [
+            "Mexican"
+        ],
+        "green chilies": [
+            "Mexican",
+            "Indian"
+        ],
+        "chili peppers": [
+            "Mexican",
+            "Korean",
+            "Thai"
+        ],
+        "spinach": [
+            "Universal"
+        ],
+        "kale": [
+            "American"
+        ],
+        "arugula": [
+            "Italian"
+        ],
+        "lettuce": [
+            "Universal"
+        ],
+        "romaine lettuce": [
+            "Lebanese"
+        ],
+        "salad greens": [
+            "Universal"
+        ],
+        "carrots": [
+            "Universal"
+        ],
+        "potatoes": [
+            "American",
+            "Spanish"
+        ],
+        "sweet potatoes": [
+            "American"
+        ],
+        "russet potatoes": [
+            "American"
+        ],
+        "red potatoes": [
+            "American"
+        ],
+        "beets": [
+            "Universal"
+        ],
+        "radishes": [
+            "Japanese",
+            "Vietnamese"
+        ],
+        "zucchini": [
+            "Italian",
+            "Lebanese"
+        ],
+        "butternut squash": [
+            "American"
+        ],
+        "pumpkin": [
+            "American"
+        ],
+        "squash": [
+            "American"
+        ],
+        "broccoli": [
+            "Universal"
+        ],
+        "cauliflower": [
+            "Indian"
+        ],
+        "cabbage": [
+            "Korean",
+            "Chinese"
+        ],
+        "red cabbage": [
+            "Korean"
+        ],
+        "green cabbage": [
+            "Korean"
+        ],
+        "broccoli florets": [
+            "Universal"
+        ],
+        "apples": [
+            "American"
+        ],
+        "pears": [
+            "Universal"
+        ],
+        "peaches": [
+            "Universal"
+        ],
+        "mango": [
+            "Thai",
+            "Indian"
+        ],
+        "pineapple": [
+            "Thai"
+        ],
+        "bananas": [
+            "Universal"
+        ],
+        "banana": [
+            "Universal"
+        ],
+        "tart apples": [
+            "American"
+        ],
+        "apple": [
+            "American"
+        ],
+        "strawberries": [
+            "Universal"
+        ],
+        "blueberries": [
+            "American"
+        ],
+        "raspberries": [
+            "Universal"
+        ],
+        "blackberries": [
+            "Universal"
+        ],
+        "cherries": [
+            "Universal"
+        ],
+        "berries": [
+            "Universal"
+        ],
+        "raisins": [
+            "Universal"
+        ],
+        "dried cranberries": [
+            "American"
+        ],
+        "dates": [
+            "Lebanese"
+        ],
+        "almonds": [
+            "Spanish",
+            "Indian"
+        ],
+        "walnuts": [
+            "Universal"
+        ],
+        "pecans": [
+            "American"
+        ],
+        "hazelnuts": [
+            "Universal"
+        ],
+        "cashews": [
+            "Indian"
+        ],
+        "pistachios": [
+            "Lebanese"
+        ],
+        "peanuts": [
+            "Chinese",
+            "Thai"
+        ],
+        "pine nuts": [
+            "Italian"
+        ],
+        "pecan": [
+            "American"
+        ],
+        "walnut": [
+            "Universal"
+        ],
+        "almond": [
+            "Spanish",
+            "Indian"
+        ],
+        "pumpkin seeds": [
+            "Mexican"
+        ],
+        "sunflower seeds": [
+            "Universal"
+        ],
+        "ground flaxseed": [],
+        "chia seeds": [
+            "Mexican"
+        ],
+        "black beans": [
+            "Mexican"
+        ],
+        "chickpeas": [
+            "Indian",
+            "Lebanese"
+        ],
+        "cannellini beans": [
+            "Italian"
+        ],
+        "beans": [
+            "Mexican"
+        ],
+        "rice": [
+            "Chinese",
+            "Indian",
+            "Japanese",
+            "Thai",
+            "Vietnamese",
+            "Spanish"
+        ],
+        "cooked rice": [
+            "Chinese",
+            "Indian",
+            "Japanese",
+            "Thai",
+            "Vietnamese",
+            "Spanish"
+        ],
+        "white rice": [
+            "Chinese",
+            "Indian",
+            "Japanese",
+            "Thai",
+            "Vietnamese",
+            "Spanish"
+        ],
+        "brown rice": [
+            "Universal"
+        ],
+        "basmati rice": [
+            "Indian"
+        ],
+        "arborio rice": [
+            "Italian"
+        ],
+        "long grain rice": [
+            "Universal"
+        ],
+        "cooked brown rice": [
+            "Universal"
+        ],
+        "bread": [
+            "Universal"
+        ],
+        "white bread": [
+            "Universal"
+        ],
+        "bread crumbs": [
+            "Italian",
+            "American"
+        ],
+        "breadcrumbs": [
+            "Italian",
+            "American"
+        ],
+        "panko bread crumbs": [
+            "Japanese"
+        ],
+        "panko": [
+            "Japanese"
+        ],
+        "dough": [
+            "Universal"
+        ],
+        "pasta": [
+            "Italian"
+        ],
+        "noodles": [
+            "Chinese",
+            "Japanese",
+            "Vietnamese"
+        ],
+        "spaghetti": [
+            "Italian"
+        ],
+        "flour tortillas": [
+            "Mexican"
+        ],
+        "chicken breasts": [
+            "Universal"
+        ],
+        "chicken thighs": [
+            "Universal"
+        ],
+        "chicken wings": [
+            "Universal"
+        ],
+        "chicken drumsticks": [
+            "Universal"
+        ],
+        "chicken": [
+            "Universal"
+        ],
+        "cooked chicken": [
+            "Universal"
+        ],
+        "boneless": [
+            "Universal"
+        ],
+        "ground beef": [
+            "American"
+        ],
+        "ground turkey": [
+            "American"
+        ],
+        "ground pork": [
+            "Chinese"
+        ],
+        "beef": [
+            "American"
+        ],
+        "pork": [
+            "American",
+            "Mexican",
+            "Chinese"
+        ],
+        "pork sausage": [
+            "American"
+        ],
+        "sausage": [
+            "American"
+        ],
+        "bacon": [
+            "American"
+        ],
+        "ham": [
+            "Spanish"
+        ],
+        "shrimp": [
+            "Universal"
+        ],
+        "fish": [
+            "Japanese"
+        ],
+        "unsweetened cocoa powder": [
+            "Mexican"
+        ],
+        "chocolate chips": [
+            "American"
+        ],
+        "semi-sweet chocolate": [
+            "American"
+        ],
+        "dark chocolate": [
+            "American"
+        ],
+        "chocolate": [
+            "Mexican"
+        ],
+        "white chocolate": [
+            "American"
+        ],
+        "semisweet chocolate": [
+            "American"
+        ],
+        "mini chocolate chips": [
+            "American"
+        ],
+        "white chocolate chips": [
+            "American"
+        ],
+        "eggs": [
+            "Universal"
+        ],
+        "egg yolks": [
+            "Universal"
+        ],
+        "egg whites": [
+            "Universal"
+        ],
+        "white wine": [
+            "French",
+            "Italian"
+        ],
+        "dry white wine": [
+            "French",
+            "Italian"
+        ],
+        "red wine": [
+            "French",
+            "Italian"
+        ],
+        "bourbon": [
+            "American"
+        ],
+        "rum": [
+            "Universal"
+        ],
+        "brandy": [
+            "French"
+        ],
+        "sherry": [
+            "Spanish"
+        ],
+        "dijon mustard": [
+            "French"
+        ],
+        "mustard": [
+            "French"
+        ],
+        "ground mustard": [
+            "French"
+        ],
+        "mustard seeds": [
+            "Indian"
+        ],
+        "soy sauce": [
+            "Chinese",
+            "Japanese",
+            "Korean"
+        ],
+        "worcestershire sauce": [
+            "American"
+        ],
+        "fish sauce": [
+            "Thai",
+            "Vietnamese"
+        ],
+        "hot sauce": [
+            "Mexican"
+        ],
+        "chili sauce": [
+            "Chinese"
+        ],
+        "tomato sauce": [
+            "Italian"
+        ],
+        "spaghetti sauce": [
+            "Italian"
+        ],
+        "ketchup": [
+            "American"
+        ],
+        "salsa": [
+            "Mexican"
+        ],
+        "mayonnaise": [
+            "American"
+        ],
+        "chicken broth": [
+            "Universal"
+        ],
+        "beef broth": [
+            "Universal"
+        ],
+        "vegetable broth": [
+            "Universal"
+        ],
+        "beef stock": [
+            "Universal"
+        ],
+        "vegetable stock": [
+            "Universal"
+        ],
+        "broth": [
+            "Universal"
+        ],
+        "parsley": [
+            "French",
+            "Italian",
+            "Lebanese"
+        ],
+        "cilantro": [
+            "Mexican",
+            "Thai",
+            "Vietnamese"
+        ],
+        "fresh basil": [
+            "Italian",
+            "Thai"
+        ],
+        "mint": [
+            "Lebanese",
+            "Vietnamese"
+        ],
+        "chives": [
+            "French"
+        ],
+        "fresh dill": [
+            "Lebanese"
+        ],
+        "basil": [
+            "Italian",
+            "Thai"
+        ],
+        "dried basil": [
+            "Italian"
+        ],
+        "dried parsley": [
+            "Universal"
+        ],
+        "herbs": [
+            "Universal"
+        ],
+        "garlic powder": [
+            "Universal"
+        ],
+        "onion powder": [
+            "Universal"
+        ],
+        "ground cinnamon": [
+            "Indian"
+        ],
+        "cumin": [
+            "Indian",
+            "Mexican"
+        ],
+        "dried oregano": [
+            "Italian",
+            "Mexican"
+        ],
+        "oregano": [
+            "Italian",
+            "Mexican"
+        ],
+        "thyme": [
+            "French"
+        ],
+        "rosemary": [
+            "French",
+            "Italian"
+        ],
+        "sage": [
+            "Italian"
+        ],
+        "turmeric": [
+            "Indian"
+        ],
+        "ground ginger": [
+            "Chinese",
+            "Indian"
+        ],
+        "curry powder": [
+            "Indian"
+        ],
+        "ground cloves": [
+            "Indian"
+        ],
+        "nutmeg": [
+            "Indian"
+        ],
+        "ground nutmeg": [
+            "Indian"
+        ],
+        "allspice": [
+            "Universal"
+        ],
+        "cardamom": [
+            "Indian"
+        ],
+        "fennel seeds": [
+            "Indian",
+            "Italian"
+        ],
+        "coriander": [
+            "Indian"
+        ],
+        "ground turmeric": [
+            "Indian"
+        ],
+        "italian seasoning": [
+            "Italian"
+        ],
+        "seasoning": [
+            "Universal"
+        ],
+        "pumpkin pie spice": [
+            "American"
+        ],
+        "all-purpose flour": [
+            "Universal"
+        ],
+        "whole wheat flour": [
+            "Universal"
+        ],
+        "cake flour": [
+            "Universal"
+        ],
+        "bread flour": [
+            "Universal"
+        ],
+        "almond flour": [
+            "Universal"
+        ],
+        "coconut flour": [
+            "Universal"
+        ],
+        "cornstarch": [
+            "Universal"
+        ],
+        "potato starch": [
+            "Universal"
+        ],
+        "starch": [
+            "Universal"
+        ],
+        "vegetable oil": [
+            "Universal"
+        ],
+        "coconut oil": [
+            "Indian",
+            "Thai"
+        ],
+        "sesame oil": [
+            "Chinese",
+            "Japanese",
+            "Korean"
+        ],
+        "toasted sesame oil": [
+            "Chinese",
+            "Japanese",
+            "Korean"
+        ],
+        "peanut oil": [
+            "Chinese"
+        ],
+        "sunflower oil": [
+            "Universal"
+        ],
+        "cheddar cheese": [
+            "American"
+        ],
+        "jack cheese": [
+            "American"
+        ],
+        "swiss cheese": [
+            "French"
+        ],
+        "american cheese": [
+            "American"
+        ]
+    },
+    "cultures": [
+        "American",
+        "Chinese",
+        "French",
+        "Indian",
+        "Italian",
+        "Japanese",
+        "Korean",
+        "Lebanese",
+        "Mexican",
+        "Spanish",
+        "Thai",
+        "Vietnamese"
+    ]
+}
