@@ -376,45 +376,65 @@ def is_dessert_appropriate_after_fatty(main_has_fatty: bool,
 # ============================================================
 
 CULTURAL_CHARACTERISTICS: Dict[CulturalTradition, Dict] = {
-    CulturalTradition.MEDITERRANEAN: {
-        "key_ingredients": ["olive_oil", "tomato", "garlic", "herbs"],
-        "typical_categories": [DishCategory.FISH, DishCategory.SALAD, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.REGIONAL],
+    CulturalTradition.AMERICAN: {
+        "key_ingredients": ["butter", "beef", "bacon", "cheddar_cheese", "maple_syrup"],
+        "typical_categories": [DishCategory.MEAT, DishCategory.PASTRY, DishCategory.SNACK],
+        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.MODERN],
     },
-    CulturalTradition.CATALAN: {
-        "key_ingredients": ["olive_oil", "tomato", "garlic", "almond", "romesco"],
-        "typical_categories": [DishCategory.FISH, DishCategory.MEAT, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.SIBARITA],
-    },
-    CulturalTradition.BASQUE: {
-        "key_ingredients": ["bacalao", "pintxos", "txakoli", "idiazabal"],
-        "typical_categories": [DishCategory.FISH, DishCategory.TAPAS, DishCategory.MEAT],
-        "styles": [CulinaryStyle.GOURMET, CulinaryStyle.REGIONAL],
-    },
-    CulturalTradition.ITALIAN: {
-        "key_ingredients": ["pasta", "olive_oil", "tomato", "parmesan", "basil"],
-        "typical_categories": [DishCategory.PASTA, DishCategory.MEAT, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.REGIONAL],
+    CulturalTradition.CHINESE: {
+        "key_ingredients": ["soy_sauce", "ginger", "garlic", "rice", "sesame_oil"],
+        "typical_categories": [DishCategory.RICE, DishCategory.MEAT, DishCategory.VEGETABLE],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
     },
     CulturalTradition.FRENCH: {
-        "key_ingredients": ["butter", "cream", "wine", "herbs"],
+        "key_ingredients": ["butter", "cream", "wine", "herbs", "shallot"],
         "typical_categories": [DishCategory.CREAM, DishCategory.MEAT, DishCategory.PASTRY],
         "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.GOURMET],
     },
-    CulturalTradition.MOROCCAN: {
-        "key_ingredients": ["spices", "lamb", "couscous", "dates", "almonds"],
-        "typical_categories": [DishCategory.MEAT, DishCategory.LEGUME],
-        "styles": [CulinaryStyle.FUSION, CulinaryStyle.REGIONAL],
+    CulturalTradition.INDIAN: {
+        "key_ingredients": ["turmeric", "cumin", "coriander", "garam_masala", "yogurt"],
+        "typical_categories": [DishCategory.LEGUME, DishCategory.RICE, DishCategory.MEAT],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
+    },
+    CulturalTradition.ITALIAN: {
+        "key_ingredients": ["olive_oil", "tomato", "parmesan", "basil", "garlic"],
+        "typical_categories": [DishCategory.PASTA, DishCategory.MEAT, DishCategory.VEGETABLE],
+        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.REGIONAL],
     },
     CulturalTradition.JAPANESE: {
-        "key_ingredients": ["soy", "rice", "fish", "seaweed", "miso"],
-        "typical_categories": [DishCategory.FISH, DishCategory.RICE],
+        "key_ingredients": ["soy_sauce", "rice", "fish", "seaweed", "miso"],
+        "typical_categories": [DishCategory.FISH, DishCategory.RICE, DishCategory.SOUP],
         "styles": [CulinaryStyle.MODERN, CulinaryStyle.SIBARITA],
     },
-    CulturalTradition.NORDIC: {
-        "key_ingredients": ["fish", "berries", "root_vegetables", "rye"],
-        "typical_categories": [DishCategory.FISH, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.MODERN, CulinaryStyle.REGIONAL],
+    CulturalTradition.KOREAN: {
+        "key_ingredients": ["gochugaru", "kimchi", "soy_sauce", "sesame_oil", "garlic"],
+        "typical_categories": [DishCategory.MEAT, DishCategory.RICE, DishCategory.VEGETABLE],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
+    },
+    CulturalTradition.LEBANESE: {
+        "key_ingredients": ["olive_oil", "lemon", "garlic", "tahini", "mint"],
+        "typical_categories": [DishCategory.SALAD, DishCategory.MEAT, DishCategory.LEGUME],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
+    },
+    CulturalTradition.MEXICAN: {
+        "key_ingredients": ["chili", "lime", "cilantro", "cumin", "beans"],
+        "typical_categories": [DishCategory.MEAT, DishCategory.LEGUME, DishCategory.SNACK],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
+    },
+    CulturalTradition.SPANISH: {
+        "key_ingredients": ["olive_oil", "garlic", "paprika", "saffron", "ham"],
+        "typical_categories": [DishCategory.FISH, DishCategory.RICE, DishCategory.TAPAS],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
+    },
+    CulturalTradition.THAI: {
+        "key_ingredients": ["fish_sauce", "lime", "lemongrass", "coconut_milk", "chili"],
+        "typical_categories": [DishCategory.SOUP, DishCategory.MEAT, DishCategory.RICE],
+        "styles": [CulinaryStyle.FUSION, CulinaryStyle.REGIONAL],
+    },
+    CulturalTradition.VIETNAMESE: {
+        "key_ingredients": ["fish_sauce", "lime", "mint", "rice", "cilantro"],
+        "typical_categories": [DishCategory.SOUP, DishCategory.RICE, DishCategory.SALAD],
+        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.MODERN],
     },
 }
 

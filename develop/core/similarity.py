@@ -285,29 +285,49 @@ class SimilarityCalculator:
                             case_culture: Optional[CulturalTradition]) -> float:
         """
         Calcula similitud cultural/gastronómica.
+        
+        Considera relaciones entre tradiciones culinarias similares.
         """
         if req_culture is None:
             return 0.8  # Sin preferencia cultural = flexible
         
         if req_culture == case_culture:
-            return 1.0
+            return 1.0  # Match exacto
         
         if case_culture is None:
             return 0.6  # El caso no tiene tema cultural definido
         
-        # Culturas relacionadas
+        # Culturas relacionadas (basado en ingredientes y técnicas similares)
         cultural_relations = {
-            (CulturalTradition.CATALAN, CulturalTradition.SPANISH): 0.8,
-            (CulturalTradition.BASQUE, CulturalTradition.SPANISH): 0.8,
-            (CulturalTradition.GALICIAN, CulturalTradition.SPANISH): 0.8,
-            (CulturalTradition.MEDITERRANEAN, CulturalTradition.ITALIAN): 0.9,
-            (CulturalTradition.MEDITERRANEAN, CulturalTradition.GREEK): 0.9,
-            (CulturalTradition.MEDITERRANEAN, CulturalTradition.SPANISH): 0.8,
-            (CulturalTradition.FRENCH, CulturalTradition.ITALIAN): 0.6,
-            (CulturalTradition.MOROCCAN, CulturalTradition.LEBANESE): 0.7,
-            (CulturalTradition.MOROCCAN, CulturalTradition.TURKISH): 0.6,
+            # Mediterráneas - comparten aceite de oliva, hierbas
+            (CulturalTradition.ITALIAN, CulturalTradition.SPANISH): 0.8,
+            (CulturalTradition.ITALIAN, CulturalTradition.FRENCH): 0.7,
+            (CulturalTradition.SPANISH, CulturalTradition.FRENCH): 0.6,
+            (CulturalTradition.LEBANESE, CulturalTradition.ITALIAN): 0.5,
+            
+            # Asiáticas orientales - soja, arroz, wok
+            (CulturalTradition.CHINESE, CulturalTradition.JAPANESE): 0.7,
+            (CulturalTradition.CHINESE, CulturalTradition.KOREAN): 0.8,
+            (CulturalTradition.JAPANESE, CulturalTradition.KOREAN): 0.7,
+            
+            # Asiáticas del sureste - coco, citricos, fish sauce
+            (CulturalTradition.THAI, CulturalTradition.VIETNAMESE): 0.9,
+            
+            # Latinas - chili, maíz, frijoles
+            (CulturalTradition.MEXICAN, CulturalTradition.SPANISH): 0.5,
+            
+            # Influencia francesa
+            (CulturalTradition.FRENCH, CulturalTradition.VIETNAMESE): 0.4,  # Influencia colonial
+            (CulturalTradition.FRENCH, CulturalTradition.LEBANESE): 0.4,
+            
+            # India y Oriente Medio
+            (CulturalTradition.INDIAN, CulturalTradition.LEBANESE): 0.5,
+            
+            # América
+            (CulturalTradition.AMERICAN, CulturalTradition.MEXICAN): 0.6,
         }
         
+        # Buscar relación bidireccional
         sim = cultural_relations.get((req_culture, case_culture),
               cultural_relations.get((case_culture, req_culture), 0.3))
         

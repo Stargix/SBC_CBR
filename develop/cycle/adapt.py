@@ -22,10 +22,11 @@ from copy import deepcopy
 from core.models import (
     Case, Menu, Dish, Beverage, Request,
     EventType, Season, DishType, DishCategory,
-    CulinaryStyle, Flavor, Temperature, Complexity
+    CulturalTradition, CulinaryStyle, Flavor, Temperature, Complexity
 )
 from core.case_base import CaseBase
 from cycle.retrieve import RetrievalResult
+from cycle.ingredient_adapter import get_ingredient_adapter, IngredientSubstitution
 from core.similarity import calculate_dish_similarity
 from core.knowledge import (
     are_categories_compatible, are_flavors_compatible,
@@ -188,7 +189,13 @@ class CaseAdapter:
         )
         adaptations.extend(bev_adaptations)
         
-        # 6. Adaptar estilo si es necesario
+        # 6. Adaptar culturalmente si es necesario
+        cultural_adaptations = self._adapt_for_culture(
+            adapted_menu, case.menu.cultural_theme, request.cultural_preference
+        )
+        adaptations.extend(cultural_adaptations)
+        
+        # 7. Adaptar estilo si es necesario
         style_adaptations = self._adapt_style(adapted_menu, request)
         adaptations.extend(style_adaptations)
         
@@ -846,6 +853,266 @@ class CaseAdapter:
                 explanations.append("Vino tinto ideal para carnes y sabores intensos")
             elif 'white-wine' in menu.beverage.type:
                 explanations.append("Vino blanco perfecto para pescados y platos ligeros")
+        
+        return explanations
+    
+    def _find_cultural_dish_replacement(self, original_dish: Dish, 
+                                       target_culture: CulturalTradition,
+                                       current_menu: Menu) -> Optional[Dish]:
+        """
+        Busca un plato de reemplazo culturalmente apropiado.
+        
+        Cuando un plato es demasiado diferente culturalmente, en lugar de
+        adaptar ingredientes (que puede resultar absurdo), busca un plato
+        completamente diferente del mismo tipo que sea apropiado.
+        
+        Args:
+            original_dish: Plato a reemplazar
+            target_culture: Cultura objetivo
+            current_menu: Menú actual (para evitar duplicados)
+            
+        Returns:
+            Plato de reemplazo o None
+        """
+        print(f"\n   🔍 BÚSQUEDA DE REEMPLAZO para {original_dish.name}")
+        print(f"      Cultura objetivo: {target_culture.value}")
+        print(f"      Tipo de plato: {original_dish.dish_type.value}")
+        
+        # Obtener todos los platos del mismo tipo
+        candidates = self.case_base.get_dishes_by_type(original_dish.dish_type)
+        
+        print(f"      Candidatos totales: {len(candidates)}")
+        
+        if not candidates:
+            print(f"      ❌ Sin candidatos")
+            return None
+        
+        # Filtrar platos que ya están en el menú (evitar duplicados)
+        current_dish_ids = {
+            current_menu.starter.id,
+            current_menu.main_course.id,
+            current_menu.dessert.id
+        }
+        candidates = [d for d in candidates if d.id not in current_dish_ids]
+        print(f"      Candidatos después de filtrar duplicados: {len(candidates)}")
+        
+        # Obtener adaptador de ingredientes para scoring cultural
+        adapter = get_ingredient_adapter()
+        
+        # Ordenar por similitud cultural CON PENALIZACIÓN por ingredientes genéricos
+        scored_candidates = []
+        for dish in candidates:
+            if dish.ingredients:
+                cultural_score = adapter.get_cultural_score(dish.ingredients, target_culture)
+                
+                # PENALIZACIÓN: Contar cuántos ingredientes son ESPECÍFICOS de la cultura
+                # (no universales)
+                culture_name = target_culture.value.capitalize()
+                specific_count = 0
+                universal_count = 0
+                
+                for ing in dish.ingredients:
+                    cultures = adapter.ingredient_to_cultures.get(ing, [])
+                    if culture_name in cultures:
+                        specific_count += 1
+                    elif 'Universal' in cultures:
+                        universal_count += 1
+                
+                # Score ajustado: ponderación (específicos=1.0, universales=0.5)
+                # Los ingredientes específicos de la cultura pesan el doble que los universales
+                # Esto ignora cultural_score y evalúa solo autenticidad cultural
+                total_ingredients = len(dish.ingredients)
+                if total_ingredients > 0:
+                    weighted_score = (specific_count * 1.0 + universal_count * 0.5) / total_ingredients
+                    adjusted_score = weighted_score
+                else:
+                    adjusted_score = 0.0
+                
+                scored_candidates.append((dish, cultural_score, adjusted_score, specific_count))
+        
+        print(f"      Candidatos con ingredientes: {len(scored_candidates)}")
+        
+        if not scored_candidates:
+            print(f"      ❌ Sin candidatos con ingredientes")
+            return None
+        
+        # Ordenar por score ajustado (no el score crudo)
+        scored_candidates.sort(key=lambda x: x[2], reverse=True)
+        
+        # Mostrar top 5 con detalles
+        print(f"      📊 TOP 5 candidatos:")
+        for i, (dish, raw_score, adj_score, specific) in enumerate(scored_candidates[:5], 1):
+            print(f"         {i}. {dish.name}:")
+            print(f"            Score crudo: {raw_score:.0%} | Ajustado: {adj_score:.0%} | Específicos: {specific}")
+        
+        # Retornar el mejor candidato (score ajustado más alto)
+        best_dish, raw_score, best_score, specific_count = scored_candidates[0]
+        
+        # Solo reemplazar si el nuevo plato es SIGNIFICATIVAMENTE mejor (>70% ajustado)
+        if best_score > 0.70:
+            print(f"      ✅ SELECCIONADO: {best_dish.name} (ajustado: {best_score:.0%}, específicos: {specific_count})")
+            return best_dish
+        else:
+            print(f"      ❌ Mejor score ajustado {best_score:.0%} es insuficiente (necesita >70%)")
+        
+        return None
+    
+    def _adapt_for_culture(self, menu: Menu, 
+                          original_culture: Optional[CulturalTradition],
+                          target_culture: Optional[CulturalTradition]) -> List[str]:
+        """
+        Adapta el menú a una cultura gastronómica diferente.
+        
+        Si el cliente solicita una cultura específica y el caso tiene
+        una cultura diferente, adaptamos los ingredientes para que sean
+        más apropiados a la cultura objetivo.
+        
+        ESTRATEGIA: Acepta sustituciones siempre que mejoren la similitud
+        cultural del plato, no basándose en umbral fijo de confianza.
+        
+        Args:
+            menu: Menú a adaptar (se modifica in-place)
+            original_culture: Cultura del caso original
+            target_culture: Cultura solicitada por el cliente
+            
+        Returns:
+            Lista de adaptaciones realizadas
+        """
+        adaptations = []
+        
+        # Si no hay preferencia cultural o ya coinciden, no adaptar
+        if not target_culture:
+            return adaptations
+        
+        if original_culture == target_culture:
+            return adaptations
+        
+        # Obtener el adaptador de ingredientes
+        adapter = get_ingredient_adapter()
+        
+        # Adaptar cada plato del menú
+        for dish_attr in ['starter', 'main_course', 'dessert']:
+            dish = getattr(menu, dish_attr)
+            
+            if not dish.ingredients:
+                continue  # Sin ingredientes listados, no podemos adaptar
+            
+            # Calcular similitud cultural ANTES de adaptar
+            original_score = adapter.get_cultural_score(dish.ingredients, target_culture)
+            
+            # DECISIÓN CRÍTICA: ¿Adaptar ingredientes o cambiar plato completo?
+            # Si la similitud cultural es MUY BAJA (<50%), mejor buscar otro plato
+            if original_score < 0.50:
+                # El plato es culturalmente muy diferente - buscar reemplazo
+                replacement_dish = self._find_cultural_dish_replacement(
+                    dish, target_culture, menu
+                )
+                
+                if replacement_dish:
+                    setattr(menu, dish_attr, replacement_dish)
+                    adaptations.append(
+                        f"Plato reemplazado: {dish.name} → {replacement_dish.name} "
+                        f"(demasiado diferente culturalmente, score: {original_score:.0%})"
+                    )
+                    
+                    # Registrar en adaptaciones
+                    menu.cultural_adaptations.append({
+                        "dish_id": replacement_dish.id,
+                        "dish_name": replacement_dish.name,
+                        "original_dish": dish.name,
+                        "adaptation_type": "dish_replacement",
+                        "reason": f"Original dish too culturally different (score: {original_score:.0%})",
+                        "target_culture": target_culture.value,
+                        "score_before": f"{original_score:.2f}",
+                        "score_after": "1.00"  # Plato nuevo es apropiado
+                    })
+                    continue  # No adaptar ingredientes del plato reemplazado
+            
+            # Si la similitud es razonable (>=50%), adaptar ingredientes
+            # Adaptar ingredientes UNO POR UNO para ver mejora incremental
+            current_ingredients = dish.ingredients.copy()
+            current_score = original_score
+            dish_substitutions = []
+            
+            for ingredient in dish.ingredients:
+                # Intentar sustituir este ingrediente
+                substitution = adapter.find_substitution(ingredient, target_culture)
+                
+                if substitution:
+                    # Aplicar temporalmente la sustitución
+                    temp_ingredients = [
+                        substitution.replacement if ing == ingredient else ing
+                        for ing in current_ingredients
+                    ]
+                    
+                    # Calcular nuevo score
+                    new_score = adapter.get_cultural_score(temp_ingredients, target_culture)
+                    
+                    # Solo aplicar si mejora
+                    if new_score > current_score:
+                        improvement = new_score - current_score
+                        current_ingredients = temp_ingredients
+                        
+                        # Guardar con información de mejora incremental
+                        substitution_with_improvement = IngredientSubstitution(
+                            original=substitution.original,
+                            replacement=substitution.replacement,
+                            reason=substitution.reason,
+                            confidence=substitution.confidence
+                        )
+                        dish_substitutions.append({
+                            'substitution': substitution_with_improvement,
+                            'score_before': current_score,
+                            'score_after': new_score,
+                            'improvement': improvement
+                        })
+                        
+                        current_score = new_score
+            
+            # Si hubo mejoras, aplicar todas las sustituciones
+            if dish_substitutions:
+                # Actualizar ingredientes del plato
+                dish.ingredients = current_ingredients
+                
+                # Registrar adaptaciones con mejora individual
+                subs_desc = []
+                for item in dish_substitutions:
+                    sub = item['substitution']
+                    improvement_pct = item['improvement'] * 100
+                    subs_desc.append(
+                        f"{sub.original}→{sub.replacement} (+{improvement_pct:.0f}%)"
+                    )
+                
+                final_improvement = current_score - original_score
+                adaptations.append(
+                    f"{dish.name}: {', '.join(subs_desc)} "
+                    f"(similitud {original_score:.0%}→{current_score:.0%}, +{final_improvement*100:.0f}%)"
+                )
+                
+                # Guardar en cultural_adaptations del menú
+                for item in dish_substitutions:
+                    sub = item['substitution']
+                    menu.cultural_adaptations.append({
+                        "dish_id": dish.id,
+                        "dish_name": dish.name,
+                        "original_ingredient": sub.original,
+                        "adapted_ingredient": sub.replacement,
+                        "reason": sub.reason,
+                        "confidence": sub.confidence,
+                        "target_culture": target_culture.value,
+                        "score_before": f"{item['score_before']:.2f}",
+                        "score_after": f"{item['score_after']:.2f}",
+                        "improvement": f"+{item['improvement']*100:.0f}%"
+                    })
+        
+        # Actualizar el tema cultural del menú
+        if adaptations:
+            menu.cultural_theme = target_culture
+            adaptations.insert(0, 
+                f"Menú adaptado culturalmente: {original_culture.value if original_culture else 'neutral'} → {target_culture.value}"
+            )
+        
+        return adaptations
         
         # Adaptaciones realizadas
         if adaptations:

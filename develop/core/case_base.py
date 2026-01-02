@@ -270,6 +270,8 @@ class CaseBase:
             case: Caso a indexar
         """
         # Por tipo de evento
+        if case.request.event_type not in self.index_by_event:
+            self.index_by_event[case.request.event_type] = []
         self.index_by_event[case.request.event_type].append(case)
         
         # Por rango de precio
@@ -284,10 +286,14 @@ class CaseBase:
             self.index_by_price_range["premium"].append(case)
         
         # Por temporada
+        if case.request.season not in self.index_by_season:
+            self.index_by_season[case.request.season] = []
         self.index_by_season[case.request.season].append(case)
         
         # Por estilo
         if case.menu.dominant_style:
+            if case.menu.dominant_style not in self.index_by_style:
+                self.index_by_style[case.menu.dominant_style] = []
             self.index_by_style[case.menu.dominant_style].append(case)
     
     def get_cases_by_event(self, event_type: EventType) -> List[Case]:

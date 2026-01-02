@@ -176,7 +176,8 @@ class CaseRetainer:
             )
     
     def retain(self, request: Request, menu: Menu, 
-               feedback: FeedbackData) -> Tuple[bool, str]:
+               feedback: FeedbackData, 
+               source_case: Optional[Case] = None) -> Tuple[bool, str]:
         """
         Retiene un nuevo caso si es apropiado.
         
@@ -184,6 +185,7 @@ class CaseRetainer:
             request: Solicitud original
             menu: Menú aceptado
             feedback: Feedback del cliente
+            source_case: Caso fuente si el menú fue adaptado de otro caso
             
         Returns:
             Tupla (éxito, mensaje)
@@ -197,6 +199,19 @@ class CaseRetainer:
             # Determinar si es caso negativo
             is_negative = decision.action == "add_negative"
             
+            # Determinar la fuente del caso
+            source_type = "learned"
+            original_case_id = None
+            
+            if source_case and menu.cultural_adaptations:
+                # Es un caso adaptado culturalmente
+                source_type = "cultural_adaptation"
+                original_case_id = source_case.id
+            elif source_case:
+                # Es un caso adaptado de otras formas
+                source_type = "adapted"
+                original_case_id = source_case.id
+            
             # Crear y añadir nuevo caso
             new_case = Case(
                 id=f"case-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{random.randint(100, 999)}",
@@ -205,8 +220,9 @@ class CaseRetainer:
                 success=feedback.success,
                 feedback_score=feedback.score,
                 feedback_comments=feedback.comments,
-                source="learned",
-                is_negative=is_negative
+                source=source_type,
+                is_negative=is_negative,
+                original_case_id=original_case_id
             )
             
             self.case_base.add_case(new_case)
@@ -218,7 +234,8 @@ class CaseRetainer:
                 self.cases_since_maintenance = 0
             
             tipo = "negativo (failure)" if is_negative else "positivo"
-            return True, f"Nuevo caso {tipo} añadido: {new_case.id}"
+            adaptacion = f" (adaptado culturalmente de {original_case_id})" if menu.cultural_adaptations else ""
+            return True, f"Nuevo caso {tipo} añadido: {new_case.id}{adaptacion}"
         
         elif decision.action == "update_existing":
             # Actualizar caso existente

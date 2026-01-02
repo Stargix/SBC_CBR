@@ -217,9 +217,26 @@ class ChefDigitalCBR:
         Returns:
             Tupla (menú adaptado, lista de adaptaciones)
         """
-        # Por ahora, simplemente retorna el menú del caso sin adaptación
-        # TODO: Implementar adaptación real
-        return case.menu, [f"Caso base: {case.id}"]
+        # Usar el CaseAdapter para adaptar el caso
+        from cycle.retrieve import RetrievalResult
+        
+        # Crear resultado de recuperación temporal
+        retrieval_result = RetrievalResult(
+            case=case, 
+            similarity=1.0,
+            similarity_details={},
+            rank=1
+        )
+        
+        # Adaptar usando el CaseAdapter
+        adapted_results = self.adapter.adapt([retrieval_result], request, num_proposals=1)
+        
+        if adapted_results:
+            result = adapted_results[0]
+            return result.adapted_menu, result.adaptations_made
+        else:
+            # Fallback: retornar menú original
+            return case.menu, [f"Caso base sin adaptar: {case.id}"]
     
     def _revise_phase(self, menu: Menu, request: Request) -> ValidationResult:
         """
