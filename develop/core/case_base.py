@@ -89,24 +89,67 @@ class CaseBase:
         with open(config_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         
-        for dish_data in data['dishes']:
+        for dish_data in data:
+            # Mapear dish_type a valores del enum
+            dish_type_mapping = {
+                'main': 'MAIN_COURSE',
+                'main_course': 'MAIN_COURSE',
+                'starter': 'STARTER',
+                'dessert': 'DESSERT'
+            }
+            dish_type_str = dish_data['dish_type'].lower()
+            dish_type_enum = dish_type_mapping.get(dish_type_str, 'MAIN_COURSE')
+            
+            # Mapear complexity (puede ser número o string)
+            complexity_val = dish_data['complexity']
+            if isinstance(complexity_val, int):
+                complexity_mapping = {1: 'LOW', 2: 'MEDIUM', 3: 'HIGH'}
+                complexity_enum = complexity_mapping.get(complexity_val, 'MEDIUM')
+            else:
+                complexity_enum = complexity_val.upper()
+            
+            # Filtrar flavors válidos
+            valid_flavors = []
+            for f in dish_data['flavors']:
+                try:
+                    valid_flavors.append(Flavor[f.upper()])
+                except KeyError:
+                    pass  # Ignorar flavors no reconocidos
+            
+            # Si no hay flavors válidos, usar UMAMI por defecto
+            if not valid_flavors:
+                valid_flavors = [Flavor.UMAMI]
+            
+            # Mapear categoría (con fallback a categorías válidas)
+            try:
+                category = DishCategory[dish_data['category'].upper()]
+            except KeyError:
+                # Si la categoría no existe, intentar mapearla o usar PASTA por defecto
+                category_fallback = {
+                    'BREAD': DishCategory.PASTRY,
+                    'SANDWICH': DishCategory.SNACK,
+                    'CASSEROLE': DishCategory.MEAT,
+                    'UNKNOWN': DishCategory.PASTA
+                }
+                category = category_fallback.get(dish_data['category'].upper(), DishCategory.PASTA)
+            
             dish = Dish(
                 id=dish_data['id'],
                 name=dish_data['name'],
-                dish_type=DishType[dish_data['dish_type'].upper()],
+                dish_type=DishType[dish_type_enum],
                 price=dish_data['price'],
-                category=DishCategory[dish_data['category'].upper()],
+                category=category,
                 styles=[CulinaryStyle[s.upper()] for s in dish_data['styles']],
                 seasons=[Season[s.upper()] for s in dish_data['seasons']],
                 temperature=Temperature[dish_data['temperature'].upper()],
-                complexity=Complexity[dish_data['complexity'].upper()],
+                complexity=Complexity[complexity_enum],
                 calories=dish_data['calories'],
-                max_guests=dish_data['max_guests'],
-                flavors=[Flavor[f.upper()] for f in dish_data['flavors']],
-                diets=dish_data['diets'],
-                ingredients=dish_data['ingredients'],
-                compatible_beverages=dish_data['compatible_beverages'],
-                cultural_traditions=[CulturalTradition[ct.upper()] for ct in dish_data['cultural_traditions']]
+                max_guests=dish_data.get('max_guests', 100),
+                flavors=valid_flavors,
+                diets=dish_data.get('diets', []),
+                ingredients=dish_data.get('ingredients', []),
+                compatible_beverages=dish_data.get('compatible_beverages', []),
+                cultural_traditions=[CulturalTradition[ct.upper()] for ct in dish_data.get('cultural_traditions', [])]
             )
             self.dishes[dish.id] = dish
     
@@ -124,19 +167,15 @@ class CaseBase:
         with open(config_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         
-        for bev_data in data['beverages']:
+        for bev_data in data:
             bev = Beverage(
                 id=bev_data['id'],
                 name=bev_data['name'],
                 alcoholic=bev_data['alcoholic'],
                 price=bev_data['price'],
-                styles=bev_data['styles'],
-                subtype=bev_data['subtype']
+                type=bev_data['type'],
+                subtype=bev_data.get('subtype')
             )
-            
-            # Agregar compatible_flavors si existe
-            if 'compatible_flavors' in bev_data:
-                bev.compatible_flavors = [Flavor[f.upper()] for f in bev_data['compatible_flavors']]
             
             self.beverages[bev.id] = bev
     
@@ -207,7 +246,8 @@ class CaseBase:
                 menu=menu,
                 success=template["success"],
                 feedback_score=template["feedback"],
-                source="initial"
+                source="initial",
+                is_negative=template.get("is_negative", False)  # Soporte para casos negativos
             )
             
             self.add_case(case)
@@ -230,6 +270,8 @@ class CaseBase:
             case: Caso a indexar
         """
         # Por tipo de evento
+        if case.request.event_type not in self.index_by_event:
+            self.index_by_event[case.request.event_type] = []
         self.index_by_event[case.request.event_type].append(case)
         
         # Por rango de precio
@@ -244,10 +286,14 @@ class CaseBase:
             self.index_by_price_range["premium"].append(case)
         
         # Por temporada
+        if case.request.season not in self.index_by_season:
+            self.index_by_season[case.request.season] = []
         self.index_by_season[case.request.season].append(case)
         
         # Por estilo
         if case.menu.dominant_style:
+            if case.menu.dominant_style not in self.index_by_style:
+                self.index_by_style[case.menu.dominant_style] = []
             self.index_by_style[case.menu.dominant_style].append(case)
     
     def get_cases_by_event(self, event_type: EventType) -> List[Case]:

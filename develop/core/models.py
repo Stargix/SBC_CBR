@@ -79,22 +79,19 @@ class CulinaryStyle(Enum):
 
 
 class CulturalTradition(Enum):
-    """Tradiciones culturales gastronómicas"""
-    MEDITERRANEAN = "mediterranean"
-    CATALAN = "catalan"
-    BASQUE = "basque"
-    GALICIAN = "galician"
-    ITALIAN = "italian"
+    """Tradiciones culturales gastronómicas (sincronizadas con ingredients.json)"""
+    AMERICAN = "american"
+    CHINESE = "chinese"
     FRENCH = "french"
-    GREEK = "greek"
-    MOROCCAN = "moroccan"
-    TURKISH = "turkish"
-    LEBANESE = "lebanese"
-    NORDIC = "nordic"
-    RUSSIAN = "russian"
+    INDIAN = "indian"
+    ITALIAN = "italian"
     JAPANESE = "japanese"
+    KOREAN = "korean"
+    LEBANESE = "lebanese"
     MEXICAN = "mexican"
     SPANISH = "spanish"
+    THAI = "thai"
+    VIETNAMESE = "vietnamese"
 
 
 class Temperature(Enum):
@@ -212,29 +209,28 @@ class Beverage:
         name: Nombre de la bebida
         alcoholic: Si contiene alcohol
         price: Precio por persona
-        styles: Estilos (red-wine, white-wine, herbal-tea, soft-drink, etc.)
-        subtype: Subtipo (dry, fruity, young, full-bodied, sweet, sparkling, etc.)
-        compatible_flavors: Sabores con los que combina bien
+        type: Tipo de bebida (red-wine, white-wine, herbal-tea, soft-drink, etc.)
+        subtype: Subtipo opcional (dry, fruity, sweet, sparkling, etc.)
     """
     id: str
     name: str
     alcoholic: bool
     price: float
-    styles: List[str] = field(default_factory=list)
-    subtype: str = "none"
-    compatible_flavors: List[Flavor] = field(default_factory=list)
+    type: str
+    subtype: Optional[str] = None
     
     def to_dict(self) -> Dict[str, Any]:
         """Convierte la bebida a diccionario"""
-        return {
+        result = {
             'id': self.id,
             'name': self.name,
             'alcoholic': self.alcoholic,
             'price': self.price,
-            'styles': self.styles,
-            'subtype': self.subtype,
-            'compatible_flavors': [f.value for f in self.compatible_flavors]
+            'type': self.type
         }
+        if self.subtype:
+            result['subtype'] = self.subtype
+        return result
 
 
 @dataclass
@@ -270,6 +266,7 @@ class Menu:
     total_calories: int = 0
     dominant_style: Optional[CulinaryStyle] = None
     cultural_theme: Optional[CulturalTradition] = None
+    cultural_adaptations: List[Dict[str, Any]] = field(default_factory=list)
     explanation: List[str] = field(default_factory=list)
     score: float = 0.0
     
@@ -405,6 +402,7 @@ class Case:
         last_used: Última vez que se usó
         adaptation_notes: Notas sobre adaptaciones realizadas
         source: Origen del caso (manual, generated, adapted)
+        is_negative: Si es un caso de failure (para evitar repetir errores)
     """
     id: str
     request: Request
@@ -417,6 +415,8 @@ class Case:
     last_used: str = ""
     adaptation_notes: List[str] = field(default_factory=list)
     source: str = "manual"
+    is_negative: bool = False  # True si es un caso de failure (score < 3.0)
+    original_case_id: Optional[str] = None  # ID del caso original si fue adaptado culturalmente
     
     def __post_init__(self):
         """Inicializa timestamps si no existen"""
@@ -443,7 +443,8 @@ class Case:
             'created_at': self.created_at,
             'last_used': self.last_used,
             'adaptation_notes': self.adaptation_notes,
-            'source': self.source
+            'source': self.source,
+            'is_negative': self.is_negative
         }
 
 

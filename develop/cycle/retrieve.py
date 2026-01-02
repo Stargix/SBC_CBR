@@ -16,9 +16,9 @@ para la siguiente fase de adaptación.
 from typing import List, Tuple, Optional, Dict, Any
 from dataclasses import dataclass
 
-from ..core.models import Case, Request, EventType, Season
-from ..core.case_base import CaseBase
-from ..core.similarity import SimilarityCalculator, SimilarityWeights
+from core.models import Case, Request, EventType, Season
+from core.case_base import CaseBase
+from core.similarity import SimilarityCalculator, SimilarityWeights
 
 
 @dataclass
@@ -93,6 +93,7 @@ class CaseRetriever:
         1. Pre-filtrado rápido por índices
         2. Cálculo de similitud detallado
         3. Ranking y selección de top-k
+        4. Filtrado de casos negativos (solo se usan para evitarlos)
         
         Args:
             request: Solicitud del cliente
@@ -108,6 +109,12 @@ class CaseRetriever:
             # Si no hay candidatos con pre-filtrado, usar todos
             candidates = self.case_base.get_all_cases()
         
+        # Filtrar casos negativos (solo queremos casos exitosos para adaptar)
+        candidates = [c for c in candidates if not c.is_negative]
+        
+        # FILTRADO CRÍTICO: Dietas y alergias (con fallback si quedan pocos)
+        candidates = self._filter_by_critical_constraints(candidates, request)
+        
         # Limitar candidatos para eficiencia
         candidates = candidates[:self.max_candidates]
         
@@ -117,8 +124,32 @@ class CaseRetriever:
             details = self.similarity_calc.calculate_detailed_similarity(request, case)
             similarity = details['total']
             
-            if similarity >= self.min_similarity_threshold:
-                scored_cases.append((case, similarity, details))
+            # BOOST: Si el usuario pide cultura específica, aumentar similitud de casos compatibles
+            if request.cultural_preference and case.menu.cultural_theme:
+                if request.cultural_preference == case.menu.cultural_theme:
+                    # Caso de la misma cultura solicitada - boost significativo
+                    similarity = min(1.0, similarity + 0.2)
+                    details['cultural_match'] = 1.0
+                else:
+                    # Cultura diferente - calcular qué tan adaptable es
+                    from cycle.ingredient_adapter import get_ingredient_adapter
+                    adapter = get_ingredient_adapter()
+                    
+                    # Calcular score cultural promedio del menú
+                    cultural_scores = []
+                    for dish_attr in ['starter', 'main_course', 'dessert']:
+                        dish = getattr(case.menu, dish_attr)
+                        if dish.ingredients:
+                            score = adapter.get_cultural_score(dish.ingredients, request.cultural_preference)
+                            cultural_scores.append(score)
+                    
+                    if cultural_scores:
+                        avg_cultural_score = sum(cultural_scores) / len(cultural_scores)
+                        details['cultural_adaptability'] = avg_cultural_score
+                        # No penalizar, solo informar - ADAPT se encargará
+            
+            # SIEMPRE incluir candidatos - no usar umbral mínimo arbitrario
+            scored_cases.append((case, similarity, details))
         
         # Fase 3: Ranking
         scored_cases.sort(key=lambda x: x[1], reverse=True)
@@ -135,6 +166,62 @@ class CaseRetriever:
             results.append(result)
         
         return results
+    
+    def _filter_by_critical_constraints(self, candidates: List[Case], 
+                                         request: Request) -> List[Case]:
+        """
+        Filtra candidatos por restricciones CRÍTICAS (dietas, alergias).
+        
+        Estas restricciones no son adaptables fácilmente, por lo que
+        es mejor filtrarlas aquí en RETRIEVE.
+        
+        Si el filtrado deja muy pocos candidatos (<3), usa fallback
+        para no quedarnos sin opciones.
+        
+        Args:
+            candidates: Lista de candidatos a filtrar
+            request: Solicitud con restricciones
+            
+        Returns:
+            Lista filtrada (o original si fallback)
+        """
+        filtered = candidates
+        
+        # Filtrar por dietas obligatorias
+        if request.required_diets:
+            diets_filtered = []
+            for case in filtered:
+                # Obtener todas las dietas que cumple el menú
+                menu_diets = case.menu.get_all_diets()
+                # Ver si cumple TODAS las dietas requeridas
+                if all(diet in menu_diets for diet in request.required_diets):
+                    diets_filtered.append(case)
+            
+            # FALLBACK: Solo si hay AL MENOS 1 candidato, usar filtrado
+            # Si no hay ninguno, ADAPT intentará adaptar los casos
+            if len(diets_filtered) > 0:
+                filtered = diets_filtered
+            # Si quedan 0, mantener todos y dejar que ADAPT intente adaptarlos
+        
+        # Filtrar por alergias (ingredientes restringidos)
+        # CRÍTICO: Alergias NO son adaptables, SIEMPRE filtrar
+        if request.restricted_ingredients:
+            allergy_filtered = []
+            for case in filtered:
+                # Ver si algún plato contiene ingredientes prohibidos
+                has_allergen = False
+                for dish in [case.menu.starter, case.menu.main_course, case.menu.dessert]:
+                    if any(ing in dish.ingredients for ing in request.restricted_ingredients):
+                        has_allergen = True
+                        break
+                
+                if not has_allergen:
+                    allergy_filtered.append(case)
+            
+            # Para alergias, SIEMPRE filtrar (no hay fallback seguro)
+            filtered = allergy_filtered
+        
+        return filtered
     
     def _prefilter_candidates(self, request: Request) -> List[Case]:
         """
@@ -309,3 +396,31 @@ class CaseRetriever:
             "median_similarity": similarities[len(similarities)//2] if similarities else 0,
             "top_5_similarities": similarities[:5]
         }
+    
+    def check_negative_cases(self, request: Request, threshold: float = 0.80) -> List[Tuple[Case, float]]:
+        """
+        Verifica si hay casos negativos (failures) similares al request.
+        
+        Esto permite advertir: "Este tipo de menú falló anteriormente".
+        
+        Args:
+            request: Solicitud del cliente
+            threshold: Umbral mínimo de similitud (0.80 = 80%)
+            
+        Returns:
+            Lista de tuplas (caso_negativo, similitud) ordenadas por similitud
+        """
+        all_cases = self.case_base.get_all_cases()
+        negative_cases = [c for c in all_cases if c.is_negative]
+        
+        warnings = []
+        for case in negative_cases:
+            similarity = self.similarity_calc.calculate_similarity(request, case)
+            
+            if similarity >= threshold:
+                warnings.append((case, similarity))
+        
+        # Ordenar por similitud descendente
+        warnings.sort(key=lambda x: x[1], reverse=True)
+        
+        return warnings

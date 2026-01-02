@@ -5,15 +5,11 @@ Demo del ciclo completo CBR incluyendo RETAIN (aprendizaje).
 Este script demuestra cómo el sistema aprende de nuevos casos.
 """
 
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from develop import (
+from main import (
     ChefDigitalCBR, CBRConfig,
     Request, EventType, Season, CulinaryStyle
 )
-from develop.cycle.retain import FeedbackData
+from cycle.retain import FeedbackData
 
 
 def demo_ciclo_completo():
@@ -29,9 +25,11 @@ def demo_ciclo_completo():
     
     # Mostrar estado inicial
     stats_inicial = cbr.get_statistics()
+    cb_stats = cbr.case_base.get_statistics()
     print(f"\n📊 ESTADO INICIAL:")
     print(f"   Casos en la base: {stats_inicial['case_base']['total_cases']}")
-    print(f"   Feedback promedio: {stats_inicial['case_base']['avg_feedback']:.2f}/5")
+    if cb_stats['total_cases'] > 0:
+        print(f"   Feedback promedio: {cb_stats['average_feedback']:.2f}/5")
     
     # ========================================
     # FASE 1-3: RETRIEVE, ADAPT, REVISE
@@ -132,10 +130,11 @@ def demo_ciclo_completo():
         print("=" * 70)
         
         stats_final = cbr.get_statistics()
+        cb_stats_final = cbr.case_base.get_statistics()
         print(f"\n   Casos en la base: {stats_final['case_base']['total_cases']}")
-        print(f"   Casos exitosos: {stats_final['case_base']['successful_cases']}")
-        print(f"   Tasa de éxito: {stats_final['case_base']['success_rate']:.0%}")
-        print(f"   Feedback promedio: {stats_final['case_base']['avg_feedback']:.2f}/5")
+        if cb_stats_final['total_cases'] > 0:
+            print(f"   Casos exitosos: {cb_stats_final['successful_cases']}")
+            print(f"   Feedback promedio: {cb_stats_final['average_feedback']:.2f}/5")
         
         if stats_final['case_base']['total_cases'] > stats_inicial['case_base']['total_cases']:
             nuevos = stats_final['case_base']['total_cases'] - stats_inicial['case_base']['total_cases']
@@ -179,10 +178,11 @@ def demo_estadisticas_retencion():
     print("📈 ESTADÍSTICAS DE RETENCIÓN")
     print("=" * 70)
     
+    stats = cbr.case_base.get_statistics()
     print(f"\nCasos totales: {stats['total_cases']}")
-    print(f"Casos exitosos: {stats['successful_cases']}")
-    print(f"Tasa de éxito: {stats['success_rate']:.0%}")
-    print(f"Feedback promedio: {stats['avg_feedback']:.2f}/5")
+    if stats['total_cases'] > 0:
+        print(f"Casos exitosos: {stats['successful_cases']}")
+        print(f"Feedback promedio: {stats['average_feedback']:.2f}/5")
     
     if 'cases_by_event' in stats:
         print("\nDistribución por tipo de evento:")

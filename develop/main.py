@@ -26,17 +26,18 @@ from typing import List, Optional, Dict, Any, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from .core.models import (
+from core.models import (
     Request, Menu, Case, Dish, Beverage, ProposedMenu,
     EventType, Season, CulinaryStyle, DishType
 )
-from .core.case_base import CaseBase
-from .cycle.retrieve import CaseRetriever
-from .cycle.adapt import CaseAdapter
-from .cycle.revise import MenuReviser, ValidationResult
-from .cycle.retain import CaseRetainer, FeedbackData
-from .cycle.explanation import ExplanationGenerator
-from .core.knowledge import (
+from core.case_base import CaseBase
+from cycle.retrieve import CaseRetriever
+from cycle.adapt import CaseAdapter
+from cycle.revise import MenuReviser, ValidationResult
+from cycle.retain import CaseRetainer, FeedbackData
+from cycle.explanation import ExplanationGenerator
+from cycle.diversity import ensure_diversity, get_diversity_explanation
+from core.knowledge import (
     EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
     CULTURAL_TRADITIONS, CHEF_SIGNATURES
 )
@@ -133,7 +134,7 @@ class ChefDigitalCBR:
         
         # FASE 2-3: REUSE/ADAPT + REVISE para cada caso
         for case, similarity in retrieved_cases:
-            if len(proposed_menus) >= self.config.max_proposals:
+            if len(proposed_menus) >= self.config.max_proposals * 2:  # Recuperar más para diversificar
                 break
             
             # REUSE/ADAPT
@@ -164,6 +165,20 @@ class ChefDigitalCBR:
                     "reasons": validation.issues,
                     "similarity": similarity
                 })
+        
+        # DIVERSIFICACIÓN: Asegurar que las propuestas sean suficientemente diferentes
+        if len(proposed_menus) > self.config.max_proposals:
+            menus_to_diversify = [p.menu for p in proposed_menus]
+            diverse_menus = ensure_diversity(
+                menus_to_diversify, 
+                min_distance=0.3,
+                max_proposals=self.config.max_proposals
+            )
+            # Mantener solo las propuestas diversas
+            proposed_menus = [p for p in proposed_menus if p.menu in diverse_menus]
+            # Re-rankear
+            for i, proposal in enumerate(proposed_menus, 1):
+                proposal.rank = i
         
         # Generar explicaciones
         explanations = self.explainer.generate_full_report(
@@ -217,9 +232,26 @@ class ChefDigitalCBR:
         Returns:
             Tupla (menú adaptado, lista de adaptaciones)
         """
-        # Por ahora, simplemente retorna el menú del caso sin adaptación
-        # TODO: Implementar adaptación real
-        return case.menu, [f"Caso base: {case.id}"]
+        # Usar el CaseAdapter para adaptar el caso
+        from cycle.retrieve import RetrievalResult
+        
+        # Crear resultado de recuperación temporal
+        retrieval_result = RetrievalResult(
+            case=case, 
+            similarity=1.0,
+            similarity_details={},
+            rank=1
+        )
+        
+        # Adaptar usando el CaseAdapter
+        adapted_results = self.adapter.adapt([retrieval_result], request, num_proposals=1)
+        
+        if adapted_results:
+            result = adapted_results[0]
+            return result.adapted_menu, result.adaptations_made
+        else:
+            # Fallback: retornar menú original
+            return case.menu, [f"Caso base sin adaptar: {case.id}"]
     
     def _revise_phase(self, menu: Menu, request: Request) -> ValidationResult:
         """
@@ -234,7 +266,7 @@ class ChefDigitalCBR:
         """
         # Validación simple - por ahora aceptar todos los menús
         # TODO: Implementar validación real
-        from .cycle.revise import ValidationStatus
+        from cycle.revise import ValidationStatus
         return ValidationResult(
             menu=menu,
             status=ValidationStatus.VALID,
@@ -438,11 +470,10 @@ if __name__ == "__main__":
     request = Request(
         event_type=EventType.WEDDING,
         num_guests=100,
-        budget=75.0,
+        price_max=75.0,
         season=Season.SPRING,
         preferred_style=CulinaryStyle.GOURMET,
-        dietary_restrictions=["vegetariano"],
-        preferences=["cocina mediterránea"]
+        required_diets=["vegetariano"]
     )
     
     # Procesar solicitud

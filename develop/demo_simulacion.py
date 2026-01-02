@@ -6,20 +6,17 @@ Este script simula múltiples usuarios haciendo peticiones diversas,
 dando feedback, y muestra cómo el sistema aprende y mejora con el tiempo.
 """
 
-import sys
 import time
 import random
-from pathlib import Path
 from typing import List, Tuple
 from dataclasses import dataclass
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from develop import (
+from main import (
     ChefDigitalCBR, CBRConfig,
-    Request, EventType, Season, CulinaryStyle, CulturalTradition
+    Request, EventType, Season, CulinaryStyle
 )
-from develop.cycle.retain import FeedbackData
+from core.models import CulturalTradition
+from cycle.retain import FeedbackData
 
 
 @dataclass
