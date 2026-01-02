@@ -99,72 +99,77 @@ class SimilarityCalculator:
         Returns:
             Valor de similitud entre 0 y 1
         """
-        similarities = {}
-        
-        # 1. Similitud por tipo de evento
-        similarities['event'] = self._event_similarity(
-            request.event_type, case.request.event_type
-        )
-        
-        # 2. Similitud por temporada
-        similarities['season'] = self._season_similarity(
-            request.season, case.request.season
-        )
-        
-        # 3. Similitud por rango de precios
-        similarities['price'] = self._price_similarity(
-            request.price_min, request.price_max,
-            case.menu.total_price
-        )
-        
-        # 4. Similitud por estilo culinario
-        similarities['style'] = self._style_similarity(
-            request.preferred_style, request.event_type,
-            case.menu.dominant_style
-        )
-        
-        # 5. Similitud cultural
-        similarities['cultural'] = self._cultural_similarity(
-            request.cultural_preference,
-            case.menu.cultural_theme
-        )
-        
-        # 6. Similitud dietética (muy importante - puede ser eliminatoria)
-        similarities['dietary'] = self._dietary_similarity(
-            request.required_diets,
-            case.menu
-        )
-        
-        # 7. Similitud por número de comensales
-        similarities['guests'] = self._guests_similarity(
-            request.num_guests,
-            case.request.num_guests,
-            case.menu
-        )
-        
-        # 8. Similitud por preferencia de vino
-        similarities['wine'] = self._wine_similarity(
-            request.wants_wine,
-            case.request.wants_wine
-        )
-        
-        # 9. Bonus por éxito del caso
-        similarities['success'] = case.feedback_score / 5.0 if case.success else 0.0
-        
-        # Calcular similitud ponderada
-        total_similarity = (
-            self.weights.event_type * similarities['event'] +
-            self.weights.season * similarities['season'] +
-            self.weights.price_range * similarities['price'] +
-            self.weights.style * similarities['style'] +
-            self.weights.cultural * similarities['cultural'] +
-            self.weights.dietary * similarities['dietary'] +
-            self.weights.guests * similarities['guests'] +
-            self.weights.wine_preference * similarities['wine'] +
-            self.weights.success_bonus * similarities['success']
-        )
-        
-        return total_similarity
+        try:
+            similarities = {}
+            
+            # 1. Similitud por tipo de evento
+            similarities['event'] = self._event_similarity(
+                request.event_type, case.request.event_type
+            )
+            
+            # 2. Similitud por temporada
+            similarities['season'] = self._season_similarity(
+                request.season, case.request.season
+            )
+            
+            # 3. Similitud por rango de precios
+            similarities['price'] = self._price_similarity(
+                request.price_min, request.price_max,
+                case.menu.total_price
+            )
+            
+            # 4. Similitud por estilo culinario
+            similarities['style'] = self._style_similarity(
+                request.preferred_style, request.event_type,
+                case.menu.dominant_style
+            )
+            
+            # 5. Similitud cultural
+            similarities['cultural'] = self._cultural_similarity(
+                request.cultural_preference,
+                case.menu.cultural_theme
+            )
+            
+            # 6. Similitud dietética (muy importante - puede ser eliminatoria)
+            similarities['dietary'] = self._dietary_similarity(
+                request.required_diets,
+                case.menu
+            )
+            
+            # 7. Similitud por número de comensales
+            similarities['guests'] = self._guests_similarity(
+                request.num_guests,
+                case.request.num_guests,
+                case.menu
+            )
+            
+            # 8. Similitud por preferencia de vino
+            similarities['wine'] = self._wine_similarity(
+                request.wants_wine,
+                case.request.wants_wine
+            )
+            
+            # 9. Bonus por éxito del caso
+            similarities['success'] = case.feedback_score / 5.0 if case.success else 0.0
+            
+            # Calcular similitud ponderada
+            total_similarity = (
+                self.weights.event_type * similarities['event'] +
+                self.weights.season * similarities['season'] +
+                self.weights.price_range * similarities['price'] +
+                self.weights.style * similarities['style'] +
+                self.weights.cultural * similarities['cultural'] +
+                self.weights.dietary * similarities['dietary'] +
+                self.weights.guests * similarities['guests'] +
+                self.weights.wine_preference * similarities['wine'] +
+                self.weights.success_bonus * similarities['success']
+            )
+            
+            return total_similarity
+        except Exception as e:
+            # Manejo de errores: devolver similitud neutra en vez de crashear
+            print(f"⚠️  Error calculando similitud: {e}")
+            return 0.5  # Similitud neutra por defecto
     
     def _event_similarity(self, req_event: EventType, case_event: EventType) -> float:
         """
@@ -240,7 +245,14 @@ class SimilarityCalculator:
         
         # Penalización proporcional a la distancia
         # Tolerancia del 20% del rango
-        tolerance = (req_max - req_min) * 0.2 if req_max > req_min else 10
+        if req_max > req_min:
+            tolerance = (req_max - req_min) * 0.2
+        else:
+            tolerance = 10  # Tolerancia por defecto si min=max
+        
+        if tolerance == 0:
+            tolerance = 10  # Evitar division por zero
+        
         similarity = max(0, 1 - (distance / tolerance))
         
         return similarity
@@ -460,7 +472,11 @@ def calculate_dish_similarity(dish1: Dish, dish2: Dish) -> float:
         similarities.append(0.3)
     
     # Similitud de precio (dentro del 30%)
-    price_ratio = min(dish1.price, dish2.price) / max(dish1.price, dish2.price)
+    max_price = max(dish1.price, dish2.price)
+    if max_price == 0:
+        price_ratio = 1.0  # Ambos gratis
+    else:
+        price_ratio = min(dish1.price, dish2.price) / max_price
     similarities.append(price_ratio)
     
     # Similitud de complejidad
@@ -492,7 +508,11 @@ def calculate_dish_similarity(dish1: Dish, dish2: Dish) -> float:
     similarities.append(style_sim)
     
     # Similitud de calorías (tolerancia del 20%)
-    cal_ratio = min(dish1.calories, dish2.calories) / max(dish1.calories, dish2.calories)
+    max_cal = max(dish1.calories, dish2.calories)
+    if max_cal == 0:
+        cal_ratio = 1.0  # Ambos sin calorías
+    else:
+        cal_ratio = min(dish1.calories, dish2.calories) / max_cal
     similarities.append(cal_ratio)
     
     # Promediar todas las similitudes
@@ -516,7 +536,11 @@ def calculate_menu_similarity(menu1: Menu, menu2: Menu) -> float:
     dessert_sim = calculate_dish_similarity(menu1.dessert, menu2.dessert)
     
     # Similitud de precio total
-    price_sim = min(menu1.total_price, menu2.total_price) / max(menu1.total_price, menu2.total_price)
+    max_price = max(menu1.total_price, menu2.total_price)
+    if max_price == 0:
+        price_sim = 1.0  # Ambos son gratis
+    else:
+        price_sim = min(menu1.total_price, menu2.total_price) / max_price
     
     # Similitud de estilo dominante
     style_sim = 1.0 if menu1.dominant_style == menu2.dominant_style else 0.5

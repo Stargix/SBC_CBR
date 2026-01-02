@@ -287,26 +287,32 @@ class CaseAdapter:
                 
                 if violating_ingredients:
                     # Intentar sustituir cada ingrediente problemático
-                    new_ingredients = list(dish.ingredients)
+                    import copy
+                    adapted_dish = copy.deepcopy(dish)
+                    new_ingredients = list(adapted_dish.ingredients)
                     substitutions_made = []
                     
                     for ing in violating_ingredients:
                         substitution = adapter.find_dietary_substitution(ing, missing_diets)
                         if substitution:
-                            # Reemplazar en la lista de ingredientes
-                            if ing in new_ingredients:
-                                idx = new_ingredients.index(ing)
-                                new_ingredients[idx] = substitution.replacement
-                                substitutions_made.append(substitution)
+                            # Reemplazar TODAS las ocurrencias del ingrediente
+                            new_ingredients = [
+                                substitution.replacement if item == ing else item 
+                                for item in new_ingredients
+                            ]
+                            substitutions_made.append(substitution)
                     
                     if substitutions_made:
-                        # Actualizar ingredientes del plato
-                        dish.ingredients = new_ingredients
+                        # Actualizar ingredientes del plato COPIADO
+                        adapted_dish.ingredients = new_ingredients
                         # Añadir las dietas que ahora cumple
-                        if dish.diets:
-                            dish.diets = list(set(dish.diets + missing_diets))
+                        if adapted_dish.diets is None:
+                            adapted_dish.diets = list(missing_diets)
                         else:
-                            dish.diets = missing_diets
+                            adapted_dish.diets = list(set(adapted_dish.diets + missing_diets))
+                        
+                        # Reemplazar el plato en el menú con la versión adaptada
+                        setattr(menu, dish_attr, adapted_dish)
                         
                         for sub in substitutions_made:
                             adaptations.append(
@@ -413,6 +419,12 @@ class CaseAdapter:
                     f"(ahorro: {saving:.2f}€)"
                 )
         
+        # Advertir si no se pudo ajustar completamente
+        if remaining > 0.5:  # Tolerancia de 0.5€
+            adaptations.append(
+                f"⚠️ No se pudo reducir completamente el precio (faltan {remaining:.2f}€)"
+            )
+        
         return adaptations
     
     def _increase_price(self, menu: Menu, amount: float) -> List[str]:
@@ -448,6 +460,12 @@ class CaseAdapter:
                     f"Mejorado {dish.name} a {new_dish.name} "
                     f"(+{increase:.2f}€ calidad premium)"
                 )
+        
+        # Advertir si no se pudo ajustar completamente
+        if remaining > 0.5:  # Tolerancia de 0.5€
+            adaptations.append(
+                f"⚠️ No se pudo aumentar completamente el precio (faltan {remaining:.2f}€)"
+            )
         
         return adaptations
     

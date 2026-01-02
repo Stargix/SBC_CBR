@@ -197,11 +197,14 @@ class CaseRetriever:
                 if all(diet in menu_diets for diet in request.required_diets):
                     diets_filtered.append(case)
             
-            # FALLBACK: Si quedan muy pocos (<3), no filtrar por dietas
-            if len(diets_filtered) >= 3:
+            # FALLBACK: Solo si hay AL MENOS 1 candidato, usar filtrado
+            # Si no hay ninguno, ADAPT intentará adaptar los casos
+            if len(diets_filtered) > 0:
                 filtered = diets_filtered
+            # Si quedan 0, mantener todos y dejar que ADAPT intente adaptarlos
         
         # Filtrar por alergias (ingredientes restringidos)
+        # CRÍTICO: Alergias NO son adaptables, SIEMPRE filtrar
         if request.restricted_ingredients:
             allergy_filtered = []
             for case in filtered:
@@ -215,9 +218,8 @@ class CaseRetriever:
                 if not has_allergen:
                     allergy_filtered.append(case)
             
-            # FALLBACK: Si quedan muy pocos (<3), no filtrar por alergias
-            if len(allergy_filtered) >= 3:
-                filtered = allergy_filtered
+            # Para alergias, SIEMPRE filtrar (no hay fallback seguro)
+            filtered = allergy_filtered
         
         return filtered
     

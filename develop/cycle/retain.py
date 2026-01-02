@@ -72,6 +72,7 @@ class CaseRetainer:
         self.quality_threshold = 3.5   # Mínimo feedback para retener como positivo
         self.negative_threshold = 3.0  # Feedback < 3.0 se guarda como caso negativo
         self.max_cases_per_event = 50  # Límite de casos por tipo de evento
+        self.max_cases_total = 200  # Límite total para evitar crecimiento infinito
         
         # Mantenimiento periódico (no en cada inserción)
         self.maintenance_frequency = 10  # Cada 10 casos añadidos
@@ -228,7 +229,11 @@ class CaseRetainer:
             self.case_base.add_case(new_case)
             self.cases_since_maintenance += 1
             
-            # Verificar si hay que hacer limpieza (periódicamente, no cada vez)
+            # POLÍTICA DE OLVIDO: Si excedemos el límite total, hacer limpieza
+            if len(self.case_base.get_all_cases()) > self.max_cases_total:
+                self._enforce_case_limit()
+            
+            # Verificar si hay que hacer limpieza periódica
             if self.cases_since_maintenance >= self.maintenance_frequency:
                 self._maintenance_if_needed(request.event_type)
                 self.cases_since_maintenance = 0
@@ -547,6 +552,41 @@ class CaseRetainer:
                 })
         
         return suggestions
+    
+    def _enforce_case_limit(self):
+        """
+        Aplica política de olvido para mantener la base en el límite.
+        
+        Estrategia:
+        1. Eliminar casos de baja utilidad
+        2. Priorizar mantener casos exitosos y recientes
+        3. Mantener diversidad entre eventos
+        """
+        all_cases = self.case_base.get_all_cases()
+        
+        if len(all_cases) <= self.max_cases_total:
+            return  # No hace falta
+        
+        # Calcular utilidad de cada caso
+        case_utilities = []
+        for case in all_cases:
+            utility = self._calculate_case_utility(case)
+            case_utilities.append((case, utility))
+        
+        # Ordenar por utilidad (menor a mayor)
+        case_utilities.sort(key=lambda x: x[1])
+        
+        # Calcular cuántos eliminar
+        to_remove_count = len(all_cases) - self.max_cases_total
+        
+        # Eliminar los de menor utilidad
+        cases_to_remove = [case for case, _ in case_utilities[:to_remove_count]]
+        
+        for case in cases_to_remove:
+            self.case_base.cases.remove(case)
+        
+        print(f"🗑️  Política de olvido: {to_remove_count} casos de baja utilidad eliminados")
+        print(f"   Base de casos reducida a {len(self.case_base.get_all_cases())} casos")
     
     def export_learned_cases(self) -> List[Dict[str, Any]]:
         """

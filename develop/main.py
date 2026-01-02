@@ -36,6 +36,7 @@ from cycle.adapt import CaseAdapter
 from cycle.revise import MenuReviser, ValidationResult
 from cycle.retain import CaseRetainer, FeedbackData
 from cycle.explanation import ExplanationGenerator
+from cycle.diversity import ensure_diversity, get_diversity_explanation
 from core.knowledge import (
     EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
     CULTURAL_TRADITIONS, CHEF_SIGNATURES
@@ -133,7 +134,7 @@ class ChefDigitalCBR:
         
         # FASE 2-3: REUSE/ADAPT + REVISE para cada caso
         for case, similarity in retrieved_cases:
-            if len(proposed_menus) >= self.config.max_proposals:
+            if len(proposed_menus) >= self.config.max_proposals * 2:  # Recuperar más para diversificar
                 break
             
             # REUSE/ADAPT
@@ -164,6 +165,20 @@ class ChefDigitalCBR:
                     "reasons": validation.issues,
                     "similarity": similarity
                 })
+        
+        # DIVERSIFICACIÓN: Asegurar que las propuestas sean suficientemente diferentes
+        if len(proposed_menus) > self.config.max_proposals:
+            menus_to_diversify = [p.menu for p in proposed_menus]
+            diverse_menus = ensure_diversity(
+                menus_to_diversify, 
+                min_distance=0.3,
+                max_proposals=self.config.max_proposals
+            )
+            # Mantener solo las propuestas diversas
+            proposed_menus = [p for p in proposed_menus if p.menu in diverse_menus]
+            # Re-rankear
+            for i, proposal in enumerate(proposed_menus, 1):
+                proposal.rank = i
         
         # Generar explicaciones
         explanations = self.explainer.generate_full_report(
