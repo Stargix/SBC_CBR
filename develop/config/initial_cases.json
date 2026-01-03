@@ -10,7 +10,9 @@
             "dessert": "huevos-rancheros-bake",
             "beverage": "ham-and-cheese-cucumber-subs",
             "style": "modern",
-            "culture": "mexican"
+            "culture": "Mexican",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "familiar",
@@ -22,7 +24,9 @@
             "dessert": "homemade-meatballs",
             "beverage": "vegan-peanut-butter-mousse-cups",
             "style": "fusion",
-            "culture": "american"
+            "culture": "American",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "anniversary",
@@ -34,7 +38,9 @@
             "dessert": "orangey-sweet-bread",
             "beverage": "salisbury-steak-with-gravy",
             "style": "modern",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "communion",
@@ -46,7 +52,9 @@
             "dessert": "beet-red-velvet-cupcakes",
             "beverage": "pork-stew-in-green-salsa-guisado-de-puerco-con-tomatillos",
             "style": "classic",
-            "culture": "mexican"
+            "culture": "Mexican",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "familiar",
@@ -55,10 +63,12 @@
             "price_max": 83.0,
             "starter": "cheesy-vegan-kale-chips",
             "main": "garlic-roasted-potatoes-with-tzatziki",
-            "dessert": "gluten-free-crockpot-italian-wedding-soup",
+            "dessert": "gluten-free-crockpot-Italian-wedding-soup",
             "beverage": "spider-pot-pie",
             "style": "modern",
-            "culture": "italian"
+            "culture": "Italian",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "christening",
@@ -70,7 +80,9 @@
             "dessert": "english-walnut-toffee",
             "beverage": "caramel-pecan-cheesecake-pie",
             "style": "modern",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "wedding",
@@ -82,7 +94,9 @@
             "dessert": "vanilla-buttermilk-cupcakes-with-blackberry-buttercream-frosting",
             "beverage": "lemon-garlic-shrimp-fettuccine",
             "style": "modern",
-            "culture": "french"
+            "culture": "French",
+            "success": true,
+            "feedback": 4.5
         },
         {
             "event": "anniversary",
@@ -94,7 +108,9 @@
             "dessert": "zucchini-noodle-ramen-bowls",
             "beverage": "its-a-datewith-saucy-sticky-date-pudding",
             "style": "modern",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "congress",
@@ -106,7 +122,9 @@
             "dessert": "salmon-mint-and-pea-pasta",
             "beverage": "zucchini-yellow-squash-and-cantaloupe-salad",
             "style": "modern",
-            "culture": "vietnamese"
+            "culture": "Vietnamese",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "communion",
@@ -118,7 +136,9 @@
             "dessert": "chana-aloo-masala-chickpea-and-potato-masala",
             "beverage": "caramel-apple-almond-muffins",
             "style": "classic",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "christening",
@@ -130,7 +150,9 @@
             "dessert": "creamy-tomato-chipotle-soup",
             "beverage": "skillet-cornbread",
             "style": "classic",
-            "culture": "french"
+            "culture": "French",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "corporate",
@@ -142,7 +164,9 @@
             "dessert": "andes-mint-cupcakes",
             "beverage": "cinnamon-flax-pancakes",
             "style": "modern",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "christening",
@@ -154,7 +178,9 @@
             "dessert": "lemon-zucchini-bread",
             "beverage": "splenda-blend-sour-cream-pound-cake",
             "style": "modern",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "communion",
@@ -166,19 +192,23 @@
             "dessert": "teriyaki-burgers-with-grilled-pineapple",
             "beverage": "creamy-green-lentil-soup-with-curried-brown-butter",
             "style": "classic",
-            "culture": "mexican"
+            "culture": "Mexican",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "christening",
             "season": "spring",
             "price_min": 65.0,
             "price_max": 101.0,
-            "starter": "low-carb-chicken-pad-thai-zoodles",
+            "starter": "low-carb-chicken-pad-Thai-zoodles",
             "main": "miso-orange-glazed-grilled-sweet-potatoes",
             "dessert": "orange-cranberry-almond-rice-pilaf",
             "beverage": "chinese-sizzling-beef",
             "style": "classic",
-            "culture": "chinese"
+            "culture": "Chinese",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "familiar",
@@ -190,7 +220,9 @@
             "dessert": "undercover-vegetable-rice",
             "beverage": "minty-mango-and-pineapple-popsicle",
             "style": "classic",
-            "culture": "italian"
+            "culture": "Italian",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "communion",
@@ -202,7 +234,9 @@
             "dessert": "chettinad-chicken-curry-with-okra",
             "beverage": "stuffed-zucchini-with-tomatoes-and-mozarella",
             "style": "classic",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "christening",
@@ -214,7 +248,9 @@
             "dessert": "poached-pear-tart",
             "beverage": "sweet-and-sour-pork",
             "style": "classic",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "birthday",
@@ -226,7 +262,9 @@
             "dessert": "chocolate-cupcakes-with-peanut-butter-icing",
             "beverage": "aloo-gobi-potato-and-cauliflower",
             "style": "classic",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "familiar",
@@ -238,7 +276,9 @@
             "dessert": "quiche-lorraine",
             "beverage": "beer-braised-short-rib-tacos-with-cabbage-cilantro-slaw-and-oaxaca-cheese",
             "style": "modern",
-            "culture": "american"
+            "culture": "American",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "familiar",
@@ -250,7 +290,9 @@
             "dessert": "apple-pie",
             "beverage": "cornbread-cups",
             "style": "modern",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "christening",
@@ -262,7 +304,9 @@
             "dessert": "pumpkin-dinner-rolls-with-cinnamon-butter",
             "beverage": "chocolate-fondant",
             "style": "classic",
-            "culture": "french"
+            "culture": "French",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "wedding",
@@ -274,7 +318,9 @@
             "dessert": "old-fashion-southern-meatloaf",
             "beverage": "teriyaki-burgers-with-grilled-pineapple",
             "style": "modern",
-            "culture": "korean"
+            "culture": "Korean",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "corporate",
@@ -282,11 +328,13 @@
             "price_min": 60.0,
             "price_max": 120.0,
             "starter": "broccoli-lasagna-bianca",
-            "main": "buffalo-chicken-meatballs-by-all-american-paleo-table",
+            "main": "buffalo-chicken-meatballs-by-all-American-paleo-table",
             "dessert": "six-layer-chocolate-cake",
             "beverage": "individual-broccoli-and-cauliflower-cheddar-gratins",
             "style": "fusion",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": false,
+            "feedback": 1.5
         },
         {
             "event": "communion",
@@ -298,7 +346,9 @@
             "dessert": "buttery-spring-pea-pasta-with-prosciutto",
             "beverage": "roasted-vegetable-and-chorizo-risotto",
             "style": "classic",
-            "culture": "italian"
+            "culture": "Italian",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "congress",
@@ -310,7 +360,9 @@
             "dessert": "breakfast-porridge-with-soft-egg-and-pea-shoots",
             "beverage": "pumpkin-muffins",
             "style": "classic",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "anniversary",
@@ -322,7 +374,9 @@
             "dessert": "pineapple-sherbert",
             "beverage": "the-best-vanilla-cheesecake",
             "style": "fusion",
-            "culture": "french"
+            "culture": "French",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "communion",
@@ -334,7 +388,9 @@
             "dessert": "beet-red-velvet-cupcakes",
             "beverage": "pineapple-sherbert",
             "style": "classic",
-            "culture": "italian"
+            "culture": "Italian",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "anniversary",
@@ -346,7 +402,9 @@
             "dessert": "meaty-cheesy-stuffed-bell-peppers",
             "beverage": "three-bean-soup-with-vegetables-and-pasta",
             "style": "classic",
-            "culture": "italian"
+            "culture": "Italian",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "communion",
@@ -358,7 +416,9 @@
             "dessert": "pear-upside-down-gingerbread",
             "beverage": "my-moms-mulligan-stew",
             "style": "classic",
-            "culture": "french"
+            "culture": "French",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "communion",
@@ -370,7 +430,9 @@
             "dessert": "general-tsos-chicken",
             "beverage": "orange-cranberry-almond-rice-pilaf",
             "style": "classic",
-            "culture": "indian"
+            "culture": "Indian",
+            "success": false,
+            "feedback": 1.5
         },
         {
             "event": "communion",
@@ -378,11 +440,13 @@
             "price_min": 45.0,
             "price_max": 76.0,
             "starter": "karyns-cream-of-crab-soup",
-            "main": "7-layer-mexican-street-corn-salad",
+            "main": "7-layer-Mexican-street-corn-salad",
             "dessert": "chocolate-orange-free-form-pie-piday",
-            "beverage": "strawberry-banana-french-toast",
+            "beverage": "strawberry-banana-French-toast",
             "style": "modern",
-            "culture": "mexican"
+            "culture": "Mexican",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "birthday",
@@ -394,19 +458,23 @@
             "dessert": "bbq-burger-stuffed-bell-peppers-freezable",
             "beverage": "hearty-beef-and-barley-stew",
             "style": "classic",
-            "culture": "spanish"
+            "culture": "Spanish",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "familiar",
             "season": "spring",
             "price_min": 40.0,
             "price_max": 74.0,
-            "starter": "creamy-italian-chicken-and-noodles-with-green-bean-croutons",
+            "starter": "creamy-Italian-chicken-and-noodles-with-green-bean-croutons",
             "main": "real-slow-cooker-hungarian-goulash",
             "dessert": "1-slow-cooker-teriyaki-chicken",
             "beverage": "shrimp-and-pea-pod-rice-bowl",
             "style": "fusion",
-            "culture": "chinese"
+            "culture": "Chinese",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "christening",
@@ -418,7 +486,9 @@
             "dessert": "skillet-lasagna",
             "beverage": "miss-hildas-portuguese-dressing",
             "style": "modern",
-            "culture": "mexican"
+            "culture": "Mexican",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "wedding",
@@ -430,7 +500,9 @@
             "dessert": "sweet-and-sour-eggs",
             "beverage": "banana-in-golden-syrup",
             "style": "classic",
-            "culture": "thai"
+            "culture": "Thai",
+            "success": true,
+            "feedback": 4.5
         },
         {
             "event": "birthday",
@@ -442,7 +514,9 @@
             "dessert": "nigerian-fried-rice",
             "beverage": "leftover-turkey-corn-chowder",
             "style": "classic",
-            "culture": "chinese"
+            "culture": "Chinese",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "communion",
@@ -454,7 +528,9 @@
             "dessert": "standing-rib-roast",
             "beverage": "spring-peas-with-ham-and-herbs",
             "style": "classic",
-            "culture": "spanish"
+            "culture": "Spanish",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "familiar",
@@ -466,7 +542,9 @@
             "dessert": "fillet-of-pork-in-whisky-sauce",
             "beverage": "peanut-butter-pumpkin-spice-chocolate-chunk-cookies",
             "style": "classic",
-            "culture": "french"
+            "culture": "French",
+            "success": false,
+            "feedback": 1.5
         },
         {
             "event": "communion",
@@ -478,7 +556,9 @@
             "dessert": "sticky-asian-bbq-boneless-oven-baked-chicken-wings",
             "beverage": "better-than-takeout-ham-fried-rice",
             "style": "modern",
-            "culture": "japanese"
+            "culture": "Japanese",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "familiar",
@@ -490,7 +570,9 @@
             "dessert": "sweet-and-sour-shrimp-soup-recipe-steemit",
             "beverage": "butternut-squash-quinoa-casserole",
             "style": "fusion",
-            "culture": "thai"
+            "culture": "Thai",
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "anniversary",
@@ -502,7 +584,9 @@
             "dessert": "apple-maple-pecan-crumble",
             "beverage": "slow-cooker-corned-beef-and-cabbage-with-dijon-stout-gravy",
             "style": "classic",
-            "culture": "french"
+            "culture": "French",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "familiar",
@@ -514,7 +598,9 @@
             "dessert": "that-good-salad",
             "beverage": "fava-bean-soup",
             "style": "modern",
-            "culture": "mexican"
+            "culture": "Mexican",
+            "success": false,
+            "feedback": 2.5
         },
         {
             "event": "anniversary",
@@ -523,10 +609,12 @@
             "price_max": 92.0,
             "starter": "roasted-maple-glazed-sweet-potatoes",
             "main": "chicken-curry-in-a-hurry",
-            "dessert": "italian-sausage-spaghetti",
+            "dessert": "Italian-sausage-spaghetti",
             "beverage": "peas-pulao-matar-pulao-how-to-make-peas-pulao",
             "style": "modern",
-            "culture": "thai"
+            "culture": "Thai",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "anniversary",
@@ -538,7 +626,9 @@
             "dessert": "roasted-veggie-soup-with-chorizo",
             "beverage": "baby-kale-stir-fried-with-oyster-sauce",
             "style": "fusion",
-            "culture": "thai"
+            "culture": "Thai",
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "christening",
@@ -550,7 +640,9 @@
             "dessert": "wedge-salad-with-blue-cheese-dressing",
             "beverage": "chocolate-chip-cookies-from-the-vanilla-bean-baking-book",
             "style": "modern",
-            "culture": "french"
+            "culture": "French",
+            "success": false,
+            "feedback": 2.0
         },
         {
             "event": "wedding",
@@ -562,7 +654,9 @@
             "dessert": "chocolate-chip-banana-bread",
             "beverage": "blueberry-streusel-muffins",
             "style": "classic",
-            "culture": "american"
+            "culture": "American",
+            "success": true,
+            "feedback": 3.5
         }
     ]
 }
