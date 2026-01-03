@@ -254,18 +254,16 @@
             "ground mustard",
             "mustard seeds"
         ],
-        "sauce_group": [
-            "soy sauce",
-            "worcestershire sauce",
-            "fish sauce",
-            "hot sauce",
-            "chili sauce",
-            "tomato sauce",
-            "spaghetti sauce",
-            "ketchup",
-            "salsa",
-            "mayonnaise"
-        ],
+
+        "fermented_umami": [
+        "soy sauce", "fish sauce", "worcestershire sauce"
+      ],
+        "tomato_&_vegetal_base": [
+        "tomato sauce", "spaghetti sauce", "ketchup", "salsa"
+      ],
+      "spicy_liquids": [
+        "hot sauce", "chili sauce"
+      ],
         "broth_group": [
             "chicken broth",
             "beef broth",
@@ -286,37 +284,45 @@
             "dried parsley",
             "herbs"
         ],
-        "spice_group": [
-            "black pepper",
-            "garlic powder",
-            "onion powder",
-            "ground cinnamon",
-            "cayenne pepper",
-            "chili powder",
-            "paprika",
-            "smoked paprika",
-            "sweet paprika",
-            "cumin",
-            "dried oregano",
-            "oregano",
-            "thyme",
-            "rosemary",
-            "sage",
-            "turmeric",
-            "ground ginger",
-            "curry powder",
-            "ground cloves",
-            "nutmeg",
-            "ground nutmeg",
-            "allspice",
-            "cardamom",
-            "fennel seeds",
-            "coriander",
-            "ground turmeric",
-            "italian seasoning",
-            "seasoning",
-            "pumpkin pie spice"
-        ],
+
+        "mediterranean_herbs": [
+        "oregano",
+        "dried oregano",
+        "thyme",
+        "rosemary",
+        "sage",
+        "italian seasoning"
+      ],
+      "earthy_spices": [
+        "cumin",
+        "turmeric",
+        "ground turmeric",
+        "coriander",
+        "fennel seeds",
+        "ground ginger"
+      ],
+      "hot_spices": [
+        "black pepper",
+        "cayenne pepper",
+        "chili powder",
+        "paprika",
+        "smoked paprika",
+        "sweet paprika"
+      ],
+      "sweet_spices": [
+        "ground cinnamon",
+        "ground cloves",
+        "nutmeg",
+        "ground nutmeg",
+        "allspice",
+        "cardamom"
+      ],
+
+      "complex_mixtures": [
+        "curry powder",
+        "pumpkin pie spice",
+        "seasoning"
+      ],
         "flour_group": [
             "all-purpose flour",
             "whole wheat flour",
@@ -938,24 +944,14 @@
                 "Korean"
             ]
         },
-        "smoked paprika": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Spanish"
-            ]
-        },
+
         "paprika": {
             "non_compliant_labels": [],
             "cultures": [
                 "Spanish"
             ]
         },
-        "sweet paprika": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Spanish"
-            ]
-        },
+
         "jalapeno": {
             "non_compliant_labels": [],
             "cultures": [
@@ -2119,12 +2115,7 @@
                 "Universal"
             ]
         },
-        "black pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
+
         "garlic powder": {
             "non_compliant_labels": [],
             "cultures": [
@@ -2143,25 +2134,7 @@
                 "Indian"
             ]
         },
-        "cayenne pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Indian"
-            ]
-        },
-        "chili powder": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "paprika": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Spanish"
-            ]
-        },
+
         "smoked paprika": {
             "non_compliant_labels": [],
             "cultures": [
