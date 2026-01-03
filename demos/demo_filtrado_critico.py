@@ -5,9 +5,9 @@ Muestra cómo RETRIEVE filtra por dietas y alergias ANTES del scoring,
 evitando desperdiciar intentos de adaptación en casos incompatibles.
 """
 
-from core.models import Request, EventType, Season
-from core.case_base import CaseBase
-from cycle.retrieve import CaseRetriever
+from develop.core.models import Request, EventType, Season
+from develop.core.case_base import CaseBase
+from develop.cycle.retrieve import CaseRetriever
 
 def main():
     print("="*70)

@@ -5,11 +5,11 @@ Muestra cómo el sistema puede adaptar platos que casi cumplen una restricción
 dietética, cambiando solo los ingredientes problemáticos.
 """
 
-from core.models import Request, EventType, Season
-from core.case_base import CaseBase
-from cycle.retrieve import CaseRetriever
-from cycle.adapt import CaseAdapter
-from cycle.ingredient_adapter import get_ingredient_adapter
+from develop.core.models import Request, EventType, Season
+from develop.core.case_base import CaseBase
+from develop.cycle.retrieve import CaseRetriever
+from develop.cycle.adapt import CaseAdapter
+from develop.cycle.ingredient_adapter import get_ingredient_adapter
 
 def main():
     print("="*80)

@@ -6,8 +6,8 @@ entre sí para dar opciones variadas al usuario.
 """
 
 from typing import List
-from core.models import Menu
-from core.similarity import calculate_menu_similarity
+from ..core.models import Menu
+from ..core.similarity import calculate_menu_similarity
 
 
 def ensure_diversity(menus: List[Menu], 

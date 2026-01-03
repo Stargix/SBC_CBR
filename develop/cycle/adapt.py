@@ -19,16 +19,16 @@ from dataclasses import dataclass, field
 import random
 from copy import deepcopy
 
-from core.models import (
+from ..core.models import (
     Case, Menu, Dish, Beverage, Request,
     EventType, Season, DishType, DishCategory,
     CulturalTradition, CulinaryStyle, Flavor, Temperature, Complexity
 )
-from core.case_base import CaseBase
-from cycle.retrieve import RetrievalResult
-from cycle.ingredient_adapter import get_ingredient_adapter, IngredientSubstitution
-from core.similarity import calculate_dish_similarity, SimilarityCalculator
-from core.knowledge import (
+from ..core.case_base import CaseBase
+from .retrieve import RetrievalResult
+from .ingredient_adapter import get_ingredient_adapter, IngredientSubstitution
+from ..core.similarity import calculate_dish_similarity, SimilarityCalculator
+from ..core.knowledge import (
     are_categories_compatible, are_flavors_compatible,
     is_starter_temperature_appropriate, is_calorie_count_appropriate,
     is_dessert_appropriate_after_fatty, get_preferred_styles_for_event,
@@ -216,6 +216,13 @@ class CaseAdapter:
         adaptations.extend(style_adaptations)
         
         # Recalcular totales
+        adapted_menu.calculate_totals()
+        
+        # VALIDACIÓN PREVENTIVA: Ajustar antes de enviar a REVISE
+        preventive_adaptations = self._preventive_validation(adapted_menu, request)
+        adaptations.extend(preventive_adaptations)
+        
+        # Recalcular totales tras validación preventiva
         adapted_menu.calculate_totals()
         
         # RECALCULAR similitud global del menú ADAPTADO
@@ -542,7 +549,7 @@ class CaseAdapter:
     
     def _select_best_wine(self, menu: Menu, wines: List[Beverage]) -> Beverage:
         """Selecciona el mejor vino para el menú basado en compatibilidad de sabores"""
-        from core.knowledge import is_wine_compatible_with_flavors
+        from ..core.knowledge import is_wine_compatible_with_flavors
         
         main_flavors = menu.main_course.flavors
         
@@ -773,7 +780,7 @@ class CaseAdapter:
         Returns:
             Similitud máxima con casos negativos (0-1)
         """
-        from core.similarity import SimilarityCalculator, calculate_menu_similarity
+        from ..core.similarity import SimilarityCalculator, calculate_menu_similarity
         
         # Obtener todos los casos negativos
         all_cases = self.case_base.get_all_cases()
@@ -970,7 +977,7 @@ class CaseAdapter:
             cultural_score = adapter.get_cultural_score(dish.ingredients, target_culture)
             
             # SCORE 2: Compatibilidad de sabores con otros platos del menú (0-1)
-            from core.knowledge import are_flavors_compatible
+            from ..core.knowledge import are_flavors_compatible
             flavor_score = 0.0
             flavor_checks = 0
             
@@ -996,7 +1003,7 @@ class CaseAdapter:
                 flavor_score = 0.5  # Neutral si no hay sabores
             
             # SCORE 3: Temperatura apropiada para temporada (0-1)
-            from core.knowledge import is_starter_temperature_appropriate
+            from ..core.knowledge import is_starter_temperature_appropriate
             if original_dish.dish_type == DishType.STARTER:
                 temp_score = 1.0 if is_starter_temperature_appropriate(
                     dish.temperature, request.season
@@ -1245,3 +1252,73 @@ class CaseAdapter:
             explanations.append(f"Adaptaciones: {', '.join(adaptations)}")
         
         return explanations
+    
+    def _preventive_validation(self, menu: Menu, request: Request) -> List[str]:
+        """
+        Validación preventiva para evitar rechazos en REVISE.
+        
+        Ajusta el menú antes de enviarlo a la fase REVISE para maximizar
+        probabilidad de aceptación.
+        
+        Validaciones:
+        1. Precio excede máximo → reducir proporcionalmente
+        2. Dietas no cumplidas → último intento de sustitución
+        3. Ingredientes prohibidos → verificar y eliminar
+        
+        Returns:
+            Lista de adaptaciones preventivas realizadas
+        """
+        adaptations = []
+        
+        # 1. VALIDACIÓN PREVENTIVA DE PRECIO
+        if menu.total_price > request.price_max:
+            excess = menu.total_price - request.price_max
+            
+            # Reducir precios proporcionalmente
+            if excess > 0.5:  # Solo si excede más de 0.5€
+                reduction_ratio = request.price_max / menu.total_price
+                
+                # Aplicar reducción proporcional a cada plato
+                menu.starter.price *= reduction_ratio
+                menu.main_course.price *= reduction_ratio
+                menu.dessert.price *= reduction_ratio
+                menu.beverage.price *= reduction_ratio
+                
+                adaptations.append(
+                    f"⚙️ Precios ajustados preventivamente (-{excess:.2f}€ para cumplir presupuesto)"
+                )
+        
+        # 2. VALIDACIÓN PREVENTIVA DE DIETAS
+        if request.required_diets:
+            menu_diets = menu.get_all_diets()
+            missing_diets = [d for d in request.required_diets if d not in menu_diets]
+            
+            if missing_diets:
+                # Último intento: marcar advertencia
+                adaptations.append(
+                    f"⚠️ Advertencia: Pueden faltar dietas {', '.join(missing_diets)}"
+                )
+        
+        # 3. VALIDACIÓN PREVENTIVA DE INGREDIENTES PROHIBIDOS
+        if request.restricted_ingredients:
+            menu_ingredients = menu.get_all_ingredients()
+            found_restricted = [
+                ing for ing in request.restricted_ingredients 
+                if ing in menu_ingredients
+            ]
+            
+            if found_restricted:
+                adaptations.append(
+                    f"⚠️ CRÍTICO: Ingredientes prohibidos detectados: {', '.join(found_restricted)}"
+                )
+        
+        # 4. VALIDACIÓN PREVENTIVA DE TEMPERATURA-TEMPORADA
+        if request.season != Season.ALL:
+            from ..core.knowledge import is_starter_temperature_appropriate
+            if not is_starter_temperature_appropriate(menu.starter.temperature, request.season):
+                adaptations.append(
+                    f"ℹ️ Temperatura del entrante ({menu.starter.temperature.value}) "
+                    f"puede no ser ideal para {request.season.value}"
+                )
+        
+        return adaptations

@@ -11,12 +11,12 @@ import random
 from typing import List, Tuple
 from dataclasses import dataclass
 
-from main import (
+from develop.main import (
     ChefDigitalCBR, CBRConfig,
     Request, EventType, Season, CulinaryStyle
 )
-from core.models import CulturalTradition
-from cycle.retain import FeedbackData
+from develop.core.models import CulturalTradition
+from develop.cycle.retain import FeedbackData
 
 
 @dataclass

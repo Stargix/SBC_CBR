@@ -524,3 +524,18 @@ CHEF_STYLES = {
         "styles": [CulinaryStyle.SIBARITA, CulinaryStyle.MODERN]
     }
 }
+
+
+@dataclass
+class Feedback:
+    """
+    Feedback del cliente sobre un menú propuesto.
+    
+    Usado para el aprendizaje adaptativo del sistema CBR.
+    """
+    overall_satisfaction: float  # 1-5
+    price_satisfaction: float = 3.0  # 1-5
+    cultural_satisfaction: float = 3.0  # 1-5
+    flavor_satisfaction: float = 3.0  # 1-5
+    dietary_satisfaction: float = 3.0  # 1-5
+    comments: str = ""

@@ -14,7 +14,7 @@ import os
 from typing import Dict, List, Set, Optional, Tuple
 from dataclasses import dataclass
 
-from core.models import Dish, CulturalTradition
+from ..core.models import Dish, CulturalTradition
 
 
 @dataclass

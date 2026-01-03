@@ -16,9 +16,9 @@ para la siguiente fase de adaptación.
 from typing import List, Tuple, Optional, Dict, Any
 from dataclasses import dataclass
 
-from core.models import Case, Request, EventType, Season
-from core.case_base import CaseBase
-from core.similarity import SimilarityCalculator, SimilarityWeights
+from ..core.models import Case, Request, EventType, Season
+from ..core.case_base import CaseBase
+from ..core.similarity import SimilarityCalculator, SimilarityWeights
 
 
 @dataclass

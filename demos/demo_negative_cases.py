@@ -9,14 +9,14 @@ Este demo muestra las 3 mejoras implementadas:
 """
 
 import random
-from core.models import (
+from develop.core.models import (
     Request, EventType, Season, CulinaryStyle, 
     CulturalTradition
 )
-from core.case_base import CaseBase
-from cycle.retrieve import CaseRetriever
-from cycle.adapt import CaseAdapter
-from cycle.retain import CaseRetainer, FeedbackData
+from develop.core.case_base import CaseBase
+from develop.cycle.retrieve import CaseRetriever
+from develop.cycle.adapt import CaseAdapter
+from develop.cycle.retain import CaseRetainer, FeedbackData
 
 
 def demo_negative_cases():

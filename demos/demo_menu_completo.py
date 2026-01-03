@@ -3,11 +3,11 @@ Demo: Adaptación completa de menú con restricciones dietéticas.
 Muestra el flujo completo RETRIEVE → ADAPT con sustitución de ingredientes.
 """
 
-from core.models import Request, EventType, Season, Dish
-from core.case_base import CaseBase
-from cycle.retrieve import CaseRetriever
-from cycle.adapt import CaseAdapter
-from cycle.ingredient_adapter import get_ingredient_adapter
+from develop.core.models import Request, EventType, Season, Dish
+from develop.core.case_base import CaseBase
+from develop.cycle.retrieve import CaseRetriever
+from develop.cycle.adapt import CaseAdapter
+from develop.cycle.ingredient_adapter import get_ingredient_adapter
 
 def main():
     print("="*80)

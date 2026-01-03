@@ -26,21 +26,42 @@ from typing import List, Optional, Dict, Any, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from core.models import (
-    Request, Menu, Case, Dish, Beverage, ProposedMenu,
-    EventType, Season, CulinaryStyle, DishType
-)
-from core.case_base import CaseBase
-from cycle.retrieve import CaseRetriever
-from cycle.adapt import CaseAdapter
-from cycle.revise import MenuReviser, ValidationResult
-from cycle.retain import CaseRetainer, FeedbackData
-from cycle.explanation import ExplanationGenerator
-from cycle.diversity import ensure_diversity, get_diversity_explanation
-from core.knowledge import (
-    EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-    CULTURAL_TRADITIONS, CHEF_SIGNATURES
-)
+try:
+    # Cuando se importa como módulo
+    from .core.models import (
+        Request, Menu, Case, Dish, Beverage, ProposedMenu,
+        EventType, Season, CulinaryStyle, DishType
+    )
+    from .core.case_base import CaseBase
+    from .core.adaptive_weights import AdaptiveWeightLearner
+    from .cycle.retrieve import CaseRetriever
+    from .cycle.adapt import CaseAdapter
+    from .cycle.revise import MenuReviser, ValidationResult
+    from .cycle.retain import CaseRetainer, FeedbackData
+    from .cycle.explanation import ExplanationGenerator
+    from .cycle.diversity import ensure_diversity, get_diversity_explanation
+    from .core.knowledge import (
+        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
+        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+    )
+except ImportError:
+    # Cuando se ejecuta como script o desde demo sin ser módulo
+    from core.models import (
+        Request, Menu, Case, Dish, Beverage, ProposedMenu,
+        EventType, Season, CulinaryStyle, DishType
+    )
+    from core.case_base import CaseBase
+    from core.adaptive_weights import AdaptiveWeightLearner
+    from cycle.retrieve import CaseRetriever
+    from cycle.adapt import CaseAdapter
+    from cycle.revise import MenuReviser, ValidationResult
+    from cycle.retain import CaseRetainer, FeedbackData
+    from cycle.explanation import ExplanationGenerator
+    from cycle.diversity import ensure_diversity, get_diversity_explanation
+    from core.knowledge import (
+        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
+        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+    )
 
 
 @dataclass
@@ -91,7 +112,15 @@ class ChefDigitalCBR:
         
         # Inicializar componentes
         self.case_base = CaseBase()
-        self.retriever = CaseRetriever(self.case_base)
+        
+        # Aprendizaje adaptativo de pesos
+        self.weight_learner = AdaptiveWeightLearner(learning_rate=0.05)
+        
+        # Componentes del ciclo CBR (con pesos adaptativos)
+        self.retriever = CaseRetriever(
+            self.case_base, 
+            weights=self.weight_learner.get_current_weights()
+        )
         self.adapter = CaseAdapter(self.case_base)
         self.reviser = MenuReviser()
         self.retainer = CaseRetainer(self.case_base)
@@ -233,7 +262,10 @@ class ChefDigitalCBR:
             Tupla (menú adaptado, lista de adaptaciones)
         """
         # Usar el CaseAdapter para adaptar el caso
-        from cycle.retrieve import RetrievalResult
+        try:
+            from .cycle.retrieve import RetrievalResult
+        except ImportError:
+            from cycle.retrieve import RetrievalResult
         
         # Crear resultado de recuperación temporal
         retrieval_result = RetrievalResult(
@@ -266,7 +298,10 @@ class ChefDigitalCBR:
         """
         # Validación simple - por ahora aceptar todos los menús
         # TODO: Implementar validación real
-        from cycle.revise import ValidationStatus
+        try:
+            from .cycle.revise import ValidationStatus
+        except ImportError:
+            from cycle.revise import ValidationStatus
         return ValidationResult(
             menu=menu,
             status=ValidationStatus.VALID,
@@ -390,6 +425,75 @@ class ChefDigitalCBR:
         except Exception as e:
             return False
     
+    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request):
+        """
+        Aprende de feedback del usuario y actualiza pesos de similitud.
+        
+        Implementa aprendizaje adaptativo: ajusta la importancia relativa
+        de cada criterio según la satisfacción del cliente.
+        
+        Args:
+            feedback_data: Datos de feedback del cliente
+            request: Request original del caso
+        """
+        # Convertir FeedbackData a objeto Feedback compatible
+        try:
+            from .core.models import Feedback
+        except ImportError:
+            from core.models import Feedback
+        
+        feedback = Feedback(
+            overall_satisfaction=feedback_data.score,
+            price_satisfaction=feedback_data.score,  # Simplificado
+            cultural_satisfaction=feedback_data.score if request.cultural_preference else 3.0,
+            flavor_satisfaction=feedback_data.score,
+            dietary_satisfaction=5.0 if feedback_data.success else 2.0,
+            comments=feedback_data.comments
+        )
+        
+        # Actualizar pesos mediante aprendizaje
+        adjustments = self.weight_learner.update_from_feedback(feedback, request)
+        
+        # Actualizar pesos en el retriever
+        self.retriever.similarity_calc.weights = self.weight_learner.get_current_weights()
+        
+        if self.config.verbose and adjustments:
+            print(f"\n📊 Pesos ajustados mediante aprendizaje:")
+            for weight_name, delta in adjustments.items():
+                print(f"   {weight_name}: {delta:+.4f}")
+            
+            # Mostrar resumen de aprendizaje
+            summary = self.weight_learner.get_learning_summary()
+            if summary.get('most_changed'):
+                print(f"\n📈 Pesos más cambiados desde inicio:")
+                for item in summary['most_changed']:
+                    print(f"   {item['weight']}: {item['change_pct']}")
+    
+    def save_learning_data(self, filepath: str = 'data/learning_history.json'):
+        """
+        Guarda historial de aprendizaje a archivo.
+        
+        Args:
+            filepath: Ruta donde guardar los datos
+        """
+        self.weight_learner.save_learning_history(filepath)
+        print(f"✅ Historial de aprendizaje guardado en: {filepath}")
+    
+    def plot_learning_evolution(self, output_dir: str = 'docs'):
+        """
+        Genera gráficas de evolución del aprendizaje.
+        
+        Args:
+            output_dir: Directorio donde guardar las gráficas
+        """
+        import os
+        os.makedirs(output_dir, exist_ok=True)
+        
+        self.weight_learner.plot_evolution(f"{output_dir}/weight_evolution.png")
+        self.weight_learner.plot_feedback_correlation(f"{output_dir}/feedback_correlation.png")
+        
+        print(f"✅ Gráficas generadas en: {output_dir}/")
+    
     def get_statistics(self) -> Dict[str, Any]:
         """
         Obtiene estadísticas del sistema CBR.
@@ -398,6 +502,7 @@ class ChefDigitalCBR:
             Diccionario con estadísticas
         """
         retention_stats = self.retainer.get_retention_statistics()
+        learning_summary = self.weight_learner.get_learning_summary()
         
         return {
             "system": {
@@ -409,6 +514,7 @@ class ChefDigitalCBR:
                 }
             },
             "case_base": retention_stats,
+            "learning": learning_summary,
             "supported_events": [e.value for e in EventType],
             "supported_styles": [s.value for s in CulinaryStyle],
             "supported_seasons": [s.value for s in Season],

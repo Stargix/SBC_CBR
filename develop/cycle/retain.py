@@ -19,9 +19,9 @@ from dataclasses import dataclass
 from datetime import datetime
 import random
 
-from core.models import Case, Menu, Request
-from core.case_base import CaseBase
-from core.similarity import SimilarityCalculator, calculate_menu_similarity
+from ..core.models import Case, Menu, Request
+from ..core.case_base import CaseBase
+from ..core.similarity import SimilarityCalculator, calculate_menu_similarity
 
 
 @dataclass
