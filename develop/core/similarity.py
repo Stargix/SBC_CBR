@@ -46,10 +46,10 @@ class SimilarityWeights:
     price_range: float = 0.18    # Presupuesto es crítico
     style: float = 0.12           # Estilo culinario
     cultural: float = 0.08        # Tradición cultural
-    dietary: float = 0.15         # Restricciones dietéticas críticas
+    dietary: float = 0.10         # Restricciones dietéticas (se pueden adaptar)
     guests: float = 0.05          # Número de comensales
     wine_preference: float = 0.05 # Preferencia de vino
-    success_bonus: float = 0.05   # Bonus por casos exitosos
+    success_bonus: float = 0.10   # Bonus por casos exitosos (incrementado)
     
     def normalize(self):
         """Normaliza los pesos para que sumen 1"""
@@ -76,15 +76,19 @@ class SimilarityCalculator:
     configurar los pesos de cada componente.
     """
     
-    def __init__(self, weights: Optional[SimilarityWeights] = None):
+    def __init__(self, weights: Optional[SimilarityWeights] = None,
+                 allow_dietary_adaptation: bool = True):
         """
         Inicializa el calculador de similitud.
         
         Args:
             weights: Pesos para las diferentes dimensiones
+            allow_dietary_adaptation: Si True, permite recuperar casos con 
+                                     restricciones no cumplidas para adaptarlos
         """
         self.weights = weights or SimilarityWeights()
         self.weights.normalize()
+        self.allow_dietary_adaptation = allow_dietary_adaptation
     
     def calculate_similarity(self, request: Request, case: Case) -> float:
         """
@@ -349,8 +353,15 @@ class SimilarityCalculator:
         """
         Calcula similitud dietética.
         
-        IMPORTANTE: Si las dietas requeridas no se cumplen,
-        la similitud es muy baja (puede ser eliminatoria).
+        Si allow_dietary_adaptation=True, la penalización es gradual para permitir
+        recuperar casos que puedan ser adaptados en la fase de Adapt.
+        Si False, la penalización es más severa (comportamiento más estricto).
+        
+        La estrategia CBR completa es:
+        1. Retrieve: Recuperar casos con penalización suave
+        2. Reuse: Adaptar ingredientes para cumplir restricciones
+        3. Revise: Validar que se cumplen tras adaptación
+        4. Retain: Guardar caso adaptado exitoso
         """
         if not required_diets:
             return 1.0  # Sin restricciones = todo vale
@@ -361,16 +372,29 @@ class SimilarityCalculator:
         fulfilled = sum(1 for diet in required_diets if diet in menu_diets)
         
         if fulfilled == len(required_diets):
-            return 1.0  # Cumple todas
+            return 1.0  # Cumple todas - caso ideal
         
-        # Penalización proporcional a dietas no cumplidas
+        # Calcular ratio de cumplimiento
         ratio = fulfilled / len(required_diets)
         
-        # Si no cumple ninguna, penalización severa
-        if ratio == 0:
-            return 0.1
-        
-        return ratio * 0.8  # Máximo 0.8 si no cumple todas
+        if self.allow_dietary_adaptation:
+            # Modo adaptativo: penalización gradual más suave
+            # Permite recuperar casos para adaptar posteriormente
+            if ratio == 0:
+                # No cumple ninguna restricción: aún recuperable si es muy similar en otros aspectos
+                return 0.3  # Penalización moderada, no eliminatoria
+            elif ratio < 0.5:
+                # Cumple menos de la mitad
+                return 0.4 + (ratio * 0.3)  # Entre 0.4 y 0.55
+            else:
+                # Cumple más de la mitad
+                return 0.6 + (ratio * 0.3)  # Entre 0.6 y 0.9
+        else:
+            # Modo estricto: penalización severa (comportamiento original)
+            if ratio == 0:
+                return 0.1  # Casi eliminatorio
+            else:
+                return ratio * 0.8  # Máximo 0.8 si no cumple todas
     
     def _guests_similarity(self, req_guests: int, case_guests: int, 
                            menu: Menu) -> float:
