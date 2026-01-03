@@ -52,14 +52,26 @@ def list_demos():
     print(f"\nUso: python run_demos.py <nombre>")
     print("Ejemplo: python run_demos.py simulacion\n")
 
+    inp = input("Selecciona una demo para ejecutar (número o nombre), o presiona Enter para salir: ").strip()
+
+    return inp
+
 def main():
     """Función principal"""
     if len(sys.argv) < 2:
-        list_demos()
+        inp = list_demos()
+        if not inp:
+            return
+        if inp.isdigit():
+            demo_name = list(DEMOS.keys())[int(inp) - 1]
+        else:
+            demo_name = inp
+        run_demo(demo_name)
         return
     
     demo_name = sys.argv[1]
     run_demo(demo_name)
 
 if __name__ == "__main__":
+
     main()
