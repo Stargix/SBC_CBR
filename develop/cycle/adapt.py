@@ -984,48 +984,53 @@ class CaseAdapter:
             print(f"      ❌ Sin candidatos válidos")
             return None
         
-        # SCORING HÍBRIDO: Similitud de plato + Componente cultural
+        # SCORING: Usar calculate_dish_similarity mejorado que ya incluye cultura
         # 
-        # calculate_dish_similarity() ya considera: categoría, precio, complejidad,
-        # sabores, estilos, temperatura, dietas - PERO no considera cultura.
+        # calculate_dish_similarity() ahora considera 8 dimensiones con pesos calibrados:
+        # - Categoría (15%)
+        # - Precio (15%)
+        # - Complejidad (10%)
+        # - Sabores (15%)
+        # - Estilos (15%)
+        # - Temperatura (5%)
+        # - Dietas (10%)
+        # - Cultura de ingredientes (15%) - evaluada con get_cultural_score
         #
-        # Combinamos ambos:
-        # - Similitud base de plato: 50%
-        # - Score cultural de ingredientes: 50%
+        # Esto elimina la ponderación manual arbitraria y usa un sistema coherente.
         
         scored_candidates = []
         
         for dish in candidates:
-            # SCORE 1: Similitud general del plato (todas las características)
-            # Esto incluye: categoría, precio, complejidad, sabores, estilos, temperatura
-            dish_similarity = calculate_dish_similarity(original_dish, dish)
-            
-            # SCORE 2: Score cultural de ingredientes
-            cultural_score = self.similarity_calc.get_cultural_score(dish.ingredients, target_culture)
-            
-            # SCORE FINAL: Combinar similitud de plato + cultural
-            # En contexto de adaptación cultural, cultura pesa más
-            final_score = (
-                dish_similarity * 0.40 +     # Similitud general del plato
-                cultural_score * 0.60        # Score cultural PRIORITARIO
+            # Calcular similitud completa incluyendo evaluación cultural
+            similarity = calculate_dish_similarity(
+                original_dish, 
+                dish,
+                target_culture=target_culture,
+                similarity_calc=self.similarity_calc
             )
             
-            scored_candidates.append((dish, final_score, cultural_score, dish_similarity))
+            scored_candidates.append((dish, similarity))
         
-        # Ordenar por score final
+        # Ordenar por score
         scored_candidates.sort(key=lambda x: x[1], reverse=True)
         
         # Mostrar top 5
         print(f"      📊 TOP 5 candidatos:")
-        for i, (dish, final, cultural, dish_sim) in enumerate(scored_candidates[:5], 1):
+        for i, (dish, score) in enumerate(scored_candidates[:5], 1):
+            # Calcular componentes para mostrar
+            cultural_score = self.similarity_calc.get_cultural_score(dish.ingredients, target_culture)
+            dish_sim_without_culture = calculate_dish_similarity(original_dish, dish)
+            
             print(f"         {i}. {dish.name}:")
-            print(f"            Cultural: {cultural:.0%} | Similitud plato: {dish_sim:.0%} | TOTAL: {final:.0%}")
+            print(f"            Cultural: {cultural_score:.0%} | Sin cultura: {dish_sim_without_culture:.0%} | TOTAL: {score:.0%}")
         
         # Retornar el mejor
         best_dish = scored_candidates[0][0]
         best_score = scored_candidates[0][1]
         
         print(f"      ✅ SELECCIONADO: {best_dish.name} (score: {best_score:.0%})")
+        
+        return best_dish
         
         return best_dish
     

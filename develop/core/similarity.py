@@ -679,78 +679,109 @@ class SimilarityCalculator:
         return details
 
 
-def calculate_dish_similarity(dish1: Dish, dish2: Dish) -> float:
+def calculate_dish_similarity(dish1: Dish, dish2: Dish, 
+                            target_culture: Optional[CulturalTradition] = None,
+                            similarity_calc: Optional[SimilarityCalculator] = None) -> float:
     """
-    Calcula la similitud entre dos platos.
+    Calcula la similitud entre dos platos considerando múltiples dimensiones.
     
-    Útil para la fase de adaptación cuando se buscan
-    platos alternativos similares.
+    MEJORADO: Incluye cultura como dimensión cuando se proporciona target_culture.
+    Usa pesos proporcionales inspirados en el sistema CBR completo.
+    
+    Útil para la fase de adaptación cuando se buscan platos alternativos similares.
     
     Args:
-        dish1: Primer plato
-        dish2: Segundo plato
+        dish1: Primer plato (plato original)
+        dish2: Segundo plato (candidato de reemplazo)
+        target_culture: Cultura objetivo (opcional, para evaluar adecuación cultural)
+        similarity_calc: Calculador de similitud (opcional, para evaluar cultura)
         
     Returns:
         Similitud entre 0 y 1
     """
-    similarities = []
-    
     # Mismo tipo de plato (starter, main, dessert)
     if dish1.dish_type != dish2.dish_type:
         return 0.0  # No tiene sentido comparar platos de diferente tipo
     
-    # Similitud de categoría
-    if dish1.category == dish2.category:
-        similarities.append(1.0)
-    else:
-        similarities.append(0.3)
+    # Diccionario de similitudes parciales con pesos
+    weighted_sims = {}
     
-    # Similitud de precio (dentro del 30%)
+    # 1. Similitud de categoría (peso: 0.15)
+    if dish1.category == dish2.category:
+        weighted_sims['category'] = (1.0, 0.15)
+    else:
+        weighted_sims['category'] = (0.3, 0.15)
+    
+    # 2. Similitud de precio (peso: 0.15)
     max_price = max(dish1.price, dish2.price)
     if max_price == 0:
-        price_ratio = 1.0  # Ambos gratis
+        price_ratio = 1.0
     else:
         price_ratio = min(dish1.price, dish2.price) / max_price
-    similarities.append(price_ratio)
+    weighted_sims['price'] = (price_ratio, 0.15)
     
-    # Similitud de complejidad
+    # 3. Similitud de complejidad (peso: 0.10)
     complexity_order = [Complexity.LOW, Complexity.MEDIUM, Complexity.HIGH]
     try:
         c1_idx = complexity_order.index(dish1.complexity)
         c2_idx = complexity_order.index(dish2.complexity)
         complexity_sim = 1.0 - abs(c1_idx - c2_idx) / 2.0
-        similarities.append(complexity_sim)
+        weighted_sims['complexity'] = (complexity_sim, 0.10)
     except ValueError:
-        similarities.append(0.5)
+        weighted_sims['complexity'] = (0.5, 0.10)
     
-    # Similitud de sabores
+    # 4. Similitud de sabores (peso: 0.15)
     common_flavors = set(dish1.flavors) & set(dish2.flavors)
     all_flavors = set(dish1.flavors) | set(dish2.flavors)
     if all_flavors:
         flavor_sim = len(common_flavors) / len(all_flavors)
     else:
         flavor_sim = 0.5
-    similarities.append(flavor_sim)
+    weighted_sims['flavors'] = (flavor_sim, 0.15)
     
-    # Similitud de estilos
+    # 5. Similitud de estilos (peso: 0.15)
     common_styles = set(dish1.styles) & set(dish2.styles)
     all_styles = set(dish1.styles) | set(dish2.styles)
     if all_styles:
         style_sim = len(common_styles) / len(all_styles)
     else:
         style_sim = 0.5
-    similarities.append(style_sim)
+    weighted_sims['styles'] = (style_sim, 0.15)
     
-    # Similitud de calorías (tolerancia del 20%)
-    max_cal = max(dish1.calories, dish2.calories)
-    if max_cal == 0:
-        cal_ratio = 1.0  # Ambos sin calorías
+    # 6. Similitud de temperatura (peso: 0.05)
+    if dish1.temperature == dish2.temperature:
+        weighted_sims['temperature'] = (1.0, 0.05)
     else:
-        cal_ratio = min(dish1.calories, dish2.calories) / max_cal
-    similarities.append(cal_ratio)
+        weighted_sims['temperature'] = (0.5, 0.05)
     
-    # Promediar todas las similitudes
-    return sum(similarities) / len(similarities)
+    # 7. Similitud de dietas (peso: 0.10)
+    common_diets = set(dish1.diets or []) & set(dish2.diets or [])
+    all_diets = set(dish1.diets or []) | set(dish2.diets or [])
+    if all_diets:
+        diet_sim = len(common_diets) / len(all_diets)
+    else:
+        diet_sim = 0.8  # Ambos sin restricciones específicas
+    weighted_sims['diets'] = (diet_sim, 0.10)
+    
+    # 8. Similitud cultural (peso: 0.15) - SOLO si se proporciona target_culture
+    if target_culture and similarity_calc and dish2.ingredients:
+        cultural_score = similarity_calc.get_cultural_score(dish2.ingredients, target_culture)
+        weighted_sims['cultural'] = (cultural_score, 0.15)
+    else:
+        # Si no se evalúa cultura, redistribuir el peso proporcionalmente
+        # Ajustar todos los otros pesos para compensar
+        for key in weighted_sims:
+            sim, weight = weighted_sims[key]
+            weighted_sims[key] = (sim, weight / 0.85)  # Normalizar sin el 0.15 de cultura
+    
+    # Calcular similitud total ponderada
+    total_sim = sum(sim * weight for sim, weight in weighted_sims.values())
+    total_weight = sum(weight for _, weight in weighted_sims.values())
+    
+    if total_weight > 0:
+        return total_sim / total_weight
+    else:
+        return 0.5
 
 
 def calculate_menu_similarity(menu1: Menu, menu2: Menu) -> float:
