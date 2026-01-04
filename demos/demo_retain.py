@@ -5,11 +5,16 @@ Demo del ciclo completo CBR incluyendo RETAIN (aprendizaje).
 Este script demuestra cómo el sistema aprende de nuevos casos.
 """
 
-from develop.main import (
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from develop import (
     ChefDigitalCBR, CBRConfig,
-    Request, EventType, Season, CulinaryStyle
+    Request, EventType, Season, CulinaryStyle,
+    FeedbackData
 )
-from develop.cycle.retain import FeedbackData
 
 
 def demo_ciclo_completo():

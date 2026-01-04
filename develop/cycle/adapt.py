@@ -1012,20 +1012,21 @@ class CaseAdapter:
                 temp_score = 1.0  # Main/dessert no tienen restricción de temperatura
             
             # SCORE 4: Score cultural ajustado con ponderación de ingredientes
-            # Normalizar culture para comparación
+            # Normalizar culture para comparación (en minúsculas)
             if isinstance(target_culture, str):
-                culture_name = target_culture.capitalize()
+                culture_name = target_culture.lower()
             else:
-                culture_name = target_culture.value.capitalize()
+                culture_name = target_culture.value.lower()
             
             specific_count = 0
             universal_count = 0
             
             for ing in dish.ingredients:
-                cultures = adapter.ingredient_to_cultures.get(ing, [])
+                cultures_info = adapter.ingredient_to_cultures.get(ing, {})
+                cultures = cultures_info.get('cultures', []) if isinstance(cultures_info, dict) else cultures_info
                 if culture_name in cultures:
                     specific_count += 1
-                elif 'Universal' in cultures:
+                elif 'universal' in [c.lower() for c in cultures] if isinstance(cultures, list) else False:
                     universal_count += 1
             
             total_ingredients = len(dish.ingredients)

@@ -132,7 +132,7 @@ class CaseRetriever:
                     details['cultural_match'] = 1.0
                 else:
                     # Cultura diferente - calcular qué tan adaptable es
-                    from cycle.ingredient_adapter import get_ingredient_adapter
+                    from .ingredient_adapter import get_ingredient_adapter
                     adapter = get_ingredient_adapter()
                     
                     # Calcular score cultural promedio del menú

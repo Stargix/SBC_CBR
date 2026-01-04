@@ -269,7 +269,7 @@ class MenuReviser:
                 )
             else:
                 # Diferente cultura - calcular qué tan bien se adaptó
-                from cycle.ingredient_adapter import get_ingredient_adapter
+                from .ingredient_adapter import get_ingredient_adapter
                 adapter = get_ingredient_adapter()
                 
                 cultural_scores = []

@@ -6,17 +6,20 @@ Este script simula múltiples usuarios haciendo peticiones diversas,
 dando feedback, y muestra cómo el sistema aprende y mejora con el tiempo.
 """
 
+import sys
+from pathlib import Path
 import time
 import random
 from typing import List, Tuple
 from dataclasses import dataclass
 
-from develop.main import (
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from develop import (
     ChefDigitalCBR, CBRConfig,
-    Request, EventType, Season, CulinaryStyle
+    Request, EventType, Season, CulinaryStyle, CulturalTradition,
+    FeedbackData
 )
-from develop.core.models import CulturalTradition
-from develop.cycle.retain import FeedbackData
 
 
 @dataclass
@@ -112,8 +115,8 @@ USUARIOS_SINTETICOS = [
                      CulinaryStyle.MODERN, exigente=0.6),
     UsuarioSintetico("Luis (Vegano estricto)", EventType.CONGRESS, 35, 60, 
                      CulinaryStyle.MODERN, restricciones=["vegetariano"], exigente=0.9),
-    UsuarioSintetico("Carmen (Tradición catalana)", EventType.CHRISTENING, 30, 50, 
-                     CulinaryStyle.REGIONAL, CulturalTradition.CATALAN, exigente=0.4),
+    UsuarioSintetico("Carmen (Tradición española)", EventType.CHRISTENING, 30, 50, 
+                     CulinaryStyle.REGIONAL, CulturalTradition.SPANISH, exigente=0.4),
     UsuarioSintetico("Jorge (Boda italiana)", EventType.WEDDING, 60, 100, 
                      CulinaryStyle.CLASSIC, CulturalTradition.ITALIAN, exigente=0.5),
     UsuarioSintetico("Laura (Comunión sencilla)", EventType.COMMUNION, 30, 50, 

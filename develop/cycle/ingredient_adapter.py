@@ -170,19 +170,21 @@ class IngredientAdapter:
         Returns:
             True si el ingrediente es apropiado para esa cultura
         """
-        cultures = self.ingredient_to_cultures.get(ingredient, [])
+        ing_data = self.ingredient_to_cultures.get(ingredient, {})
+        cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
         
         # Universal siempre es apropiado
-        if 'Universal' in cultures:
+        cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+        if 'universal' in cultures_lower:
             return True
         
         # Manejar cultura como string o enum
         if isinstance(culture, str):
-            culture_name = culture.capitalize()
+            culture_name = culture.lower()
         else:
-            culture_name = culture.value.capitalize()
+            culture_name = culture.value.lower()
         
-        return culture_name in cultures
+        return culture_name in cultures_lower
     
     def find_substitution(self, ingredient: str, 
                          target_culture: CulturalTradition) -> Optional[IngredientSubstitution]:
@@ -207,9 +209,9 @@ class IngredientAdapter:
         
         # Manejar culture como string o enum
         if isinstance(target_culture, str):
-            culture_name = target_culture.capitalize()
+            culture_name = target_culture.lower()
         else:
-            culture_name = target_culture.value.capitalize()
+            culture_name = target_culture.value.lower()
         
         # Estrategia 1: Buscar en el mismo grupo un ingrediente ESPECÍFICO de la cultura
         if ingredient in self.ingredient_to_group:
@@ -217,10 +219,14 @@ class IngredientAdapter:
             group_ingredients = self.groups[group_name]
             
             # Primero buscar ingredientes ESPECÍFICOS de la cultura objetivo
-            cultural_matches = [
-                ing for ing in group_ingredients
-                if ing != ingredient and culture_name in self.ingredient_to_cultures.get(ing, [])
-            ]
+            cultural_matches = []
+            for ing in group_ingredients:
+                if ing != ingredient:
+                    ing_data = self.ingredient_to_cultures.get(ing, {})
+                    cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+                    cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+                    if culture_name in cultures_lower:
+                        cultural_matches.append(ing)
             
             if cultural_matches:
                 # Preferir el primero (suele ser más común)
@@ -233,10 +239,14 @@ class IngredientAdapter:
                 )
             
             # Estrategia 2: Si no hay específico, buscar universal en el grupo
-            universal_matches = [
-                ing for ing in group_ingredients
-                if ing != ingredient and 'Universal' in self.ingredient_to_cultures.get(ing, [])
-            ]
+            universal_matches = []
+            for ing in group_ingredients:
+                if ing != ingredient:
+                    ing_data = self.ingredient_to_cultures.get(ing, {})
+                    cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+                    cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+                    if 'universal' in cultures_lower:
+                        universal_matches.append(ing)
             
             if universal_matches:
                 replacement = universal_matches[0]
@@ -248,7 +258,10 @@ class IngredientAdapter:
                 )
         
         # Estrategia 3: Si el ingrediente ya es universal, mantenerlo
-        if 'Universal' in self.ingredient_to_cultures.get(ingredient, []):
+        ing_data = self.ingredient_to_cultures.get(ingredient, {})
+        cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+        cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+        if 'universal' in cultures_lower:
             return None
         
         # No se encontró sustitución adecuada

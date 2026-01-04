@@ -1,2453 +1,2452 @@
 {
-    "groups": {
-        "butter_group": [
-            "butter",
-            "margarine",
-            "shortening"
-        ],
-        "milk_group": [
-            "milk",
-            "yogurt",
-            "sour cream",
-            "heavy cream",
-            "half-and-half",
-            "buttermilk",
-            "almond milk",
-            "coconut milk",
-            "soy milk",
-            "evaporated milk",
-            "sweetened condensed milk"
-        ],
-        "sweetener_group": [
-            "sugar",
-            "brown sugar",
-            "powdered sugar"
-        ],
-        "liquid_sweetener_group": [
-            "honey",
-            "maple syrup",
-            "molasses",
-            "agave",
-            "light corn syrup",
-            "syrup"
-        ],
-        "vinegar_group": [
-            "white vinegar",
-            "apple cider vinegar",
-            "rice vinegar",
-            "red wine vinegar",
-            "cider vinegar",
-            "balsamic vinegar",
-            "white wine vinegar",
-            "vinegar"
-        ],
-        "acid_group": [
-            "lemon juice",
-            "lime juice",
-            "orange juice"
-        ],
-        "zest_group": [
-            "lemon zest",
-            "lime zest",
-            "orange zest",
-            "orange peel",
-            "lemon peel"
-        ],
-        "citrus_group": [
-            "lemon",
-            "lime",
-            "orange",
-            "oranges"
-        ],
-        "onion_group": [
-            "onion",
-            "red onion",
-            "yellow onions",
-            "sweet onion",
-            "shallot",
-            "leek",
-            "green onion",
-            "scallion",
-            "onions",
-            "shallots",
-            "red onions"
-        ],
-        "pepper_group": [
-            "black pepper",
-            "white pepper"
-        ],
-        "bell_pepper_group": [
-            "red bell pepper",
-            "green bell pepper",
-            "bell pepper",
-            "bell peppers",
-            "green pepper",
-            "red pepper",
-            "sweet red pepper",
-            "red bell peppers",
-            "green bell peppers"
-        ],
-        "chili_group": [
-            "cayenne pepper",
-            "red pepper flakes",
-            "chili powder",
-            "smoked paprika",
-            "paprika",
-            "sweet paprika",
-            "jalapeno",
-            "green chilies",
-            "chili peppers"
-        ],
-        "leafy_green_group": [
-            "spinach",
-            "kale",
-            "arugula",
-            "lettuce",
-            "romaine lettuce",
-            "salad greens"
-        ],
-        "root_veggie_group": [
-            "carrots",
-            "potatoes",
-            "sweet potatoes",
-            "russet potatoes",
-            "red potatoes",
-            "beets",
-            "radishes"
-        ],
-        "squash_group": [
-            "zucchini",
-            "butternut squash",
-            "pumpkin",
-            "squash"
-        ],
-        "cruciferous_group": [
-            "broccoli",
-            "cauliflower",
-            "cabbage",
-            "red cabbage",
-            "green cabbage",
-            "broccoli florets"
-        ],
-        "fruit_group": [
-            "apples",
-            "pears",
-            "peaches",
-            "mango",
-            "pineapple",
-            "bananas",
-            "banana",
-            "tart apples",
-            "apple"
-        ],
-        "berry_group": [
-            "strawberries",
-            "blueberries",
-            "raspberries",
-            "blackberries",
-            "cherries",
-            "berries"
-        ],
-        "dried_fruit_group": [
-            "raisins",
-            "dried cranberries",
-            "dates"
-        ],
-        "nut_group": [
-            "almonds",
-            "walnuts",
-            "pecans",
-            "hazelnuts",
-            "cashews",
-            "pistachios",
-            "peanuts",
-            "pine nuts",
-            "pecan",
-            "walnut",
-            "almond",
-            "pumpkin seeds",
-            "sunflower seeds",
-            "ground flaxseed",
-            "chia seeds"
-        ],
-        "bean_group": [
-            "black beans",
-            "chickpeas",
-            "cannellini beans",
-            "beans"
-        ],
-        "rice_group": [
-            "rice",
-            "cooked rice",
-            "white rice",
-            "brown rice",
-            "basmati rice",
-            "arborio rice",
-            "long grain rice",
-            "cooked brown rice"
-        ],
-        "bread_group": [
-            "bread",
-            "white bread",
-            "bread crumbs",
-            "breadcrumbs",
-            "panko bread crumbs",
-            "panko",
-            "dough"
-        ],
-        "pasta_group": [
-            "pasta",
-            "noodles",
-            "spaghetti",
-            "flour tortillas"
-        ],
-        "meat_group": [
-            "chicken breasts",
-            "chicken thighs",
-            "chicken wings",
-            "chicken drumsticks",
-            "chicken",
-            "cooked chicken",
-            "boneless",
-            "ground beef",
-            "ground turkey",
-            "ground pork",
-            "beef",
-            "pork",
-            "pork sausage",
-            "sausage",
-            "bacon",
-            "ham"
-        ],
-        "seafood_group": [
-            "shrimp",
-            "fish"
-        ],
-        "chocolate_group": [
-            "unsweetened cocoa powder",
-            "chocolate chips",
-            "semi-sweet chocolate",
-            "dark chocolate",
-            "chocolate",
-            "white chocolate",
-            "semisweet chocolate",
-            "mini chocolate chips",
-            "white chocolate chips"
-        ],
-        "egg_group": [
-            "eggs",
-            "egg yolks",
-            "egg whites"
-        ],
-        "alcohol_group": [
-            "white wine",
-            "dry white wine",
-            "red wine",
-            "bourbon",
-            "rum",
-            "brandy",
-            "sherry"
-        ],
-        "mustard_group": [
-            "dijon mustard",
-            "mustard",
-            "ground mustard",
-            "mustard seeds"
-        ],
-
-        "fermented_umami": [
-        "soy sauce", "fish sauce", "worcestershire sauce"
-      ],
-        "tomato_&_vegetal_base": [
-        "tomato sauce", "spaghetti sauce", "ketchup", "salsa"
-      ],
-      "spicy_liquids": [
-        "hot sauce", "chili sauce"
-      ],
-        "broth_group": [
-            "chicken broth",
-            "beef broth",
-            "vegetable broth",
-            "beef stock",
-            "vegetable stock",
-            "broth"
-        ],
-        "fresh_herb_group": [
-            "parsley",
-            "cilantro",
-            "fresh basil",
-            "mint",
-            "chives",
-            "fresh dill",
-            "basil",
-            "dried basil",
-            "dried parsley",
-            "herbs"
-        ],
-
-        "mediterranean_herbs": [
-        "oregano",
-        "dried oregano",
-        "thyme",
-        "rosemary",
-        "sage",
-        "italian seasoning"
-      ],
-      "earthy_spices": [
-        "cumin",
-        "turmeric",
-        "ground turmeric",
-        "coriander",
-        "fennel seeds",
-        "ground ginger"
-      ],
-      "hot_spices": [
-        "black pepper",
-        "cayenne pepper",
-        "chili powder",
-        "paprika",
-        "smoked paprika",
-        "sweet paprika"
-      ],
-      "sweet_spices": [
-        "ground cinnamon",
-        "ground cloves",
-        "nutmeg",
-        "ground nutmeg",
-        "allspice",
-        "cardamom"
-      ],
-
-      "complex_mixtures": [
-        "curry powder",
-        "pumpkin pie spice",
-        "seasoning"
-      ],
-        "flour_group": [
-            "all-purpose flour",
-            "whole wheat flour",
-            "cake flour",
-            "bread flour",
-            "almond flour",
-            "coconut flour"
-        ],
-        "thickener_group": [
-            "cornstarch",
-            "potato starch",
-            "starch"
-        ],
-        "oil_group": [
-            "vegetable oil",
-            "coconut oil",
-            "sesame oil",
-            "toasted sesame oil",
-            "peanut oil",
-            "sunflower oil"
-        ],
-        "cheese_group": [
-            "cheddar cheese",
-            "jack cheese",
-            "swiss cheese",
-            "american cheese"
-        ]
-    },
-    "ingredient_to_cultures": {
-        "butter": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian",
-                "American",
-                "Indian"
-            ]
-        },
-        "margarine": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "mediterranean",
-                "vegan",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "shortening": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "mediterranean",
-                "vegan",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "milk": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "French",
-                "Indian",
-                "American"
-            ]
-        },
-        "yogurt": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "Indian",
-                "Lebanese"
-            ]
-        },
-        "sour cream": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "French",
-                "American"
-            ]
-        },
-        "heavy cream": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian",
-                "American"
-            ]
-        },
-        "half-and-half": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "buttermilk": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "American",
-                "Indian"
-            ]
-        },
-        "almond milk": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": []
-        },
-        "coconut milk": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Thai",
-                "Indian",
-                "Vietnamese"
-            ]
-        },
-        "soy milk": {
-            "non_compliant_labels": [
-                "soy-free",
-                "dairy-free"
-            ],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean"
-            ]
-        },
-        "evaporated milk": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "sweetened condensed milk": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "sugar-conscious",
-                "no oil added",
-                "vegan",
-                "keto-friendly",
-                "immuno-supportive",
-                "paleo",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "American",
-                "Thai"
-            ]
-        },
-        "sugar": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "brown sugar": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "powdered sugar": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "honey": {
-            "non_compliant_labels": [
-                "vegan",
-                "keto-friendly",
-                "dash",
-                "fodmap-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "maple syrup": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "molasses": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "agave": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "light corn syrup": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "syrup": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "white vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "apple cider vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "rice vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean"
-            ]
-        },
-        "red wine vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian",
-                "Spanish"
-            ]
-        },
-        "cider vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "balsamic vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "white wine vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian"
-            ]
-        },
-        "vinegar": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "lemon juice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese",
-                "Mexican",
-                "Italian",
-                "French"
-            ]
-        },
-        "lime juice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "orange juice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "lemon zest": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese",
-                "Italian",
-                "French"
-            ]
-        },
-        "lime zest": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Thai"
-            ]
-        },
-        "orange zest": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "orange peel": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "lemon peel": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "lemon": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese",
-                "Mexican",
-                "Italian",
-                "French"
-            ]
-        },
-        "lime": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "orange": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "oranges": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "onion": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "red onion": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "yellow onions": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "sweet onion": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "shallot": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "leek": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French"
-            ]
-        },
-        "green onion": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "scallion": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "onions": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "shallots": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "red onions": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "black pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "white pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Thai"
-            ]
-        },
-        "red bell pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "green bell pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "bell pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "bell peppers": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "green pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "red pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "sweet red pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "red bell peppers": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "green bell peppers": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Spanish"
-            ]
-        },
-        "cayenne pepper": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Indian",
-                "Thai"
-            ]
-        },
-        "red pepper flakes": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian",
-                "Korean"
-            ]
-        },
-        "chili powder": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Indian",
-                "Korean"
-            ]
-        },
-
-        "paprika": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Spanish"
-            ]
-        },
-
-        "jalapeno": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "green chilies": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Indian"
-            ]
-        },
-        "chili peppers": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Korean",
-                "Thai"
-            ]
-        },
-        "spinach": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "kale": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "arugula": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "lettuce": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "romaine lettuce": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese"
-            ]
-        },
-        "salad greens": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "carrots": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "potatoes": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American",
-                "Spanish"
-            ]
-        },
-        "sweet potatoes": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "russet potatoes": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "red potatoes": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "beets": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "radishes": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Japanese",
-                "Vietnamese"
-            ]
-        },
-        "zucchini": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian",
-                "Lebanese"
-            ]
-        },
-        "butternut squash": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "pumpkin": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "squash": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "broccoli": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cauliflower": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "cabbage": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Korean",
-                "Chinese"
-            ]
-        },
-        "red cabbage": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Korean"
-            ]
-        },
-        "green cabbage": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Korean"
-            ]
-        },
-        "broccoli florets": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "apples": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "pears": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "peaches": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "mango": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Thai",
-                "Indian"
-            ]
-        },
-        "pineapple": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Thai"
-            ]
-        },
-        "bananas": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "banana": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "tart apples": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "apple": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "strawberries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "blueberries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "raspberries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "blackberries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cherries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "berries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "raisins": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "dried cranberries": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "dates": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese"
-            ]
-        },
-        "almonds": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Spanish",
-                "Indian"
-            ]
-        },
-        "walnuts": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "pecans": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "hazelnuts": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cashews": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "pistachios": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Lebanese"
-            ]
-        },
-        "peanuts": {
-            "non_compliant_labels": [
-                "peanut-free"
-            ],
-            "cultures": [
-                "Chinese",
-                "Thai"
-            ]
-        },
-        "pine nuts": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "pecan": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "walnut": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "almond": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Spanish",
-                "Indian"
-            ]
-        },
-        "pumpkin seeds": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "sunflower seeds": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "ground flaxseed": {
-            "non_compliant_labels": [],
-            "cultures": []
-        },
-        "chia seeds": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "black beans": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "chickpeas": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian",
-                "Lebanese"
-            ]
-        },
-        "cannellini beans": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "beans": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Indian",
-                "Japanese",
-                "Thai",
-                "Vietnamese",
-                "Spanish"
-            ]
-        },
-        "cooked rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Indian",
-                "Japanese",
-                "Thai",
-                "Vietnamese",
-                "Spanish"
-            ]
-        },
-        "white rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Indian",
-                "Japanese",
-                "Thai",
-                "Vietnamese",
-                "Spanish"
-            ]
-        },
-        "brown rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "basmati rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "arborio rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "long grain rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cooked brown rice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "bread": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "white bread": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "bread crumbs": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Italian",
-                "American"
-            ]
-        },
-        "breadcrumbs": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Italian",
-                "American"
-            ]
-        },
-        "panko bread crumbs": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Japanese"
-            ]
-        },
-        "panko": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Japanese"
-            ]
-        },
-        "dough": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "pasta": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "noodles": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Vietnamese"
-            ]
-        },
-        "spaghetti": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "flour tortillas": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "chicken breasts": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "chicken thighs": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "chicken wings": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "chicken drumsticks": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "chicken": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cooked chicken": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "boneless": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "ground beef": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "ground turkey": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "ground pork": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Chinese"
-            ]
-        },
-        "beef": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "pork": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American",
-                "Mexican",
-                "Chinese"
-            ]
-        },
-        "pork sausage": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "sausage": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "bacon": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "ham": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan",
-                "paleo"
-            ],
-            "cultures": [
-                "Spanish"
-            ]
-        },
-        "shrimp": {
-            "non_compliant_labels": [
-                "shellfish-free",
-                "crustacean-free",
-                "vegetarian",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "fish": {
-            "non_compliant_labels": [
-                "fish-free",
-                "vegetarian",
-                "vegan"
-            ],
-            "cultures": [
-                "Japanese"
-            ]
-        },
-        "unsweetened cocoa powder": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "chocolate chips": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "semi-sweet chocolate": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "dark chocolate": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "chocolate": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "white chocolate": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "semisweet chocolate": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "mini chocolate chips": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "white chocolate chips": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "eggs": {
-            "non_compliant_labels": [
-                "egg-free",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "egg yolks": {
-            "non_compliant_labels": [
-                "egg-free",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "egg whites": {
-            "non_compliant_labels": [
-                "egg-free",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "white wine": {
-            "non_compliant_labels": [
-                "alcohol-free",
-                "sulfite-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian"
-            ]
-        },
-        "dry white wine": {
-            "non_compliant_labels": [
-                "alcohol-free",
-                "sulfite-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian"
-            ]
-        },
-        "red wine": {
-            "non_compliant_labels": [
-                "alcohol-free",
-                "sulfite-free"
-            ],
-            "cultures": [
-                "French",
-                "Italian"
-            ]
-        },
-        "bourbon": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "rum": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "brandy": {
-            "non_compliant_labels": [
-                "alcohol-free"
-            ],
-            "cultures": [
-                "French"
-            ]
-        },
-        "sherry": {
-            "non_compliant_labels": [
-                "alcohol-free",
-                "sulfite-free"
-            ],
-            "cultures": [
-                "Spanish"
-            ]
-        },
-        "dijon mustard": {
-            "non_compliant_labels": [
-                "mustard-free"
-            ],
-            "cultures": [
-                "French"
-            ]
-        },
-        "mustard": {
-            "non_compliant_labels": [
-                "mustard-free"
-            ],
-            "cultures": [
-                "French"
-            ]
-        },
-        "ground mustard": {
-            "non_compliant_labels": [
-                "mustard-free"
-            ],
-            "cultures": [
-                "French"
-            ]
-        },
-        "mustard seeds": {
-            "non_compliant_labels": [
-                "mustard-free"
-            ],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "soy sauce": {
-            "non_compliant_labels": [
-                "soy-free",
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean"
-            ]
-        },
-        "worcestershire sauce": {
-            "non_compliant_labels": [
-                "alcohol-free",
-                "soy-free",
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "fish sauce": {
-            "non_compliant_labels": [
-                "fish-free",
-                "vegetarian",
-                "vegan"
-            ],
-            "cultures": [
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "hot sauce": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "chili sauce": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese"
-            ]
-        },
-        "tomato sauce": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "spaghetti sauce": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "ketchup": {
-            "non_compliant_labels": [
-                "sugar-conscious"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "salsa": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican"
-            ]
-        },
-        "mayonnaise": {
-            "non_compliant_labels": [
-                "egg-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "chicken broth": {
-            "non_compliant_labels": [
-                "vegetarian",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "beef broth": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "vegetable broth": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "beef stock": {
-            "non_compliant_labels": [
-                "pescatarian",
-                "vegetarian",
-                "vegan"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "vegetable stock": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "broth": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "parsley": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French",
-                "Italian",
-                "Lebanese"
-            ]
-        },
-        "cilantro": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Mexican",
-                "Thai",
-                "Vietnamese"
-            ]
-        },
-        "fresh basil": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian",
-                "Thai"
-            ]
-        },
-        "mint": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese",
-                "Vietnamese"
-            ]
-        },
-        "chives": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French"
-            ]
-        },
-        "fresh dill": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Lebanese"
-            ]
-        },
-        "basil": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian",
-                "Thai"
-            ]
-        },
-        "dried basil": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "dried parsley": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "herbs": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-
-        "garlic powder": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "onion powder": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "ground cinnamon": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-
-        "smoked paprika": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Spanish"
-            ]
-        },
-        "sweet paprika": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Spanish"
-            ]
-        },
-        "cumin": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian",
-                "Mexican"
-            ]
-        },
-        "dried oregano": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian",
-                "Mexican"
-            ]
-        },
-        "oregano": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian",
-                "Mexican"
-            ]
-        },
-        "thyme": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French"
-            ]
-        },
-        "rosemary": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "French",
-                "Italian"
-            ]
-        },
-        "sage": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "turmeric": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "ground ginger": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Chinese",
-                "Indian"
-            ]
-        },
-        "curry powder": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "ground cloves": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "nutmeg": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "ground nutmeg": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "allspice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cardamom": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "fennel seeds": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian",
-                "Italian"
-            ]
-        },
-        "coriander": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "ground turmeric": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Indian"
-            ]
-        },
-        "italian seasoning": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Italian"
-            ]
-        },
-        "seasoning": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "pumpkin pie spice": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "American"
-            ]
-        },
-        "all-purpose flour": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "whole wheat flour": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cake flour": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "bread flour": {
-            "non_compliant_labels": [
-                "wheat-free",
-                "gluten-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "almond flour": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "coconut flour": {
-            "non_compliant_labels": [
-                "tree-nut-free"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cornstarch": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "potato starch": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "starch": {
-            "non_compliant_labels": [],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "vegetable oil": {
-            "non_compliant_labels": [
-                "no oil added"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "coconut oil": {
-            "non_compliant_labels": [
-                "no oil added"
-            ],
-            "cultures": [
-                "Indian",
-                "Thai"
-            ]
-        },
-        "sesame oil": {
-            "non_compliant_labels": [
-                "sesame-free",
-                "no oil added"
-            ],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean"
-            ]
-        },
-        "toasted sesame oil": {
-            "non_compliant_labels": [
-                "sesame-free",
-                "no oil added"
-            ],
-            "cultures": [
-                "Chinese",
-                "Japanese",
-                "Korean"
-            ]
-        },
-        "peanut oil": {
-            "non_compliant_labels": [
-                "peanut-free",
-                "no oil added"
-            ],
-            "cultures": [
-                "Chinese"
-            ]
-        },
-        "sunflower oil": {
-            "non_compliant_labels": [
-                "no oil added"
-            ],
-            "cultures": [
-                "Universal"
-            ]
-        },
-        "cheddar cheese": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "jack cheese": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        },
-        "swiss cheese": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "French"
-            ]
-        },
-        "american cheese": {
-            "non_compliant_labels": [
-                "dairy-free",
-                "vegan"
-            ],
-            "cultures": [
-                "American"
-            ]
-        }
-    },
-    "cultures": [
-        "American",
-        "Chinese",
-        "French",
-        "Indian",
-        "Italian",
-        "Japanese",
-        "Korean",
-        "Lebanese",
-        "Mexican",
-        "Spanish",
-        "Thai",
-        "Vietnamese"
+  "groups": {
+    "butter_group": [
+      "butter",
+      "margarine",
+      "shortening"
+    ],
+    "milk_group": [
+      "milk",
+      "yogurt",
+      "sour cream",
+      "heavy cream",
+      "half-and-half",
+      "buttermilk",
+      "almond milk",
+      "coconut milk",
+      "soy milk",
+      "evaporated milk",
+      "sweetened condensed milk"
+    ],
+    "sweetener_group": [
+      "sugar",
+      "brown sugar",
+      "powdered sugar"
+    ],
+    "liquid_sweetener_group": [
+      "honey",
+      "maple syrup",
+      "molasses",
+      "agave",
+      "light corn syrup",
+      "syrup"
+    ],
+    "vinegar_group": [
+      "white vinegar",
+      "apple cider vinegar",
+      "rice vinegar",
+      "red wine vinegar",
+      "cider vinegar",
+      "balsamic vinegar",
+      "white wine vinegar",
+      "vinegar"
+    ],
+    "acid_group": [
+      "lemon juice",
+      "lime juice",
+      "orange juice"
+    ],
+    "zest_group": [
+      "lemon zest",
+      "lime zest",
+      "orange zest",
+      "orange peel",
+      "lemon peel"
+    ],
+    "citrus_group": [
+      "lemon",
+      "lime",
+      "orange",
+      "oranges"
+    ],
+    "onion_group": [
+      "onion",
+      "red onion",
+      "yellow onions",
+      "sweet onion",
+      "shallot",
+      "leek",
+      "green onion",
+      "scallion",
+      "onions",
+      "shallots",
+      "red onions"
+    ],
+    "pepper_group": [
+      "black pepper",
+      "white pepper"
+    ],
+    "bell_pepper_group": [
+      "red bell pepper",
+      "green bell pepper",
+      "bell pepper",
+      "bell peppers",
+      "green pepper",
+      "red pepper",
+      "sweet red pepper",
+      "red bell peppers",
+      "green bell peppers"
+    ],
+    "chili_group": [
+      "cayenne pepper",
+      "red pepper flakes",
+      "chili powder",
+      "smoked paprika",
+      "paprika",
+      "sweet paprika",
+      "jalapeno",
+      "green chilies",
+      "chili peppers"
+    ],
+    "leafy_green_group": [
+      "spinach",
+      "kale",
+      "arugula",
+      "lettuce",
+      "romaine lettuce",
+      "salad greens"
+    ],
+    "root_veggie_group": [
+      "carrots",
+      "potatoes",
+      "sweet potatoes",
+      "russet potatoes",
+      "red potatoes",
+      "beets",
+      "radishes"
+    ],
+    "squash_group": [
+      "zucchini",
+      "butternut squash",
+      "pumpkin",
+      "squash"
+    ],
+    "cruciferous_group": [
+      "broccoli",
+      "cauliflower",
+      "cabbage",
+      "red cabbage",
+      "green cabbage",
+      "broccoli florets"
+    ],
+    "fruit_group": [
+      "apples",
+      "pears",
+      "peaches",
+      "mango",
+      "pineapple",
+      "bananas",
+      "banana",
+      "tart apples",
+      "apple"
+    ],
+    "berry_group": [
+      "strawberries",
+      "blueberries",
+      "raspberries",
+      "blackberries",
+      "cherries",
+      "berries"
+    ],
+    "dried_fruit_group": [
+      "raisins",
+      "dried cranberries",
+      "dates"
+    ],
+    "nut_group": [
+      "almonds",
+      "walnuts",
+      "pecans",
+      "hazelnuts",
+      "cashews",
+      "pistachios",
+      "peanuts",
+      "pine nuts",
+      "pecan",
+      "walnut",
+      "almond",
+      "pumpkin seeds",
+      "sunflower seeds",
+      "ground flaxseed",
+      "chia seeds"
+    ],
+    "bean_group": [
+      "black beans",
+      "chickpeas",
+      "cannellini beans",
+      "beans"
+    ],
+    "rice_group": [
+      "rice",
+      "cooked rice",
+      "white rice",
+      "brown rice",
+      "basmati rice",
+      "arborio rice",
+      "long grain rice",
+      "cooked brown rice"
+    ],
+    "bread_group": [
+      "bread",
+      "white bread",
+      "bread crumbs",
+      "breadcrumbs",
+      "panko bread crumbs",
+      "panko",
+      "dough"
+    ],
+    "pasta_group": [
+      "pasta",
+      "noodles",
+      "spaghetti",
+      "flour tortillas"
+    ],
+    "meat_group": [
+      "chicken breasts",
+      "chicken thighs",
+      "chicken wings",
+      "chicken drumsticks",
+      "chicken",
+      "cooked chicken",
+      "boneless",
+      "ground beef",
+      "ground turkey",
+      "ground pork",
+      "beef",
+      "pork",
+      "pork sausage",
+      "sausage",
+      "bacon",
+      "ham"
+    ],
+    "seafood_group": [
+      "shrimp",
+      "fish"
+    ],
+    "chocolate_group": [
+      "unsweetened cocoa powder",
+      "chocolate chips",
+      "semi-sweet chocolate",
+      "dark chocolate",
+      "chocolate",
+      "white chocolate",
+      "semisweet chocolate",
+      "mini chocolate chips",
+      "white chocolate chips"
+    ],
+    "egg_group": [
+      "eggs",
+      "egg yolks",
+      "egg whites"
+    ],
+    "alcohol_group": [
+      "white wine",
+      "dry white wine",
+      "red wine",
+      "bourbon",
+      "rum",
+      "brandy",
+      "sherry"
+    ],
+    "mustard_group": [
+      "dijon mustard",
+      "mustard",
+      "ground mustard",
+      "mustard seeds"
+    ],
+    "fermented_umami": [
+      "soy sauce",
+      "fish sauce",
+      "worcestershire sauce"
+    ],
+    "tomato_&_vegetal_base": [
+      "tomato sauce",
+      "spaghetti sauce",
+      "ketchup",
+      "salsa"
+    ],
+    "spicy_liquids": [
+      "hot sauce",
+      "chili sauce"
+    ],
+    "broth_group": [
+      "chicken broth",
+      "beef broth",
+      "vegetable broth",
+      "beef stock",
+      "vegetable stock",
+      "broth"
+    ],
+    "fresh_herb_group": [
+      "parsley",
+      "cilantro",
+      "fresh basil",
+      "mint",
+      "chives",
+      "fresh dill",
+      "basil",
+      "dried basil",
+      "dried parsley",
+      "herbs"
+    ],
+    "mediterranean_herbs": [
+      "oregano",
+      "dried oregano",
+      "thyme",
+      "rosemary",
+      "sage",
+      "italian seasoning"
+    ],
+    "earthy_spices": [
+      "cumin",
+      "turmeric",
+      "ground turmeric",
+      "coriander",
+      "fennel seeds",
+      "ground ginger"
+    ],
+    "hot_spices": [
+      "black pepper",
+      "cayenne pepper",
+      "chili powder",
+      "paprika",
+      "smoked paprika",
+      "sweet paprika"
+    ],
+    "sweet_spices": [
+      "ground cinnamon",
+      "ground cloves",
+      "nutmeg",
+      "ground nutmeg",
+      "allspice",
+      "cardamom"
+    ],
+    "complex_mixtures": [
+      "curry powder",
+      "pumpkin pie spice",
+      "seasoning"
+    ],
+    "flour_group": [
+      "all-purpose flour",
+      "whole wheat flour",
+      "cake flour",
+      "bread flour",
+      "almond flour",
+      "coconut flour"
+    ],
+    "thickener_group": [
+      "cornstarch",
+      "potato starch",
+      "starch"
+    ],
+    "oil_group": [
+      "vegetable oil",
+      "coconut oil",
+      "sesame oil",
+      "toasted sesame oil",
+      "peanut oil",
+      "sunflower oil"
+    ],
+    "cheese_group": [
+      "cheddar cheese",
+      "jack cheese",
+      "swiss cheese",
+      "american cheese"
     ]
+  },
+  "ingredient_to_cultures": {
+    "butter": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "french",
+        "italian",
+        "american",
+        "indian"
+      ]
+    },
+    "margarine": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "mediterranean",
+        "vegan",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "shortening": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "mediterranean",
+        "vegan",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "milk": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "french",
+        "indian",
+        "american"
+      ]
+    },
+    "yogurt": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "indian",
+        "lebanese"
+      ]
+    },
+    "sour cream": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "french",
+        "american"
+      ]
+    },
+    "heavy cream": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "french",
+        "italian",
+        "american"
+      ]
+    },
+    "half-and-half": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "buttermilk": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "american",
+        "indian"
+      ]
+    },
+    "almond milk": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": []
+    },
+    "coconut milk": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "thai",
+        "indian",
+        "vietnamese"
+      ]
+    },
+    "soy milk": {
+      "non_compliant_labels": [
+        "soy-free",
+        "dairy-free"
+      ],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean"
+      ]
+    },
+    "evaporated milk": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "sweetened condensed milk": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "sugar-conscious",
+        "no oil added",
+        "vegan",
+        "keto-friendly",
+        "immuno-supportive",
+        "paleo",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "american",
+        "thai"
+      ]
+    },
+    "sugar": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "brown sugar": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "powdered sugar": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "honey": {
+      "non_compliant_labels": [
+        "vegan",
+        "keto-friendly",
+        "dash",
+        "fodmap-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "maple syrup": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "molasses": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "agave": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "light corn syrup": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "syrup": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "white vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "apple cider vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "rice vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean"
+      ]
+    },
+    "red wine vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "french",
+        "italian",
+        "spanish"
+      ]
+    },
+    "cider vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "balsamic vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "white wine vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "french",
+        "italian"
+      ]
+    },
+    "vinegar": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "lemon juice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese",
+        "mexican",
+        "italian",
+        "french"
+      ]
+    },
+    "lime juice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "orange juice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "lemon zest": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese",
+        "italian",
+        "french"
+      ]
+    },
+    "lime zest": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "thai"
+      ]
+    },
+    "orange zest": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "orange peel": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "lemon peel": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "lemon": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese",
+        "mexican",
+        "italian",
+        "french"
+      ]
+    },
+    "lime": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "orange": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "oranges": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "onion": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "red onion": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "yellow onions": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "sweet onion": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "shallot": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "leek": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french"
+      ]
+    },
+    "green onion": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "scallion": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "onions": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "shallots": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "red onions": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "black pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "white pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "thai"
+      ]
+    },
+    "red bell pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "green bell pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "bell pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "bell peppers": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "green pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "red pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "sweet red pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "red bell peppers": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "green bell peppers": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "spanish"
+      ]
+    },
+    "cayenne pepper": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "indian",
+        "thai"
+      ]
+    },
+    "red pepper flakes": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian",
+        "korean"
+      ]
+    },
+    "chili powder": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "indian",
+        "korean"
+      ]
+    },
+    "paprika": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "spanish"
+      ]
+    },
+    "jalapeno": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "green chilies": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "indian"
+      ]
+    },
+    "chili peppers": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "korean",
+        "thai"
+      ]
+    },
+    "spinach": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "kale": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "arugula": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "lettuce": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "romaine lettuce": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese"
+      ]
+    },
+    "salad greens": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "carrots": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "potatoes": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american",
+        "spanish"
+      ]
+    },
+    "sweet potatoes": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "russet potatoes": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "red potatoes": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "beets": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "radishes": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "japanese",
+        "vietnamese"
+      ]
+    },
+    "zucchini": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian",
+        "lebanese"
+      ]
+    },
+    "butternut squash": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "pumpkin": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "squash": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "broccoli": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cauliflower": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "cabbage": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "korean",
+        "chinese"
+      ]
+    },
+    "red cabbage": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "korean"
+      ]
+    },
+    "green cabbage": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "korean"
+      ]
+    },
+    "broccoli florets": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "apples": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "pears": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "peaches": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "mango": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "thai",
+        "indian"
+      ]
+    },
+    "pineapple": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "thai"
+      ]
+    },
+    "bananas": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "banana": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "tart apples": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "apple": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "strawberries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "blueberries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "raspberries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "blackberries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cherries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "berries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "raisins": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "dried cranberries": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "dates": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese"
+      ]
+    },
+    "almonds": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "spanish",
+        "indian"
+      ]
+    },
+    "walnuts": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "pecans": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "hazelnuts": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cashews": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "pistachios": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "lebanese"
+      ]
+    },
+    "peanuts": {
+      "non_compliant_labels": [
+        "peanut-free"
+      ],
+      "cultures": [
+        "chinese",
+        "thai"
+      ]
+    },
+    "pine nuts": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "pecan": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "walnut": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "almond": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "spanish",
+        "indian"
+      ]
+    },
+    "pumpkin seeds": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "sunflower seeds": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "ground flaxseed": {
+      "non_compliant_labels": [],
+      "cultures": []
+    },
+    "chia seeds": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "black beans": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "chickpeas": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian",
+        "lebanese"
+      ]
+    },
+    "cannellini beans": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "beans": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "indian",
+        "japanese",
+        "thai",
+        "vietnamese",
+        "spanish"
+      ]
+    },
+    "cooked rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "indian",
+        "japanese",
+        "thai",
+        "vietnamese",
+        "spanish"
+      ]
+    },
+    "white rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "indian",
+        "japanese",
+        "thai",
+        "vietnamese",
+        "spanish"
+      ]
+    },
+    "brown rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "basmati rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "arborio rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "long grain rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cooked brown rice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "bread": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "white bread": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "bread crumbs": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "italian",
+        "american"
+      ]
+    },
+    "breadcrumbs": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "italian",
+        "american"
+      ]
+    },
+    "panko bread crumbs": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "japanese"
+      ]
+    },
+    "panko": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "japanese"
+      ]
+    },
+    "dough": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "pasta": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "noodles": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "vietnamese"
+      ]
+    },
+    "spaghetti": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "flour tortillas": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "chicken breasts": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "chicken thighs": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "chicken wings": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "chicken drumsticks": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "chicken": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cooked chicken": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "boneless": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "ground beef": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "ground turkey": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "ground pork": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "chinese"
+      ]
+    },
+    "beef": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "pork": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american",
+        "mexican",
+        "chinese"
+      ]
+    },
+    "pork sausage": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "sausage": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "bacon": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "ham": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan",
+        "paleo"
+      ],
+      "cultures": [
+        "spanish"
+      ]
+    },
+    "shrimp": {
+      "non_compliant_labels": [
+        "shellfish-free",
+        "crustacean-free",
+        "vegetarian",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "fish": {
+      "non_compliant_labels": [
+        "fish-free",
+        "vegetarian",
+        "vegan"
+      ],
+      "cultures": [
+        "japanese"
+      ]
+    },
+    "unsweetened cocoa powder": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "chocolate chips": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "semi-sweet chocolate": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "dark chocolate": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "chocolate": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "white chocolate": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "semisweet chocolate": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "mini chocolate chips": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "white chocolate chips": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "eggs": {
+      "non_compliant_labels": [
+        "egg-free",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "egg yolks": {
+      "non_compliant_labels": [
+        "egg-free",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "egg whites": {
+      "non_compliant_labels": [
+        "egg-free",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "white wine": {
+      "non_compliant_labels": [
+        "alcohol-free",
+        "sulfite-free"
+      ],
+      "cultures": [
+        "french",
+        "italian"
+      ]
+    },
+    "dry white wine": {
+      "non_compliant_labels": [
+        "alcohol-free",
+        "sulfite-free"
+      ],
+      "cultures": [
+        "french",
+        "italian"
+      ]
+    },
+    "red wine": {
+      "non_compliant_labels": [
+        "alcohol-free",
+        "sulfite-free"
+      ],
+      "cultures": [
+        "french",
+        "italian"
+      ]
+    },
+    "bourbon": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "rum": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "brandy": {
+      "non_compliant_labels": [
+        "alcohol-free"
+      ],
+      "cultures": [
+        "french"
+      ]
+    },
+    "sherry": {
+      "non_compliant_labels": [
+        "alcohol-free",
+        "sulfite-free"
+      ],
+      "cultures": [
+        "spanish"
+      ]
+    },
+    "dijon mustard": {
+      "non_compliant_labels": [
+        "mustard-free"
+      ],
+      "cultures": [
+        "french"
+      ]
+    },
+    "mustard": {
+      "non_compliant_labels": [
+        "mustard-free"
+      ],
+      "cultures": [
+        "french"
+      ]
+    },
+    "ground mustard": {
+      "non_compliant_labels": [
+        "mustard-free"
+      ],
+      "cultures": [
+        "french"
+      ]
+    },
+    "mustard seeds": {
+      "non_compliant_labels": [
+        "mustard-free"
+      ],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "soy sauce": {
+      "non_compliant_labels": [
+        "soy-free",
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean"
+      ]
+    },
+    "worcestershire sauce": {
+      "non_compliant_labels": [
+        "alcohol-free",
+        "soy-free",
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "fish sauce": {
+      "non_compliant_labels": [
+        "fish-free",
+        "vegetarian",
+        "vegan"
+      ],
+      "cultures": [
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "hot sauce": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "chili sauce": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese"
+      ]
+    },
+    "tomato sauce": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "spaghetti sauce": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "ketchup": {
+      "non_compliant_labels": [
+        "sugar-conscious"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "salsa": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican"
+      ]
+    },
+    "mayonnaise": {
+      "non_compliant_labels": [
+        "egg-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "chicken broth": {
+      "non_compliant_labels": [
+        "vegetarian",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "beef broth": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "vegetable broth": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "beef stock": {
+      "non_compliant_labels": [
+        "pescatarian",
+        "vegetarian",
+        "vegan"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "vegetable stock": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "broth": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "parsley": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french",
+        "italian",
+        "lebanese"
+      ]
+    },
+    "cilantro": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "mexican",
+        "thai",
+        "vietnamese"
+      ]
+    },
+    "fresh basil": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian",
+        "thai"
+      ]
+    },
+    "mint": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese",
+        "vietnamese"
+      ]
+    },
+    "chives": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french"
+      ]
+    },
+    "fresh dill": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "lebanese"
+      ]
+    },
+    "basil": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian",
+        "thai"
+      ]
+    },
+    "dried basil": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "dried parsley": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "herbs": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "garlic powder": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "onion powder": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "ground cinnamon": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "smoked paprika": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "spanish"
+      ]
+    },
+    "sweet paprika": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "spanish"
+      ]
+    },
+    "cumin": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian",
+        "mexican"
+      ]
+    },
+    "dried oregano": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian",
+        "mexican"
+      ]
+    },
+    "oregano": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian",
+        "mexican"
+      ]
+    },
+    "thyme": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french"
+      ]
+    },
+    "rosemary": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "french",
+        "italian"
+      ]
+    },
+    "sage": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "turmeric": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "ground ginger": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "chinese",
+        "indian"
+      ]
+    },
+    "curry powder": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "ground cloves": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "nutmeg": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "ground nutmeg": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "allspice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cardamom": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "fennel seeds": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian",
+        "italian"
+      ]
+    },
+    "coriander": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "ground turmeric": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "indian"
+      ]
+    },
+    "italian seasoning": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "italian"
+      ]
+    },
+    "seasoning": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "pumpkin pie spice": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "american"
+      ]
+    },
+    "all-purpose flour": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "whole wheat flour": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cake flour": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "bread flour": {
+      "non_compliant_labels": [
+        "wheat-free",
+        "gluten-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "almond flour": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "coconut flour": {
+      "non_compliant_labels": [
+        "tree-nut-free"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cornstarch": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "potato starch": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "starch": {
+      "non_compliant_labels": [],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "vegetable oil": {
+      "non_compliant_labels": [
+        "no oil added"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "coconut oil": {
+      "non_compliant_labels": [
+        "no oil added"
+      ],
+      "cultures": [
+        "indian",
+        "thai"
+      ]
+    },
+    "sesame oil": {
+      "non_compliant_labels": [
+        "sesame-free",
+        "no oil added"
+      ],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean"
+      ]
+    },
+    "toasted sesame oil": {
+      "non_compliant_labels": [
+        "sesame-free",
+        "no oil added"
+      ],
+      "cultures": [
+        "chinese",
+        "japanese",
+        "korean"
+      ]
+    },
+    "peanut oil": {
+      "non_compliant_labels": [
+        "peanut-free",
+        "no oil added"
+      ],
+      "cultures": [
+        "chinese"
+      ]
+    },
+    "sunflower oil": {
+      "non_compliant_labels": [
+        "no oil added"
+      ],
+      "cultures": [
+        "universal"
+      ]
+    },
+    "cheddar cheese": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "jack cheese": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    },
+    "swiss cheese": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "french"
+      ]
+    },
+    "american cheese": {
+      "non_compliant_labels": [
+        "dairy-free",
+        "vegan"
+      ],
+      "cultures": [
+        "american"
+      ]
+    }
+  },
+  "cultures": [
+    "american",
+    "chinese",
+    "french",
+    "indian",
+    "italian",
+    "japanese",
+    "korean",
+    "lebanese",
+    "mexican",
+    "spanish",
+    "thai",
+    "vietnamese"
+  ]
 }
