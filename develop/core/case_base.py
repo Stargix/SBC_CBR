@@ -231,12 +231,14 @@ class CaseBase:
                 id=f"req-init-{i+1}",
                 event_type=event,
                 season=season,
-                num_guests=random.randint(30, 150),
+                num_guests=template.get("num_guests", 50),
                 price_min=template["price_min"],
                 price_max=template["price_max"],
                 wants_wine=beverage.alcoholic,
                 preferred_style=style,
-                cultural_preference=culture
+                cultural_preference=culture,
+                required_diets=template.get("required_diets", []),
+                restricted_ingredients=template.get("restricted_ingredients", [])
             )
             
             # Crear el caso
