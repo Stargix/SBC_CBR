@@ -8,15 +8,16 @@ Este demo muestra las 3 mejoras implementadas:
 3. Eliminación por redundancia (no por calidad)
 """
 
+import sys
+from pathlib import Path
 import random
-from develop.core.models import (
-    Request, EventType, Season, CulinaryStyle, 
-    CulturalTradition
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from develop import (
+    Request, EventType, Season, CulinaryStyle, CulturalTradition,
+    CaseBase, CaseRetriever, CaseAdapter, CaseRetainer, FeedbackData
 )
-from develop.core.case_base import CaseBase
-from develop.cycle.retrieve import CaseRetriever
-from develop.cycle.adapt import CaseAdapter
-from develop.cycle.retain import CaseRetainer, FeedbackData
 
 
 def demo_negative_cases():

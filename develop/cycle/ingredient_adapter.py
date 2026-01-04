@@ -1,12 +1,17 @@
 """
-Módulo de adaptación de ingredientes para transformación cultural.
+Módulo de adaptación de ingredientes para transformación cultural y dietética.
 
 Este módulo permite sustituir ingredientes de un plato para adaptarlo
-a una tradición cultural diferente, manteniendo la esencia del plato
-pero usando ingredientes más apropiados para la cultura objetivo.
+a una tradición cultural diferente o a restricciones dietéticas,
+manteniendo la esencia del plato pero usando ingredientes más apropiados.
 
-Utiliza la información de ingredients.json para determinar qué
-ingredientes son característicos de cada cultura y proponer sustituciones.
+RESPONSABILIDADES:
+- Encontrar sustituciones de ingredientes (find_substitution)
+- Adaptar listas completas de ingredientes (adapt_ingredients)
+- Manejar restricciones dietéticas (find_dietary_substitution)
+
+NOTA: El análisis de similitud cultural (get_cultural_score, is_ingredient_cultural)
+se encuentra en develop.core.similarity.SimilarityCalculator
 """
 
 import json
@@ -37,6 +42,10 @@ class IngredientAdapter:
     def __init__(self):
         """Inicializa el adaptador cargando ingredients.json"""
         self._load_ingredients_knowledge()
+        
+        # Import here to avoid circular dependency
+        from ..core.similarity import SimilarityCalculator
+        self.similarity_calc = SimilarityCalculator()
     
     def _load_ingredients_knowledge(self):
         """Carga el conocimiento de ingredientes desde JSON"""
@@ -101,33 +110,6 @@ class IngredientAdapter:
         culture_name = culture.value.capitalize()
         return self.culture_to_ingredients.get(culture_name, set())
     
-    def is_ingredient_cultural(self, ingredient: str, culture) -> bool:
-        """
-        Verifica si un ingrediente es apropiado para una cultura.
-        
-        Args:
-            ingredient: Nombre del ingrediente
-            culture: Tradición cultural (enum o string)
-            
-        Returns:
-            True si es apropiado, False si no
-        """
-        cultures = self.ingredient_to_cultures.get(ingredient, {})
-        if isinstance(cultures, dict):
-            cultures = cultures.get('cultures', [])
-        
-        # Universal siempre es apropiado
-        if 'Universal' in cultures:
-            return True
-        
-        # Manejar cultura como string o enum
-        if isinstance(culture, str):
-            culture_name = culture.capitalize()
-        else:
-            culture_name = culture.value.capitalize()
-        
-        return culture_name in cultures
-    
     def violates_dietary_restriction(self, ingredient: str, dietary_label: str) -> bool:
         """
         Verifica si un ingrediente viola una restricción dietética.
@@ -158,32 +140,6 @@ class IngredientAdapter:
                 compliant.add(ingredient)
         return compliant
     
-    def is_ingredient_cultural(self, ingredient: str, 
-                              culture: CulturalTradition) -> bool:
-        """
-        Verifica si un ingrediente es apropiado para una cultura.
-        
-        Args:
-            ingredient: Ingrediente a verificar
-            culture: Tradición cultural
-            
-        Returns:
-            True si el ingrediente es apropiado para esa cultura
-        """
-        cultures = self.ingredient_to_cultures.get(ingredient, [])
-        
-        # Universal siempre es apropiado
-        if 'Universal' in cultures:
-            return True
-        
-        # Manejar cultura como string o enum
-        if isinstance(culture, str):
-            culture_name = culture.capitalize()
-        else:
-            culture_name = culture.value.capitalize()
-        
-        return culture_name in cultures
-    
     def find_substitution(self, ingredient: str, 
                          target_culture: CulturalTradition) -> Optional[IngredientSubstitution]:
         """
@@ -202,14 +158,14 @@ class IngredientAdapter:
             Sustitución o None si no es necesaria
         """
         # Si ya es apropiado para la cultura, no sustituir
-        if self.is_ingredient_cultural(ingredient, target_culture):
+        if self.similarity_calc.is_ingredient_cultural(ingredient, target_culture):
             return None
         
         # Manejar culture como string o enum
         if isinstance(target_culture, str):
-            culture_name = target_culture.capitalize()
+            culture_name = target_culture.lower()
         else:
-            culture_name = target_culture.value.capitalize()
+            culture_name = target_culture.value.lower()
         
         # Estrategia 1: Buscar en el mismo grupo un ingrediente ESPECÍFICO de la cultura
         if ingredient in self.ingredient_to_group:
@@ -217,10 +173,14 @@ class IngredientAdapter:
             group_ingredients = self.groups[group_name]
             
             # Primero buscar ingredientes ESPECÍFICOS de la cultura objetivo
-            cultural_matches = [
-                ing for ing in group_ingredients
-                if ing != ingredient and culture_name in self.ingredient_to_cultures.get(ing, [])
-            ]
+            cultural_matches = []
+            for ing in group_ingredients:
+                if ing != ingredient:
+                    ing_data = self.ingredient_to_cultures.get(ing, {})
+                    cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+                    cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+                    if culture_name in cultures_lower:
+                        cultural_matches.append(ing)
             
             if cultural_matches:
                 # Preferir el primero (suele ser más común)
@@ -233,10 +193,14 @@ class IngredientAdapter:
                 )
             
             # Estrategia 2: Si no hay específico, buscar universal en el grupo
-            universal_matches = [
-                ing for ing in group_ingredients
-                if ing != ingredient and 'Universal' in self.ingredient_to_cultures.get(ing, [])
-            ]
+            universal_matches = []
+            for ing in group_ingredients:
+                if ing != ingredient:
+                    ing_data = self.ingredient_to_cultures.get(ing, {})
+                    cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+                    cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+                    if 'universal' in cultures_lower:
+                        universal_matches.append(ing)
             
             if universal_matches:
                 replacement = universal_matches[0]
@@ -248,7 +212,10 @@ class IngredientAdapter:
                 )
         
         # Estrategia 3: Si el ingrediente ya es universal, mantenerlo
-        if 'Universal' in self.ingredient_to_cultures.get(ingredient, []):
+        ing_data = self.ingredient_to_cultures.get(ingredient, {})
+        cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+        cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+        if 'universal' in cultures_lower:
             return None
         
         # No se encontró sustitución adecuada
@@ -282,28 +249,6 @@ class IngredientAdapter:
                 adapted_ingredients.append(ingredient)
         
         return adapted_ingredients, substitutions
-    
-    def get_cultural_score(self, ingredients: List[str], 
-                          culture: CulturalTradition) -> float:
-        """
-        Calcula qué tan culturalmente apropiados son los ingredientes.
-        
-        Args:
-            ingredients: Lista de ingredientes
-            culture: Cultura a evaluar
-            
-        Returns:
-            Score 0.0-1.0, donde 1.0 es perfectamente cultural
-        """
-        if not ingredients:
-            return 0.5
-        
-        appropriate_count = sum(
-            1 for ing in ingredients 
-            if self.is_ingredient_cultural(ing, culture)
-        )
-        
-        return appropriate_count / len(ingredients)
     
     def find_dietary_substitution(self, ingredient: str, dietary_labels: List[str]) -> Optional[IngredientSubstitution]:
         """

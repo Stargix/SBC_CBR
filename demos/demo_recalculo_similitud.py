@@ -5,10 +5,15 @@ Muestra cómo la similitud cambia después de las adaptaciones,
 permitiendo comparar casos adaptados con su similitud REAL.
 """
 
-from develop.core.models import Request, EventType, Season
-from develop.core.case_base import CaseBase
-from develop.cycle.retrieve import CaseRetriever
-from develop.cycle.adapt import CaseAdapter
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from develop import (
+    Request, EventType, Season,
+    CaseBase, CaseRetriever, CaseAdapter
+)
 
 def main():
     print("="*80)

@@ -92,6 +92,10 @@ class MenuReviser:
         
         # Umbrales de validación
         self.max_warnings = 3  # Máximo de advertencias antes de invalidar
+        
+        # Similarity calculator for cultural analysis
+        from ..core.similarity import SimilarityCalculator
+        self.similarity_calc = SimilarityCalculator()
     
     def revise(self, adaptation_results: List[AdaptationResult],
                request: Request) -> List[ValidationResult]:
@@ -269,14 +273,11 @@ class MenuReviser:
                 )
             else:
                 # Diferente cultura - calcular qué tan bien se adaptó
-                from cycle.ingredient_adapter import get_ingredient_adapter
-                adapter = get_ingredient_adapter()
-                
                 cultural_scores = []
                 for dish_attr in ['starter', 'main_course', 'dessert']:
                     dish = getattr(menu, dish_attr)
                     if dish.ingredients:
-                        score = adapter.get_cultural_score(
+                        score = self.similarity_calc.get_cultural_score(
                             dish.ingredients, 
                             request.cultural_preference
                         )
