@@ -79,7 +79,9 @@ class SimilarityCalculator:
     """
     
     def __init__(self, weights: Optional[SimilarityWeights] = None,
-                 allow_dietary_adaptation: bool = True):
+                 allow_dietary_adaptation: bool = True,
+                 use_embeddings_for_culture: bool = True,
+                 semantic_calculator: Optional['SemanticSimilarityCalculator'] = None):
         """
         Inicializa el calculador de similitud.
         
@@ -87,10 +89,24 @@ class SimilarityCalculator:
             weights: Pesos para las diferentes dimensiones
             allow_dietary_adaptation: Si True, permite recuperar casos con 
                                      restricciones no cumplidas para adaptarlos
+            use_embeddings_for_culture: Si True, usa embeddings para similaridad cultural
+            semantic_calculator: Calculador semántico (se crea automáticamente si es None)
         """
         self.weights = weights or SimilarityWeights()
         self.weights.normalize()
         self.allow_dietary_adaptation = allow_dietary_adaptation
+        self.use_embeddings_for_culture = use_embeddings_for_culture
+        
+        # Inicializar semantic calculator si se requiere
+        if use_embeddings_for_culture and semantic_calculator is None:
+            try:
+                self.semantic_calculator = SemanticSimilarityCalculator()
+            except Exception as e:
+                print(f"Warning: Could not initialize semantic calculator: {e}")
+                self.semantic_calculator = None
+                self.use_embeddings_for_culture = False
+        else:
+            self.semantic_calculator = semantic_calculator
         
         # Cargar conocimiento de ingredientes para análisis cultural
         self._load_ingredients_knowledge()
@@ -328,6 +344,9 @@ class SimilarityCalculator:
         """
         Calcula similitud cultural/gastronómica.
         
+        Si use_embeddings_for_culture=True y hay un semantic_calculator disponible,
+        usa embeddings semánticos. De lo contrario, usa las relaciones hardcodeadas.
+        
         Considera relaciones entre tradiciones culinarias similares.
         """
         if req_culture is None:
@@ -339,7 +358,15 @@ class SimilarityCalculator:
         if case_culture is None:
             return 0.6  # El caso no tiene tema cultural definido
         
-        # Culturas relacionadas (basado en ingredientes y técnicas similares)
+        # Intentar usar embeddings si está habilitado y disponible
+        if (self.use_embeddings_for_culture and 
+            self.semantic_calculator and 
+            self.semantic_calculator.is_available()):
+            return self.semantic_calculator.calculate_cultural_similarity(
+                req_culture, case_culture
+            )
+        
+        # Fallback: Culturas relacionadas (basado en ingredientes y técnicas similares)
         cultural_relations = {
             # Mediterráneas - comparten aceite de oliva, hierbas
             (CulturalTradition.ITALIAN, CulturalTradition.SPANISH): 0.8,
@@ -376,13 +403,16 @@ class SimilarityCalculator:
         return sim
     
     def is_ingredient_cultural(self, ingredient: str, 
-                              culture: CulturalTradition) -> bool:
+                              culture: CulturalTradition,
+                              include_universal: bool = True) -> bool:
         """
         Verifica si un ingrediente es apropiado para una cultura.
         
         Args:
             ingredient: Ingrediente a verificar
             culture: Tradición cultural
+            include_universal: Si True, considera universales como apropiados.
+                             Si False, solo ingredientes específicos de la cultura.
             
         Returns:
             True si el ingrediente es apropiado para esa cultura
@@ -390,10 +420,7 @@ class SimilarityCalculator:
         ing_data = self.ingredient_to_cultures.get(ingredient, {})
         cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
         
-        # Universal siempre es apropiado
         cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
-        if 'universal' in cultures_lower:
-            return True
         
         # Manejar cultura como string o enum
         if isinstance(culture, str):
@@ -401,7 +428,15 @@ class SimilarityCalculator:
         else:
             culture_name = culture.value.lower()
         
-        return culture_name in cultures_lower
+        # Verificar si pertenece específicamente a la cultura
+        if culture_name in cultures_lower:
+            return True
+        
+        # Si include_universal, considerar universales como apropiados
+        if include_universal and 'universal' in cultures_lower:
+            return True
+        
+        return False
     
     def get_cultural_score(self, ingredients: List[str], 
                           culture: CulturalTradition) -> float:
@@ -410,6 +445,28 @@ class SimilarityCalculator:
         
         Este método analiza la proporción de ingredientes de un plato que son
         característicos o apropiados para una cultura gastronómica específica.
+        
+        MEJORADO: Considera distancia semántica entre culturas.
+        
+        Orden de evaluación (importante para evitar que universales den 100%):
+        1. Ingredientes desconocidos (no en base): peso 0.5 (neutro)
+        2. Ingredientes universales: peso 0.7
+        3. Ingredientes de la cultura exacta: peso 1.0
+        4. Ingredientes de culturas similares: peso proporcional a similaridad (>0.7)
+        5. Ingredientes conocidos sin culturas: peso 0.5 (neutro)
+        6. Ingredientes de culturas no relacionadas: peso 0.0
+        
+        PENALIZACIÓN POR POCOS INGREDIENTES:
+        Platos con pocos ingredientes son menos representativos de la cultura.
+        Factor de confianza suavizado:
+        - 1 ingrediente: score * 0.6 (moderadamente poco confiable)
+        - 2 ingredientes: score * 0.8 (poco confiable)
+        - 3 ingredientes: score * 0.9 (casi confiable)
+        - 4+ ingredientes: score * 1.0 (totalmente confiable)
+        
+        NOTA: Los ingredientes desconocidos reciben score neutro (0.5) para no
+        penalizar platos que usan ingredientes válidos pero filtrados de la
+        base de conocimiento por ser menos comunes.
         
         Args:
             ingredients: Lista de ingredientes
@@ -422,12 +479,85 @@ class SimilarityCalculator:
         if not ingredients:
             return 0.5
         
-        appropriate_count = sum(
-            1 for ing in ingredients 
-            if self.is_ingredient_cultural(ing, culture)
-        )
+        total_score = 0.0
         
-        return appropriate_count / len(ingredients)
+        for ingredient in ingredients:
+            # Caso 1: Verificar si el ingrediente existe en la base de conocimiento
+            ing_data = self.ingredient_to_cultures.get(ingredient, None)
+            
+            if ing_data is None:
+                # Ingrediente NO encontrado en ingredients.json (fue filtrado o es desconocido)
+                # Darle score neutro para no penalizar platos con ingredientes válidos
+                total_score += 0.5
+                continue
+            
+            # Caso 2: Ingrediente universal (verificar ANTES que cultura específica)
+            if isinstance(ing_data, dict):
+                cultures = ing_data.get('cultures', [])
+            else:
+                cultures = ing_data if isinstance(ing_data, list) else []
+            
+            cultures_lower = [c.lower() for c in cultures]
+            if 'universal' in cultures_lower:
+                total_score += 0.7
+                continue
+            
+            # Caso 3: Ingrediente pertenece específicamente a la cultura objetivo
+            if self.is_ingredient_cultural(ingredient, culture, include_universal=False):
+                total_score += 1.0
+                continue
+            
+            # Caso 4: Ingrediente de cultura semánticamente similar
+            if self.use_embeddings_for_culture and self.semantic_calculator:
+                max_similarity = 0.0
+                
+                # Verificar a qué culturas pertenece el ingrediente
+                for ing_culture_name in cultures:
+                    try:
+                        # Convertir nombre de cultura a enum
+                        ing_culture = CulturalTradition(ing_culture_name.lower())
+                        
+                        # Calcular similaridad semántica
+                        similarity = self.semantic_calculator.calculate_cultural_similarity(
+                            culture, ing_culture
+                        )
+                        
+                        max_similarity = max(max_similarity, similarity)
+                    except (ValueError, AttributeError):
+                        # Cultura no válida o error, continuar
+                        continue
+                
+                # Usar la similaridad más alta encontrada (con threshold mínimo)
+                if max_similarity > 0.7:  # Solo si hay similaridad significativa
+                    total_score += max_similarity
+                    continue
+            
+            # Caso 5: Ingrediente conocido pero no relacionado con ninguna cultura
+            # (ingrediente existe en base pero no tiene culturas asignadas)
+            if not cultures:
+                total_score += 0.5  # Score neutro
+            # Si tiene culturas pero ninguna es similar, no suma (0.0 implícito)
+        
+        # Calcular score base
+        base_score = total_score / len(ingredients) if ingredients else 0.5
+        
+        # Aplicar factor de confianza basado en número de ingredientes
+        # Platos con pocos ingredientes son menos representativos
+        # Factor más suave para no penalizar demasiado
+        num_ingredients = len(ingredients)
+        if num_ingredients == 1:
+            confidence_factor = 0.6  # Penalización moderada
+        elif num_ingredients == 2:
+            confidence_factor = 0.8  # Penalización leve
+        elif num_ingredients == 3:
+            confidence_factor = 0.9  # Penalización muy leve
+        else:
+            confidence_factor = 1.0  # Sin penalización (4+ ingredientes)
+        
+        # Score final penalizado por falta de ingredientes
+        final_score = base_score * confidence_factor
+        
+        return final_score
     
     def _dietary_similarity(self, required_diets: List[str], menu: Menu) -> float:
         """
@@ -663,11 +793,10 @@ class SemanticSimilarityCalculator:
     """
     Calculadora de similitud semántica usando embeddings.
     
-    Esta clase está preparada para integrar modelos de embeddings
-    (como sentence-transformers) o LLMs para calcular similitudes
-    más sofisticadas basadas en descripciones textuales.
+    Se utiliza para calcular similitudes culturales/gastronómicas
+    basadas en descripciones textuales y embeddings semánticos.
     
-    NOTA: Requiere instalación adicional de bibliotecas de ML.
+    NOTA: Requiere instalación adicional de sentence-transformers.
     """
     
     def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
@@ -679,7 +808,12 @@ class SemanticSimilarityCalculator:
         """
         self.model = None
         self.model_name = model_name
+        self._cultural_embeddings_cache = {}  # Cache de embeddings culturales
         self._try_load_model()
+        
+        # Pre-computar embeddings de culturas si el modelo está disponible
+        if self.is_available():
+            self._precompute_cultural_embeddings()
     
     def _try_load_model(self):
         """Intenta cargar el modelo de embeddings si está disponible"""
@@ -693,71 +827,74 @@ class SemanticSimilarityCalculator:
         """Verifica si la similitud semántica está disponible"""
         return self.model is not None
     
-    def calculate_text_similarity(self, text1: str, text2: str) -> float:
+    def _precompute_cultural_embeddings(self):
         """
-        Calcula similitud semántica entre dos textos.
+        Pre-calcula y cachea los embeddings de todas las tradiciones culturales.
+        Esto se ejecuta una sola vez al inicializar el calculador.
+        """
+        if not self.is_available():
+            return
+        
+        # Calcular embeddings para todas las culturas
+        for culture in CulturalTradition:
+            description = self.get_cultural_description(culture)
+            embedding = self.model.encode(description)
+            self._cultural_embeddings_cache[culture] = embedding
+    
+    def get_cultural_description(self, culture: CulturalTradition) -> str:
+        """
+        Genera una descripción textual de una tradición cultural para embeddings.
         
         Args:
-            text1: Primer texto
-            text2: Segundo texto
+            culture: Tradición cultural
+            
+        Returns:
+            Descripción textual enriquecida
+        """
+        # Descripciones detalladas de cada cultura gastronómica
+        descriptions = {
+    CulturalTradition.AMERICAN: "American cuisine is a melting pot of immigrant influences, featuring iconic dishes like juicy cheeseburgers, smoky barbecued ribs and brisket, crispy fried chicken with Southern sauces, and homemade apple pies. It includes comfort foods like creamy mac and cheese, and varied regional styles: Southern soul food with collard greens and cornbread, Tex-Mex with Mexican influences, New England clam chowder, and California fusion emphasizing fresh, organic, and healthy ingredients, reflecting the country's cultural diversity and gastronomic innovation.",
+    CulturalTradition.CHINESE: "Chinese cuisine is vast and regional, with techniques like high-heat wok stir-frying to preserve textures and flavors, abundant use of soy sauce, steamed rice, hand-pulled noodles, dumplings filled with pork or vegetables steamed or fried, and seasonings like five-spice powder and numbing Sichuan pepper. It includes Cantonese dim sum, Peking duck, spicy Sichuan hot pot, and an emphasis on yin-yang balance, with influences from eight regional culinary traditions that celebrate freshness, harmony, and food as medicine.",
+    CulturalTradition.FRENCH: "French cuisine, the cradle of haute cuisine, employs rich butter, heavy creams, and wine-based sauces like beurre blanc or bordelaise, refined techniques such as sous-vide and flambé, delicate pastries like croissants and éclairs, varied cheeses from creamy camembert to pungent roquefort, and regional specialties like Burgundy escargots, coq au vin, Marseille bouillabaisse, and foie gras. It emphasizes artistic presentation, terroir (the influence of soil and climate on ingredients), and dining as a refined social and cultural experience.",
+    CulturalTradition.INDIAN: "Indian cuisine is a tapestry of vibrant spices like anti-inflammatory turmeric, toasted cumin, cardamom, and garam masala, with aromatic curries in tomato or coconut sauces, naan breads baked in tandoor ovens with garlic or cheese, perfumed basmati rice, nutritious lentil dals, and predominant vegetarian dishes like paneer tikka or aloo gobi. It includes regional influences: Southern thalis with crispy dosas and chutneys, Northern Mughal biryanis, and street food like spicy chaat, reflecting Ayurvedic principles of balance, religious diversity, and communal celebration through food.",
+    CulturalTradition.ITALIAN: "Italian cuisine celebrates Mediterranean simplicity with fresh pasta like creamy spaghetti carbonara or tagliatelle al ragù, Neapolitan pizzas with thin crusts and fresh toppings, extra virgin olive oil, juicy San Marzano tomatoes, aromatic basil, grated parmesan cheese, and flavors like Milanese saffron risotto. It highlights regional diversity: Genovese pesto with pine nuts, Lombard ossobuco, Sicilian arancini, and antipasti like prosciutto and mozzarella, emphasizing seasonal ingredients, prolonged family meals, and the 'la dolce vita' concept at the table.",
+    CulturalTradition.JAPANESE: "Japanese cuisine prioritizes freshness and minimalism, with sushi and sashimi of raw fish on vinegared rice, gohan rice as a base, fermented soy sauce, comforting miso soups, sake for pairing, and umami flavors from dashi and shiitake. It includes light fried tempura, rich broth ramen, seasonal multi-course kaiseki, and techniques like precise cutting with hocho knives. It reflects the wabi-sabi philosophy of beautiful imperfection, respect for nature, and rituals like matcha tea, making food an art form and mindfulness practice.",
+    CulturalTradition.KOREAN: "Korean cuisine is bold and fermented, with spicy cabbage kimchi as a staple, red hot gochujang paste in mixed bibimbap, marinated bulgogi barbecue grilled meats, sticky rice, fermented foods like doenjang and ganjang for umami depth, spicy flavors balanced with sesame and garlic, and varied banchan side dishes like seasoned spinach or pickled radish. It includes jjigae hot pots, chewy tteokbokki street food, and communal meals emphasizing health through fermentation, Joseon dynasty history, and Buddhist influences in vegetarian dishes.",
+    CulturalTradition.LEBANESE: "Lebanese cuisine is fresh and shared, with creamy tahini chickpea hummus, crispy spiced fava bean falafel, lemony parsley bulgur tabbouleh, fruity olive oil, warm pita bread for wrapping, mezze platters with smoky baba ghanoush and ground meat kibbeh, herbal za'atar roasted lamb, and Mediterranean-Arab fusion. It features sweets like pistachio and honey baklava, Bekaa Valley wines, and prolonged social meals reflecting hospitality, Ottoman and Phoenician influences, and emphasis on local, healthy ingredients.",
+    CulturalTradition.MEXICAN: "Mexican cuisine is vibrant and pre-Hispanic, with corn tacos filled with carnitas or al pastor, varied chiles like jalapeño and habanero for heat, corn in tamales and pozole, refried beans, creamy avocado guacamole, fresh cilantro and acidic lime, complex mole sauces with chocolate and spices. It includes coastal ceviches, Swiss enchiladas, and street food like grilled elotes with mayo and cheese. It celebrates indigenous-Spanish fusion, festivals like Day of the Dead with pan de muerto, and UNESCO-recognized cultural heritage emphasizing community and bold flavors.",
+    CulturalTradition.SPANISH: "Spanish cuisine is diverse and tapas-oriented, with small bites like spicy patatas bravas or garlic shrimp gambas al ajillo, Valencian paella with bomba rice, saffron, and seafood, Andalusian olive oil, cured ibérico ham, cold tomato gazpacho, and Mediterranean ingredients like olives and peppers. It includes churros with chocolate for breakfast, Madrid cocido stew, and regionals like Galician octopus or potato tortilla. It reflects Moorish and Roman influences, post-meal siesta, and bar-sharing culture, promoting socialization and denomination of origin products.",
+    CulturalTradition.THAI: "Thai cuisine balances sweet, sour, salty, and spicy flavors, with pad thai stir-fried noodles with shrimp and peanuts, green or red curries in creamy coconut milk, aromatic lemongrass, umami nam pla fish sauce, fresh kaffir lime, fiery bird's eye chiles. It includes sour tom yum soup, sticky mango rice dessert, and grilled satay street food. Influenced by Asian neighbors and Portuguese, it emphasizes fresh herbs, family meals, and Buddhist harmony philosophy, making each dish a sensory explosion and therapeutic experience.",
+    CulturalTradition.VIETNAMESE: "Vietnamese cuisine is light and herbal, with bone broth pho perfumed with star anise and cinnamon, fresh spring rolls wrapped in rice paper with herbs like mint and basil, salty nuoc mam fish sauce, rice noodles in bun cha with grilled pork, fresh ingredients like bean sprouts and lemongrass. It includes colonial French-influenced banh mi sandwiches, Hoi An cao lau, and condensed milk coffees. It reflects yin-yang balance, floating markets, and Chinese-French heritage, prioritizing freshness, contrasting textures, and meals as expressions of hospitality and health."
+}
+        
+        return descriptions.get(culture, f"{culture.value} cuisine")
+    
+    def calculate_cultural_similarity(self, culture1: CulturalTradition, 
+                                     culture2: CulturalTradition) -> float:
+        """
+        Calcula similitud semántica entre dos tradiciones culturales usando embeddings pre-calculados.
+        
+        Args:
+            culture1: Primera tradición cultural
+            culture2: Segunda tradición cultural
             
         Returns:
             Similitud entre 0 y 1
         """
         if not self.is_available():
-            return 0.5  # Valor neutro si no está disponible
+            return 0.5  # Fallback neutro
+        
+        # Usar embeddings cacheados
+        if culture1 not in self._cultural_embeddings_cache or culture2 not in self._cultural_embeddings_cache:
+            # Fallback: calcular on-demand si no está en cache (no debería ocurrir si se pre-calcularon)
+            return 0.5
         
         from sklearn.metrics.pairwise import cosine_similarity
-        import numpy as np
         
-        embeddings = self.model.encode([text1, text2])
-        similarity = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
+        emb1 = self._cultural_embeddings_cache[culture1]
+        emb2 = self._cultural_embeddings_cache[culture2]
         
-        # Normalizar a [0, 1]
+        similarity = cosine_similarity([emb1], [emb2])[0][0]
+        
+        # Normalizar a [0, 1] (cosine similarity ya está en [-1, 1])
         return (similarity + 1) / 2
-    
-    def get_dish_description(self, dish: Dish) -> str:
-        """
-        Genera una descripción textual de un plato para embeddings.
-        
-        Args:
-            dish: Plato a describir
-            
-        Returns:
-            Descripción textual
-        """
-        parts = [
-            dish.name,
-            f"Category: {dish.category.value}",
-            f"Style: {', '.join(s.value for s in dish.styles)}",
-            f"Flavors: {', '.join(f.value for f in dish.flavors)}",
-            f"Temperature: {dish.temperature.value}",
-            f"Complexity: {dish.complexity.value}",
-        ]
-        
-        if dish.cultural_traditions:
-            parts.append(f"Traditions: {', '.join(t.value for t in dish.cultural_traditions)}")
-        
-        if dish.chef_style:
-            parts.append(f"Chef style: {dish.chef_style}")
-        
-        return ". ".join(parts)
-    
-    def calculate_semantic_dish_similarity(self, dish1: Dish, dish2: Dish) -> float:
-        """
-        Calcula similitud semántica entre dos platos.
-        
-        Args:
-            dish1: Primer plato
-            dish2: Segundo plato
-            
-        Returns:
-            Similitud entre 0 y 1
-        """
-        if not self.is_available():
-            return calculate_dish_similarity(dish1, dish2)
-        
-        desc1 = self.get_dish_description(dish1)
-        desc2 = self.get_dish_description(dish2)
-        
-        return self.calculate_text_similarity(desc1, desc2)

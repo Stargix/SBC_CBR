@@ -950,7 +950,35 @@ class CaseAdapter:
             candidates = [d for d in candidates
                          if not any(ing in d.ingredients for ing in request.restricted_ingredients)]
         
-        print(f"      Candidatos tras filtros críticos: {len(candidates)}")
+        # FILTRO 4: Incompatibilidad de categorías con otros platos del menú
+        # Evitar que dos platos del menú tengan categorías incompatibles
+        other_dishes = []
+        for dish_attr in ['starter', 'main_course', 'dessert']:
+            other_dish = getattr(current_menu, dish_attr)
+            if other_dish.id != original_dish.id:  # Excluir el plato que estamos reemplazando
+                other_dishes.append(other_dish)
+        
+        if other_dishes:
+            candidates_compatible = []
+            for candidate in candidates:
+                # Verificar compatibilidad con todos los otros platos
+                is_compatible = True
+                for other in other_dishes:
+                    if not are_categories_compatible(candidate.category, other.category):
+                        is_compatible = False
+                        break
+                
+                if is_compatible:
+                    candidates_compatible.append(candidate)
+            
+            if candidates_compatible:
+                candidates = candidates_compatible
+                print(f"      Candidatos tras filtro de compatibilidad: {len(candidates)}")
+            else:
+                # Si no hay candidatos compatibles, mantener todos y advertir
+                print(f"      ⚠️  No hay candidatos con categorías compatibles, manteniendo todos")
+        
+        print(f"      Candidatos finales: {len(candidates)}")
         
         if not candidates:
             print(f"      ❌ Sin candidatos válidos")
