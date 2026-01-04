@@ -17,9 +17,11 @@ Se implementan tanto métricas simples como extensiones con
 posibilidad de integrar embeddings o LLMs para similitud semántica.
 """
 
-from typing import List, Dict, Tuple, Optional, Callable
+from typing import List, Dict, Tuple, Optional, Callable, Set
 from dataclasses import dataclass
 import math
+import json
+import os
 
 from .models import (
     Case, Request, Menu, Dish,
@@ -89,6 +91,30 @@ class SimilarityCalculator:
         self.weights = weights or SimilarityWeights()
         self.weights.normalize()
         self.allow_dietary_adaptation = allow_dietary_adaptation
+        
+        # Cargar conocimiento de ingredientes para análisis cultural
+        self._load_ingredients_knowledge()
+    
+    def _load_ingredients_knowledge(self):
+        """Carga el conocimiento de ingredientes desde JSON para análisis cultural"""
+        config_path = os.path.join(
+            os.path.dirname(__file__), '..', 'config', 'ingredients.json'
+        )
+        
+        with open(config_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        self.ingredient_to_cultures = data['ingredient_to_cultures']
+        self.cultures = data['cultures']
+        
+        # Construir índice cultura -> ingredientes
+        self.culture_to_ingredients = {}
+        for ingredient, data in self.ingredient_to_cultures.items():
+            cultures = data.get('cultures', []) if isinstance(data, dict) else data
+            for culture in cultures:
+                if culture not in self.culture_to_ingredients:
+                    self.culture_to_ingredients[culture] = set()
+                self.culture_to_ingredients[culture].add(ingredient)
     
     def calculate_similarity(self, request: Request, case: Case) -> float:
         """
@@ -348,6 +374,60 @@ class SimilarityCalculator:
               cultural_relations.get((case_culture, req_culture), 0.3))
         
         return sim
+    
+    def is_ingredient_cultural(self, ingredient: str, 
+                              culture: CulturalTradition) -> bool:
+        """
+        Verifica si un ingrediente es apropiado para una cultura.
+        
+        Args:
+            ingredient: Ingrediente a verificar
+            culture: Tradición cultural
+            
+        Returns:
+            True si el ingrediente es apropiado para esa cultura
+        """
+        ing_data = self.ingredient_to_cultures.get(ingredient, {})
+        cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+        
+        # Universal siempre es apropiado
+        cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+        if 'universal' in cultures_lower:
+            return True
+        
+        # Manejar cultura como string o enum
+        if isinstance(culture, str):
+            culture_name = culture.lower()
+        else:
+            culture_name = culture.value.lower()
+        
+        return culture_name in cultures_lower
+    
+    def get_cultural_score(self, ingredients: List[str], 
+                          culture: CulturalTradition) -> float:
+        """
+        Calcula qué tan culturalmente apropiados son los ingredientes.
+        
+        Este método analiza la proporción de ingredientes de un plato que son
+        característicos o apropiados para una cultura gastronómica específica.
+        
+        Args:
+            ingredients: Lista de ingredientes
+            culture: Cultura a evaluar
+            
+        Returns:
+            Score 0.0-1.0, donde 1.0 significa que todos los ingredientes
+            son apropiados para la cultura
+        """
+        if not ingredients:
+            return 0.5
+        
+        appropriate_count = sum(
+            1 for ing in ingredients 
+            if self.is_ingredient_cultural(ing, culture)
+        )
+        
+        return appropriate_count / len(ingredients)
     
     def _dietary_similarity(self, required_diets: List[str], menu: Menu) -> float:
         """

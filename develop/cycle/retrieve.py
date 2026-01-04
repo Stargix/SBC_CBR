@@ -132,15 +132,14 @@ class CaseRetriever:
                     details['cultural_match'] = 1.0
                 else:
                     # Cultura diferente - calcular qué tan adaptable es
-                    from .ingredient_adapter import get_ingredient_adapter
-                    adapter = get_ingredient_adapter()
-                    
-                    # Calcular score cultural promedio del menú
+                    # Calcular score cultural promedio del menú usando SimilarityCalculator
                     cultural_scores = []
                     for dish_attr in ['starter', 'main_course', 'dessert']:
                         dish = getattr(case.menu, dish_attr)
                         if dish.ingredients:
-                            score = adapter.get_cultural_score(dish.ingredients, request.cultural_preference)
+                            score = self.similarity_calc.get_cultural_score(
+                                dish.ingredients, request.cultural_preference
+                            )
                             cultural_scores.append(score)
                     
                     if cultural_scores:

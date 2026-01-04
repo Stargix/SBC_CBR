@@ -973,8 +973,8 @@ class CaseAdapter:
             if not dish.ingredients:
                 continue  # Necesitamos ingredientes para evaluar
             
-            # SCORE 1: Cultural (0-1)
-            cultural_score = adapter.get_cultural_score(dish.ingredients, target_culture)
+            # SCORE 1: Cultural (0-1) - Usar SimilarityCalculator del CORE
+            cultural_score = self.similarity_calc.get_cultural_score(dish.ingredients, target_culture)
             
             # SCORE 2: Compatibilidad de sabores con otros platos del menú (0-1)
             from ..core.knowledge import are_flavors_compatible
@@ -1012,7 +1012,7 @@ class CaseAdapter:
                 temp_score = 1.0  # Main/dessert no tienen restricción de temperatura
             
             # SCORE 4: Score cultural ajustado con ponderación de ingredientes
-            # Normalizar culture para comparación (en minúsculas)
+            # Contar ingredientes específicos y universales usando SimilarityCalculator
             if isinstance(target_culture, str):
                 culture_name = target_culture.lower()
             else:
@@ -1022,12 +1022,16 @@ class CaseAdapter:
             universal_count = 0
             
             for ing in dish.ingredients:
-                cultures_info = adapter.ingredient_to_cultures.get(ing, {})
-                cultures = cultures_info.get('cultures', []) if isinstance(cultures_info, dict) else cultures_info
-                if culture_name in cultures:
-                    specific_count += 1
-                elif 'universal' in [c.lower() for c in cultures] if isinstance(cultures, list) else False:
-                    universal_count += 1
+                if self.similarity_calc.is_ingredient_cultural(ing, target_culture):
+                    # Verificar si es específico de la cultura o universal
+                    ing_data = self.similarity_calc.ingredient_to_cultures.get(ing, {})
+                    cultures = ing_data.get('cultures', []) if isinstance(ing_data, dict) else ing_data
+                    cultures_lower = [c.lower() for c in cultures] if isinstance(cultures, list) else []
+                    
+                    if 'universal' in cultures_lower:
+                        universal_count += 1
+                    elif culture_name in cultures_lower:
+                        specific_count += 1
             
             total_ingredients = len(dish.ingredients)
             if total_ingredients > 0:
@@ -1129,7 +1133,7 @@ class CaseAdapter:
                 continue  # Sin ingredientes listados, no podemos adaptar
             
             # Calcular similitud cultural ANTES de adaptar
-            original_score = adapter.get_cultural_score(dish.ingredients, target_culture)
+            original_score = self.similarity_calc.get_cultural_score(dish.ingredients, target_culture)
             
             # DECISIÓN: ¿Adaptar ingredientes o buscar plato diferente?
             # Buscar reemplazo si el plato tiene MUY POCOS ingredientes apropiados
@@ -1178,7 +1182,7 @@ class CaseAdapter:
                     ]
                     
                     # Calcular nuevo score
-                    new_score = adapter.get_cultural_score(temp_ingredients, target_culture)
+                    new_score = self.similarity_calc.get_cultural_score(temp_ingredients, target_culture)
                     
                     # Solo aplicar si mejora
                     if new_score > current_score:
