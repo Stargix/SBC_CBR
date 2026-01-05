@@ -1,6 +1,6 @@
 {
   "test_name": "Semantic Cultural Adaptation",
-  "timestamp": "2026-01-05T02:18:20.527086",
+  "timestamp": "2026-01-05T03:28:39.956498",
   "test_cases": [
     {
       "scenario_id": "italian_adaptation",
@@ -16,7 +16,7 @@
         "ingredient_substitutions": 0,
         "dish_replacements": 0,
         "cultural_theme": "italian",
-        "total_price": 45.0
+        "total_price": 44.2
       }
     },
     {
@@ -33,7 +33,7 @@
         "ingredient_substitutions": 0,
         "dish_replacements": 0,
         "cultural_theme": "spanish",
-        "total_price": 44.8
+        "total_price": 44.0
       }
     },
     {
@@ -48,7 +48,7 @@
         "menus_generated": 3,
         "cultural_adaptations_applied": 3,
         "ingredient_substitutions": 0,
-        "dish_replacements": 0,
+        "dish_replacements": 1,
         "cultural_theme": "japanese",
         "total_price": 36.8
       }
@@ -67,7 +67,7 @@
         "ingredient_substitutions": 0,
         "dish_replacements": 0,
         "cultural_theme": "french",
-        "total_price": 44.8
+        "total_price": 44.3
       }
     }
   ],
@@ -76,7 +76,7 @@
     "avg_retrieval_similarity": 0.9059999999999999,
     "total_cultural_adaptations": 6,
     "total_ingredient_substitutions": 0,
-    "total_dish_replacements": 0,
+    "total_dish_replacements": 1,
     "adaptation_rate": 1.5
   }
 }

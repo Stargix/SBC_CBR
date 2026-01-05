@@ -1,21 +1,21 @@
 {
   "test_name": "Adaptive Weight Learning",
-  "timestamp": "2026-01-05T02:18:20.293511",
+  "timestamp": "2026-01-05T03:28:39.212096",
   "systems": {
     "static": {
       "name": "Static Weights",
       "results": [
         {
           "iteration": 1,
-          "proposals_count": 3,
-          "top_similarity": 0.7880000000000001,
-          "avg_similarity": 0.7490000000000002
+          "proposals_count": 2,
+          "top_similarity": 0.6960000000000002,
+          "avg_similarity": 0.6795000000000001
         },
         {
           "iteration": 2,
           "proposals_count": 3,
           "top_similarity": 0.7110000000000001,
-          "avg_similarity": 0.6869999999999999
+          "avg_similarity": 0.6773333333333333
         },
         {
           "iteration": 3,
@@ -42,9 +42,9 @@
       "results": [
         {
           "iteration": 1,
-          "proposals_count": 3,
-          "top_similarity": 0.7880000000000001,
-          "avg_similarity": 0.7490000000000002,
+          "proposals_count": 2,
+          "top_similarity": 0.6960000000000002,
+          "avg_similarity": 0.6795000000000001,
           "weights": {
             "event_type": 0.2,
             "season": 0.12,
@@ -61,7 +61,7 @@
           "iteration": 2,
           "proposals_count": 3,
           "top_similarity": 0.7102897102897103,
-          "avg_similarity": 0.6863136863136864,
+          "avg_similarity": 0.6816516816516817,
           "weights": {
             "event_type": 0.19980019980019978,
             "season": 0.11988011988011986,
@@ -130,10 +130,10 @@
   },
   "summary": {
     "test_cases": 5,
-    "static_avg_similarity": 0.7997500000000001,
-    "adaptive_avg_similarity": 0.7997226397998598,
-    "improvement": -2.736020014026952e-05,
-    "improvement_pct": -0.003421094109442891,
+    "static_avg_similarity": 0.78135,
+    "adaptive_avg_similarity": 0.7813226397998598,
+    "improvement": -2.7360200140158497e-05,
+    "improvement_pct": -0.0035016574057923464,
     "weight_changes": {
       "event_type": {
         "initial": 0.2,

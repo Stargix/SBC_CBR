@@ -375,7 +375,8 @@ class ExplanationGenerator:
     def generate_full_report(self, proposed_menus: List[ProposedMenu],
                              rejected_cases: List[Dict],
                              request: Request,
-                             retrieval_results: Optional[List] = None) -> str:
+                             retrieval_results: Optional[List] = None,
+                             stats: Optional[Dict] = None) -> str:
         """
         Genera un informe completo de explicaciones del proceso CBR.
         
@@ -384,6 +385,7 @@ class ExplanationGenerator:
             rejected_cases: Casos rechazados con razones
             request: Solicitud original
             retrieval_results: Resultados detallados de RETRIEVE (opcional)
+            stats: Estadísticas del proceso CBR (opcional)
             
         Returns:
             Informe en formato texto con explicabilidad completa
@@ -544,11 +546,19 @@ class ExplanationGenerator:
         lines.append(f"\n{'='*80}")
         lines.append("RESUMEN DEL PROCESO CBR")
         lines.append("-" * 80)
-        lines.append(f"- Casos analizados en RETRIEVE: {len(retrieval_results) if retrieval_results else 'N/A'}")
-        lines.append(f"- Menús adaptados en ADAPT: {len(proposed_menus) + len(rejected_cases)}")
-        lines.append(f"- Menús validados en REVISE: {len(proposed_menus)}")
-        lines.append(f"- Menús rechazados: {len(rejected_cases)}")
-        lines.append(f"- Propuestas finales presentadas: {len(proposed_menus)}")
+        
+        if stats:
+            # Usar stats precisas del proceso
+            lines.append(f"- Casos recuperados (RETRIEVE): {stats.get('cases_retrieved', 'N/A')}")
+            lines.append(f"- Casos adaptados (ADAPT): {stats.get('cases_adapted', 'N/A')}")
+            lines.append(f"- Menús aprobados (REVISE): {stats.get('cases_validated', 'N/A')}")
+            lines.append(f"- Menús rechazados: {stats.get('cases_rejected', 'N/A')}")
+        else:
+            # Fallback: calcular desde los datos disponibles
+            lines.append(f"- Casos recuperados (RETRIEVE): {len(retrieval_results) if retrieval_results else 'N/A'}")
+            lines.append(f"- Casos procesados: {len(proposed_menus) + len(rejected_cases)}")
+            lines.append(f"- Menús aprobados (REVISE): {len(proposed_menus)}")
+            lines.append(f"- Menús rechazados: {len(rejected_cases)}")
         
         lines.append("\n" + "=" * 80)
         lines.append("Sistema CBR de Chef Digital - Explicabilidad Completa")

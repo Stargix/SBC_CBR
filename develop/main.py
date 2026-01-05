@@ -170,7 +170,20 @@ class ChefDigitalCBR:
             similarity = result.similarity
             
             # REUSE/ADAPT
-            adapted_menu, adaptations = self._adapt_phase(case, request)
+            adapt_result = self._adapt_phase(case, request)
+            
+            if adapt_result is None:
+                # ADAPT rechazó el caso (no se pudo adaptar a las restricciones)
+                stats["cases_rejected"] += 1
+                rejected_cases.append({
+                    "case": case,
+                    "menu_name": f"Menú basado en caso {case.id}",
+                    "reasons": ["No se pudo adaptar a las restricciones dietéticas"],
+                    "similarity": similarity
+                })
+                continue
+            
+            adapted_menu, adaptations = adapt_result
             stats["cases_adapted"] += 1
             
             # REVISE
@@ -215,7 +228,8 @@ class ChefDigitalCBR:
         # Generar explicaciones CON DATOS DETALLADOS DE RETRIEVE
         explanations = self.explainer.generate_full_report(
             proposed_menus, rejected_cases, request, 
-            retrieval_results=retrieval_results  # Pasar resultados detallados
+            retrieval_results=retrieval_results,  # Pasar resultados detallados
+            stats=stats  # Pasar estadísticas precisas
         )
         
         # Calcular tiempo de procesamiento
@@ -269,7 +283,7 @@ class ChefDigitalCBR:
         
         return [(result.case, result.similarity) for result in detailed_results]
     
-    def _adapt_phase(self, case: Case, request: Request) -> Tuple[Menu, List[str]]:
+    def _adapt_phase(self, case: Case, request: Request) -> Optional[Tuple[Menu, List[str]]]:
         """
         Ejecuta la fase REUSE/ADAPT del ciclo CBR.
         
@@ -278,7 +292,7 @@ class ChefDigitalCBR:
             request: Solicitud del cliente
             
         Returns:
-            Tupla (menú adaptado, lista de adaptaciones)
+            Tupla (menú adaptado, lista de adaptaciones) o None si no se pudo adaptar
         """
         # Usar el CaseAdapter para adaptar el caso
         try:
@@ -301,8 +315,8 @@ class ChefDigitalCBR:
             result = adapted_results[0]
             return result.adapted_menu, result.adaptations_made
         else:
-            # Fallback: retornar menú original
-            return case.menu, [f"Caso base sin adaptar: {case.id}"]
+            # ADAPT rechazó el caso (no se pudo adaptar)
+            return None
     
     def _revise_phase(self, menu: Menu, request: Request) -> ValidationResult:
         """
