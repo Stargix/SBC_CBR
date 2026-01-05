@@ -310,7 +310,6 @@ class CaseRetainer:
                 self.case_base.cases = [
                     c for c in self.case_base.cases if c.id not in to_remove
                 ]
-                print(f"🧹 Mantenimiento: {len(to_remove)} casos redundantes eliminados")
             else:
                 # Si no hay redundantes, eliminar los de menor utilidad
                 # (como último recurso)
@@ -428,7 +427,6 @@ class CaseRetainer:
         ]
         
         removed_count = len(event_cases) - len(to_keep)
-        print(f"⚠️ Mantenimiento fallback: {removed_count} casos de baja utilidad eliminados")
     
     def _calculate_case_utility(self, case: Case) -> float:
         """
@@ -584,9 +582,6 @@ class CaseRetainer:
         
         for case in cases_to_remove:
             self.case_base.cases.remove(case)
-        
-        print(f"🗑️  Política de olvido: {to_remove_count} casos de baja utilidad eliminados")
-        print(f"   Base de casos reducida a {len(self.case_base.get_all_cases())} casos")
     
     def export_learned_cases(self) -> List[Dict[str, Any]]:
         """

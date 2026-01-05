@@ -117,7 +117,7 @@ class CaseAdapter:
         
         # Advertir si se rechazaron casos por similitud a failures
         if rejected_by_negatives > 0:
-            print(f"⚠️  {rejected_by_negatives} caso(s) rechazado(s) por similitud a failures previos")
+            pass  # Información capturada en stats, no imprimir
         
         # Si no hay suficientes, generar menús nuevos
         attempts = 0
@@ -132,7 +132,7 @@ class CaseAdapter:
                 neg_sim = self._check_against_negative_cases(request, new_menu.adapted_menu)
                 
                 if neg_sim > 0.75:
-                    print(f"⚠️  Menú generado rechazado: {neg_sim:.0%} similar a failure")
+                    # Menú rechazado, información capturada en attempts
                     continue  # Intentar otro
                 
                 adapted_menus.append(new_menu)
@@ -918,18 +918,13 @@ class CaseAdapter:
         Returns:
             Plato de reemplazo con mejor similitud global o None
         """
-        print(f"\n   🔍 BÚSQUEDA DE REEMPLAZO para {original_dish.name}")
+        # Buscar plato de reemplazo
         target_culture_name = target_culture if isinstance(target_culture, str) else target_culture.value
-        print(f"      Cultura objetivo: {target_culture_name}")
-        print(f"      Tipo de plato: {original_dish.dish_type.value}")
         
         # Obtener todos los platos del mismo tipo
         candidates = self.case_base.get_dishes_by_type(original_dish.dish_type)
         
-        print(f"      Candidatos totales: {len(candidates)}")
-        
         if not candidates:
-            print(f"      ❌ Sin candidatos")
             return None
         
         # FILTRO 1: Platos que ya están en el menú (evitar duplicados)
@@ -973,15 +968,8 @@ class CaseAdapter:
             
             if candidates_compatible:
                 candidates = candidates_compatible
-                print(f"      Candidatos tras filtro de compatibilidad: {len(candidates)}")
-            else:
-                # Si no hay candidatos compatibles, mantener todos y advertir
-                print(f"      ⚠️  No hay candidatos con categorías compatibles, manteniendo todos")
-        
-        print(f"      Candidatos finales: {len(candidates)}")
         
         if not candidates:
-            print(f"      ❌ Sin candidatos válidos")
             return None
         
         # SCORING: Usar calculate_dish_similarity mejorado que ya incluye cultura
@@ -1014,23 +1002,9 @@ class CaseAdapter:
         # Ordenar por score
         scored_candidates.sort(key=lambda x: x[1], reverse=True)
         
-        # Mostrar top 5
-        print(f"      📊 TOP 5 candidatos:")
-        for i, (dish, score) in enumerate(scored_candidates[:5], 1):
-            # Calcular componentes para mostrar
-            cultural_score = self.similarity_calc.get_cultural_score(dish.ingredients, target_culture)
-            dish_sim_without_culture = calculate_dish_similarity(original_dish, dish)
-            
-            print(f"         {i}. {dish.name}:")
-            print(f"            Cultural: {cultural_score:.0%} | Sin cultura: {dish_sim_without_culture:.0%} | TOTAL: {score:.0%}")
-        
         # Retornar el mejor
         best_dish = scored_candidates[0][0]
         best_score = scored_candidates[0][1]
-        
-        print(f"      ✅ SELECCIONADO: {best_dish.name} (score: {best_score:.0%})")
-        
-        return best_dish
         
         return best_dish
     

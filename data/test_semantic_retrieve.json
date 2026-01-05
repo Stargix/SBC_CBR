@@ -1,0 +1,256 @@
+{
+  "test_name": "Semantic Similarity in RETRIEVE",
+  "timestamp": "2026-01-05T02:18:20.801581",
+  "cultural_preferences": [
+    {
+      "target_culture": "italian",
+      "cases_retrieved": 5,
+      "retrieved_cases": [
+        {
+          "rank": 1,
+          "case_id": "case-init-7",
+          "similarity_score": 1.0,
+          "case_culture": "italian",
+          "cultural_match": true
+        },
+        {
+          "rank": 2,
+          "case_id": "case-init-16",
+          "similarity_score": 1.0,
+          "case_culture": "italian",
+          "cultural_match": true
+        },
+        {
+          "rank": 3,
+          "case_id": "case-init-9",
+          "similarity_score": 0.966,
+          "case_culture": "italian",
+          "cultural_match": true
+        },
+        {
+          "rank": 4,
+          "case_id": "case-init-27",
+          "similarity_score": 0.96,
+          "case_culture": "italian",
+          "cultural_match": true
+        },
+        {
+          "rank": 5,
+          "case_id": "case-init-12",
+          "similarity_score": 0.946,
+          "case_culture": "italian",
+          "cultural_match": true
+        }
+      ],
+      "metrics": {
+        "top_similarity": 1.0,
+        "avg_similarity": 0.9743999999999999,
+        "exact_cultural_matches": 5,
+        "top_result_is_match": true
+      }
+    },
+    {
+      "target_culture": "spanish",
+      "cases_retrieved": 5,
+      "retrieved_cases": [
+        {
+          "rank": 1,
+          "case_id": "case-init-7",
+          "similarity_score": 0.8330000000000001,
+          "case_culture": "italian",
+          "cultural_match": false
+        },
+        {
+          "rank": 2,
+          "case_id": "case-init-16",
+          "similarity_score": 0.812,
+          "case_culture": "italian",
+          "cultural_match": false
+        },
+        {
+          "rank": 3,
+          "case_id": "case-init-8",
+          "similarity_score": 0.762,
+          "case_culture": "french",
+          "cultural_match": false
+        },
+        {
+          "rank": 4,
+          "case_id": "case-init-43",
+          "similarity_score": 0.7610000000000001,
+          "case_culture": "french",
+          "cultural_match": false
+        },
+        {
+          "rank": 5,
+          "case_id": "case-init-42",
+          "similarity_score": 0.7560000000000001,
+          "case_culture": "french",
+          "cultural_match": false
+        }
+      ],
+      "metrics": {
+        "top_similarity": 0.8330000000000001,
+        "avg_similarity": 0.7848,
+        "exact_cultural_matches": 0,
+        "top_result_is_match": false
+      }
+    },
+    {
+      "target_culture": "french",
+      "cases_retrieved": 5,
+      "retrieved_cases": [
+        {
+          "rank": 1,
+          "case_id": "case-init-8",
+          "similarity_score": 0.994,
+          "case_culture": "french",
+          "cultural_match": true
+        },
+        {
+          "rank": 2,
+          "case_id": "case-init-43",
+          "similarity_score": 0.9929999999999999,
+          "case_culture": "french",
+          "cultural_match": true
+        },
+        {
+          "rank": 3,
+          "case_id": "case-init-6",
+          "similarity_score": 0.988,
+          "case_culture": "french",
+          "cultural_match": true
+        },
+        {
+          "rank": 4,
+          "case_id": "case-init-42",
+          "similarity_score": 0.988,
+          "case_culture": "french",
+          "cultural_match": true
+        },
+        {
+          "rank": 5,
+          "case_id": "case-init-14",
+          "similarity_score": 0.9369999999999998,
+          "case_culture": "french",
+          "cultural_match": true
+        }
+      ],
+      "metrics": {
+        "top_similarity": 0.994,
+        "avg_similarity": 0.9799999999999999,
+        "exact_cultural_matches": 5,
+        "top_result_is_match": true
+      }
+    },
+    {
+      "target_culture": "japanese",
+      "cases_retrieved": 5,
+      "retrieved_cases": [
+        {
+          "rank": 1,
+          "case_id": "case-init-7",
+          "similarity_score": 0.793,
+          "case_culture": "italian",
+          "cultural_match": false
+        },
+        {
+          "rank": 2,
+          "case_id": "case-init-16",
+          "similarity_score": 0.772,
+          "case_culture": "italian",
+          "cultural_match": false
+        },
+        {
+          "rank": 3,
+          "case_id": "case-init-31",
+          "similarity_score": 0.753,
+          "case_culture": "american",
+          "cultural_match": false
+        },
+        {
+          "rank": 4,
+          "case_id": "case-init-8",
+          "similarity_score": 0.738,
+          "case_culture": "french",
+          "cultural_match": false
+        },
+        {
+          "rank": 5,
+          "case_id": "case-init-43",
+          "similarity_score": 0.7370000000000001,
+          "case_culture": "french",
+          "cultural_match": false
+        }
+      ],
+      "metrics": {
+        "top_similarity": 0.793,
+        "avg_similarity": 0.7586,
+        "exact_cultural_matches": 0,
+        "top_result_is_match": false
+      }
+    },
+    {
+      "target_culture": "mexican",
+      "cases_retrieved": 5,
+      "retrieved_cases": [
+        {
+          "rank": 1,
+          "case_id": "case-init-51",
+          "similarity_score": 0.9289999999999998,
+          "case_culture": "mexican",
+          "cultural_match": true
+        },
+        {
+          "rank": 2,
+          "case_id": "case-init-29",
+          "similarity_score": 0.9080000000000001,
+          "case_culture": "mexican",
+          "cultural_match": true
+        },
+        {
+          "rank": 3,
+          "case_id": "case-init-7",
+          "similarity_score": 0.793,
+          "case_culture": "italian",
+          "cultural_match": false
+        },
+        {
+          "rank": 4,
+          "case_id": "case-init-31",
+          "similarity_score": 0.777,
+          "case_culture": "american",
+          "cultural_match": false
+        },
+        {
+          "rank": 5,
+          "case_id": "case-init-16",
+          "similarity_score": 0.772,
+          "case_culture": "italian",
+          "cultural_match": false
+        }
+      ],
+      "metrics": {
+        "top_similarity": 0.9289999999999998,
+        "avg_similarity": 0.8358000000000001,
+        "exact_cultural_matches": 2,
+        "top_result_is_match": true
+      }
+    }
+  ],
+  "summary": {
+    "cultures_tested": 5,
+    "total_cases_retrieved": 25,
+    "exact_cultural_matches": 12,
+    "exact_match_rate": 0.48,
+    "top_result_match_rate": 0.6,
+    "avg_retrieval_similarity": 0.9097999999999999
+  },
+  "case_base_distribution": {
+    "american": 9,
+    "mexican": 3,
+    "french": 10,
+    "italian": 10,
+    "indian": 9
+  }
+}

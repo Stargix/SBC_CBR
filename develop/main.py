@@ -154,17 +154,20 @@ class ChefDigitalCBR:
         }
         
         # FASE 1: RETRIEVE - Recuperar casos similares
-        retrieved_cases = self._retrieve_phase(request)
-        stats["cases_retrieved"] = len(retrieved_cases)
+        retrieval_results = self._retrieve_phase_detailed(request)
+        stats["cases_retrieved"] = len(retrieval_results)
         
-        if not retrieved_cases:
+        if not retrieval_results:
             # Sin casos similares, intentar generación desde conocimiento
-            retrieved_cases = self._generate_from_knowledge(request)
+            retrieval_results = self._generate_from_knowledge_detailed(request)
         
         # FASE 2-3: REUSE/ADAPT + REVISE para cada caso
-        for case, similarity in retrieved_cases:
+        for result in retrieval_results:
             if len(proposed_menus) >= self.config.max_proposals * 2:  # Recuperar más para diversificar
                 break
+            
+            case = result.case
+            similarity = result.similarity
             
             # REUSE/ADAPT
             adapted_menu, adaptations = self._adapt_phase(case, request)
@@ -173,7 +176,7 @@ class ChefDigitalCBR:
             # REVISE
             validation = self._revise_phase(adapted_menu, request)
             
-            if validation.is_valid:
+            if validation.is_valid():  # Llamar al método para verificar validación
                 stats["cases_validated"] += 1
                 
                 # Crear propuesta
@@ -209,9 +212,10 @@ class ChefDigitalCBR:
             for i, proposal in enumerate(proposed_menus, 1):
                 proposal.rank = i
         
-        # Generar explicaciones
+        # Generar explicaciones CON DATOS DETALLADOS DE RETRIEVE
         explanations = self.explainer.generate_full_report(
-            proposed_menus, rejected_cases, request
+            proposed_menus, rejected_cases, request, 
+            retrieval_results=retrieval_results  # Pasar resultados detallados
         )
         
         # Calcular tiempo de procesamiento
@@ -226,6 +230,30 @@ class ChefDigitalCBR:
             stats=stats
         )
     
+    def _retrieve_phase_detailed(self, request: Request) -> List:
+        """
+        Ejecuta la fase RETRIEVE del ciclo CBR con detalles completos.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            Lista de RetrievalResult con similarity_details
+        """
+        # Recuperar casos candidatos con detalles completos
+        candidates = self.retriever.retrieve(
+            request,
+            k=self.config.max_proposals * 3  # Recuperar más para tener opciones
+        )
+        
+        # Filtrar por similitud mínima
+        filtered = [
+            result for result in candidates
+            if result.similarity >= self.config.min_similarity
+        ]
+        
+        return filtered
+    
     def _retrieve_phase(self, request: Request) -> List[Tuple[Case, float]]:
         """
         Ejecuta la fase RETRIEVE del ciclo CBR.
@@ -236,19 +264,10 @@ class ChefDigitalCBR:
         Returns:
             Lista de (caso, similitud) ordenada por similitud
         """
-        # Recuperar casos candidatos
-        candidates = self.retriever.retrieve(
-            request,
-            k=self.config.max_proposals * 3  # Recuperar más para tener opciones
-        )
+        # Usar versión detallada y convertir a formato antiguo
+        detailed_results = self._retrieve_phase_detailed(request)
         
-        # Filtrar por similitud mínima y convertir a tuplas (case, similarity)
-        filtered = [
-            (result.case, result.similarity) for result in candidates
-            if result.similarity >= self.config.min_similarity
-        ]
-        
-        return filtered
+        return [(result.case, result.similarity) for result in detailed_results]
     
     def _adapt_phase(self, case: Case, request: Request) -> Tuple[Menu, List[str]]:
         """
@@ -296,18 +315,46 @@ class ChefDigitalCBR:
         Returns:
             Resultado de la validación
         """
-        # Validación simple - por ahora aceptar todos los menús
-        # TODO: Implementar validación real
+        # Usar el MenuReviser para validación completa
+        validation_result = self.reviser._validate_menu(menu, request)
+        return validation_result
+    
+    def _generate_from_knowledge_detailed(self, request: Request) -> List:
+        """
+        Genera casos desde el conocimiento cuando no hay casos similares.
+        
+        Retorna resultados detallados para explicabilidad.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            Lista de RetrievalResult generados
+        """
+        # Usar versión antigua y convertir
+        old_format = self._generate_from_knowledge(request)
+        
+        # Convertir a formato detallado
         try:
-            from .cycle.revise import ValidationStatus
+            from .cycle.retrieve import RetrievalResult
         except ImportError:
-            from cycle.revise import ValidationStatus
-        return ValidationResult(
-            menu=menu,
-            status=ValidationStatus.VALID,
-            issues=[],
-            score=0.8
-        )
+            from cycle.retrieve import RetrievalResult
+        
+        detailed_results = []
+        for case, similarity in old_format:
+            result = RetrievalResult(
+                case=case,
+                similarity=similarity,
+                similarity_details={
+                    'event_type': 0.5,
+                    'style': 0.5,
+                    'generated': True
+                },
+                rank=len(detailed_results) + 1
+            )
+            detailed_results.append(result)
+        
+        return detailed_results
     
     def _generate_from_knowledge(self, request: Request) -> List[Tuple[Case, float]]:
         """

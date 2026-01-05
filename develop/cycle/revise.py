@@ -212,8 +212,8 @@ class MenuReviser:
         else:
             status = ValidationStatus.VALID
         
-        # Calcular puntuación
-        score = self._calculate_score(menu, request, issues)
+        # Calcular puntuación (pasando también las explicaciones)
+        score = self._calculate_score(menu, request, issues, explanations)
         
         # Agregar explicaciones del menú original
         explanations.extend(menu.explanation)
@@ -599,37 +599,172 @@ class MenuReviser:
         return issues, explanations
     
     def _calculate_score(self, menu: Menu, request: Request,
-                         issues: List[ValidationIssue]) -> float:
+                         issues: List[ValidationIssue],
+                         explanations: List[str] = None) -> float:
         """
-        Calcula una puntuación de calidad para el menú.
+        Calcula puntuación basada en múltiples factores ponderados.
         
+        Componentes (0-100):
+        - Cumplimiento de restricciones (30%): Lo más crítico
+        - Calidad gastronómica (25%): Armonías, compatibilidades
+        - Adaptación cultural (20%): Fidelidad a tradición solicitada
+        - Adecuación al evento (15%): Temperatura, calorías, complejidad
+        - Relación calidad-precio (10%): Valor por dinero
+        
+        Args:
+            menu: Menú a evaluar
+            request: Solicitud original
+            issues: Issues encontrados en validación
+            explanations: Explicaciones positivas generadas
+            
         Returns:
             Puntuación entre 0 y 100
         """
-        score = 100.0
+        if explanations is None:
+            explanations = []
         
-        # Penalizar por issues
+        # 1. CUMPLIMIENTO DE RESTRICCIONES (0-30 puntos) - CRÍTICO
+        compliance_score = 30.0
+        diet_errors = 0
+        ingredient_errors = 0
+        
         for issue in issues:
-            if issue.severity == "error":
-                score -= 25
-            elif issue.severity == "warning":
-                score -= 10
-            elif issue.severity == "info":
-                score -= 2
+            if issue.category in ["ingredients", "diets"]:
+                if issue.severity == "error":
+                    if issue.category == "diets":
+                        diet_errors += 1
+                    else:
+                        ingredient_errors += 1
+                elif issue.severity == "warning":
+                    compliance_score -= 10
         
-        # Bonus por estar en centro del rango de precio
-        if request.price_max > request.price_min:
+        # Penalizar severamente errores dietéticos/ingredientes
+        if diet_errors > 0 or ingredient_errors > 0:
+            # Ingredientes prohibidos = fallo TOTAL en cumplimiento
+            if ingredient_errors > 0:
+                compliance_score = 0
+            # Cada error dietético quita TODO el compliance (muy grave)
+            elif diet_errors > 0:
+                compliance_score = max(0, 30 - (diet_errors * 20))  # Un error = 10, dos = 0
+        
+        compliance_score = max(0, compliance_score)
+        
+        # PENALIZACIÓN EXTRA: Si hay errores críticos, reducir score total al final
+        critical_errors = diet_errors + ingredient_errors
+        
+        # 2. CALIDAD GASTRONÓMICA (0-25 puntos)
+        gastro_score = 25.0
+        
+        # Penalizar incompatibilidades
+        for issue in issues:
+            if issue.category in ["categories", "flavors"]:
+                if issue.severity == "error":
+                    gastro_score -= 15
+                elif issue.severity == "warning":
+                    gastro_score -= 5
+        
+        # Bonus por armonías detectadas en las explicaciones
+        harmony_keywords = ["armonía", "complementa", "buena progresión", 
+                          "equilibrado", "compatible"]
+        harmony_count = sum(1 for exp in explanations 
+                          for keyword in harmony_keywords
+                          if keyword.lower() in exp.lower())
+        gastro_score += min(5, harmony_count * 1.5)
+        gastro_score = max(0, min(25, gastro_score))
+        
+        # 3. ADAPTACIÓN CULTURAL (0-20 puntos)
+        cultural_score = 20.0
+        
+        if request.cultural_preference:
+            # Solo penalizar si el usuario pidió cultura específica
+            for issue in issues:
+                if issue.category == "culture":
+                    if issue.severity == "warning":
+                        cultural_score -= 10
+                    elif issue.severity == "info":
+                        cultural_score -= 5
+            
+            # Bonus por adaptaciones culturales exitosas
+            cultural_keywords = ["adaptado a cultura", "tradición cultural", 
+                               "bien adaptado", "cultura"]
+            cultural_positives = sum(1 for exp in explanations
+                                    for keyword in cultural_keywords
+                                    if keyword.lower() in exp.lower())
+            if cultural_positives > 0:
+                cultural_score += min(5, cultural_positives * 2)
+        # Si no pidió cultura específica, puntaje completo
+        cultural_score = max(0, min(20, cultural_score))
+        
+        # 4. ADECUACIÓN AL EVENTO (0-15 puntos)
+        event_score = 15.0
+        
+        for issue in issues:
+            if issue.category in ["temperature", "calories", "complexity"]:
+                if issue.severity == "warning":
+                    event_score -= 5
+                elif issue.severity == "info":
+                    event_score -= 2
+        
+        # Bonus por adecuaciones correctas
+        event_keywords = ["apropiado para", "ideal para", "perfecto para"]
+        event_positives = sum(1 for exp in explanations
+                            for keyword in event_keywords
+                            if keyword.lower() in exp.lower())
+        event_score += min(3, event_positives)
+        event_score = max(0, min(15, event_score))
+        
+        # 5. RELACIÓN CALIDAD-PRECIO (0-10 puntos)
+        price_score = 10.0
+        price_error = False
+        
+        # Penalizar si está fuera de rango
+        for issue in issues:
+            if issue.category == "price":
+                if issue.severity == "error":
+                    price_score = 0  # Fuera de presupuesto = 0
+                    price_error = True
+                elif issue.severity == "warning":
+                    price_score -= 5
+        
+        # Bonus por estar centrado en el rango (solo si no hay error)
+        if request.price_max > request.price_min and not price_error:
             center = (request.price_min + request.price_max) / 2
             deviation = abs(menu.total_price - center) / (request.price_max - request.price_min)
-            # Bonus si está cerca del centro
-            if deviation < 0.2:
-                score += 5
+            if deviation < 0.1:  # Muy centrado (±10%)
+                price_score += 3
+            elif deviation < 0.2:  # Centrado (±20%)
+                price_score += 2
+            elif deviation < 0.3:  # Razonablemente centrado
+                price_score += 1
         
-        # Bonus por feedback alto si viene de un caso
-        if hasattr(menu, 'source_case_feedback'):
-            score += menu.source_case_feedback * 2
+        price_score = max(0, min(10, price_score))
         
-        return max(0, min(100, score))
+        # BONUS: Feedback histórico (0-5 puntos extra)
+        feedback_bonus = 0
+        if hasattr(menu, 'source_case_feedback') and menu.source_case_feedback:
+            # Convertir feedback 1-5 estrellas a bonus 0-5 puntos
+            # 3 estrellas = 0 bonus, 5 estrellas = +5 bonus
+            feedback_bonus = (menu.source_case_feedback - 3) * 2.5
+            feedback_bonus = max(0, min(5, feedback_bonus))
+        
+        # TOTAL (puede llegar a 105 con bonus)
+        total = (compliance_score + gastro_score + cultural_score + 
+                event_score + price_score + feedback_bonus)
+        
+        # PENALIZACIÓN EXTRA por errores críticos
+        # Esto asegura que menús con errores graves tengan puntuación mucho más baja
+        if critical_errors > 0:
+            # Cada error crítico reduce el total en 15% adicional
+            penalty = critical_errors * 0.15
+            total = total * (1 - penalty)
+        
+        # Penalización por errores de precio
+        price_errors = sum(1 for i in issues if i.category == "price" and i.severity == "error")
+        if price_errors > 0:
+            total = total * 0.90  # -10% si está fuera de presupuesto
+        
+        # Normalizar a 0-100
+        return max(0, min(100, total))
     
     def generate_report(self, validation_results: List[ValidationResult],
                         request: Request) -> str:

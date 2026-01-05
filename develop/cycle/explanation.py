@@ -80,27 +80,72 @@ class ExplanationGenerator:
         pass
     
     def generate_selection_explanation(self, menu: ProposedMenu, 
-                                        request: Request) -> Explanation:
+                                        request: Request,
+                                        retrieval_result=None) -> Explanation:
         """
         Genera explicación de por qué se seleccionó un menú.
         
         Args:
             menu: Menú propuesto seleccionado
             request: Solicitud original
+            retrieval_result: Resultado detallado de RETRIEVE (opcional)
             
         Returns:
             Explicación de la selección
         """
         details = []
         
-        # Similitud con caso base
-        details.append(
-            f"Similitud con caso exitoso previo: {menu.similarity_score:.1%}"
-        )
+        # RETRIEVE: Desglose de similitud si está disponible
+        if retrieval_result and hasattr(retrieval_result, 'similarity_details'):
+            details.append("=== FASE RETRIEVE: Selección del caso base ===")
+            details.append(f"Similitud global: {menu.similarity_score:.1%}")
+            details.append("\nDesglose de similitud por criterio:")
+            
+            sim_details = retrieval_result.similarity_details
+            criteria_names = {
+                'event_type': 'Tipo de evento',
+                'price_range': 'Rango de precio',
+                'season': 'Temporada',
+                'style': 'Estilo culinario',
+                'cultural': 'Tradición cultural',
+                'dietary': 'Requisitos dietéticos',
+                'guests': 'Número de comensales',
+                'wine_preference': 'Preferencia de vino',
+                'success_bonus': 'Bonus por éxito previo'
+            }
+            
+            for key, score in sorted(sim_details.items(), key=lambda x: x[1], reverse=True):
+                name = criteria_names.get(key, key)
+                bar = '█' * int(score * 10)
+                details.append(f"  • {name}: {score:.1%} {bar}")
+        else:
+            # Fallback si no hay detalles de RETRIEVE
+            details.append(f"Similitud con caso exitoso previo: {menu.similarity_score:.1%}")
+        
+        # ADAPT: Adaptaciones realizadas
+        if menu.adaptations:
+            details.append("\n=== FASE ADAPT: Adaptaciones aplicadas ===")
+            details.append(f"Total de adaptaciones: {len(menu.adaptations)}")
+            for adaptation in menu.adaptations:
+                details.append(f"  • {adaptation}")
+        
+        # REVISE: Validación
+        if menu.validation_result:
+            details.append("\n=== FASE REVISE: Validación ===")
+            details.append(f"Estado: {menu.validation_result.status.value}")
+            if menu.validation_result.score:
+                details.append(f"Puntuación de validación: {menu.validation_result.score:.1f}")
+            
+            # Warnings si existen
+            warnings = [i for i in menu.validation_result.issues if i.severity == "warning"]
+            if warnings:
+                details.append(f"Advertencias: {len(warnings)}")
+                for w in warnings[:3]:  # Mostrar máximo 3
+                    details.append(f"  ⚠ {w.message}")
         
         # Adecuación al evento
         event_desc = self._get_event_description(request.event_type)
-        details.append(f"Diseñado específicamente para {event_desc}")
+        details.append(f"\nDiseñado específicamente para {event_desc}")
         
         # Temporada
         season_desc = self._get_season_description(request.season)
@@ -199,16 +244,7 @@ class ExplanationGenerator:
         details = []
         
         for adaptation in adaptations:
-            if "sustitución" in adaptation.lower() or "substitute" in adaptation.lower():
-                details.append(f"🔄 {adaptation}")
-            elif "ajuste" in adaptation.lower() or "adjust" in adaptation.lower():
-                details.append(f"⚖️ {adaptation}")
-            elif "añadido" in adaptation.lower() or "added" in adaptation.lower():
-                details.append(f"➕ {adaptation}")
-            elif "eliminado" in adaptation.lower() or "removed" in adaptation.lower():
-                details.append(f"➖ {adaptation}")
-            else:
-                details.append(f"✨ {adaptation}")
+            details.append(f"  - {adaptation}")
         
         content = (
             f"El menú ha sido personalizado partiendo de un caso exitoso "
@@ -275,7 +311,7 @@ class ExplanationGenerator:
                 for beverage in dish.beverages:
                     compatibility = self._get_wine_compatibility_reason(dish, beverage)
                     details.append(
-                        f"🍷 {dish.name} con {beverage.name}: {compatibility}"
+                        f"  {dish.name} con {beverage.name}: {compatibility}"
                     )
         
         content = (
@@ -338,75 +374,185 @@ class ExplanationGenerator:
     
     def generate_full_report(self, proposed_menus: List[ProposedMenu],
                              rejected_cases: List[Dict],
-                             request: Request) -> str:
+                             request: Request,
+                             retrieval_results: Optional[List] = None) -> str:
         """
-        Genera un informe completo de explicaciones.
+        Genera un informe completo de explicaciones del proceso CBR.
         
         Args:
             proposed_menus: Menús propuestos (hasta 3)
             rejected_cases: Casos rechazados con razones
             request: Solicitud original
+            retrieval_results: Resultados detallados de RETRIEVE (opcional)
             
         Returns:
-            Informe en formato texto
+            Informe en formato texto con explicabilidad completa
         """
         lines = []
-        lines.append("=" * 60)
-        lines.append("INFORME DE SELECCIÓN DE MENÚS")
-        lines.append("=" * 60)
+        lines.append("=" * 80)
+        lines.append("INFORME COMPLETO DE RAZONAMIENTO CBR - Chef Digital")
+        lines.append("=" * 80)
         lines.append("")
         
         # Resumen de la solicitud
-        lines.append("📋 SOLICITUD RECIBIDA")
-        lines.append("-" * 40)
+        lines.append("SOLICITUD RECIBIDA")
+        lines.append("-" * 80)
         lines.append(f"Tipo de evento: {request.event_type.value}")
         lines.append(f"Número de comensales: {request.num_guests}")
         lines.append(f"Presupuesto por persona: {request.price_max:.2f}€")
         lines.append(f"Temporada: {request.season.value}")
         if request.preferred_style:
             lines.append(f"Estilo preferido: {request.preferred_style.value}")
+        if request.cultural_preference:
+            lines.append(f"Preferencia cultural: {request.cultural_preference.value}")
         if request.required_diets:
-            lines.append(f"Restricciones: {', '.join(request.required_diets)}")
+            lines.append(f"Restricciones dietéticas: {', '.join(request.required_diets)}")
+        if request.restricted_ingredients:
+            lines.append(f"Ingredientes prohibidos: {', '.join(request.restricted_ingredients)}")
         lines.append("")
         
+        # FASE RETRIEVE: Mostrar resultados detallados
+        if retrieval_results:
+            lines.append("FASE 1: RETRIEVE - Recuperación de casos similares")
+            lines.append("-" * 80)
+            lines.append(f"Casos analizados: {len(retrieval_results)}")
+            lines.append("")
+            
+            for i, result in enumerate(retrieval_results[:5], 1):  # Top 5
+                case_name = result.case.id if hasattr(result.case, 'id') else f"Caso {i}"
+                lines.append(f"  Caso #{i}: {case_name} (Similitud: {result.similarity:.1%})")
+                
+                if hasattr(result, 'similarity_details'):
+                    lines.append("    Desglose de similitud:")
+                    sim_details = result.similarity_details
+                    
+                    criteria_names = {
+                        'event_type': 'Tipo de evento',
+                        'price_range': 'Rango de precio',
+                        'season': 'Temporada',
+                        'style': 'Estilo culinario',
+                        'cultural': 'Tradición cultural',
+                        'dietary': 'Requisitos dietéticos',
+                        'guests': 'Número de comensales',
+                        'wine_preference': 'Preferencia de vino',
+                        'success_bonus': 'Bonus por éxito previo'
+                    }
+                    
+                    for key in ['event_type', 'price_range', 'season', 'cultural', 'dietary']:
+                        if key in sim_details:
+                            score = sim_details[key]
+                            name = criteria_names.get(key, key)
+                            bar = '█' * int(score * 20)
+                            lines.append(f"      • {name:25s}: {score:5.1%} {bar}")
+                lines.append("")
+            lines.append("")
+        
         # Menús propuestos
-        lines.append("✅ MENÚS PROPUESTOS")
-        lines.append("-" * 40)
+        lines.append("FASE 2-3: ADAPT + REVISE - Menús adaptados y validados")
+        lines.append("-" * 80)
         
         for i, menu in enumerate(proposed_menus, 1):
-            lines.append(f"\n🍽️ OPCIÓN {i} (Similitud: {menu.similarity_score:.1%})")
-            
-            # Generar explicación de selección
-            explanation = self.generate_selection_explanation(menu, request)
-            lines.append(f"\n{explanation.content}")
-            lines.append("\nDetalles:")
-            for detail in explanation.details:
-                lines.append(f"  • {detail}")
+            lines.append(f"\n{'='*80}")
+            lines.append(f"PROPUESTA #{i}")
+            lines.append(f"{'='*80}")
             
             # Composición del menú
-            lines.append("\nComposición del menú:")
-            for dish in _get_menu_dishes(menu.menu):
-                lines.append(f"  - {dish.name} ({dish.dish_type.value})")
+            lines.append("\nCOMPOSICIÓN DEL MENÚ:")
+            lines.append(f"  Entrante:     {menu.menu.starter.name}")
+            lines.append(f"  Plato Fuerte: {menu.menu.main_course.name}")
+            lines.append(f"  Postre:       {menu.menu.dessert.name}")
+            if menu.menu.beverage:
+                lines.append(f"  Bebida:       {menu.menu.beverage.name}")
+            lines.append(f"\n  Precio total: {menu.menu.total_price:.2f}€ por persona")
+            lines.append(f"  Calorías totales: {menu.menu.total_calories:.2f} kcal")
             
-            lines.append(f"\nPrecio total: {menu.menu.total_price:.2f}€ por persona")
+            # RETRIEVE: Caso base
+            lines.append(f"\nRETRIEVE: Caso base seleccionado")
+            lines.append(f"  - Caso origen: {menu.source_case.id}")
+            lines.append(f"  - Similitud inicial: {menu.similarity_score:.1%}")
+            
+            # Buscar detalles de retrieve si están disponibles
+            if retrieval_results:
+                matching_result = next((r for r in retrieval_results if r.case.id == menu.source_case.id), None)
+                if matching_result and hasattr(matching_result, 'similarity_details'):
+                    lines.append("  - Desglose de similitud:")
+                    sim_details = matching_result.similarity_details
+                    for key, score in sorted(sim_details.items(), key=lambda x: x[1], reverse=True):
+                        if score > 0:
+                            lines.append(f"      {key}: {score:.1%}")
+            
+            # ADAPT: Adaptaciones realizadas
+            lines.append(f"\nADAPT: Adaptaciones aplicadas ({len(menu.adaptations)} total)")
+            if menu.adaptations:
+                for j, adaptation in enumerate(menu.adaptations, 1):
+                    lines.append(f"  {j}. {adaptation}")
+            else:
+                lines.append("  - Menú usado sin modificaciones")
+            
+            # REVISE: Validación
+            if menu.validation_result:
+                lines.append(f"\nREVISE: Validación del menú")
+                lines.append(f"  - Estado: {menu.validation_result.status.value.upper()}")
+                if menu.validation_result.score:
+                    lines.append(f"  - Puntuación de calidad: {menu.validation_result.score:.1f}")
+                
+                # Advertencias
+                warnings = [i for i in menu.validation_result.issues if i.severity == "warning"]
+                if warnings:
+                    lines.append(f"  - Advertencias ({len(warnings)}):")
+                    for w in warnings[:5]:
+                        lines.append(f"    ⚠ {w.message}")
+                
+                # Explicaciones de validación
+                if menu.validation_result.explanations:
+                    lines.append(f"  - Explicaciones de validación:")
+                    for exp in menu.validation_result.explanations[:5]:
+                        lines.append(f"      {exp}")
+            
             lines.append("")
         
         # Menús descartados
         if rejected_cases:
-            lines.append("\n❌ MENÚS DESCARTADOS")
-            lines.append("-" * 40)
+            lines.append(f"\n{'='*80}")
+            lines.append("MENÚS DESCARTADOS EN FASE REVISE")
+            lines.append("-" * 80)
+            lines.append(f"Total de casos rechazados: {len(rejected_cases)}")
+            lines.append("")
             
-            for rejected in rejected_cases[:3]:  # Máximo 3 rechazados
-                lines.append(f"\n📝 {rejected.get('menu_name', 'Menú')}:")
-                explanation = self.generate_rejection_explanation(
-                    rejected.get('case'),
-                    request,
-                    rejected.get('reasons', [])
-                )
-                for detail in explanation.details:
-                    lines.append(f"  • {detail}")
+            for idx, rejected in enumerate(rejected_cases[:5], 1):  # Máximo 5
+                case = rejected.get('case')
+                reasons = rejected.get('reasons', [])
+                similarity = rejected.get('similarity', 0.0)
+                menu_name = rejected.get('menu_name', f'Menú {case.id}' if case else 'Menú')
+                
+                lines.append(f"  {idx}. {menu_name} (Similitud: {similarity:.1%})")
+                
+                # Mostrar razones de rechazo
+                if reasons:
+                    if isinstance(reasons, list):
+                        # Si son ValidationIssue objects
+                        for issue in reasons[:3]:
+                            if hasattr(issue, 'message'):
+                                lines.append(f"     - {issue.message}")
+                            else:
+                                lines.append(f"     - {issue}")
+                    else:
+                        lines.append(f"     - {reasons}")
+                lines.append("")
         
-        lines.append("\n" + "=" * 60)
+        # Resumen final
+        lines.append(f"\n{'='*80}")
+        lines.append("RESUMEN DEL PROCESO CBR")
+        lines.append("-" * 80)
+        lines.append(f"- Casos analizados en RETRIEVE: {len(retrieval_results) if retrieval_results else 'N/A'}")
+        lines.append(f"- Menús adaptados en ADAPT: {len(proposed_menus) + len(rejected_cases)}")
+        lines.append(f"- Menús validados en REVISE: {len(proposed_menus)}")
+        lines.append(f"- Menús rechazados: {len(rejected_cases)}")
+        lines.append(f"- Propuestas finales presentadas: {len(proposed_menus)}")
+        
+        lines.append("\n" + "=" * 80)
+        lines.append("Sistema CBR de Chef Digital - Explicabilidad Completa")
+        lines.append("=" * 80)
         
         return "\n".join(lines)
     
