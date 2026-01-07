@@ -70,6 +70,39 @@ class SimilarityWeights:
             self.success_bonus /= total
 
 
+@dataclass
+class DishSimilarityWeights:
+    """
+    Pesos para los diferentes componentes de la similitud de platos.
+    
+    Estos pesos determinan la importancia relativa de cada característica
+    del plato al buscar alternativas similares durante la adaptación.
+    """
+    category: float = 0.15        # Categoría del plato (soup, pasta, etc.)
+    price: float = 0.15           # Precio del plato
+    complexity: float = 0.10      # Complejidad de preparación
+    flavors: float = 0.15         # Perfiles de sabor
+    styles: float = 0.15          # Estilos culinarios
+    temperature: float = 0.05     # Temperatura (hot/cold)
+    diets: float = 0.10           # Restricciones dietéticas
+    cultural: float = 0.15        # Adecuación cultural
+    
+    def normalize(self):
+        """Normaliza los pesos para que sumen 1"""
+        total = (self.category + self.price + self.complexity + 
+                self.flavors + self.styles + self.temperature + 
+                self.diets + self.cultural)
+        if total > 0:
+            self.category /= total
+            self.price /= total
+            self.complexity /= total
+            self.flavors /= total
+            self.styles /= total
+            self.temperature /= total
+            self.diets /= total
+            self.cultural /= total
+
+
 class SimilarityCalculator:
     """
     Calculadora de similitud entre casos CBR.
@@ -132,11 +165,63 @@ class SimilarityCalculator:
                     self.culture_to_ingredients[culture] = set()
                 self.culture_to_ingredients[culture].add(ingredient)
     
+    def _adjust_weights_for_request(self, request: Request) -> SimilarityWeights:
+        """
+        Ajusta dinámicamente los pesos según los campos especificados en el request.
+        
+        Si un campo no está especificado (None o valor por defecto vacío), 
+        su peso se reduce a 0 para esta petición y se redistribuye proporcionalmente
+        entre los demás campos activos.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            SimilarityWeights ajustado para esta petición (NO modifica self.weights)
+        """
+        # Crear copia de los pesos originales
+        import copy
+        adjusted = copy.deepcopy(self.weights)
+        
+        # Determinar qué campos NO están especificados
+        fields_to_zero = []
+        
+        # 1. preferred_style: None = no especificado
+        if request.preferred_style is None:
+            fields_to_zero.append('style')
+            adjusted.style = 0.0
+        
+        # 2. cultural_preference: None = no especificado
+        if request.cultural_preference is None:
+            fields_to_zero.append('cultural')
+            adjusted.cultural = 0.0
+        
+        # 3. required_diets: lista vacía = no especificado
+        if not request.required_diets:
+            fields_to_zero.append('dietary')
+            adjusted.dietary = 0.0
+        
+        # 4. wants_wine: False = no le importa el vino (valor por defecto)
+        # Solo lo consideramos si el usuario NO especificó preferencia
+        if not request.wants_wine and not request.wine_per_dish:
+            fields_to_zero.append('wine_preference')
+            adjusted.wine_preference = 0.0
+        
+        # Si se redujo algún peso, normalizar para redistribuir
+        if fields_to_zero:
+            adjusted.normalize()
+        
+        return adjusted
+    
     def calculate_similarity(self, request: Request, case: Case) -> float:
         """
         Calcula la similitud entre una solicitud y un caso existente.
         
         La similitud es un valor entre 0 (completamente diferente) y 1 (idéntico).
+        
+        IMPORTANTE: Ajusta dinámicamente los pesos según los campos especificados
+        en el request. Si un campo es None o vacío, su peso se reduce a 0 para
+        esta petición específica, sin modificar los pesos base.
         
         Args:
             request: Solicitud del cliente actual
@@ -146,6 +231,9 @@ class SimilarityCalculator:
             Valor de similitud entre 0 y 1
         """
         try:
+            # Crear copia de pesos para ajustar dinámicamente (NO modifica self.weights)
+            active_weights = self._adjust_weights_for_request(request)
+            
             similarities = {}
             
             # 1. Similitud por tipo de evento
@@ -198,17 +286,17 @@ class SimilarityCalculator:
             # 9. Bonus por éxito del caso
             similarities['success'] = case.feedback_score / 5.0 if case.success else 0.0
             
-            # Calcular similitud ponderada
+            # Calcular similitud ponderada con pesos ajustados
             total_similarity = (
-                self.weights.event_type * similarities['event'] +
-                self.weights.season * similarities['season'] +
-                self.weights.price_range * similarities['price'] +
-                self.weights.style * similarities['style'] +
-                self.weights.cultural * similarities['cultural'] +
-                self.weights.dietary * similarities['dietary'] +
-                self.weights.guests * similarities['guests'] +
-                self.weights.wine_preference * similarities['wine'] +
-                self.weights.success_bonus * similarities['success']
+                active_weights.event_type * similarities['event'] +
+                active_weights.season * similarities['season'] +
+                active_weights.price_range * similarities['price'] +
+                active_weights.style * similarities['style'] +
+                active_weights.cultural * similarities['cultural'] +
+                active_weights.dietary * similarities['dietary'] +
+                active_weights.guests * similarities['guests'] +
+                active_weights.wine_preference * similarities['wine'] +
+                active_weights.success_bonus * similarities['success']
             )
             
             return total_similarity
@@ -681,12 +769,15 @@ class SimilarityCalculator:
 
 def calculate_dish_similarity(dish1: Dish, dish2: Dish, 
                             target_culture: Optional[CulturalTradition] = None,
-                            similarity_calc: Optional[SimilarityCalculator] = None) -> float:
+                            similarity_calc: Optional[SimilarityCalculator] = None,
+                            weights: Optional[DishSimilarityWeights] = None) -> float:
     """
     Calcula la similitud entre dos platos considerando múltiples dimensiones.
     
-    MEJORADO: Incluye cultura como dimensión cuando se proporciona target_culture.
-    Usa pesos proporcionales inspirados en el sistema CBR completo.
+    MEJORADO: 
+    - Incluye cultura como dimensión cuando se proporciona target_culture
+    - Acepta pesos configurables (DishSimilarityWeights)
+    - Compatible con aprendizaje adaptativo de pesos
     
     Útil para la fase de adaptación cuando se buscan platos alternativos similares.
     
@@ -695,6 +786,7 @@ def calculate_dish_similarity(dish1: Dish, dish2: Dish,
         dish2: Segundo plato (candidato de reemplazo)
         target_culture: Cultura objetivo (opcional, para evaluar adecuación cultural)
         similarity_calc: Calculador de similitud (opcional, para evaluar cultura)
+        weights: Pesos configurables (si None, usa pesos por defecto)
         
     Returns:
         Similitud entre 0 y 1
@@ -703,85 +795,98 @@ def calculate_dish_similarity(dish1: Dish, dish2: Dish,
     if dish1.dish_type != dish2.dish_type:
         return 0.0  # No tiene sentido comparar platos de diferente tipo
     
-    # Diccionario de similitudes parciales con pesos
-    weighted_sims = {}
+    # Usar pesos por defecto si no se proporcionan
+    if weights is None:
+        weights = DishSimilarityWeights()
+        weights.normalize()
     
-    # 1. Similitud de categoría (peso: 0.15)
+    # Diccionario de similitudes parciales
+    similarities = {}
+    
+    # 1. Similitud de categoría
     if dish1.category == dish2.category:
-        weighted_sims['category'] = (1.0, 0.15)
+        similarities['category'] = 1.0
     else:
-        weighted_sims['category'] = (0.3, 0.15)
+        similarities['category'] = 0.3
     
-    # 2. Similitud de precio (peso: 0.15)
+    # 2. Similitud de precio
     max_price = max(dish1.price, dish2.price)
     if max_price == 0:
-        price_ratio = 1.0
+        similarities['price'] = 1.0
     else:
-        price_ratio = min(dish1.price, dish2.price) / max_price
-    weighted_sims['price'] = (price_ratio, 0.15)
+        similarities['price'] = min(dish1.price, dish2.price) / max_price
     
-    # 3. Similitud de complejidad (peso: 0.10)
+    # 3. Similitud de complejidad
     complexity_order = [Complexity.LOW, Complexity.MEDIUM, Complexity.HIGH]
     try:
         c1_idx = complexity_order.index(dish1.complexity)
         c2_idx = complexity_order.index(dish2.complexity)
-        complexity_sim = 1.0 - abs(c1_idx - c2_idx) / 2.0
-        weighted_sims['complexity'] = (complexity_sim, 0.10)
+        similarities['complexity'] = 1.0 - abs(c1_idx - c2_idx) / 2.0
     except ValueError:
-        weighted_sims['complexity'] = (0.5, 0.10)
+        similarities['complexity'] = 0.5
     
-    # 4. Similitud de sabores (peso: 0.15)
+    # 4. Similitud de sabores
     common_flavors = set(dish1.flavors) & set(dish2.flavors)
     all_flavors = set(dish1.flavors) | set(dish2.flavors)
     if all_flavors:
-        flavor_sim = len(common_flavors) / len(all_flavors)
+        similarities['flavors'] = len(common_flavors) / len(all_flavors)
     else:
-        flavor_sim = 0.5
-    weighted_sims['flavors'] = (flavor_sim, 0.15)
+        similarities['flavors'] = 0.5
     
-    # 5. Similitud de estilos (peso: 0.15)
+    # 5. Similitud de estilos
     common_styles = set(dish1.styles) & set(dish2.styles)
     all_styles = set(dish1.styles) | set(dish2.styles)
     if all_styles:
-        style_sim = len(common_styles) / len(all_styles)
+        similarities['styles'] = len(common_styles) / len(all_styles)
     else:
-        style_sim = 0.5
-    weighted_sims['styles'] = (style_sim, 0.15)
+        similarities['styles'] = 0.5
     
-    # 6. Similitud de temperatura (peso: 0.05)
+    # 6. Similitud de temperatura
     if dish1.temperature == dish2.temperature:
-        weighted_sims['temperature'] = (1.0, 0.05)
+        similarities['temperature'] = 1.0
     else:
-        weighted_sims['temperature'] = (0.5, 0.05)
+        similarities['temperature'] = 0.5
     
-    # 7. Similitud de dietas (peso: 0.10)
+    # 7. Similitud de dietas
     common_diets = set(dish1.diets or []) & set(dish2.diets or [])
     all_diets = set(dish1.diets or []) | set(dish2.diets or [])
     if all_diets:
-        diet_sim = len(common_diets) / len(all_diets)
+        similarities['diets'] = len(common_diets) / len(all_diets)
     else:
-        diet_sim = 0.8  # Ambos sin restricciones específicas
-    weighted_sims['diets'] = (diet_sim, 0.10)
+        similarities['diets'] = 0.8  # Ambos sin restricciones específicas
     
-    # 8. Similitud cultural (peso: 0.15) - SOLO si se proporciona target_culture
+    # 8. Similitud cultural - SOLO si se proporciona target_culture
     if target_culture and similarity_calc and dish2.ingredients:
-        cultural_score = similarity_calc.get_cultural_score(dish2.ingredients, target_culture)
-        weighted_sims['cultural'] = (cultural_score, 0.15)
+        similarities['cultural'] = similarity_calc.get_cultural_score(dish2.ingredients, target_culture)
     else:
-        # Si no se evalúa cultura, redistribuir el peso proporcionalmente
-        # Ajustar todos los otros pesos para compensar
-        for key in weighted_sims:
-            sim, weight = weighted_sims[key]
-            weighted_sims[key] = (sim, weight / 0.85)  # Normalizar sin el 0.15 de cultura
+        # Si no se evalúa cultura, usar peso 0 para cultural
+        similarities['cultural'] = 0.0
+        weights_temp = DishSimilarityWeights(
+            category=weights.category,
+            price=weights.price,
+            complexity=weights.complexity,
+            flavors=weights.flavors,
+            styles=weights.styles,
+            temperature=weights.temperature,
+            diets=weights.diets,
+            cultural=0.0
+        )
+        weights_temp.normalize()
+        weights = weights_temp
     
     # Calcular similitud total ponderada
-    total_sim = sum(sim * weight for sim, weight in weighted_sims.values())
-    total_weight = sum(weight for _, weight in weighted_sims.values())
+    total_sim = (
+        similarities['category'] * weights.category +
+        similarities['price'] * weights.price +
+        similarities['complexity'] * weights.complexity +
+        similarities['flavors'] * weights.flavors +
+        similarities['styles'] * weights.styles +
+        similarities['temperature'] * weights.temperature +
+        similarities['diets'] * weights.diets +
+        similarities['cultural'] * weights.cultural
+    )
     
-    if total_weight > 0:
-        return total_sim / total_weight
-    else:
-        return 0.5
+    return total_sim
 
 
 def calculate_menu_similarity(menu1: Menu, menu2: Menu) -> float:

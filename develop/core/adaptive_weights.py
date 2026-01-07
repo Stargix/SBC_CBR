@@ -22,8 +22,8 @@ from datetime import datetime
 import json
 from pathlib import Path
 
-from .similarity import SimilarityWeights
-from .models import Feedback, Request, CulturalTradition
+from .similarity import SimilarityWeights, DishSimilarityWeights
+from .models import Feedback, Request, CulturalTradition, Dish
 
 
 @dataclass
@@ -180,12 +180,13 @@ class AdaptiveWeightLearner:
                 reasons.append("Priorizar cultura (insatisfacción)")
             
             # 3. Sabor/Calidad problema
+            # NOTA: El feedback de sabor se maneja principalmente en DishWeightLearner
+            # a nivel de platos individuales, donde se ajusta el peso de 'flavors'.
+            # A nivel de casos completos no hay un peso directo para sabores,
+            # por lo que este feedback se gestiona mejor durante la adaptación.
             if feedback.flavor_satisfaction < 3:
-                delta = 0.06 * self.learning_rate
-                adjustments_made['style'] = delta
-                self._adjust_weight('style', delta,
-                                   "Estilo culinario fue crítico")
-                reasons.append("Mejorar matching de estilo")
+                # No ajustamos pesos de caso aquí - el sabor es específico del plato
+                reasons.append("INFO: Sabor insatisfactorio - revisar en adaptación de platos")
             
             # 4. Dietas no cumplidas
             if feedback.dietary_satisfaction < 3:
@@ -516,4 +517,364 @@ class AdaptiveWeightLearner:
         self._record_snapshot(
             feedback_score=0.0,
             adjustments=["Reset a pesos por defecto"]
+        )
+
+
+class AdaptiveDishWeightLearner:
+    """
+    Aprende pesos de similitud de platos mediante feedback del usuario.
+    
+    Similar a AdaptiveWeightLearner, pero enfocado específicamente en
+    características de platos individuales durante la fase de adaptación.
+    
+    Este learner ayuda a mejorar la búsqueda de platos alternativos cuando
+    se necesita reemplazar un plato en un menú.
+    
+    Ejemplo de uso:
+        learner = AdaptiveDishWeightLearner()
+        
+        # Tras feedback sobre una adaptación de plato
+        learner.update_from_feedback(
+            original_dish=dish1,
+            replacement_dish=dish2,
+            feedback_score=4.5,
+            adaptation_reason="dietary"
+        )
+        
+        # Obtener pesos actualizados
+        weights = learner.get_current_weights()
+    """
+    
+    def __init__(
+        self, 
+        initial_weights: Optional[DishSimilarityWeights] = None,
+        learning_rate: float = 0.05,
+        min_weight: float = 0.02,
+        max_weight: float = 0.50
+    ):
+        """
+        Inicializa el aprendiz adaptativo de platos.
+        
+        Args:
+            initial_weights: Pesos iniciales (si None, usa defaults)
+            learning_rate: Tasa de aprendizaje (0.01-0.1 recomendado)
+            min_weight: Peso mínimo permitido
+            max_weight: Peso máximo permitido
+        """
+        # Pesos actuales
+        if initial_weights:
+            self.weights = initial_weights
+        else:
+            self.weights = DishSimilarityWeights()
+            self.weights.normalize()
+        
+        # Parámetros de aprendizaje
+        self.learning_rate = learning_rate
+        self.min_weight = min_weight
+        self.max_weight = max_weight
+        
+        # Historial de aprendizaje
+        self.history: List[LearningSnapshot] = []
+        self.adjustments_history: List[WeightAdjustment] = []
+        
+        # Contador de iteraciones
+        self.iteration = 0
+        
+        # Registro inicial
+        self._record_snapshot(
+            feedback_score=0.0,
+            adjustments=["Inicialización con pesos por defecto (platos)"]
+        )
+    
+    def update_from_feedback(
+        self,
+        original_dish: Dish,
+        replacement_dish: Dish,
+        feedback: Feedback,
+        adaptation_reason: str = "general"
+    ) -> Dict[str, float]:
+        """
+        Actualiza pesos basándose en feedback sobre una adaptación de plato.
+        
+        Estrategia:
+        - Si la adaptación fue exitosa (score alto), reforzar las características
+          que fueron similares entre el plato original y el reemplazo
+        - Si fue mal (score bajo), aumentar peso de características que diferían
+        - Usa feedback específico de sabores (flavor_satisfaction) para ajustar 'flavors'
+        
+        Args:
+            original_dish: Plato original del caso
+            replacement_dish: Plato usado como reemplazo
+            feedback: Objeto Feedback completo con satisfacciones específicas
+            adaptation_reason: Razón de la adaptación (dietary, cultural, etc.)
+            
+        Returns:
+            Diccionario con los ajustes realizados
+        """
+        self.iteration += 1
+        adjustments_made = {}
+        reasons = []
+        
+        # Extraer score general y específicos
+        feedback_score = feedback.overall_satisfaction
+        
+        # Análisis de características
+        same_category = original_dish.category == replacement_dish.category
+        same_styles = bool(set(original_dish.styles) & set(replacement_dish.styles))
+        same_flavors = bool(set(original_dish.flavors) & set(replacement_dish.flavors))
+        
+        price_diff = abs(original_dish.price - replacement_dish.price) / max(original_dish.price, 0.01)
+        
+        # ===== FEEDBACK ALTO (Adaptación exitosa) =====
+        if feedback_score >= 4:
+            # Reforzar características que se mantuvieron similares
+            
+            if same_category:
+                delta = 0.03 * self.learning_rate
+                adjustments_made['category'] = delta
+                self._adjust_weight('category', delta, 
+                                   "Mantener categoría fue exitoso")
+                reasons.append("Reforzar importancia de categoría")
+            
+            if same_styles:
+                delta = 0.04 * self.learning_rate
+                adjustments_made['styles'] = delta
+                self._adjust_weight('styles', delta,
+                                   "Estilos similares fueron bien valorados")
+                reasons.append("Estilos culinarios importantes")
+            
+            # IMPORTANTE: Usar feedback específico de sabores
+            if feedback.flavor_satisfaction >= 4 and same_flavors:
+                delta = 0.05 * self.learning_rate  # Aumentado porque es feedback directo
+                adjustments_made['flavors'] = delta
+                self._adjust_weight('flavors', delta,
+                                   "Sabores similares fueron muy valorados (feedback directo)")
+                reasons.append("✅ Sabores bien valorados - mantener similitud")
+            
+            if price_diff < 0.2:  # Precio similar
+                delta = 0.02 * self.learning_rate
+                adjustments_made['price'] = delta
+                self._adjust_weight('price', delta,
+                                   "Precio similar fue apropiado")
+                reasons.append("Mantener rango de precio")
+            
+            # Si la razón fue cultural y fue exitoso
+            if adaptation_reason == "cultural":
+                delta = 0.05 * self.learning_rate
+                adjustments_made['cultural'] = delta
+                self._adjust_weight('cultural', delta,
+                                   "Adaptación cultural exitosa")
+                reasons.append("Cultural fue crítico (éxito)")
+            
+            # Si la razón fue dietética y fue exitoso
+            if adaptation_reason == "dietary":
+                delta = 0.05 * self.learning_rate
+                adjustments_made['diets'] = delta
+                self._adjust_weight('diets', delta,
+                                   "Adaptación dietética exitosa")
+                reasons.append("Restricciones dietéticas bien manejadas")
+        
+        # ===== FEEDBACK BAJO (Adaptación problemática) =====
+        elif feedback_score < 3:
+            # La adaptación no funcionó - necesitamos ser más estrictos
+            
+            if not same_category:
+                delta = 0.06 * self.learning_rate
+                adjustments_made['category'] = delta
+                self._adjust_weight('category', delta,
+                                   "Cambio de categoría fue problemático")
+                reasons.append("Ser más estricto con categoría")
+            
+            if not same_styles:
+                delta = 0.05 * self.learning_rate
+                adjustments_made['styles'] = delta
+                self._adjust_weight('styles', delta,
+                                   "Cambio de estilo fue problemático")
+                reasons.append("Mantener estilos más similares")
+            
+            if price_diff > 0.3:  # Precio muy diferente
+                delta = 0.04 * self.learning_rate
+                adjustments_made['price'] = delta
+                self._adjust_weight('price', delta,
+                                   "Diferencia de precio fue problemática")
+                reasons.append("Ser más cuidadoso con precio")
+            
+            # IMPORTANTE: Usar feedback específico de sabores
+            if feedback.flavor_satisfaction < 3:
+                # El cliente reporta sabores insatisfactorios
+                if not same_flavors:
+                    # Cambiamos sabores Y el cliente se quejó específicamente
+                    delta = 0.08 * self.learning_rate  # Aumentado por feedback directo
+                    adjustments_made['flavors'] = delta
+                    self._adjust_weight('flavors', delta,
+                                       "❌ Sabores diferentes Y feedback negativo (crítico)")
+                    reasons.append("CRÍTICO: Cliente insatisfecho con sabores - mantener más similitud")
+                else:
+                    # Sabores similares pero aún así se quejó (problema del plato original)
+                    delta = 0.03 * self.learning_rate
+                    adjustments_made['flavors'] = delta
+                    self._adjust_weight('flavors', delta,
+                                       "Sabores no gustaron (problema del plato base)")
+                    reasons.append("Revisar perfil de sabores en general")
+            elif not same_flavors and feedback_score < 3:
+                # No hay feedback específico de sabor, pero cambió y score general bajo
+                delta = 0.05 * self.learning_rate
+                adjustments_made['flavors'] = delta
+                self._adjust_weight('flavors', delta,
+                                   "Cambio de sabores contribuyó a insatisfacción")
+                reasons.append("Mantener perfiles de sabor más similares")
+            
+            # Si falló y era adaptación cultural
+            if adaptation_reason == "cultural":
+                delta = 0.08 * self.learning_rate
+                adjustments_made['cultural'] = delta
+                self._adjust_weight('cultural', delta,
+                                   "Adaptación cultural falló - priorizar")
+                reasons.append("CRÍTICO: Mejorar matching cultural")
+        
+        # ===== FEEDBACK MEDIO =====
+        else:
+            # Ajustes menores basados en la razón de adaptación
+            if adaptation_reason == "dietary":
+                delta = 0.03 * self.learning_rate
+                adjustments_made['diets'] = delta
+                self._adjust_weight('diets', delta,
+                                   "Ajuste fino de restricciones dietéticas")
+                reasons.append("Afinar matching dietético")
+        
+        # Normalizar pesos
+        self._normalize_weights()
+        
+        # Registrar snapshot
+        self._record_snapshot(
+            feedback_score=feedback_score,
+            adjustments=reasons if reasons else ["Sin ajustes (feedback neutral)"]
+        )
+        
+        return adjustments_made
+    
+    def _adjust_weight(self, weight_name: str, delta: float, reason: str):
+        """Ajusta un peso individual con límites"""
+        current_value = getattr(self.weights, weight_name)
+        new_value = current_value + delta
+        
+        # Aplicar límites
+        new_value = max(self.min_weight, min(self.max_weight, new_value))
+        
+        # Actualizar
+        setattr(self.weights, weight_name, new_value)
+        
+        # Registrar ajuste
+        self.adjustments_history.append(
+            WeightAdjustment(
+                timestamp=datetime.now(),
+                weight_name=weight_name,
+                delta=new_value - current_value,
+                reason=reason,
+                feedback_score=0.0
+            )
+        )
+    
+    def _normalize_weights(self):
+        """Normaliza los pesos para que sumen 1.0"""
+        self.weights.normalize()
+    
+    def _record_snapshot(self, feedback_score: float, adjustments: List[str]):
+        """Registra un snapshot del estado actual"""
+        snapshot = LearningSnapshot(
+            timestamp=datetime.now(),
+            iteration=self.iteration,
+            weights=self._weights_to_dict(),
+            feedback_score=feedback_score,
+            adjustments=adjustments
+        )
+        self.history.append(snapshot)
+    
+    def _weights_to_dict(self) -> Dict[str, float]:
+        """Convierte pesos a diccionario"""
+        return {
+            'category': self.weights.category,
+            'price': self.weights.price,
+            'complexity': self.weights.complexity,
+            'flavors': self.weights.flavors,
+            'styles': self.weights.styles,
+            'temperature': self.weights.temperature,
+            'diets': self.weights.diets,
+            'cultural': self.weights.cultural
+        }
+    
+    def get_current_weights(self) -> DishSimilarityWeights:
+        """Retorna los pesos actuales"""
+        return self.weights
+    
+    def get_learning_summary(self) -> Dict:
+        """Genera resumen del aprendizaje"""
+        if not self.history:
+            return {"message": "No hay historial de aprendizaje"}
+        
+        initial = self.history[0]
+        current = self.history[-1]
+        
+        # Calcular cambios totales
+        changes = {}
+        for key in initial.weights.keys():
+            delta = current.weights[key] - initial.weights[key]
+            changes[key] = {
+                'initial': initial.weights[key],
+                'current': current.weights[key],
+                'change': delta,
+                'change_pct': (delta / initial.weights[key] * 100) if initial.weights[key] > 0 else 0
+            }
+        
+        # Pesos más cambiados
+        sorted_changes = sorted(
+            changes.items(), 
+            key=lambda x: abs(x[1]['change']), 
+            reverse=True
+        )
+        
+        return {
+            'total_iterations': self.iteration,
+            'total_adjustments': len(self.adjustments_history),
+            'weight_changes': changes,
+            'most_changed': [
+                {
+                    'weight': name,
+                    'change': data['change'],
+                    'change_pct': f"{data['change_pct']:.1f}%"
+                }
+                for name, data in sorted_changes[:3]
+            ],
+            'current_weights': current.weights
+        }
+    
+    def save_learning_history(self, filepath: str):
+        """Guarda historial de aprendizaje a archivo JSON"""
+        data = {
+            'metadata': {
+                'learner_type': 'dish_similarity',
+                'total_iterations': self.iteration,
+                'learning_rate': self.learning_rate,
+                'min_weight': self.min_weight,
+                'max_weight': self.max_weight
+            },
+            'history': [snapshot.to_dict() for snapshot in self.history],
+            'summary': self.get_learning_summary()
+        }
+        
+        Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    
+    def reset_to_defaults(self):
+        """Reinicia pesos a valores por defecto"""
+        self.weights = DishSimilarityWeights()
+        self.weights.normalize()
+        self.iteration = 0
+        self.history.clear()
+        self.adjustments_history.clear()
+        
+        self._record_snapshot(
+            feedback_score=0.0,
+            adjustments=["Reset a pesos por defecto (platos)"]
         )
