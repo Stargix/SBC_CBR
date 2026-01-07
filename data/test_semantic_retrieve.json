@@ -1,6 +1,6 @@
 {
   "test_name": "Semantic Similarity in RETRIEVE",
-  "timestamp": "2026-01-07T23:20:33.950675",
+  "timestamp": "2026-01-08T00:49:57.544681",
   "cultural_preferences": [
     {
       "target_culture": "italian",
@@ -8,43 +8,43 @@
       "retrieved_cases": [
         {
           "rank": 1,
-          "case_id": "case-init-7",
+          "case_id": "case-init-5",
           "similarity_score": 1.0,
           "case_culture": "italian",
           "cultural_match": true
         },
         {
           "rank": 2,
-          "case_id": "case-init-16",
+          "case_id": "case-init-13",
           "similarity_score": 1.0,
           "case_culture": "italian",
           "cultural_match": true
         },
         {
           "rank": 3,
-          "case_id": "case-init-9",
-          "similarity_score": 0.966,
+          "case_id": "case-init-21",
+          "similarity_score": 0.962,
           "case_culture": "italian",
           "cultural_match": true
         },
         {
           "rank": 4,
-          "case_id": "case-init-27",
-          "similarity_score": 0.96,
+          "case_id": "case-init-10",
+          "similarity_score": 0.95,
           "case_culture": "italian",
           "cultural_match": true
         },
         {
           "rank": 5,
-          "case_id": "case-init-12",
-          "similarity_score": 0.946,
+          "case_id": "case-init-37",
+          "similarity_score": 0.9060000000000001,
           "case_culture": "italian",
           "cultural_match": true
         }
       ],
       "metrics": {
         "top_similarity": 1.0,
-        "avg_similarity": 0.9743999999999999,
+        "avg_similarity": 0.9635999999999999,
         "exact_cultural_matches": 5,
         "top_result_is_match": true
       }
@@ -55,45 +55,45 @@
       "retrieved_cases": [
         {
           "rank": 1,
-          "case_id": "case-init-7",
-          "similarity_score": 0.8329565525054932,
-          "case_culture": "italian",
-          "cultural_match": false
+          "case_id": "case-init-30",
+          "similarity_score": 1.0,
+          "case_culture": "spanish",
+          "cultural_match": true
         },
         {
           "rank": 2,
-          "case_id": "case-init-16",
-          "similarity_score": 0.811956524848938,
+          "case_id": "case-init-5",
+          "similarity_score": 0.8370000000000001,
           "case_culture": "italian",
           "cultural_match": false
         },
         {
           "rank": 3,
-          "case_id": "case-init-31",
-          "similarity_score": 0.7883012294769287,
-          "case_culture": "american",
+          "case_id": "case-init-13",
+          "similarity_score": 0.8140000000000001,
+          "case_culture": "italian",
           "cultural_match": false
         },
         {
           "rank": 4,
-          "case_id": "case-init-8",
-          "similarity_score": 0.7703379392623901,
+          "case_id": "case-init-6",
+          "similarity_score": 0.764,
           "case_culture": "french",
           "cultural_match": false
         },
         {
           "rank": 5,
-          "case_id": "case-init-43",
-          "similarity_score": 0.7693378925323486,
-          "case_culture": "french",
+          "case_id": "case-init-25",
+          "similarity_score": 0.7510000000000001,
+          "case_culture": "chinese",
           "cultural_match": false
         }
       ],
       "metrics": {
-        "top_similarity": 0.8329565525054932,
-        "avg_similarity": 0.7945780158042908,
-        "exact_cultural_matches": 0,
-        "top_result_is_match": false
+        "top_similarity": 1.0,
+        "avg_similarity": 0.8332,
+        "exact_cultural_matches": 1,
+        "top_result_is_match": true
       }
     },
     {
@@ -102,44 +102,44 @@
       "retrieved_cases": [
         {
           "rank": 1,
-          "case_id": "case-init-8",
-          "similarity_score": 0.994,
+          "case_id": "case-init-6",
+          "similarity_score": 0.996,
           "case_culture": "french",
           "cultural_match": true
         },
         {
           "rank": 2,
-          "case_id": "case-init-43",
-          "similarity_score": 0.9929999999999999,
+          "case_id": "case-init-28",
+          "similarity_score": 0.923,
           "case_culture": "french",
           "cultural_match": true
         },
         {
           "rank": 3,
-          "case_id": "case-init-6",
-          "similarity_score": 0.988,
+          "case_id": "case-init-8",
+          "similarity_score": 0.907,
           "case_culture": "french",
           "cultural_match": true
         },
         {
           "rank": 4,
-          "case_id": "case-init-42",
-          "similarity_score": 0.988,
+          "case_id": "case-init-24",
+          "similarity_score": 0.8560000000000001,
           "case_culture": "french",
           "cultural_match": true
         },
         {
           "rank": 5,
-          "case_id": "case-init-14",
-          "similarity_score": 0.9369999999999998,
-          "case_culture": "french",
-          "cultural_match": true
+          "case_id": "case-init-5",
+          "similarity_score": 0.8290000000000001,
+          "case_culture": "italian",
+          "cultural_match": false
         }
       ],
       "metrics": {
-        "top_similarity": 0.994,
-        "avg_similarity": 0.9799999999999999,
-        "exact_cultural_matches": 5,
+        "top_similarity": 0.996,
+        "avg_similarity": 0.9022,
+        "exact_cultural_matches": 4,
         "top_result_is_match": true
       }
     },
@@ -149,45 +149,45 @@
       "retrieved_cases": [
         {
           "rank": 1,
-          "case_id": "case-init-7",
-          "similarity_score": 0.8207158446311951,
-          "case_culture": "italian",
-          "cultural_match": false
+          "case_id": "case-init-35",
+          "similarity_score": 0.9309999999999998,
+          "case_culture": "japanese",
+          "cultural_match": true
         },
         {
           "rank": 2,
-          "case_id": "case-init-16",
-          "similarity_score": 0.7997158765792847,
+          "case_id": "case-init-5",
+          "similarity_score": 0.797,
           "case_culture": "italian",
           "cultural_match": false
         },
         {
           "rank": 3,
-          "case_id": "case-init-31",
-          "similarity_score": 0.7820315361022949,
-          "case_culture": "american",
+          "case_id": "case-init-25",
+          "similarity_score": 0.7830000000000001,
+          "case_culture": "chinese",
           "cultural_match": false
         },
         {
           "rank": 4,
-          "case_id": "case-init-8",
-          "similarity_score": 0.762079119682312,
-          "case_culture": "french",
+          "case_id": "case-init-13",
+          "similarity_score": 0.774,
+          "case_culture": "italian",
           "cultural_match": false
         },
         {
           "rank": 5,
-          "case_id": "case-init-28",
-          "similarity_score": 0.7613595724105835,
-          "case_culture": "indian",
+          "case_id": "case-init-33",
+          "similarity_score": 0.7730000000000001,
+          "case_culture": "chinese",
           "cultural_match": false
         }
       ],
       "metrics": {
-        "top_similarity": 0.8207158446311951,
-        "avg_similarity": 0.785180389881134,
-        "exact_cultural_matches": 0,
-        "top_result_is_match": false
+        "top_similarity": 0.9309999999999998,
+        "avg_similarity": 0.8116,
+        "exact_cultural_matches": 1,
+        "top_result_is_match": true
       }
     },
     {
@@ -196,44 +196,44 @@
       "retrieved_cases": [
         {
           "rank": 1,
-          "case_id": "case-init-51",
-          "similarity_score": 0.9289999999999998,
+          "case_id": "case-init-39",
+          "similarity_score": 0.9309999999999998,
           "case_culture": "mexican",
           "cultural_match": true
         },
         {
           "rank": 2,
-          "case_id": "case-init-29",
-          "similarity_score": 0.923,
+          "case_id": "case-init-23",
+          "similarity_score": 0.925,
           "case_culture": "mexican",
           "cultural_match": true
         },
         {
           "rank": 3,
-          "case_id": "case-init-7",
-          "similarity_score": 0.8288842439651489,
-          "case_culture": "italian",
-          "cultural_match": false
+          "case_id": "case-init-2",
+          "similarity_score": 0.8660000000000001,
+          "case_culture": "mexican",
+          "cultural_match": true
         },
         {
           "rank": 4,
-          "case_id": "case-init-16",
-          "similarity_score": 0.8078842163085938,
+          "case_id": "case-init-5",
+          "similarity_score": 0.797,
           "case_culture": "italian",
           "cultural_match": false
         },
         {
           "rank": 5,
-          "case_id": "case-init-31",
-          "similarity_score": 0.7893752455711365,
-          "case_culture": "american",
-          "cultural_match": false
+          "case_id": "case-init-41",
+          "similarity_score": 0.7833333333333334,
+          "case_culture": "mexican",
+          "cultural_match": true
         }
       ],
       "metrics": {
-        "top_similarity": 0.9289999999999998,
-        "avg_similarity": 0.8556287884712219,
-        "exact_cultural_matches": 2,
+        "top_similarity": 0.9309999999999998,
+        "avg_similarity": 0.8604666666666667,
+        "exact_cultural_matches": 4,
         "top_result_is_match": true
       }
     }
@@ -241,16 +241,22 @@
   "summary": {
     "cultures_tested": 5,
     "total_cases_retrieved": 25,
-    "exact_cultural_matches": 12,
-    "exact_match_rate": 0.48,
-    "top_result_match_rate": 0.6,
-    "avg_retrieval_similarity": 0.9153344794273377
+    "exact_cultural_matches": 15,
+    "exact_match_rate": 0.6,
+    "top_result_match_rate": 1.0,
+    "avg_retrieval_similarity": 0.9715999999999999
   },
   "case_base_distribution": {
-    "american": 9,
-    "mexican": 3,
-    "french": 10,
-    "italian": 10,
-    "indian": 9
+    "american": 8,
+    "mexican": 5,
+    "indian": 6,
+    "chinese": 4,
+    "italian": 8,
+    "french": 4,
+    "lebanese": 1,
+    "japanese": 2,
+    "spanish": 1,
+    "thai": 1,
+    "korean": 1
   }
 }

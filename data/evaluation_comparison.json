@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-01-05T02:18:21.334267",
+  "timestamp": "2026-01-08T00:49:48.770310",
   "static": {
-    "precision": 1.0,
+    "precision": 0.9,
     "avg_satisfaction": 4.4,
-    "avg_processing_time": 0.011234140396118164,
+    "avg_processing_time": 0.04093008041381836,
     "total_cases": 10,
-    "successful_cases": 10,
-    "avg_proposals_per_case": 3.0
+    "successful_cases": 9,
+    "avg_proposals_per_case": 2.7
   },
   "adaptive": {
-    "precision": 1.0,
+    "precision": 0.9,
     "avg_satisfaction": 4.4,
-    "avg_processing_time": 0.010139226913452148,
+    "avg_processing_time": 0.04316864013671875,
     "total_cases": 10,
-    "successful_cases": 10,
-    "avg_proposals_per_case": 3.0
+    "successful_cases": 9,
+    "avg_proposals_per_case": 2.7
   },
   "improvements": {
     "precision": 0.0,
     "satisfaction": 0.0,
-    "time": -0.001094913482666016
+    "time": 0.0022385597229003865
   }
 }

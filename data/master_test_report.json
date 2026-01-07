@@ -1,17 +1,17 @@
 {
-  "execution_timestamp": "2026-01-05T02:18:15.344067",
+  "execution_timestamp": "2026-01-08T00:49:42.904131",
   "tests_executed": 8,
   "results": {
     "test_complete_cbr_cycle": {
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "Starting Complete CBR Cycle Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_complete_cbr_cycle.json\n\nSummary:\n  Scenarios: 3\n  Cases learned: 2\n  Avg retrieval similarity: 0.875\n  Avg valid proposals: 3.0\n  Retention rate: 100.0%\n",
+        "stdout": "Starting Complete CBR Cycle Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_complete_cbr_cycle.json\n\nSummary:\n  Scenarios: 3\n  Cases learned: 3\n  Avg retrieval similarity: 0.929\n  Avg valid proposals: 3.0\n  Retention rate: 100.0%\n",
         "stderr": ""
       },
       "data": {
         "test_name": "Complete CBR Cycle",
-        "timestamp": "2026-01-05T02:18:15.469093",
+        "timestamp": "2026-01-08T00:49:43.054574",
         "scenarios": [
           {
             "scenario_id": "scenario_1",
@@ -20,7 +20,7 @@
               "retrieve": {
                 "cases_found": 5,
                 "top_similarity": 1.0,
-                "avg_similarity": 0.983
+                "avg_similarity": 0.9686
               },
               "adapt": {
                 "menus_adapted": 3,
@@ -44,12 +44,12 @@
             "phases": {
               "retrieve": {
                 "cases_found": 5,
-                "top_similarity": 0.74,
-                "avg_similarity": 0.6803999999999999
+                "top_similarity": 0.9309999999999998,
+                "avg_similarity": 0.8002
               },
               "adapt": {
                 "menus_adapted": 3,
-                "cultural_adaptations": 3
+                "cultural_adaptations": 0
               },
               "revise": {
                 "valid_proposals": 3,
@@ -69,8 +69,8 @@
             "phases": {
               "retrieve": {
                 "cases_found": 5,
-                "top_similarity": 0.8860000000000001,
-                "avg_similarity": 0.8273333333333334
+                "top_similarity": 0.8560000000000001,
+                "avg_similarity": 0.8241333333333335
               },
               "adapt": {
                 "menus_adapted": 3,
@@ -82,7 +82,7 @@
               },
               "retain": {
                 "should_retain": true,
-                "retention_action": "update_existing",
+                "retention_action": "add_new",
                 "retained": true,
                 "feedback_score": 4.8
               }
@@ -91,10 +91,10 @@
         ],
         "summary": {
           "initial_cases": 41,
-          "final_cases": 43,
-          "cases_learned": 2,
+          "final_cases": 44,
+          "cases_learned": 3,
           "scenarios_executed": 3,
-          "avg_retrieval_similarity": 0.8753333333333334,
+          "avg_retrieval_similarity": 0.9289999999999999,
           "avg_valid_proposals": 3.0,
           "retention_rate": 1.0
         }
@@ -104,12 +104,12 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "Starting Multi-User Simulation Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_user_simulation.json\n\nSummary:\n  Total requests: 75\n  Cases learned: 6\n  Initial avg feedback: 3.468\n  Final avg feedback: 3.498\n  Improvement: +0.030\n  Success rate: 100.0%\n",
+        "stdout": "Starting Multi-User Simulation Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_user_simulation.json\n\nSummary:\n  Total requests: 75\n  Cases learned: 0\n  Initial avg feedback: 3.706\n  Final avg feedback: 3.934\n  Improvement: +0.227\n  Success rate: 100.0%\n",
         "stderr": ""
       },
       "data": {
         "test_name": "Multi-User Simulation",
-        "timestamp": "2026-01-05T02:18:19.598225",
+        "timestamp": "2026-01-08T00:49:44.593484",
         "parameters": {
           "num_users": 5,
           "iterations": 15
@@ -119,9 +119,9 @@
             "iteration": 1,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 16.282234894530497,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.2564469789060992,
+            "total_feedback_score": 19.061665583871648,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.8123331167743295,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -129,9 +129,9 @@
             "iteration": 2,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.851391930929307,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.570278386185861,
+            "total_feedback_score": 17.345884571034496,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.469176914206899,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -139,9 +139,9 @@
             "iteration": 3,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.882254885053023,
-            "cases_retained": 0,
-            "avg_feedback_score": 3.5764509770106043,
+            "total_feedback_score": 19.186745411533966,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.837349082306793,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -149,9 +149,9 @@
             "iteration": 4,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.0599283227971,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.81198566455942,
+            "total_feedback_score": 17.309683182192813,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.461936636438563,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -159,121 +159,121 @@
             "iteration": 5,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 16.31874576620409,
-            "cases_retained": 2,
-            "avg_feedback_score": 3.2637491532408176,
+            "total_feedback_score": 19.371296634586415,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.874259326917283,
             "success_rate": 1.0,
-            "current_case_count": 43
+            "current_case_count": 41
           },
           {
             "iteration": 6,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 18.03016823574258,
+            "total_feedback_score": 18.948099015803933,
             "cases_retained": 0,
-            "avg_feedback_score": 3.6060336471485157,
+            "avg_feedback_score": 3.789619803160787,
             "success_rate": 1.0,
-            "current_case_count": 43
+            "current_case_count": 41
           },
           {
             "iteration": 7,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.89088494784094,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.978176989568188,
+            "total_feedback_score": 19.69582137112298,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.9391642742245963,
             "success_rate": 1.0,
-            "current_case_count": 44
+            "current_case_count": 41
           },
           {
             "iteration": 8,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 20.932946450629753,
-            "cases_retained": 1,
-            "avg_feedback_score": 4.1865892901259505,
+            "total_feedback_score": 18.504810291730426,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.700962058346085,
             "success_rate": 1.0,
-            "current_case_count": 45
+            "current_case_count": 41
           },
           {
             "iteration": 9,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.617061919400374,
+            "total_feedback_score": 18.199611750426673,
             "cases_retained": 0,
-            "avg_feedback_score": 3.523412383880075,
+            "avg_feedback_score": 3.6399223500853344,
             "success_rate": 1.0,
-            "current_case_count": 45
+            "current_case_count": 41
           },
           {
             "iteration": 10,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.889604278923226,
+            "total_feedback_score": 17.630917817320523,
             "cases_retained": 0,
-            "avg_feedback_score": 3.977920855784645,
+            "avg_feedback_score": 3.5261835634641043,
             "success_rate": 1.0,
-            "current_case_count": 45
+            "current_case_count": 41
           },
           {
             "iteration": 11,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.991183858711572,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.5982367717423145,
+            "total_feedback_score": 19.42870112700368,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.885740225400736,
             "success_rate": 1.0,
-            "current_case_count": 46
+            "current_case_count": 41
           },
           {
             "iteration": 12,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.009687663502255,
+            "total_feedback_score": 19.11039199998128,
             "cases_retained": 0,
-            "avg_feedback_score": 3.801937532700451,
+            "avg_feedback_score": 3.8220783999962564,
             "success_rate": 1.0,
-            "current_case_count": 46
+            "current_case_count": 41
           },
           {
             "iteration": 13,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.011307725491285,
+            "total_feedback_score": 20.09352677061704,
             "cases_retained": 0,
-            "avg_feedback_score": 3.402261545098257,
+            "avg_feedback_score": 4.018705354123408,
             "success_rate": 1.0,
-            "current_case_count": 46
+            "current_case_count": 41
           },
           {
             "iteration": 14,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 18.78462944211048,
+            "total_feedback_score": 18.747390748915,
             "cases_retained": 0,
-            "avg_feedback_score": 3.7569258884220957,
+            "avg_feedback_score": 3.7494781497829996,
             "success_rate": 1.0,
-            "current_case_count": 46
+            "current_case_count": 41
           },
           {
             "iteration": 15,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 16.670150161932497,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.3340300323864995,
+            "total_feedback_score": 20.164526027170883,
+            "cases_retained": 0,
+            "avg_feedback_score": 4.032905205434177,
             "success_rate": 1.0,
-            "current_case_count": 47
+            "current_case_count": 41
           }
         ],
         "summary": {
           "initial_cases": 41,
-          "final_cases": 47,
-          "total_cases_learned": 6,
+          "final_cases": 41,
+          "total_cases_learned": 0,
           "total_requests": 75,
-          "avg_final_feedback": 3.497739155302284,
-          "avg_initial_feedback": 3.467725447367522,
-          "improvement": 0.030013707934762213,
+          "avg_final_feedback": 3.933696236446861,
+          "avg_initial_feedback": 3.7062863710960072,
+          "improvement": 0.22740986535085383,
           "avg_success_rate": 1.0
         }
       }
@@ -282,12 +282,12 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "Starting Adaptive Weight Learning Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_adaptive_weights.json\n\nSummary:\n  Test cases: 5\n  Static avg similarity: 0.800\n  Adaptive avg similarity: 0.800\n  Improvement: -0.000 (-0.0%)\n\n  Top weight changes:\n    price_range: +0.003 (+1.7%)\n    season: -0.001 (-0.5%)\n    style: -0.001 (-0.5%)\n",
+        "stdout": "Starting Adaptive Weight Learning Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_adaptive_weights.json\n\nSummary:\n  Test cases: 5\n  Static avg similarity: 0.818\n  Adaptive avg similarity: 0.818\n  Improvement: -0.000 (-0.0%)\n\n  Top weight changes:\n    price_range: +0.003 (+1.7%)\n    season: -0.001 (-0.5%)\n    style: -0.001 (-0.5%)\n",
         "stderr": ""
       },
       "data": {
         "test_name": "Adaptive Weight Learning",
-        "timestamp": "2026-01-05T02:18:20.293511",
+        "timestamp": "2026-01-08T00:49:45.859049",
         "systems": {
           "static": {
             "name": "Static Weights",
@@ -295,32 +295,32 @@
               {
                 "iteration": 1,
                 "proposals_count": 3,
-                "top_similarity": 0.7880000000000001,
-                "avg_similarity": 0.7490000000000002
+                "top_similarity": 0.7968181818181818,
+                "avg_similarity": 0.7456060606060606
               },
               {
                 "iteration": 2,
                 "proposals_count": 3,
-                "top_similarity": 0.7110000000000001,
-                "avg_similarity": 0.6869999999999999
+                "top_similarity": 0.7150000000000001,
+                "avg_similarity": 0.6856666666666668
               },
               {
                 "iteration": 3,
                 "proposals_count": 3,
-                "top_similarity": 0.9375,
-                "avg_similarity": 0.8989444444444445
+                "top_similarity": 0.9395,
+                "avg_similarity": 0.8982777777777778
               },
               {
                 "iteration": 4,
                 "proposals_count": 3,
-                "top_similarity": 0.8140000000000001,
-                "avg_similarity": 0.8106666666666666
+                "top_similarity": 0.8799999999999999,
+                "avg_similarity": 0.8346666666666667
               },
               {
                 "iteration": 5,
                 "proposals_count": 3,
-                "top_similarity": 0.74825,
-                "avg_similarity": 0.7370833333333332
+                "top_similarity": 0.7593928571428572,
+                "avg_similarity": 0.7434642857142858
               }
             ]
           },
@@ -330,8 +330,8 @@
               {
                 "iteration": 1,
                 "proposals_count": 3,
-                "top_similarity": 0.7880000000000001,
-                "avg_similarity": 0.7490000000000002,
+                "top_similarity": 0.7968181818181818,
+                "avg_similarity": 0.7456060606060606,
                 "weights": {
                   "event_type": 0.2,
                   "season": 0.12,
@@ -347,8 +347,8 @@
               {
                 "iteration": 2,
                 "proposals_count": 3,
-                "top_similarity": 0.7102897102897103,
-                "avg_similarity": 0.6863136863136864,
+                "top_similarity": 0.7142857142857143,
+                "avg_similarity": 0.6849816849816849,
                 "weights": {
                   "event_type": 0.19980019980019978,
                   "season": 0.11988011988011986,
@@ -364,8 +364,8 @@
               {
                 "iteration": 3,
                 "proposals_count": 3,
-                "top_similarity": 0.937624812749688,
-                "avg_similarity": 0.8991462527926067,
+                "top_similarity": 0.939620818741698,
+                "avg_similarity": 0.8984809174619365,
                 "weights": {
                   "event_type": 0.19960059920099885,
                   "season": 0.1197603595205993,
@@ -381,8 +381,8 @@
               {
                 "iteration": 4,
                 "proposals_count": 3,
-                "top_similarity": 0.8145568858572139,
-                "avg_similarity": 0.8112335325571639,
+                "top_similarity": 0.8803592811982025,
+                "avg_similarity": 0.8351616763175235,
                 "weights": {
                   "event_type": 0.19940119800299583,
                   "season": 0.11964071880179748,
@@ -398,8 +398,8 @@
               {
                 "iteration": 5,
                 "proposals_count": 3,
-                "top_similarity": 0.7481417901026869,
-                "avg_similarity": 0.7352820482617455,
+                "top_similarity": 0.7596087334366641,
+                "avg_similarity": 0.7417577385946679,
                 "weights": {
                   "event_type": 0.2000011956117723,
                   "season": 0.11940191497185378,
@@ -417,10 +417,10 @@
         },
         "summary": {
           "test_cases": 5,
-          "static_avg_similarity": 0.7997500000000001,
-          "adaptive_avg_similarity": 0.7997226397998598,
-          "improvement": -2.736020014026952e-05,
-          "improvement_pct": -0.003421094109442891,
+          "static_avg_similarity": 0.8181422077922077,
+          "adaptive_avg_similarity": 0.8181385458960921,
+          "improvement": -3.6618961155587826e-06,
+          "improvement_pct": -0.00044758674967284337,
           "weight_changes": {
             "event_type": {
               "initial": 0.2,
@@ -507,12 +507,12 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "Starting Semantic Cultural Adaptation Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_semantic_cultural_adaptation.json\n\nSummary:\n  Scenarios tested: 4\n  Avg retrieval similarity: 0.906\n  Total adaptations: 6\n  Ingredient substitutions: 0\n  Dish replacements: 0\n",
+        "stdout": "Starting Semantic Cultural Adaptation Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_semantic_cultural_adaptation.json\n\nSummary:\n  Scenarios tested: 4\n  Avg retrieval similarity: 0.904\n  Total adaptations: 5\n  Ingredient substitutions: 0\n  Dish replacements: 1\n",
         "stderr": ""
       },
       "data": {
         "test_name": "Semantic Cultural Adaptation",
-        "timestamp": "2026-01-05T02:18:20.527086",
+        "timestamp": "2026-01-08T00:49:46.635939",
         "test_cases": [
           {
             "scenario_id": "italian_adaptation",
@@ -520,7 +520,7 @@
             "retrieval": {
               "cases_found": 5,
               "top_similarity": 1.0,
-              "avg_similarity": 0.9743999999999999
+              "avg_similarity": 0.9635999999999999
             },
             "adaptation": {
               "menus_generated": 3,
@@ -528,7 +528,7 @@
               "ingredient_substitutions": 0,
               "dish_replacements": 0,
               "cultural_theme": "italian",
-              "total_price": 45.0
+              "total_price": 44.2
             }
           },
           {
@@ -536,16 +536,16 @@
             "target_culture": "SPANISH",
             "retrieval": {
               "cases_found": 5,
-              "top_similarity": 0.901,
+              "top_similarity": 0.895,
               "avg_similarity": 0.8624
             },
             "adaptation": {
               "menus_generated": 3,
-              "cultural_adaptations_applied": 3,
+              "cultural_adaptations_applied": 2,
               "ingredient_substitutions": 0,
               "dish_replacements": 0,
               "cultural_theme": "spanish",
-              "total_price": 44.8
+              "total_price": 44.4
             }
           },
           {
@@ -553,16 +553,16 @@
             "target_culture": "JAPANESE",
             "retrieval": {
               "cases_found": 5,
-              "top_similarity": 0.74,
-              "avg_similarity": 0.6803999999999999
+              "top_similarity": 0.742,
+              "avg_similarity": 0.6984
             },
             "adaptation": {
               "menus_generated": 3,
               "cultural_adaptations_applied": 3,
               "ingredient_substitutions": 0,
-              "dish_replacements": 0,
+              "dish_replacements": 1,
               "cultural_theme": "japanese",
-              "total_price": 36.8
+              "total_price": 40.0
             }
           },
           {
@@ -570,8 +570,8 @@
             "target_culture": "FRENCH",
             "retrieval": {
               "cases_found": 5,
-              "top_similarity": 0.9829999999999999,
-              "avg_similarity": 0.9399999999999998
+              "top_similarity": 0.9809999999999999,
+              "avg_similarity": 0.8858285714285714
             },
             "adaptation": {
               "menus_generated": 3,
@@ -579,17 +579,17 @@
               "ingredient_substitutions": 0,
               "dish_replacements": 0,
               "cultural_theme": "french",
-              "total_price": 44.8
+              "total_price": 47.9
             }
           }
         ],
         "summary": {
           "scenarios_tested": 4,
-          "avg_retrieval_similarity": 0.9059999999999999,
-          "total_cultural_adaptations": 6,
+          "avg_retrieval_similarity": 0.9045,
+          "total_cultural_adaptations": 5,
           "total_ingredient_substitutions": 0,
-          "total_dish_replacements": 0,
-          "adaptation_rate": 1.5
+          "total_dish_replacements": 1,
+          "adaptation_rate": 1.25
         }
       }
     },
@@ -597,12 +597,12 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "Starting Semantic RETRIEVE Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_semantic_retrieve.json\n\nSummary:\n  Cultures tested: 5\n  Exact match rate: 48.0%\n  Top result match rate: 60.0%\n  Avg retrieval similarity: 0.910\n",
+        "stdout": "Starting Semantic RETRIEVE Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/test_semantic_retrieve.json\n\nSummary:\n  Cultures tested: 5\n  Exact match rate: 60.0%\n  Top result match rate: 100.0%\n  Avg retrieval similarity: 0.972\n",
         "stderr": ""
       },
       "data": {
         "test_name": "Semantic Similarity in RETRIEVE",
-        "timestamp": "2026-01-05T02:18:20.801581",
+        "timestamp": "2026-01-08T00:49:47.228473",
         "cultural_preferences": [
           {
             "target_culture": "italian",
@@ -610,43 +610,43 @@
             "retrieved_cases": [
               {
                 "rank": 1,
-                "case_id": "case-init-7",
+                "case_id": "case-init-5",
                 "similarity_score": 1.0,
                 "case_culture": "italian",
                 "cultural_match": true
               },
               {
                 "rank": 2,
-                "case_id": "case-init-16",
+                "case_id": "case-init-13",
                 "similarity_score": 1.0,
                 "case_culture": "italian",
                 "cultural_match": true
               },
               {
                 "rank": 3,
-                "case_id": "case-init-9",
-                "similarity_score": 0.966,
+                "case_id": "case-init-21",
+                "similarity_score": 0.962,
                 "case_culture": "italian",
                 "cultural_match": true
               },
               {
                 "rank": 4,
-                "case_id": "case-init-27",
-                "similarity_score": 0.96,
+                "case_id": "case-init-10",
+                "similarity_score": 0.95,
                 "case_culture": "italian",
                 "cultural_match": true
               },
               {
                 "rank": 5,
-                "case_id": "case-init-12",
-                "similarity_score": 0.946,
+                "case_id": "case-init-37",
+                "similarity_score": 0.9060000000000001,
                 "case_culture": "italian",
                 "cultural_match": true
               }
             ],
             "metrics": {
               "top_similarity": 1.0,
-              "avg_similarity": 0.9743999999999999,
+              "avg_similarity": 0.9635999999999999,
               "exact_cultural_matches": 5,
               "top_result_is_match": true
             }
@@ -657,45 +657,45 @@
             "retrieved_cases": [
               {
                 "rank": 1,
-                "case_id": "case-init-7",
-                "similarity_score": 0.8330000000000001,
-                "case_culture": "italian",
-                "cultural_match": false
+                "case_id": "case-init-30",
+                "similarity_score": 1.0,
+                "case_culture": "spanish",
+                "cultural_match": true
               },
               {
                 "rank": 2,
-                "case_id": "case-init-16",
-                "similarity_score": 0.812,
+                "case_id": "case-init-5",
+                "similarity_score": 0.8370000000000001,
                 "case_culture": "italian",
                 "cultural_match": false
               },
               {
                 "rank": 3,
-                "case_id": "case-init-8",
-                "similarity_score": 0.762,
-                "case_culture": "french",
+                "case_id": "case-init-13",
+                "similarity_score": 0.8140000000000001,
+                "case_culture": "italian",
                 "cultural_match": false
               },
               {
                 "rank": 4,
-                "case_id": "case-init-43",
-                "similarity_score": 0.7610000000000001,
+                "case_id": "case-init-6",
+                "similarity_score": 0.764,
                 "case_culture": "french",
                 "cultural_match": false
               },
               {
                 "rank": 5,
-                "case_id": "case-init-42",
-                "similarity_score": 0.7560000000000001,
-                "case_culture": "french",
+                "case_id": "case-init-25",
+                "similarity_score": 0.7510000000000001,
+                "case_culture": "chinese",
                 "cultural_match": false
               }
             ],
             "metrics": {
-              "top_similarity": 0.8330000000000001,
-              "avg_similarity": 0.7848,
-              "exact_cultural_matches": 0,
-              "top_result_is_match": false
+              "top_similarity": 1.0,
+              "avg_similarity": 0.8332,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
             }
           },
           {
@@ -704,44 +704,44 @@
             "retrieved_cases": [
               {
                 "rank": 1,
-                "case_id": "case-init-8",
-                "similarity_score": 0.994,
+                "case_id": "case-init-6",
+                "similarity_score": 0.996,
                 "case_culture": "french",
                 "cultural_match": true
               },
               {
                 "rank": 2,
-                "case_id": "case-init-43",
-                "similarity_score": 0.9929999999999999,
+                "case_id": "case-init-28",
+                "similarity_score": 0.923,
                 "case_culture": "french",
                 "cultural_match": true
               },
               {
                 "rank": 3,
-                "case_id": "case-init-6",
-                "similarity_score": 0.988,
+                "case_id": "case-init-8",
+                "similarity_score": 0.907,
                 "case_culture": "french",
                 "cultural_match": true
               },
               {
                 "rank": 4,
-                "case_id": "case-init-42",
-                "similarity_score": 0.988,
+                "case_id": "case-init-24",
+                "similarity_score": 0.8560000000000001,
                 "case_culture": "french",
                 "cultural_match": true
               },
               {
                 "rank": 5,
-                "case_id": "case-init-14",
-                "similarity_score": 0.9369999999999998,
-                "case_culture": "french",
-                "cultural_match": true
+                "case_id": "case-init-5",
+                "similarity_score": 0.8290000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
               }
             ],
             "metrics": {
-              "top_similarity": 0.994,
-              "avg_similarity": 0.9799999999999999,
-              "exact_cultural_matches": 5,
+              "top_similarity": 0.996,
+              "avg_similarity": 0.9022,
+              "exact_cultural_matches": 4,
               "top_result_is_match": true
             }
           },
@@ -751,45 +751,45 @@
             "retrieved_cases": [
               {
                 "rank": 1,
-                "case_id": "case-init-7",
-                "similarity_score": 0.793,
-                "case_culture": "italian",
-                "cultural_match": false
+                "case_id": "case-init-35",
+                "similarity_score": 0.9309999999999998,
+                "case_culture": "japanese",
+                "cultural_match": true
               },
               {
                 "rank": 2,
-                "case_id": "case-init-16",
-                "similarity_score": 0.772,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
                 "case_culture": "italian",
                 "cultural_match": false
               },
               {
                 "rank": 3,
-                "case_id": "case-init-31",
-                "similarity_score": 0.753,
-                "case_culture": "american",
+                "case_id": "case-init-25",
+                "similarity_score": 0.7830000000000001,
+                "case_culture": "chinese",
                 "cultural_match": false
               },
               {
                 "rank": 4,
-                "case_id": "case-init-8",
-                "similarity_score": 0.738,
-                "case_culture": "french",
+                "case_id": "case-init-13",
+                "similarity_score": 0.774,
+                "case_culture": "italian",
                 "cultural_match": false
               },
               {
                 "rank": 5,
-                "case_id": "case-init-43",
-                "similarity_score": 0.7370000000000001,
-                "case_culture": "french",
+                "case_id": "case-init-33",
+                "similarity_score": 0.7730000000000001,
+                "case_culture": "chinese",
                 "cultural_match": false
               }
             ],
             "metrics": {
-              "top_similarity": 0.793,
-              "avg_similarity": 0.7586,
-              "exact_cultural_matches": 0,
-              "top_result_is_match": false
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8116,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
             }
           },
           {
@@ -798,44 +798,44 @@
             "retrieved_cases": [
               {
                 "rank": 1,
-                "case_id": "case-init-51",
-                "similarity_score": 0.9289999999999998,
+                "case_id": "case-init-39",
+                "similarity_score": 0.9309999999999998,
                 "case_culture": "mexican",
                 "cultural_match": true
               },
               {
                 "rank": 2,
-                "case_id": "case-init-29",
-                "similarity_score": 0.9080000000000001,
+                "case_id": "case-init-23",
+                "similarity_score": 0.925,
                 "case_culture": "mexican",
                 "cultural_match": true
               },
               {
                 "rank": 3,
-                "case_id": "case-init-7",
-                "similarity_score": 0.793,
-                "case_culture": "italian",
-                "cultural_match": false
+                "case_id": "case-init-2",
+                "similarity_score": 0.8660000000000001,
+                "case_culture": "mexican",
+                "cultural_match": true
               },
               {
                 "rank": 4,
-                "case_id": "case-init-31",
-                "similarity_score": 0.777,
-                "case_culture": "american",
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
                 "cultural_match": false
               },
               {
                 "rank": 5,
-                "case_id": "case-init-16",
-                "similarity_score": 0.772,
-                "case_culture": "italian",
-                "cultural_match": false
+                "case_id": "case-init-41",
+                "similarity_score": 0.7833333333333334,
+                "case_culture": "mexican",
+                "cultural_match": true
               }
             ],
             "metrics": {
-              "top_similarity": 0.9289999999999998,
-              "avg_similarity": 0.8358000000000001,
-              "exact_cultural_matches": 2,
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8604666666666667,
+              "exact_cultural_matches": 4,
               "top_result_is_match": true
             }
           }
@@ -843,17 +843,23 @@
         "summary": {
           "cultures_tested": 5,
           "total_cases_retrieved": 25,
-          "exact_cultural_matches": 12,
-          "exact_match_rate": 0.48,
-          "top_result_match_rate": 0.6,
-          "avg_retrieval_similarity": 0.9097999999999999
+          "exact_cultural_matches": 15,
+          "exact_match_rate": 0.6,
+          "top_result_match_rate": 1.0,
+          "avg_retrieval_similarity": 0.9715999999999999
         },
         "case_base_distribution": {
-          "american": 9,
-          "mexican": 3,
-          "french": 10,
-          "italian": 10,
-          "indian": 9
+          "american": 8,
+          "mexican": 5,
+          "indian": 6,
+          "chinese": 4,
+          "italian": 8,
+          "french": 4,
+          "lebanese": 1,
+          "japanese": 2,
+          "spanish": 1,
+          "thai": 1,
+          "korean": 1
         }
       }
     },
@@ -866,7 +872,7 @@
       },
       "data": {
         "test_name": "Negative Cases Learning",
-        "timestamp": "2026-01-05T02:18:20.893185",
+        "timestamp": "2026-01-08T00:49:47.395654",
         "scenarios": [
           {
             "scenario_id": "negative_case_creation",
@@ -877,7 +883,7 @@
               "score": 2.1,
               "success": false,
               "retained": true,
-              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260105-021820-973"
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260108-004947-305"
             }
           },
           {
@@ -886,8 +892,8 @@
             "warnings_found": 1,
             "warning_details": [
               {
-                "case_id": "case-20260105-021820-973",
-                "similarity": 0.8450588235294116,
+                "case_id": "case-20260108-004947-305",
+                "similarity": 0.8195569136745607,
                 "feedback_score": 2.1
               }
             ]
@@ -898,7 +904,7 @@
             "feedback": {
               "score": 4.7,
               "success": true,
-              "retained": true
+              "retained": false
             }
           }
         ],
@@ -922,7 +928,7 @@
       },
       "data": {
         "test_name": "Semantic Similarity in RETAIN",
-        "timestamp": "2026-01-05T02:18:20.980603",
+        "timestamp": "2026-01-08T00:49:47.572966",
         "test_cases": [
           {
             "test_id": "italian_vs_spanish",
@@ -972,7 +978,7 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "\n============================================================\n\ud83e\uddea EVALUACI\u00d3N COMPARATIVA: CBR Est\u00e1tico vs Adaptativo\n============================================================\n\ud83d\udccb Total de casos de prueba: 10\n\u23f0 Inicio: 2026-01-05 02:18:21\n\n============================================================\n\ud83d\udd39 EVALUACI\u00d3N: CBR EST\u00c1TICO (Pesos Fijos)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando BODA-005...\n  \u2713 3 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS EST\u00c1TICO:\n  Precisi\u00f3n: 100.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.01s\n\n============================================================\n\ud83d\udd38 EVALUACI\u00d3N: CBR ADAPTATIVO (Aprendizaje Activo)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (4.0/5.0)\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (4.8/5.0)\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (3.8/5.0)\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.2/5.0)\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (3.5/5.0)\n\n\u25b8 Procesando BODA-005...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.7/5.0)\n\n\ud83d\udcca RESULTADOS ADAPTATIVO:\n  Precisi\u00f3n: 100.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.01s\n\u2705 Historial de aprendizaje guardado en: data/learning_history_test.json\n\u26a0\ufe0f matplotlib no disponible. Instalar con: pip install matplotlib\n\u26a0\ufe0f matplotlib no disponible\n\u2705 Gr\u00e1ficas generadas en: docs/\n\n============================================================\n\ud83d\udcc8 COMPARACI\u00d3N DE RESULTADOS\n============================================================\n\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 M\u00e9trica                     \u2502 Est\u00e1tico \u2502 Adaptivo \u2502  Mejora  \u2502\n\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n\u2502 Precisi\u00f3n                   \u2502  100.0% \u2502  100.0% \u2502    +0.0% \u2502\n\u2502 Satisfacci\u00f3n promedio       \u2502   4.40/5 \u2502   4.40/5 \u2502   +0.00   \u2502\n\u2502 Tiempo promedio (s)         \u2502   0.011  \u2502   0.010  \u2502   -0.001  \u2502\n\u2502 Casos exitosos              \u2502    10    \u2502    10    \u2502    +0    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\ud83c\udfaf CONCLUSIONES:\n   \u2796 Precisi\u00f3n sin cambios\n   \u2796 Satisfacci\u00f3n sin cambios\n   \u2705 Tiempo de procesamiento similar (overhead m\u00ednimo)\n\n\ud83d\udcbe Comparaci\u00f3n guardada en: data/evaluation_comparison.json\n\n\u2705 Evaluaci\u00f3n completada\n\u23f0 Fin: 2026-01-05 02:18:21\n============================================================\n\n",
+        "stdout": "\n============================================================\n\ud83e\uddea EVALUACI\u00d3N COMPARATIVA: CBR Est\u00e1tico vs Adaptativo\n============================================================\n\ud83d\udccb Total de casos de prueba: 10\n\u23f0 Inicio: 2026-01-08 00:49:47\n\n============================================================\n\ud83d\udd39 EVALUACI\u00d3N: CBR EST\u00c1TICO (Pesos Fijos)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.06s\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.10s\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 3 propuestas en 0.06s\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.09s\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.03s\n\n\ud83d\udcca RESULTADOS EST\u00c1TICO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.04s\n\n============================================================\n\ud83d\udd38 EVALUACI\u00d3N: CBR ADAPTATIVO (Aprendizaje Activo)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.07s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.07s\n  \ud83d\udcda Pesos actualizados con feedback (4.0/5.0)\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.8/5.0)\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 3 propuestas en 0.06s\n  \ud83d\udcda Pesos actualizados con feedback (3.8/5.0)\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (4.2/5.0)\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.05s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.10s\n  \ud83d\udcda Pesos actualizados con feedback (3.5/5.0)\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.03s\n\n\ud83d\udcca RESULTADOS ADAPTATIVO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.04s\n\u2705 Historial de aprendizaje guardado en: data/learning_history_test.json\n\u26a0\ufe0f matplotlib no disponible. Instalar con: pip install matplotlib\n\u26a0\ufe0f matplotlib no disponible\n\u2705 Gr\u00e1ficas generadas en: docs/\n\n============================================================\n\ud83d\udcc8 COMPARACI\u00d3N DE RESULTADOS\n============================================================\n\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 M\u00e9trica                     \u2502 Est\u00e1tico \u2502 Adaptivo \u2502  Mejora  \u2502\n\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n\u2502 Precisi\u00f3n                   \u2502   90.0% \u2502   90.0% \u2502    +0.0% \u2502\n\u2502 Satisfacci\u00f3n promedio       \u2502   4.40/5 \u2502   4.40/5 \u2502   +0.00   \u2502\n\u2502 Tiempo promedio (s)         \u2502   0.041  \u2502   0.043  \u2502   +0.002  \u2502\n\u2502 Casos exitosos              \u2502     9    \u2502     9    \u2502    +0    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\ud83c\udfaf CONCLUSIONES:\n   \u2796 Precisi\u00f3n sin cambios\n   \u2796 Satisfacci\u00f3n sin cambios\n   \u2705 Tiempo de procesamiento similar (overhead m\u00ednimo)\n\n\ud83d\udcbe Comparaci\u00f3n guardada en: data/evaluation_comparison.json\n\n\u2705 Evaluaci\u00f3n completada\n\u23f0 Fin: 2026-01-08 00:49:48\n============================================================\n\n",
         "stderr": ""
       },
       "data": {}

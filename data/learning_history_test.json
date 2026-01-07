@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "total_iterations": 10,
+    "total_iterations": 9,
     "learning_rate": 0.05,
     "min_weight": 0.02,
     "max_weight": 0.5
   },
   "history": [
     {
-      "timestamp": "2026-01-05T02:18:21.227614",
+      "timestamp": "2026-01-08T00:49:48.328781",
       "iteration": 0,
       "weights": {
         "event_type": 0.2,
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.235595",
+      "timestamp": "2026-01-08T00:49:48.398500",
       "iteration": 1,
       "weights": {
         "event_type": 0.19980019980019978,
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.262014",
+      "timestamp": "2026-01-08T00:49:48.470595",
       "iteration": 2,
       "weights": {
         "event_type": 0.19960059920099885,
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.266545",
+      "timestamp": "2026-01-08T00:49:48.481704",
       "iteration": 3,
       "weights": {
         "event_type": 0.19940119800299583,
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.268052",
+      "timestamp": "2026-01-08T00:49:48.490561",
       "iteration": 4,
       "weights": {
         "event_type": 0.2000011956117723,
@@ -103,7 +103,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.278387",
+      "timestamp": "2026-01-08T00:49:48.547474",
       "iteration": 5,
       "weights": {
         "event_type": 0.2000011956117723,
@@ -122,7 +122,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.284619",
+      "timestamp": "2026-01-08T00:49:48.574534",
       "iteration": 6,
       "weights": {
         "event_type": 0.19980139421755472,
@@ -141,7 +141,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.291924",
+      "timestamp": "2026-01-08T00:49:48.625230",
       "iteration": 7,
       "weights": {
         "event_type": 0.1996017924251296,
@@ -160,7 +160,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.295958",
+      "timestamp": "2026-01-08T00:49:48.641749",
       "iteration": 8,
       "weights": {
         "event_type": 0.2002013896458379,
@@ -180,7 +180,7 @@
       ]
     },
     {
-      "timestamp": "2026-01-05T02:18:21.325087",
+      "timestamp": "2026-01-08T00:49:48.738143",
       "iteration": 9,
       "weights": {
         "event_type": 0.20020138964583795,
@@ -197,113 +197,94 @@
       "adjustments": [
         "Sin ajustes (feedback neutral)"
       ]
-    },
-    {
-      "timestamp": "2026-01-05T02:18:21.331083",
-      "iteration": 10,
-      "weights": {
-        "event_type": 0.20000138825758035,
-        "season": 0.11880681082454832,
-        "price_range": 0.18616342248225334,
-        "style": 0.11880681082454832,
-        "cultural": 0.07920454054969887,
-        "dietary": 0.09900567568712361,
-        "guests": 0.049502837843561805,
-        "wine_preference": 0.049502837843561805,
-        "success_bonus": 0.09900567568712361
-      },
-      "feedback_score": 4.7,
-      "adjustments": [
-        "Mantener precisión de precio"
-      ]
     }
   ],
   "summary": {
-    "total_iterations": 10,
-    "total_adjustments": 10,
+    "total_iterations": 9,
+    "total_adjustments": 9,
     "weight_changes": {
       "event_type": {
         "initial": 0.2,
-        "current": 0.20000138825758035,
-        "change": 1.3882575803370045e-06,
-        "change_pct": 0.0006941287901685023
+        "current": 0.20020138964583795,
+        "change": 0.00020138964583793495,
+        "change_pct": 0.10069482291896747
       },
       "season": {
         "initial": 0.12,
-        "current": 0.11880681082454832,
-        "change": -0.0011931891754516782,
-        "change_pct": -0.9943243128763987
+        "current": 0.11892561763537288,
+        "change": -0.0010743823646271189,
+        "change_pct": -0.8953186371892657
       },
       "price_range": {
         "initial": 0.18,
-        "current": 0.18616342248225334,
-        "change": 0.00616342248225335,
-        "change_pct": 3.4241236012518614
+        "current": 0.1853495859047356,
+        "change": 0.00534958590473561,
+        "change_pct": 2.971992169297561
       },
       "style": {
         "initial": 0.12,
-        "current": 0.11880681082454832,
-        "change": -0.0011931891754516782,
-        "change_pct": -0.9943243128763987
+        "current": 0.11892561763537288,
+        "change": -0.0010743823646271189,
+        "change_pct": -0.8953186371892657
       },
       "cultural": {
         "initial": 0.08,
-        "current": 0.07920454054969887,
-        "change": -0.0007954594503011281,
-        "change_pct": -0.9943243128764101
+        "current": 0.07928374509024858,
+        "change": -0.0007162549097514265,
+        "change_pct": -0.8953186371892831
       },
       "dietary": {
         "initial": 0.1,
-        "current": 0.09900567568712361,
-        "change": -0.0009943243128763962,
-        "change_pct": -0.9943243128763962
+        "current": 0.09910468136281074,
+        "change": -0.0008953186371892657,
+        "change_pct": -0.8953186371892657
       },
       "guests": {
         "initial": 0.05,
-        "current": 0.049502837843561805,
-        "change": -0.0004971621564381981,
-        "change_pct": -0.9943243128763962
+        "current": 0.04955234068140537,
+        "change": -0.00044765931859463287,
+        "change_pct": -0.8953186371892657
       },
       "wine_preference": {
         "initial": 0.05,
-        "current": 0.049502837843561805,
-        "change": -0.0004971621564381981,
-        "change_pct": -0.9943243128763962
+        "current": 0.04955234068140537,
+        "change": -0.00044765931859463287,
+        "change_pct": -0.8953186371892657
       },
       "success_bonus": {
         "initial": 0.1,
-        "current": 0.09900567568712361,
-        "change": -0.0009943243128763962,
-        "change_pct": -0.9943243128763962
+        "current": 0.09910468136281074,
+        "change": -0.0008953186371892657,
+        "change_pct": -0.8953186371892657
       }
     },
     "most_changed": [
       {
         "weight": "price_range",
-        "change": 0.00616342248225335,
-        "change_pct": "3.4%"
+        "change": 0.00534958590473561,
+        "change_pct": "3.0%"
       },
       {
         "weight": "season",
-        "change": -0.0011931891754516782,
-        "change_pct": "-1.0%"
+        "change": -0.0010743823646271189,
+        "change_pct": "-0.9%"
       },
       {
         "weight": "style",
-        "change": -0.0011931891754516782,
-        "change_pct": "-1.0%"
+        "change": -0.0010743823646271189,
+        "change_pct": "-0.9%"
       }
     ],
     "current_weights": {
-      "event_type": 0.20000138825758035,
-      "season": 0.11880681082454832,
-      "price_range": 0.18616342248225334,
-      "style": 0.11880681082454832,
-      "cultural": 0.07920454054969887,
-      "dietary": 0.09900567568712361,
-      "guests": 0.049502837843561805,
-      "wine_preference": 0.049502837843561805,
-      "success_bonus": 0.09900567568712361
+      "event_type": 0.20020138964583795,
+      "season": 0.11892561763537288,
+      "price_range": 0.1853495859047356,
+      "style": 0.11892561763537288,
+      "cultural": 0.07928374509024858,
+      "dietary": 0.09910468136281074,
+      "guests": 0.04955234068140537,
+      "wine_preference": 0.04955234068140537,
+      "success_bonus": 0.09910468136281074
     }
   }
 }

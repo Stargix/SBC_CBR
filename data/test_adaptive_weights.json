@@ -1,39 +1,39 @@
 {
   "test_name": "Adaptive Weight Learning",
-  "timestamp": "2026-01-05T03:28:39.212096",
+  "timestamp": "2026-01-08T00:49:56.124341",
   "systems": {
     "static": {
       "name": "Static Weights",
       "results": [
         {
           "iteration": 1,
-          "proposals_count": 2,
-          "top_similarity": 0.6960000000000002,
-          "avg_similarity": 0.6795000000000001
+          "proposals_count": 3,
+          "top_similarity": 0.7968181818181818,
+          "avg_similarity": 0.7456060606060606
         },
         {
           "iteration": 2,
           "proposals_count": 3,
-          "top_similarity": 0.7110000000000001,
-          "avg_similarity": 0.6773333333333333
+          "top_similarity": 0.7150000000000001,
+          "avg_similarity": 0.685
         },
         {
           "iteration": 3,
           "proposals_count": 3,
-          "top_similarity": 0.9375,
-          "avg_similarity": 0.8989444444444445
+          "top_similarity": 0.9395,
+          "avg_similarity": 0.8982777777777778
         },
         {
           "iteration": 4,
           "proposals_count": 3,
-          "top_similarity": 0.8140000000000001,
-          "avg_similarity": 0.8106666666666666
+          "top_similarity": 0.8799999999999999,
+          "avg_similarity": 0.8346666666666667
         },
         {
           "iteration": 5,
           "proposals_count": 3,
-          "top_similarity": 0.74825,
-          "avg_similarity": 0.7370833333333332
+          "top_similarity": 0.7593928571428572,
+          "avg_similarity": 0.7434642857142858
         }
       ]
     },
@@ -42,9 +42,9 @@
       "results": [
         {
           "iteration": 1,
-          "proposals_count": 2,
-          "top_similarity": 0.6960000000000002,
-          "avg_similarity": 0.6795000000000001,
+          "proposals_count": 3,
+          "top_similarity": 0.7968181818181818,
+          "avg_similarity": 0.7456060606060606,
           "weights": {
             "event_type": 0.2,
             "season": 0.12,
@@ -60,8 +60,8 @@
         {
           "iteration": 2,
           "proposals_count": 3,
-          "top_similarity": 0.7102897102897103,
-          "avg_similarity": 0.6816516816516817,
+          "top_similarity": 0.7042957042957043,
+          "avg_similarity": 0.6536796536796535,
           "weights": {
             "event_type": 0.19980019980019978,
             "season": 0.11988011988011986,
@@ -77,8 +77,8 @@
         {
           "iteration": 3,
           "proposals_count": 3,
-          "top_similarity": 0.937624812749688,
-          "avg_similarity": 0.8991462527926067,
+          "top_similarity": 0.939620818741698,
+          "avg_similarity": 0.8984809174619365,
           "weights": {
             "event_type": 0.19960059920099885,
             "season": 0.1197603595205993,
@@ -94,8 +94,8 @@
         {
           "iteration": 4,
           "proposals_count": 3,
-          "top_similarity": 0.8145568858572139,
-          "avg_similarity": 0.8112335325571639,
+          "top_similarity": 0.8803592811982025,
+          "avg_similarity": 0.8351616763175235,
           "weights": {
             "event_type": 0.19940119800299583,
             "season": 0.11964071880179748,
@@ -111,8 +111,8 @@
         {
           "iteration": 5,
           "proposals_count": 3,
-          "top_similarity": 0.7481417901026869,
-          "avg_similarity": 0.7352820482617455,
+          "top_similarity": 0.7596087334366641,
+          "avg_similarity": 0.7417577385946679,
           "weights": {
             "event_type": 0.2000011956117723,
             "season": 0.11940191497185378,
@@ -130,10 +130,10 @@
   },
   "summary": {
     "test_cases": 5,
-    "static_avg_similarity": 0.78135,
-    "adaptive_avg_similarity": 0.7813226397998598,
-    "improvement": -2.7360200140158497e-05,
-    "improvement_pct": -0.0035016574057923464,
+    "static_avg_similarity": 0.8181422077922077,
+    "adaptive_avg_similarity": 0.8161405438980902,
+    "improvement": -0.002001663894117489,
+    "improvement_pct": -0.24465965391506522,
     "weight_changes": {
       "event_type": {
         "initial": 0.2,
