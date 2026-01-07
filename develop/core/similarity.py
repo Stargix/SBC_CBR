@@ -169,9 +169,13 @@ class SimilarityCalculator:
         """
         Ajusta dinámicamente los pesos según los campos especificados en el request.
         
-        Si un campo no está especificado (None o valor por defecto vacío), 
+        Si un campo tiene un valor especial que indica "no especificado", 
         su peso se reduce a 0 para esta petición y se redistribuye proporcionalmente
         entre los demás campos activos.
+        
+        Valores especiales:
+        - event_type=ANY, season=ALL, num_guests=-1, price=-1, 
+        - preferred_style=None, cultural_preference=None, required_diets=[]
         
         Args:
             request: Solicitud del cliente
@@ -181,31 +185,55 @@ class SimilarityCalculator:
         """
         # Crear copia de los pesos originales
         import copy
+        from .models import EventType, Season
         adjusted = copy.deepcopy(self.weights)
         
-        # Determinar qué campos NO están especificados
+        # Determinar qué campos NO están especificados (valores especiales)
         fields_to_zero = []
         
-        # 1. preferred_style: None = no especificado
+        # 1. event_type: EventType.ANY = no especificado
+        if request.event_type == EventType.ANY:
+            fields_to_zero.append('event_type')
+            adjusted.event_type = 0.0
+        
+        # 2. season: Season.ALL = no especificado
+        if request.season == Season.ALL:
+            fields_to_zero.append('season')
+            adjusted.season = 0.0
+        
+        # 3. num_guests: -1 = no especificado
+        if request.num_guests == -1:
+            fields_to_zero.append('guests')
+            adjusted.guests = 0.0
+        
+        # 4. price_range: -1 en ambos = no especificado
+        # Si solo uno está especificado, el otro toma un valor sensato
+        if request.price_min == -1.0 and request.price_max == -1.0:
+            fields_to_zero.append('price_range')
+            adjusted.price_range = 0.0
+        
+        # 5. preferred_style: None = no especificado
         if request.preferred_style is None:
             fields_to_zero.append('style')
             adjusted.style = 0.0
         
-        # 2. cultural_preference: None = no especificado
+        # 6. cultural_preference: None = no especificado
         if request.cultural_preference is None:
             fields_to_zero.append('cultural')
             adjusted.cultural = 0.0
         
-        # 3. required_diets: lista vacía = no especificado
+        # 7. required_diets: lista vacía = no especificado
         if not request.required_diets:
             fields_to_zero.append('dietary')
             adjusted.dietary = 0.0
         
-        # 4. wants_wine: False = no le importa el vino (valor por defecto)
-        # Solo lo consideramos si el usuario NO especificó preferencia
+        # 8. wants_wine: False = no le importa el vino
         if not request.wants_wine and not request.wine_per_dish:
             fields_to_zero.append('wine_preference')
             adjusted.wine_preference = 0.0
+        
+        # NOTA: success_bonus NUNCA se pone a 0 porque no depende del request,
+        # sino del historial de éxito del caso
         
         # Si se redujo algún peso, normalizar para redistribuir
         if fields_to_zero:
@@ -309,8 +337,15 @@ class SimilarityCalculator:
         """
         Calcula similitud entre tipos de evento.
         
+        Si req_event=EventType.ANY, significa que no se especificó tipo
+        (este caso se maneja en _adjust_weights_for_request poniendo peso=0).
+        
         Los eventos similares tienen mayor puntuación.
         """
+        # Si no especificó tipo de evento (ANY), devolver neutral (aunque el peso debería ser 0)
+        if req_event == EventType.ANY:
+            return 0.8  # Neutral - acepta cualquier evento
+        
         if req_event == case_event:
             return 1.0
         
@@ -362,9 +397,28 @@ class SimilarityCalculator:
         """
         Calcula similitud por rango de precios.
         
+        Si price_min=-1 y price_max=-1, significa que no se especificó rango
+        (este caso se maneja en _adjust_weights_for_request poniendo peso=0).
+        
+        Si solo uno está especificado (-1 en el otro), se infiere el rango:
+        - Si req_min=-1 pero req_max=X: rango [0, X]
+        - Si req_max=-1 pero req_min=X: rango [X, infinito] (tolerante)
+        
         Un caso dentro del rango tiene similitud 1.
         Fuera del rango, decrece gradualmente.
         """
+        # Si no especificó rango (-1 en ambos), devolver neutral (aunque el peso debería ser 0)
+        if req_min == -1.0 and req_max == -1.0:
+            return 0.8  # Neutral
+        
+        # Si solo especificó max, asumir min=0
+        if req_min == -1.0:
+            req_min = 0.0
+        
+        # Si solo especificó min, ser muy tolerante con el máximo
+        if req_max == -1.0:
+            req_max = req_min * 5  # Rango muy amplio hacia arriba
+        
         if req_min <= case_price <= req_max:
             # Dentro del rango - similitud perfecta
             return 1.0
@@ -699,8 +753,15 @@ class SimilarityCalculator:
         """
         Calcula similitud por número de comensales.
         
+        Si req_guests=-1, significa que no se especificó cantidad
+        (este caso se maneja en _adjust_weights_for_request poniendo peso=0).
+        
         Verifica que el menú pueda servir a la cantidad de invitados.
         """
+        # Si no especificó cantidad (-1), devolver neutral (aunque el peso debería ser 0)
+        if req_guests == -1:
+            return 0.8  # Neutral
+        
         # Verificar capacidad máxima del menú
         max_capacity = min(
             menu.starter.max_guests,

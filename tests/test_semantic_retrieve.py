@@ -78,7 +78,7 @@ def run_test() -> Dict:
             culture_result["retrieved_cases"].append({
                 "rank": i + 1,
                 "case_id": result.case.id,
-                "similarity_score": result.similarity,
+                "similarity_score": float(result.similarity),  # Convert to native Python float
                 "case_culture": case_culture,
                 "cultural_match": case_culture == culture.value
             })
@@ -86,8 +86,8 @@ def run_test() -> Dict:
         # Calculate metrics
         if retrieval_results:
             culture_result["metrics"] = {
-                "top_similarity": retrieval_results[0].similarity,
-                "avg_similarity": sum(r.similarity for r in retrieval_results) / len(retrieval_results),
+                "top_similarity": float(retrieval_results[0].similarity),
+                "avg_similarity": float(sum(r.similarity for r in retrieval_results) / len(retrieval_results)),
                 "exact_cultural_matches": sum(1 for r in culture_result["retrieved_cases"] if r["cultural_match"]),
                 "top_result_is_match": culture_result["retrieved_cases"][0]["cultural_match"] if culture_result["retrieved_cases"] else False
             }
@@ -103,9 +103,9 @@ def run_test() -> Dict:
         "cultures_tested": len(cultural_tests),
         "total_cases_retrieved": total_retrievals,
         "exact_cultural_matches": total_exact_matches,
-        "exact_match_rate": total_exact_matches / total_retrievals if total_retrievals > 0 else 0.0,
-        "top_result_match_rate": top_match_count / len(cultural_tests) if cultural_tests else 0.0,
-        "avg_retrieval_similarity": sum(cp["metrics"]["top_similarity"] for cp in results["cultural_preferences"]) / len(results["cultural_preferences"])
+        "exact_match_rate": float(total_exact_matches / total_retrievals if total_retrievals > 0 else 0.0),
+        "top_result_match_rate": float(top_match_count / len(cultural_tests) if cultural_tests else 0.0),
+        "avg_retrieval_similarity": float(sum(cp["metrics"]["top_similarity"] for cp in results["cultural_preferences"]) / len(results["cultural_preferences"]))
     }
     
     return results

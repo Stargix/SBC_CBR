@@ -99,8 +99,8 @@ def run_test() -> Dict:
         retrieval_results = cbr.retriever.retrieve(request, k=5)
         scenario_result["phases"]["retrieve"] = {
             "cases_found": len(retrieval_results),
-            "top_similarity": retrieval_results[0].similarity if retrieval_results else 0.0,
-            "avg_similarity": sum(r.similarity for r in retrieval_results) / len(retrieval_results) if retrieval_results else 0.0
+            "top_similarity": float(retrieval_results[0].similarity) if retrieval_results else 0.0,
+            "avg_similarity": float(sum(r.similarity for r in retrieval_results) / len(retrieval_results)) if retrieval_results else 0.0
         }
         
         # Phase 2: ADAPT
@@ -135,7 +135,7 @@ def run_test() -> Dict:
                 "should_retain": decision.should_retain,
                 "retention_action": decision.action,
                 "retained": retained,
-                "feedback_score": feedback.score
+                "feedback_score": float(feedback.score)
             }
         
         results["scenarios"].append(scenario_result)
@@ -148,9 +148,9 @@ def run_test() -> Dict:
         "final_cases": final_cases,
         "cases_learned": final_cases - initial_cases,
         "scenarios_executed": len(scenarios),
-        "avg_retrieval_similarity": sum(s["phases"]["retrieve"]["top_similarity"] for s in results["scenarios"]) / len(scenarios),
-        "avg_valid_proposals": sum(s["phases"]["revise"]["valid_proposals"] for s in results["scenarios"]) / len(scenarios),
-        "retention_rate": sum(1 for s in results["scenarios"] if s["phases"].get("retain", {}).get("retained", False)) / len(scenarios)
+        "avg_retrieval_similarity": float(sum(s["phases"]["retrieve"]["top_similarity"] for s in results["scenarios"]) / len(scenarios)),
+        "avg_valid_proposals": float(sum(s["phases"]["revise"]["valid_proposals"] for s in results["scenarios"]) / len(scenarios)),
+        "retention_rate": float(sum(1 for s in results["scenarios"] if s["phases"].get("retain", {}).get("retained", False)) / len(scenarios))
     }
     
     return results

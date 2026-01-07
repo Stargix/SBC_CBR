@@ -105,8 +105,8 @@ def run_test() -> Dict:
             "target_culture": scenario["target_culture"],
             "retrieval": {
                 "cases_found": len(retrieval_results),
-                "top_similarity": retrieval_results[0].similarity,
-                "avg_similarity": sum(r.similarity for r in retrieval_results) / len(retrieval_results)
+                "top_similarity": float(retrieval_results[0].similarity),
+                "avg_similarity": float(sum(r.similarity for r in retrieval_results) / len(retrieval_results))
             },
             "adaptation": {
                 "menus_generated": len(adapted_menus),
@@ -133,7 +133,7 @@ def run_test() -> Dict:
             test_result["adaptation"]["cultural_theme"] = (
                 best_menu.cultural_theme.value if best_menu.cultural_theme else None
             )
-            test_result["adaptation"]["total_price"] = best_menu.total_price
+            test_result["adaptation"]["total_price"] = float(best_menu.total_price)
         
         results["test_cases"].append(test_result)
     
@@ -144,11 +144,11 @@ def run_test() -> Dict:
     
     results["summary"] = {
         "scenarios_tested": len(test_scenarios),
-        "avg_retrieval_similarity": sum(tc["retrieval"]["top_similarity"] for tc in results["test_cases"]) / len(results["test_cases"]),
+        "avg_retrieval_similarity": float(sum(tc["retrieval"]["top_similarity"] for tc in results["test_cases"]) / len(results["test_cases"])),
         "total_cultural_adaptations": total_adaptations,
         "total_ingredient_substitutions": total_substitutions,
         "total_dish_replacements": total_replacements,
-        "adaptation_rate": total_adaptations / len(results["test_cases"]) if results["test_cases"] else 0.0
+        "adaptation_rate": float(total_adaptations / len(results["test_cases"]) if results["test_cases"] else 0.0)
     }
     
     return results

@@ -20,6 +20,7 @@ import uuid
 
 class EventType(Enum):
     """Tipos de eventos soportados"""
+    ANY = "any"  # Valor especial: no especificado
     WEDDING = "wedding"
     FAMILIAR = "familiar"
     CONGRESS = "congress"
@@ -340,11 +341,11 @@ class Request:
         options_per_category: Cuántas opciones mostrar por categoría
     """
     id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
-    event_type: EventType = EventType.FAMILIAR
-    season: Season = Season.ALL
-    num_guests: int = 50
-    price_min: float = 20.0
-    price_max: float = 80.0
+    event_type: EventType = EventType.ANY  # ANY = no especificado
+    season: Season = Season.ALL  # ALL = no especificado
+    num_guests: int = -1  # -1 = no especificado
+    price_min: float = -1.0  # -1 = no especificado
+    price_max: float = -1.0  # -1 = no especificado
     wants_wine: bool = False
     wine_per_dish: bool = False
     preferred_style: Optional[CulinaryStyle] = None

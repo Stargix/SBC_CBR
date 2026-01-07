@@ -1,6 +1,6 @@
 {
   "test_name": "Semantic Cultural Adaptation",
-  "timestamp": "2026-01-05T03:28:39.956498",
+  "timestamp": "2026-01-07T23:21:33.238425",
   "test_cases": [
     {
       "scenario_id": "italian_adaptation",
@@ -24,59 +24,4 @@
       "target_culture": "SPANISH",
       "retrieval": {
         "cases_found": 5,
-        "top_similarity": 0.901,
-        "avg_similarity": 0.8624
-      },
-      "adaptation": {
-        "menus_generated": 3,
-        "cultural_adaptations_applied": 3,
-        "ingredient_substitutions": 0,
-        "dish_replacements": 0,
-        "cultural_theme": "spanish",
-        "total_price": 44.0
-      }
-    },
-    {
-      "scenario_id": "japanese_adaptation",
-      "target_culture": "JAPANESE",
-      "retrieval": {
-        "cases_found": 5,
-        "top_similarity": 0.74,
-        "avg_similarity": 0.6803999999999999
-      },
-      "adaptation": {
-        "menus_generated": 3,
-        "cultural_adaptations_applied": 3,
-        "ingredient_substitutions": 0,
-        "dish_replacements": 1,
-        "cultural_theme": "japanese",
-        "total_price": 36.8
-      }
-    },
-    {
-      "scenario_id": "french_adaptation",
-      "target_culture": "FRENCH",
-      "retrieval": {
-        "cases_found": 5,
-        "top_similarity": 0.9829999999999999,
-        "avg_similarity": 0.9399999999999998
-      },
-      "adaptation": {
-        "menus_generated": 3,
-        "cultural_adaptations_applied": 0,
-        "ingredient_substitutions": 0,
-        "dish_replacements": 0,
-        "cultural_theme": "french",
-        "total_price": 44.3
-      }
-    }
-  ],
-  "summary": {
-    "scenarios_tested": 4,
-    "avg_retrieval_similarity": 0.9059999999999999,
-    "total_cultural_adaptations": 6,
-    "total_ingredient_substitutions": 0,
-    "total_dish_replacements": 1,
-    "adaptation_rate": 1.5
-  }
-}
+        "top_similarity": 
