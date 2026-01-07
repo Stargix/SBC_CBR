@@ -19,9 +19,9 @@ from dataclasses import dataclass
 from datetime import datetime
 import random
 
-from core.models import Case, Menu, Request
-from core.case_base import CaseBase
-from core.similarity import SimilarityCalculator, calculate_menu_similarity
+from ..core.models import Case, Menu, Request
+from ..core.case_base import CaseBase
+from ..core.similarity import SimilarityCalculator, calculate_menu_similarity
 
 
 @dataclass
@@ -67,10 +67,10 @@ class CaseRetainer:
         self.case_base = case_base
         self.similarity_calc = SimilarityCalculator()
         
-        # Umbrales de retención
-        self.novelty_threshold = 0.85  # Si similitud < este, es novedoso
-        self.quality_threshold = 3.5   # Mínimo feedback para retener como positivo
-        self.negative_threshold = 3.0  # Feedback < 3.0 se guarda como caso negativo
+        # Umbrales de retención (ajustados para aprendizaje más permisivo)
+        self.novelty_threshold = 0.92  # Si similitud < este, es novedoso (antes 0.85)
+        self.quality_threshold = 3.0   # Mínimo feedback para retener como positivo (antes 3.5)
+        self.negative_threshold = 2.5  # Feedback < 2.5 se guarda como caso negativo (antes 3.0)
         self.max_cases_per_event = 50  # Límite de casos por tipo de evento
         self.max_cases_total = 200  # Límite total para evitar crecimiento infinito
         
@@ -147,21 +147,21 @@ class CaseRetainer:
         
         # 3. Decidir acción
         if max_similarity >= self.novelty_threshold:
-            # Muy similar a uno existente
-            if most_similar and feedback.score > most_similar.feedback_score:
+            # Muy similar a uno existente (≥92%)
+            if most_similar and feedback.score > most_similar.feedback_score + 0.2:
                 # El nuevo es mejor, actualizar el existente
                 return RetentionDecision(
                     should_retain=True,
-                    reason="Mejora un caso existente",
+                    reason=f"Mejora caso existente ({feedback.score:.1f} vs {most_similar.feedback_score:.1f})",
                     similarity_to_existing=max_similarity,
                     most_similar_case=most_similar,
                     action="update_existing"
                 )
             else:
-                # El existente es igual o mejor
+                # El existente es igual o mejor, redundante
                 return RetentionDecision(
                     should_retain=False,
-                    reason="Ya existe un caso similar con igual o mejor feedback",
+                    reason=f"Redundante con caso existente (sim={max_similarity:.2%}, score similar)",
                     similarity_to_existing=max_similarity,
                     most_similar_case=most_similar,
                     action="discard"
@@ -310,7 +310,6 @@ class CaseRetainer:
                 self.case_base.cases = [
                     c for c in self.case_base.cases if c.id not in to_remove
                 ]
-                print(f"🧹 Mantenimiento: {len(to_remove)} casos redundantes eliminados")
             else:
                 # Si no hay redundantes, eliminar los de menor utilidad
                 # (como último recurso)
@@ -428,7 +427,6 @@ class CaseRetainer:
         ]
         
         removed_count = len(event_cases) - len(to_keep)
-        print(f"⚠️ Mantenimiento fallback: {removed_count} casos de baja utilidad eliminados")
     
     def _calculate_case_utility(self, case: Case) -> float:
         """
@@ -584,9 +582,6 @@ class CaseRetainer:
         
         for case in cases_to_remove:
             self.case_base.cases.remove(case)
-        
-        print(f"🗑️  Política de olvido: {to_remove_count} casos de baja utilidad eliminados")
-        print(f"   Base de casos reducida a {len(self.case_base.get_all_cases())} casos")
     
     def export_learned_cases(self) -> List[Dict[str, Any]]:
         """

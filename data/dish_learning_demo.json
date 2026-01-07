@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "learner_type": "dish_similarity",
+    "total_iterations": 3,
+    "learning_rate": 0.08,
+    "min_weight": 0.02,
+    "max_weight": 0.5
+  },
+  "history": [
+    {
+      "timestamp": "2026-01-07T19:08:07.038227",
+      "iteration": 0,
+      "weights": {
+        "category": 0.15,
+        "price": 0.15,
+        "complexity": 0.1,
+        "flavors": 0.15,
+        "styles": 0.15,
+        "temperature": 0.05,
+        "diets": 0.1,
+        "cultural": 0.15
+      },
+      "feedback_score": 0.0,
+      "adjustments": [
+        "Inicialización con pesos por defecto (platos)"
+      ]
+    },
+    {
+      "timestamp": "2026-01-07T19:08:07.039553",
+      "iteration": 1,
+      "weights": {
+        "category": 0.15131056393963463,
+        "price": 0.15051628276409845,
+        "complexity": 0.09928514694201747,
+        "flavors": 0.15210484511517075,
+        "styles": 0.14892772041302618,
+        "temperature": 0.049642573471008734,
+        "diets": 0.09928514694201747,
+        "cultural": 0.14892772041302618
+      },
+      "feedback_score": 4.5,
+      "adjustments": [
+        "Reforzar importancia de categoría",
+        "Perfiles de sabor valorados",
+        "Mantener rango de precio"
+      ]
+    },
+    {
+      "timestamp": "2026-01-07T19:08:07.039912",
+      "iteration": 2,
+      "weights": {
+        "category": 0.15474877472208035,
+        "price": 0.14920329377884464,
+        "complexity": 0.09841905922087378,
+        "flavors": 0.15077799872637862,
+        "styles": 0.15159369588920124,
+        "temperature": 0.04920952961043689,
+        "diets": 0.09841905922087378,
+        "cultural": 0.14762858883131066
+      },
+      "feedback_score": 2.0,
+      "adjustments": [
+        "Ser más estricto con categoría",
+        "Mantener estilos más similares"
+      ]
+    },
+    {
+      "timestamp": "2026-01-07T19:08:07.040303",
+      "iteration": 3,
+      "weights": {
+        "category": 0.15540820285015858,
+        "price": 0.14913300413255995,
+        "complexity": 0.09732897470418687,
+        "flavors": 0.15227254620883962,
+        "styles": 0.1499146517891626,
+        "temperature": 0.04866448735209344,
+        "diets": 0.10128467090671853,
+        "cultural": 0.1459934620562803
+      },
+      "feedback_score": 4.2,
+      "adjustments": [
+        "Reforzar importancia de categoría",
+        "Perfiles de sabor valorados",
+        "Mantener rango de precio",
+        "Restricciones dietéticas bien manejadas"
+      ]
+    }
+  ],
+  "summary": {
+    "total_iterations": 3,
+    "total_adjustments": 9,
+    "weight_changes": {
+      "category": {
+        "initial": 0.15,
+        "current": 0.15540820285015858,
+        "change": 0.005408202850158583,
+        "change_pct": 3.605468566772389
+      },
+      "price": {
+        "initial": 0.15,
+        "current": 0.14913300413255995,
+        "change": -0.0008669958674400458,
+        "change_pct": -0.5779972449600306
+      },
+      "complexity": {
+        "initial": 0.1,
+        "current": 0.09732897470418687,
+        "change": -0.0026710252958131314,
+        "change_pct": -2.6710252958131315
+      },
+      "flavors": {
+        "initial": 0.15,
+        "current": 0.15227254620883962,
+        "change": 0.0022725462088396264,
+        "change_pct": 1.5150308058930844
+      },
+      "styles": {
+        "initial": 0.15,
+        "current": 0.1499146517891626,
+        "change": -8.53482108373882e-05,
+        "change_pct": -0.05689880722492546
+      },
+      "temperature": {
+        "initial": 0.05,
+        "current": 0.04866448735209344,
+        "change": -0.0013355126479065657,
+        "change_pct": -2.6710252958131315
+      },
+      "diets": {
+        "initial": 0.1,
+        "current": 0.10128467090671853,
+        "change": 0.0012846709067185214,
+        "change_pct": 1.2846709067185214
+      },
+      "cultural": {
+        "initial": 0.15,
+        "current": 0.1459934620562803,
+        "change": -0.00400653794371969,
+        "change_pct": -2.671025295813127
+      }
+    },
+    "most_changed": [
+      {
+        "weight": "category",
+        "change": 0.005408202850158583,
+        "change_pct": "3.6%"
+      },
+      {
+        "weight": "cultural",
+        "change": -0.00400653794371969,
+        "change_pct": "-2.7%"
+      },
+      {
+        "weight": "complexity",
+        "change": -0.0026710252958131314,
+        "change_pct": "-2.7%"
+      }
+    ],
+    "current_weights": {
+      "category": 0.15540820285015858,
+      "price": 0.14913300413255995,
+      "complexity": 0.09732897470418687,
+      "flavors": 0.15227254620883962,
+      "styles": 0.1499146517891626,
+      "temperature": 0.04866448735209344,
+      "diets": 0.10128467090671853,
+      "cultural": 0.1459934620562803
+    }
+  }
+}

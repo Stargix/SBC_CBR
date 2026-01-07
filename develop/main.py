@@ -26,21 +26,42 @@ from typing import List, Optional, Dict, Any, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from core.models import (
-    Request, Menu, Case, Dish, Beverage, ProposedMenu,
-    EventType, Season, CulinaryStyle, DishType
-)
-from core.case_base import CaseBase
-from cycle.retrieve import CaseRetriever
-from cycle.adapt import CaseAdapter
-from cycle.revise import MenuReviser, ValidationResult
-from cycle.retain import CaseRetainer, FeedbackData
-from cycle.explanation import ExplanationGenerator
-from cycle.diversity import ensure_diversity, get_diversity_explanation
-from core.knowledge import (
-    EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-    CULTURAL_TRADITIONS, CHEF_SIGNATURES
-)
+try:
+    # Cuando se importa como módulo
+    from .core.models import (
+        Request, Menu, Case, Dish, Beverage, ProposedMenu,
+        EventType, Season, CulinaryStyle, DishType
+    )
+    from .core.case_base import CaseBase
+    from .core.adaptive_weights import AdaptiveWeightLearner
+    from .cycle.retrieve import CaseRetriever
+    from .cycle.adapt import CaseAdapter
+    from .cycle.revise import MenuReviser, ValidationResult
+    from .cycle.retain import CaseRetainer, FeedbackData
+    from .cycle.explanation import ExplanationGenerator
+    from .cycle.diversity import ensure_diversity, get_diversity_explanation
+    from .core.knowledge import (
+        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
+        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+    )
+except ImportError:
+    # Cuando se ejecuta como script o desde demo sin ser módulo
+    from core.models import (
+        Request, Menu, Case, Dish, Beverage, ProposedMenu,
+        EventType, Season, CulinaryStyle, DishType
+    )
+    from core.case_base import CaseBase
+    from core.adaptive_weights import AdaptiveWeightLearner
+    from cycle.retrieve import CaseRetriever
+    from cycle.adapt import CaseAdapter
+    from cycle.revise import MenuReviser, ValidationResult
+    from cycle.retain import CaseRetainer, FeedbackData
+    from cycle.explanation import ExplanationGenerator
+    from cycle.diversity import ensure_diversity, get_diversity_explanation
+    from core.knowledge import (
+        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
+        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+    )
 
 
 @dataclass
@@ -91,7 +112,15 @@ class ChefDigitalCBR:
         
         # Inicializar componentes
         self.case_base = CaseBase()
-        self.retriever = CaseRetriever(self.case_base)
+        
+        # Aprendizaje adaptativo de pesos
+        self.weight_learner = AdaptiveWeightLearner(learning_rate=0.05)
+        
+        # Componentes del ciclo CBR (con pesos adaptativos)
+        self.retriever = CaseRetriever(
+            self.case_base, 
+            weights=self.weight_learner.get_current_weights()
+        )
         self.adapter = CaseAdapter(self.case_base)
         self.reviser = MenuReviser()
         self.retainer = CaseRetainer(self.case_base)
@@ -125,26 +154,42 @@ class ChefDigitalCBR:
         }
         
         # FASE 1: RETRIEVE - Recuperar casos similares
-        retrieved_cases = self._retrieve_phase(request)
-        stats["cases_retrieved"] = len(retrieved_cases)
+        retrieval_results = self._retrieve_phase_detailed(request)
+        stats["cases_retrieved"] = len(retrieval_results)
         
-        if not retrieved_cases:
+        if not retrieval_results:
             # Sin casos similares, intentar generación desde conocimiento
-            retrieved_cases = self._generate_from_knowledge(request)
+            retrieval_results = self._generate_from_knowledge_detailed(request)
         
         # FASE 2-3: REUSE/ADAPT + REVISE para cada caso
-        for case, similarity in retrieved_cases:
+        for result in retrieval_results:
             if len(proposed_menus) >= self.config.max_proposals * 2:  # Recuperar más para diversificar
                 break
             
+            case = result.case
+            similarity = result.similarity
+            
             # REUSE/ADAPT
-            adapted_menu, adaptations = self._adapt_phase(case, request)
+            adapt_result = self._adapt_phase(case, request)
+            
+            if adapt_result is None:
+                # ADAPT rechazó el caso (no se pudo adaptar a las restricciones)
+                stats["cases_rejected"] += 1
+                rejected_cases.append({
+                    "case": case,
+                    "menu_name": f"Menú basado en caso {case.id}",
+                    "reasons": ["No se pudo adaptar a las restricciones dietéticas"],
+                    "similarity": similarity
+                })
+                continue
+            
+            adapted_menu, adaptations = adapt_result
             stats["cases_adapted"] += 1
             
             # REVISE
             validation = self._revise_phase(adapted_menu, request)
             
-            if validation.is_valid:
+            if validation.is_valid():  # Llamar al método para verificar validación
                 stats["cases_validated"] += 1
                 
                 # Crear propuesta
@@ -180,9 +225,11 @@ class ChefDigitalCBR:
             for i, proposal in enumerate(proposed_menus, 1):
                 proposal.rank = i
         
-        # Generar explicaciones
+        # Generar explicaciones CON DATOS DETALLADOS DE RETRIEVE
         explanations = self.explainer.generate_full_report(
-            proposed_menus, rejected_cases, request
+            proposed_menus, rejected_cases, request, 
+            retrieval_results=retrieval_results,  # Pasar resultados detallados
+            stats=stats  # Pasar estadísticas precisas
         )
         
         # Calcular tiempo de procesamiento
@@ -197,6 +244,30 @@ class ChefDigitalCBR:
             stats=stats
         )
     
+    def _retrieve_phase_detailed(self, request: Request) -> List:
+        """
+        Ejecuta la fase RETRIEVE del ciclo CBR con detalles completos.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            Lista de RetrievalResult con similarity_details
+        """
+        # Recuperar casos candidatos con detalles completos
+        candidates = self.retriever.retrieve(
+            request,
+            k=self.config.max_proposals * 3  # Recuperar más para tener opciones
+        )
+        
+        # Filtrar por similitud mínima
+        filtered = [
+            result for result in candidates
+            if result.similarity >= self.config.min_similarity
+        ]
+        
+        return filtered
+    
     def _retrieve_phase(self, request: Request) -> List[Tuple[Case, float]]:
         """
         Ejecuta la fase RETRIEVE del ciclo CBR.
@@ -207,21 +278,12 @@ class ChefDigitalCBR:
         Returns:
             Lista de (caso, similitud) ordenada por similitud
         """
-        # Recuperar casos candidatos
-        candidates = self.retriever.retrieve(
-            request,
-            k=self.config.max_proposals * 3  # Recuperar más para tener opciones
-        )
+        # Usar versión detallada y convertir a formato antiguo
+        detailed_results = self._retrieve_phase_detailed(request)
         
-        # Filtrar por similitud mínima y convertir a tuplas (case, similarity)
-        filtered = [
-            (result.case, result.similarity) for result in candidates
-            if result.similarity >= self.config.min_similarity
-        ]
-        
-        return filtered
+        return [(result.case, result.similarity) for result in detailed_results]
     
-    def _adapt_phase(self, case: Case, request: Request) -> Tuple[Menu, List[str]]:
+    def _adapt_phase(self, case: Case, request: Request) -> Optional[Tuple[Menu, List[str]]]:
         """
         Ejecuta la fase REUSE/ADAPT del ciclo CBR.
         
@@ -230,10 +292,13 @@ class ChefDigitalCBR:
             request: Solicitud del cliente
             
         Returns:
-            Tupla (menú adaptado, lista de adaptaciones)
+            Tupla (menú adaptado, lista de adaptaciones) o None si no se pudo adaptar
         """
         # Usar el CaseAdapter para adaptar el caso
-        from cycle.retrieve import RetrievalResult
+        try:
+            from .cycle.retrieve import RetrievalResult
+        except ImportError:
+            from cycle.retrieve import RetrievalResult
         
         # Crear resultado de recuperación temporal
         retrieval_result = RetrievalResult(
@@ -250,8 +315,8 @@ class ChefDigitalCBR:
             result = adapted_results[0]
             return result.adapted_menu, result.adaptations_made
         else:
-            # Fallback: retornar menú original
-            return case.menu, [f"Caso base sin adaptar: {case.id}"]
+            # ADAPT rechazó el caso (no se pudo adaptar)
+            return None
     
     def _revise_phase(self, menu: Menu, request: Request) -> ValidationResult:
         """
@@ -264,15 +329,46 @@ class ChefDigitalCBR:
         Returns:
             Resultado de la validación
         """
-        # Validación simple - por ahora aceptar todos los menús
-        # TODO: Implementar validación real
-        from cycle.revise import ValidationStatus
-        return ValidationResult(
-            menu=menu,
-            status=ValidationStatus.VALID,
-            issues=[],
-            score=0.8
-        )
+        # Usar el MenuReviser para validación completa
+        validation_result = self.reviser._validate_menu(menu, request)
+        return validation_result
+    
+    def _generate_from_knowledge_detailed(self, request: Request) -> List:
+        """
+        Genera casos desde el conocimiento cuando no hay casos similares.
+        
+        Retorna resultados detallados para explicabilidad.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            Lista de RetrievalResult generados
+        """
+        # Usar versión antigua y convertir
+        old_format = self._generate_from_knowledge(request)
+        
+        # Convertir a formato detallado
+        try:
+            from .cycle.retrieve import RetrievalResult
+        except ImportError:
+            from cycle.retrieve import RetrievalResult
+        
+        detailed_results = []
+        for case, similarity in old_format:
+            result = RetrievalResult(
+                case=case,
+                similarity=similarity,
+                similarity_details={
+                    'event_type': 0.5,
+                    'style': 0.5,
+                    'generated': True
+                },
+                rank=len(detailed_results) + 1
+            )
+            detailed_results.append(result)
+        
+        return detailed_results
     
     def _generate_from_knowledge(self, request: Request) -> List[Tuple[Case, float]]:
         """
@@ -390,6 +486,75 @@ class ChefDigitalCBR:
         except Exception as e:
             return False
     
+    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request):
+        """
+        Aprende de feedback del usuario y actualiza pesos de similitud.
+        
+        Implementa aprendizaje adaptativo: ajusta la importancia relativa
+        de cada criterio según la satisfacción del cliente.
+        
+        Args:
+            feedback_data: Datos de feedback del cliente
+            request: Request original del caso
+        """
+        # Convertir FeedbackData a objeto Feedback compatible
+        try:
+            from .core.models import Feedback
+        except ImportError:
+            from core.models import Feedback
+        
+        feedback = Feedback(
+            overall_satisfaction=feedback_data.score,
+            price_satisfaction=feedback_data.score,  # Simplificado
+            cultural_satisfaction=feedback_data.score if request.cultural_preference else 3.0,
+            flavor_satisfaction=feedback_data.score,
+            dietary_satisfaction=5.0 if feedback_data.success else 2.0,
+            comments=feedback_data.comments
+        )
+        
+        # Actualizar pesos mediante aprendizaje
+        adjustments = self.weight_learner.update_from_feedback(feedback, request)
+        
+        # Actualizar pesos en el retriever
+        self.retriever.similarity_calc.weights = self.weight_learner.get_current_weights()
+        
+        if self.config.verbose and adjustments:
+            print(f"\n📊 Pesos ajustados mediante aprendizaje:")
+            for weight_name, delta in adjustments.items():
+                print(f"   {weight_name}: {delta:+.4f}")
+            
+            # Mostrar resumen de aprendizaje
+            summary = self.weight_learner.get_learning_summary()
+            if summary.get('most_changed'):
+                print(f"\n📈 Pesos más cambiados desde inicio:")
+                for item in summary['most_changed']:
+                    print(f"   {item['weight']}: {item['change_pct']}")
+    
+    def save_learning_data(self, filepath: str = 'data/learning_history.json'):
+        """
+        Guarda historial de aprendizaje a archivo.
+        
+        Args:
+            filepath: Ruta donde guardar los datos
+        """
+        self.weight_learner.save_learning_history(filepath)
+        print(f"✅ Historial de aprendizaje guardado en: {filepath}")
+    
+    def plot_learning_evolution(self, output_dir: str = 'docs'):
+        """
+        Genera gráficas de evolución del aprendizaje.
+        
+        Args:
+            output_dir: Directorio donde guardar las gráficas
+        """
+        import os
+        os.makedirs(output_dir, exist_ok=True)
+        
+        self.weight_learner.plot_evolution(f"{output_dir}/weight_evolution.png")
+        self.weight_learner.plot_feedback_correlation(f"{output_dir}/feedback_correlation.png")
+        
+        print(f"✅ Gráficas generadas en: {output_dir}/")
+    
     def get_statistics(self) -> Dict[str, Any]:
         """
         Obtiene estadísticas del sistema CBR.
@@ -398,6 +563,7 @@ class ChefDigitalCBR:
             Diccionario con estadísticas
         """
         retention_stats = self.retainer.get_retention_statistics()
+        learning_summary = self.weight_learner.get_learning_summary()
         
         return {
             "system": {
@@ -409,6 +575,7 @@ class ChefDigitalCBR:
                 }
             },
             "case_base": retention_stats,
+            "learning": learning_summary,
             "supported_events": [e.value for e in EventType],
             "supported_styles": [s.value for s in CulinaryStyle],
             "supported_seasons": [s.value for s in Season],
