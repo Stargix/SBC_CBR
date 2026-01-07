@@ -303,15 +303,13 @@ class CaseAdapter:
         # RECALCULAR similitud global del menú ADAPTADO
         # (la similitud original de RETRIEVE ya no es válida tras los cambios)
         # Crear Case temporal para calcular similitud
-        # IMPORTANTE: Usar el request ORIGINAL del caso, no el request del cliente,
-        # para calcular la similitud correctamente
         temp_case = Case(
             id="temp",
             menu=adapted_menu,
-            request=case.request,  # ← Request ORIGINAL del caso, no del cliente
+            request=case.request,  # Usar request del CASO original (no del cliente)
             is_negative=False
         )
-        final_similarity = self.similarity_calc.calculate_similarity(request, temp_case)
+        final_similarity = self.similarity_calc.calculate_similarity(case.request, temp_case)
         
         # Calcular score de adaptación
         adaptation_score = self._calculate_adaptation_score(
