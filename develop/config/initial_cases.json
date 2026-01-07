@@ -20,27 +20,6 @@
             "feedback": 4.2
         },
         {
-            "event": "familiar",
-            "season": "winter",
-            "price_min": 31.0,
-            "price_max": 65.0,
-            "num_guests": 30,
-            "required_diets": [
-                "low-calorie"
-            ],
-            "restricted_ingredients": [
-                "gluten"
-            ],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "vietnamese",
-            "success": false,
-            "feedback": 1.0
-        },
-        {
             "event": "congress",
             "season": "summer",
             "price_min": 64.0,
@@ -56,25 +35,6 @@
             "culture": "mexican",
             "success": false,
             "feedback": 2.8
-        },
-        {
-            "event": "wedding",
-            "season": "autumn",
-            "price_min": 116.0,
-            "price_max": 147.0,
-            "num_guests": 200,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "chinese",
-            "success": false,
-            "feedback": 1.0
         },
         {
             "event": "congress",
@@ -249,25 +209,6 @@
             "feedback": 4.0
         },
         {
-            "event": "familiar",
-            "season": "summer",
-            "price_min": 50.0,
-            "price_max": 60.0,
-            "num_guests": 30,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "french",
-            "success": false,
-            "feedback": 1.0
-        },
-        {
             "event": "christening",
             "season": "summer",
             "price_min": 47.0,
@@ -283,23 +224,6 @@
             "culture": "italian",
             "success": true,
             "feedback": 4.5
-        },
-        {
-            "event": "corporate",
-            "season": "winter",
-            "price_min": 97.0,
-            "price_max": 114.0,
-            "num_guests": 40,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": "pina-colada-bars",
-            "beverage": "opus-one",
-            "style": "classic",
-            "culture": "french",
-            "success": false,
-            "feedback": 2.5
         },
         {
             "event": "familiar",
@@ -334,25 +258,6 @@
             "culture": "italian",
             "success": true,
             "feedback": 4.3
-        },
-        {
-            "event": "corporate",
-            "season": "autumn",
-            "price_min": 69.0,
-            "price_max": 115.0,
-            "num_guests": 80,
-            "required_diets": [
-                "vegetarian"
-            ],
-            "restricted_ingredients": [],
-            "starter": "caprese-flatbread-with-balsamic-reduction",
-            "main": null,
-            "dessert": "stuffed-french-toast-sticks",
-            "beverage": "château-desclans-garrus-rosé",
-            "style": "classic",
-            "culture": "italian",
-            "success": false,
-            "feedback": 2.0
         },
         {
             "event": "familiar",
@@ -411,7 +316,9 @@
             "price_min": 79.0,
             "price_max": 134.0,
             "num_guests": 100,
-            "required_diets": [],
+            "required_diets": [
+                "vegetarian"
+            ],
             "restricted_ingredients": [],
             "starter": "caprese-flatbread-with-balsamic-reduction",
             "main": "pumpkin-lasagna",
@@ -438,25 +345,6 @@
             "culture": "american",
             "success": true,
             "feedback": 3.9
-        },
-        {
-            "event": "christening",
-            "season": "autumn",
-            "price_min": 50.0,
-            "price_max": 75.0,
-            "num_guests": 30,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "spanish",
-            "success": false,
-            "feedback": 1.0
         },
         {
             "event": "familiar",
@@ -548,25 +436,6 @@
             "feedback": 4.1
         },
         {
-            "event": "wedding",
-            "season": "summer",
-            "price_min": 127.0,
-            "price_max": 143.0,
-            "num_guests": 150,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "lebanese",
-            "success": false,
-            "feedback": 1.0
-        },
-        {
             "event": "corporate",
             "season": "summer",
             "price_min": 68.0,
@@ -582,40 +451,6 @@
             "culture": "american",
             "success": true,
             "feedback": 3.7
-        },
-        {
-            "event": "familiar",
-            "season": "spring",
-            "price_min": 37.0,
-            "price_max": 49.0,
-            "num_guests": 10,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": "carrot-loaf-with-cream-cheese-frosting",
-            "main": null,
-            "dessert": "tropical-pineapple-muffins",
-            "beverage": "linden-blossom-tea",
-            "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.5
-        },
-        {
-            "event": "familiar",
-            "season": "winter",
-            "price_min": 47.0,
-            "price_max": 58.0,
-            "num_guests": 30,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": "bourbon-fig-swirled-brown-butter-banana-bread",
-            "main": "thai-brussels-sprouts",
-            "dessert": null,
-            "beverage": "decoy-cabernet-sauvignon",
-            "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.9
         },
         {
             "event": "congress",
@@ -703,23 +538,6 @@
             "feedback": 2.7
         },
         {
-            "event": "wedding",
-            "season": "spring",
-            "price_min": 89.0,
-            "price_max": 137.0,
-            "num_guests": 150,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": "roasted-masala-chickpeas",
-            "dessert": "english-walnut-toffee",
-            "beverage": "chamomile-infusion",
-            "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.3
-        },
-        {
             "event": "communion",
             "season": "summer",
             "price_min": 53.0,
@@ -756,33 +574,15 @@
             "feedback": 3.8
         },
         {
-            "event": "communion",
-            "season": "summer",
-            "price_min": 57.0,
-            "price_max": 78.0,
-            "num_guests": 60,
-            "required_diets": [
-                "low-fat"
-            ],
-            "restricted_ingredients": [
-                "peanuts"
-            ],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "thai",
-            "success": false,
-            "feedback": 1.0
-        },
-        {
             "event": "familiar",
             "season": "winter",
             "price_min": 38.0,
             "price_max": 53.0,
             "num_guests": 40,
-            "required_diets": [],
+            "required_diets": [
+                "peanut-free",
+                "fish-free"
+            ],
             "restricted_ingredients": [],
             "starter": "cornbread-cups",
             "main": "spicy-gochujang-wings",
@@ -800,7 +600,7 @@
             "price_max": 70.0,
             "num_guests": 20,
             "required_diets": [
-                "low-fat"
+                "pork-free"
             ],
             "restricted_ingredients": [],
             "starter": "sweet-and-sour-shrimp-soup-recipe-steemit",
@@ -830,23 +630,6 @@
             "feedback": 4.3
         },
         {
-            "event": "familiar",
-            "season": "spring",
-            "price_min": 35.0,
-            "price_max": 54.0,
-            "num_guests": 30,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": "balsamic-chicken-salad",
-            "main": null,
-            "dessert": "chocolate-orange-bundt-cake",
-            "beverage": "josh-cellars-cabernet-sauvignon",
-            "style": "classic",
-            "culture": "american",
-            "success": false,
-            "feedback": 2.8
-        },
-        {
             "event": "congress",
             "season": "winter",
             "price_min": 52.0,
@@ -873,7 +656,7 @@
             "num_guests": 50,
             "required_diets": [],
             "restricted_ingredients": [
-                "dairy"
+                "dairy-free"
             ],
             "starter": "skillet-cornbread",
             "main": "chicken-schnitzel",
@@ -890,7 +673,9 @@
             "price_min": 43.0,
             "price_max": 69.0,
             "num_guests": 20,
-            "required_diets": [],
+            "required_diets": [
+                "gluten-free"
+            ],
             "restricted_ingredients": [],
             "starter": "southern-baked-parmesan-chicken-courgette-tomato-and-bulgur-wheat-summer-salad-bowl",
             "main": "grilled-polenta-with-spicy-steak",
@@ -907,7 +692,9 @@
             "price_min": 79.0,
             "price_max": 90.0,
             "num_guests": 30,
-            "required_diets": [],
+            "required_diets": [
+                "pescatarian"
+            ],
             "restricted_ingredients": [],
             "starter": "recipe-summer-vegetable-grain-salad",
             "main": "protein-packed-peppers",
@@ -917,23 +704,6 @@
             "culture": "indian",
             "success": true,
             "feedback": 4.0
-        },
-        {
-            "event": "familiar",
-            "season": "spring",
-            "price_min": 26.0,
-            "price_max": 65.0,
-            "num_guests": 15,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": "chicken-gyros-4",
-            "dessert": "velvet-apricot-oatmeal-smoothie",
-            "beverage": "stags-leap-cabernet",
-            "style": "classic",
-            "culture": "french",
-            "success": false,
-            "feedback": 2.9
         },
         {
             "event": "congress",
