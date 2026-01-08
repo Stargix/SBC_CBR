@@ -1,0 +1,119 @@
+{
+  "config": {
+    "ollama_url": "http://localhost:11434/api/generate",
+    "model_name": "phi3",
+    "num_interactions": 5,
+    "enable_adaptive_weights": true,
+    "case_base_path": "cases.json",
+    "temperature": 0.7,
+    "verbose": true,
+    "save_results": true,
+    "results_path": "data/simulation_adaptive.json"
+  },
+  "interactions": [
+    {
+      "interaction": 2,
+      "success": true,
+      "request": {
+        "event_type": "christening",
+        "num_guests": 24,
+        "price_max": 43.5468087457963,
+        "style": "gourmet"
+      },
+      "menu_proposed": {
+        "starter": "Apple and Brussels Sprout Salad",
+        "main": "Pineapple Sweet and Sour Chicken (Easy and Delicious!)",
+        "dessert": "Accidentally Vegan Banana-Nut Muffins",
+        "total_price": 40.4,
+        "similarity": 0.8090000000000002
+      },
+      "feedback": {
+        "overall": 3.0,
+        "comments": "Auto-generated"
+      },
+      "timing": {
+        "total": 1.1876955032348633,
+        "cbr_processing": 0.003309488296508789
+      }
+    },
+    {
+      "interaction": 4,
+      "success": true,
+      "request": {
+        "event_type": "christening",
+        "num_guests": 189,
+        "price_max": 65.90960012929969,
+        "style": "classic"
+      },
+      "menu_proposed": {
+        "starter": "ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS",
+        "main": "CAPOCOLLO AND MINI SWEET PEPPER PASTA",
+        "dessert": "Lemon Tart",
+        "total_price": 44.2,
+        "similarity": 0.9109999999999999
+      },
+      "feedback": {
+        "overall": 3.0,
+        "comments": "Auto-generated"
+      },
+      "timing": {
+        "total": 1.5900824069976807,
+        "cbr_processing": 0.003263711929321289
+      }
+    }
+  ],
+  "start_time": "2026-01-08T02:34:28.878001",
+  "end_time": "2026-01-08T02:34:34.198261",
+  "duration_seconds": 5.32026,
+  "total_requests": 2,
+  "successful_proposals": 2,
+  "average_satisfaction": 3.0,
+  "weight_evolution": [
+    {
+      "timestamp": "2026-01-08T02:34:28.878047",
+      "weights": {
+        "event_type": 0.2,
+        "guests": 0.05,
+        "price_range": 0.18,
+        "season": 0.12,
+        "dietary": 0.1,
+        "cultural": 0.08,
+        "style": 0.12
+      }
+    },
+    {
+      "timestamp": "2026-01-08T02:34:31.093454",
+      "weights": {
+        "event_type": 0.2,
+        "guests": 0.05,
+        "price_range": 0.18,
+        "season": 0.12,
+        "dietary": 0.1,
+        "cultural": 0.08,
+        "style": 0.12
+      }
+    },
+    {
+      "timestamp": "2026-01-08T02:34:33.697905",
+      "weights": {
+        "event_type": 0.2,
+        "guests": 0.05,
+        "price_range": 0.18,
+        "season": 0.12,
+        "dietary": 0.1,
+        "cultural": 0.08,
+        "style": 0.12
+      }
+    }
+  ],
+  "summary": {
+    "total_interactions": 2,
+    "successful_interactions": 2,
+    "average_satisfaction": 3.0,
+    "satisfaction_distribution": {
+      "low_1-2": 0,
+      "medium_3": 2,
+      "high_4-5": 0
+    }
+  }
+}
