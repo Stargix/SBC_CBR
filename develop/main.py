@@ -486,7 +486,7 @@ class ChefDigitalCBR:
         except Exception as e:
             return False
     
-    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request):
+    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request, menu: Menu = None) -> 'Feedback':
         """
         Aprende de feedback del usuario y actualiza pesos de similitud.
         
@@ -496,6 +496,10 @@ class ChefDigitalCBR:
         Args:
             feedback_data: Datos de feedback del cliente (con dimensiones separadas)
             request: Request original del caso
+            menu: Menú generado (opcional, para calcular dietas cumplidas)
+            
+        Returns:
+            Feedback calculado con todas las dimensiones
         """
         # Convertir FeedbackData a objeto Feedback compatible
         try:
@@ -509,12 +513,48 @@ class ChefDigitalCBR:
         cultural_sat = feedback_data.cultural_satisfaction if feedback_data.cultural_satisfaction is not None else (feedback_data.score if request.cultural_preference else 3.0)
         flavor_sat = feedback_data.flavor_satisfaction if feedback_data.flavor_satisfaction is not None else feedback_data.score
         
+        # Calcular satisfacción dietética proporcional
+        dietary_sat = 5.0 if feedback_data.success else 2.0  # Fallback binario
+        
+        if menu and request.required_diets:
+            # Importar ingredient_adapter para verificar ingredientes
+            try:
+                from .cycle.ingredient_adapter import get_ingredient_adapter
+            except ImportError:
+                from cycle.ingredient_adapter import get_ingredient_adapter
+            
+            adapter = get_ingredient_adapter()
+            diets_fulfilled = 0
+            diets_required = len(request.required_diets)
+            
+            # Verificar cada dieta requerida contra los ingredientes ACTUALES del menú
+            for diet in request.required_diets:
+                diet_satisfied = True
+                
+                # Verificar todos los platos
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    # Verificar si algún ingrediente viola esta dieta
+                    for ingredient in dish.ingredients:
+                        if adapter.violates_dietary_restriction(ingredient, diet):
+                            diet_satisfied = False
+                            break
+                    if not diet_satisfied:
+                        break
+                
+                if diet_satisfied:
+                    diets_fulfilled += 1
+            
+            # Calcular score proporcional: 1.0 (0%) a 5.0 (100%)
+            if diets_required > 0:
+                diet_ratio = diets_fulfilled / diets_required
+                dietary_sat = 1.0 + (diet_ratio * 4.0)
+        
         feedback = Feedback(
             overall_satisfaction=feedback_data.score,
             price_satisfaction=price_sat,
             cultural_satisfaction=cultural_sat,
             flavor_satisfaction=flavor_sat,
-            dietary_satisfaction=5.0 if feedback_data.success else 2.0,
+            dietary_satisfaction=dietary_sat,
             comments=feedback_data.comments
         )
         
@@ -535,6 +575,9 @@ class ChefDigitalCBR:
                 print(f"\n📈 Pesos más cambiados desde inicio:")
                 for item in summary['most_changed']:
                     print(f"   {item['weight']}: {item['change_pct']}")
+        
+        # Retornar el feedback calculado
+        return feedback
     
     def save_learning_data(self, filepath: str = 'data/learning_history.json'):
         """

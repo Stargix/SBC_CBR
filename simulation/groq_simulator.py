@@ -51,6 +51,7 @@ class InteractionResult:
     user_feedback: Optional[Dict[str, Any]]
     llm_evaluation: str = ""
     llm_score: float = 0.0
+    feedback_breakdown: Optional[Dict[str, float]] = None
     timestamp: str = ""
 
 
@@ -299,8 +300,9 @@ class GroqCBRSimulator:
                 print(f"⭐ Puntuación: {llm_eval['score']:.1f}/5.0")
         
         # APRENDIZAJE: Usar las puntuaciones del LLM para actualizar pesos adaptativos
+        feedback_breakdown = None
         if self.config.enable_adaptive_weights and menus_details:
-            self._apply_learning_from_score(
+            feedback_breakdown = self._apply_learning_from_score(
                 request, 
                 llm_eval['score'],
                 llm_eval.get('price_score', llm_eval['score']),
@@ -316,6 +318,7 @@ class GroqCBRSimulator:
             user_feedback={"menus_details": menus_details},
             llm_evaluation=llm_eval["evaluation_text"],
             llm_score=llm_eval["score"],
+            feedback_breakdown=feedback_breakdown,
             timestamp=datetime.now().isoformat()
         )
     
@@ -470,7 +473,7 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
         }
     
     def _apply_learning_from_score(self, request: Request, overall_score: float, 
-                                    price_score: float, cultural_score: float, flavor_score: float):
+                                    price_score: float, cultural_score: float, flavor_score: float) -> Dict[str, float]:
         """
         Aplica aprendizaje adaptativo basado en las puntuaciones del LLM por dimensión.
         
@@ -482,6 +485,9 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
             price_score: Puntuación de satisfacción con el precio (0.0 - 5.0)
             cultural_score: Puntuación de satisfacción cultural (0.0 - 5.0)
             flavor_score: Puntuación de satisfacción con el sabor (0.0 - 5.0)
+            
+        Returns:
+            Diccionario con el desglose del feedback calculado
         """
         # Crear FeedbackData con dimensiones separadas para el aprendizaje
         feedback_data = FeedbackData(
@@ -495,11 +501,20 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
             flavor_satisfaction=flavor_score
         )
         
-        # Aplicar aprendizaje con FeedbackData
-        self.cbr_system.learn_from_feedback(feedback_data, request)
+        # Aplicar aprendizaje con FeedbackData (sin menú, usará fallback binario para dietas)
+        feedback = self.cbr_system.learn_from_feedback(feedback_data, request)
         
         if self.config.verbose:
             print(f"📊 Pesos adaptativos actualizados (overall: {overall_score:.1f}, precio: {price_score:.1f}, cultura: {cultural_score:.1f}, sabor: {flavor_score:.1f})")
+        
+        # Retornar desglose del feedback calculado
+        return {
+            "overall_satisfaction": feedback.overall_satisfaction,
+            "price_satisfaction": feedback.price_satisfaction,
+            "cultural_satisfaction": feedback.cultural_satisfaction,
+            "dietary_satisfaction": feedback.dietary_satisfaction,
+            "flavor_satisfaction": feedback.flavor_satisfaction
+        }
     
     def _extract_dimension_scores_from_evaluation(self, evaluation_text: str) -> Dict[str, float]:
         """
@@ -722,6 +737,7 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
                         "menus_details": i.user_feedback.get("menus_details", []) if i.user_feedback else [],
                         "llm_evaluation": i.llm_evaluation,
                         "llm_score": i.llm_score,
+                        "feedback_breakdown": i.feedback_breakdown,
                         "timestamp": i.timestamp
                     }
                     for i in result.interactions
