@@ -289,17 +289,24 @@ class GroqCBRSimulator:
                 print(f"💰 Precio total: ${menus_details[0]['total_price']:.2f}")
         
         # Evaluar con LLM
-        llm_eval = {"evaluation_text": "", "score": 0.0}
+        llm_eval = {"evaluation_text": "", "score": 0.0, "price_score": 0.0, "cultural_score": 0.0, "flavor_score": 0.0}
         if menus_details:
             if self.config.verbose:
                 print(f"\n🤖 Evaluando con LLM...")
-            llm_eval = self._evaluate_single_request(request_data, menus_details)
+            # Pasar también las adaptaciones al LLM para que sepa qué cambios se hicieron
+            llm_eval = self._evaluate_single_request(request_data, menus_details, adaptations_made)
             if self.config.verbose:
                 print(f"⭐ Puntuación: {llm_eval['score']:.1f}/5.0")
         
-        # APRENDIZAJE: Usar la puntuación del LLM para actualizar pesos adaptativos
+        # APRENDIZAJE: Usar las puntuaciones del LLM para actualizar pesos adaptativos
         if self.config.enable_adaptive_weights and menus_details:
-            self._apply_learning_from_score(request, llm_eval['score'])
+            self._apply_learning_from_score(
+                request, 
+                llm_eval['score'],
+                llm_eval.get('price_score', llm_eval['score']),
+                llm_eval.get('cultural_score', llm_eval['score']),
+                llm_eval.get('flavor_score', llm_eval['score'])
+            )
         
         return InteractionResult(
             request_num=request_num,
@@ -347,19 +354,25 @@ class GroqCBRSimulator:
             "score": avg_score
         }
     
-    def _evaluate_single_request(self, request_data: Dict[str, Any], menus_details: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _evaluate_single_request(self, request_data: Dict[str, Any], menus_details: List[Dict[str, Any]], adaptations: List[str] = None) -> Dict[str, Any]:
         """
-        Usa Groq LLM para evaluar una única solicitud.
+        Usa Groq LLM para evaluar una única solicitud con dimensiones separadas.
         
         Args:
             request_data: Datos de la solicitud
             menus_details: Detalles de los menús propuestos
+            adaptations: Lista de adaptaciones realizadas por el sistema CBR
             
         Returns:
-            Diccionario con evaluación y puntuación
+            Diccionario con evaluación y puntuaciones (overall + dimensiones)
         """
         system_prompt = """Eres un chef experto y crítico gastronómico. Evalúa la calidad del menú propuesto 
-basándote en la coherencia de ingredientes, el precio, y la justificación del chef."""
+basándote en la coherencia de ingredientes, el precio, la adecuación cultural y el sabor.
+
+Debe evaluar SEPARADAMENTE cada una de estas dimensiones:
+1. PRECIO: ¿El precio es apropiado y está dentro del presupuesto?
+2. CULTURA: ¿El menú respeta las preferencias culturales solicitadas?
+3. SABOR: ¿Los sabores y combinaciones de ingredientes son coherentes y apropiados?"""
 
         # Preparar información simplificada
         menu_info = []
@@ -390,6 +403,18 @@ basándote en la coherencia de ingredientes, el precio, y la justificación del 
             }
             menu_info.append(info)
 
+        # Determinar si hay preferencia cultural
+        cultural_pref = request_data.get('cultural_preference', 'No especificado')
+        has_cultural_pref = cultural_pref and cultural_pref != 'No especificado'
+        
+        # Preparar información de adaptaciones si está disponible
+        adaptations_text = ""
+        if adaptations and len(adaptations) > 0:
+            adaptations_text = "\n\nADAPTACIONES REALIZADAS POR EL SISTEMA CBR:\n"
+            for i, adaptation in enumerate(adaptations[:5], 1):  # Máximo 5 para no sobrecargar
+                adaptations_text += f"{i}. {adaptation}\n"
+            adaptations_text += "\nEstas adaptaciones se hicieron para ajustar el menú a los requisitos."
+        
         user_prompt = f"""Evalúa el siguiente menú para este evento:
 
 SOLICITUD:
@@ -399,53 +424,139 @@ SOLICITUD:
 - Presupuesto: {request_data.get('price_min')}-{request_data.get('price_max')}€
 - Dietas requeridas: {', '.join(request_data.get('required_diets', [])) or 'Ninguna'}
 - Estilo: {request_data.get('preferred_style', 'No especificado')}
+- Preferencia cultural: {cultural_pref}
 
 MENÚ PROPUESTO:
 {json.dumps(menu_info[0] if menu_info else {}, indent=2, ensure_ascii=False)}
+{adaptations_text}
 
-Evalúa:
-1. ¿Los ingredientes son coherentes y apropiados para el evento?
-2. ¿El precio está dentro del presupuesto?
-3. ¿La validación del chef tiene sentido?
-4. ¿El menú cumple con las restricciones dietéticas?
+CONTEXTO IMPORTANTE:
+El sistema CBR parte de una base de casos existente y hace adaptaciones automáticas 
+(sustituciones de ingredientes) para acercarse a los requisitos culturales. Si la 
+cultura solicitada no está bien representada en la base de datos, el sistema hace 
+su mejor esfuerzo adaptando ingredientes de platos similares.
+
+Evalúa CADA DIMENSIÓN POR SEPARADO (escala 0.0-5.0):
+
+1. PRECIO: ¿Está dentro del presupuesto {request_data.get('price_min')}-{request_data.get('price_max')}€? ¿Es apropiado para el evento?
+
+2. CULTURA: {f'¿El menú respeta o se aproxima a la tradición {cultural_pref}?' if has_cultural_pref else '¿Los ingredientes son apropiados culturalmente para el evento?'}
+   - Si hay adaptaciones culturales listadas arriba, valora el esfuerzo de aproximación
+   - 5.0 = Auténtico y fiel a la tradición
+   - 3.0-4.0 = Intento razonable de aproximación con ingredientes adaptados
+   - 1.0-2.0 = No hay esfuerzo o adaptaciones incorrectas
+   
+3. SABOR: ¿Los sabores y combinaciones de ingredientes son coherentes? ¿Los platos se complementan bien?
+
+4. DIETAS: ¿Se cumplen las restricciones dietéticas requeridas?
 
 Da una evaluación breve (2-3 líneas) y termina con:
-PUNTUACIÓN: X.X
+PRECIO: X.X
+CULTURA: X.X
+SABOR: X.X
+GENERAL: X.X
 
-Donde X.X es un número entre 0.0 y 5.0"""
+Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
 
         evaluation_text = self._call_groq_llm(system_prompt, user_prompt)
-        score = self._extract_score_from_evaluation(evaluation_text)
+        scores = self._extract_dimension_scores_from_evaluation(evaluation_text)
         
         return {
             "evaluation_text": evaluation_text,
-            "score": score
+            "score": scores.get('overall', scores.get('general', 2.5)),
+            "price_score": scores.get('price', scores.get('precio', 2.5)),
+            "cultural_score": scores.get('cultural', scores.get('cultura', 2.5)),
+            "flavor_score": scores.get('flavor', scores.get('sabor', 2.5))
         }
     
-    def _apply_learning_from_score(self, request: Request, score: float):
+    def _apply_learning_from_score(self, request: Request, overall_score: float, 
+                                    price_score: float, cultural_score: float, flavor_score: float):
         """
-        Aplica aprendizaje adaptativo basado en la puntuación del LLM.
+        Aplica aprendizaje adaptativo basado en las puntuaciones del LLM por dimensión.
         
-        Convierte la puntuación 0-5 en feedback estructurado y actualiza pesos.
+        Convierte las puntuaciones 0-5 en feedback estructurado y actualiza pesos.
         
         Args:
             request: Solicitud procesada
-            score: Puntuación del LLM (0.0 - 5.0)
+            overall_score: Puntuación general del LLM (0.0 - 5.0)
+            price_score: Puntuación de satisfacción con el precio (0.0 - 5.0)
+            cultural_score: Puntuación de satisfacción cultural (0.0 - 5.0)
+            flavor_score: Puntuación de satisfacción con el sabor (0.0 - 5.0)
         """
-        # Crear FeedbackData para el aprendizaje
+        # Crear FeedbackData con dimensiones separadas para el aprendizaje
         feedback_data = FeedbackData(
             menu_id="simulation_" + str(datetime.now().timestamp()),
-            success=score >= 3.5,
-            score=score,
-            comments=f"Evaluación automática LLM: {score:.1f}/5.0",
-            would_recommend=score >= 4.0
+            success=overall_score >= 3.5,
+            score=overall_score,
+            comments=f"Evaluación automática LLM: {overall_score:.1f}/5.0 (Precio: {price_score:.1f}, Cultura: {cultural_score:.1f}, Sabor: {flavor_score:.1f})",
+            would_recommend=overall_score >= 4.0,
+            price_satisfaction=price_score,
+            cultural_satisfaction=cultural_score,
+            flavor_satisfaction=flavor_score
         )
         
         # Aplicar aprendizaje con FeedbackData
         self.cbr_system.learn_from_feedback(feedback_data, request)
         
         if self.config.verbose:
-            print(f"📊 Pesos adaptativos actualizados (score: {score:.1f})")
+            print(f"📊 Pesos adaptativos actualizados (overall: {overall_score:.1f}, precio: {price_score:.1f}, cultura: {cultural_score:.1f}, sabor: {flavor_score:.1f})")
+    
+    def _extract_dimension_scores_from_evaluation(self, evaluation_text: str) -> Dict[str, float]:
+        """
+        Extrae las puntuaciones de cada dimensión de la evaluación del LLM.
+        
+        Args:
+            evaluation_text: Texto de evaluación del LLM
+            
+        Returns:
+            Diccionario con scores por dimensión: 'price', 'cultural', 'flavor', 'overall'
+        """
+        import re
+        
+        scores = {}
+        
+        # Patrones para cada dimensión (soporta español e inglés)
+        patterns = {
+            'price': r'(?:PRECIO|PRICE):\s*(\d+\.?\d*)',
+            'cultural': r'(?:CULTURA|CULTURAL):\s*(\d+\.?\d*)',
+            'flavor': r'(?:SABOR|FLAVOR):\s*(\d+\.?\d*)',
+            'overall': r'(?:GENERAL|OVERALL|PUNTUACIÓN):\s*(\d+\.?\d*)'
+        }
+        
+        # Extraer cada dimensión
+        for dimension, pattern in patterns.items():
+            match = re.search(pattern, evaluation_text, re.IGNORECASE)
+            if match:
+                try:
+                    score = float(match.group(1))
+                    scores[dimension] = max(0.0, min(5.0, score))
+                except ValueError:
+                    pass
+        
+        # Si no se encontró puntuación overall, calcular promedio
+        if 'overall' not in scores and len(scores) > 0:
+            scores['overall'] = sum(scores.values()) / len(scores)
+        
+        # Si no se extrajo ninguna puntuación, usar fallback del método antiguo
+        if not scores:
+            fallback_score = self._extract_score_from_evaluation(evaluation_text)
+            scores = {
+                'overall': fallback_score,
+                'price': fallback_score,
+                'cultural': fallback_score,
+                'flavor': fallback_score
+            }
+        
+        # Si falta alguna dimensión, usar el overall o 2.5
+        default_score = scores.get('overall', 2.5)
+        for dimension in ['price', 'cultural', 'flavor']:
+            if dimension not in scores:
+                scores[dimension] = default_score
+        
+        if self.config.verbose and len([k for k in scores if k != 'overall']) > 1:
+            print(f"   📊 Scores por dimensión: Precio={scores['price']:.1f}, Cultura={scores['cultural']:.1f}, Sabor={scores['flavor']:.1f}")
+        
+        return scores
     
     def _extract_score_from_evaluation(self, evaluation_text: str) -> float:
         """

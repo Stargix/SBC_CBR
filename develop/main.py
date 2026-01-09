@@ -494,7 +494,7 @@ class ChefDigitalCBR:
         de cada criterio según la satisfacción del cliente.
         
         Args:
-            feedback_data: Datos de feedback del cliente
+            feedback_data: Datos de feedback del cliente (con dimensiones separadas)
             request: Request original del caso
         """
         # Convertir FeedbackData a objeto Feedback compatible
@@ -503,11 +503,17 @@ class ChefDigitalCBR:
         except ImportError:
             from core.models import Feedback
         
+        # Usar las dimensiones específicas de FeedbackData si están disponibles
+        # Si no, usar el score general como fallback
+        price_sat = feedback_data.price_satisfaction if feedback_data.price_satisfaction is not None else feedback_data.score
+        cultural_sat = feedback_data.cultural_satisfaction if feedback_data.cultural_satisfaction is not None else (feedback_data.score if request.cultural_preference else 3.0)
+        flavor_sat = feedback_data.flavor_satisfaction if feedback_data.flavor_satisfaction is not None else feedback_data.score
+        
         feedback = Feedback(
             overall_satisfaction=feedback_data.score,
-            price_satisfaction=feedback_data.score,  # Simplificado
-            cultural_satisfaction=feedback_data.score if request.cultural_preference else 3.0,
-            flavor_satisfaction=feedback_data.score,
+            price_satisfaction=price_sat,
+            cultural_satisfaction=cultural_sat,
+            flavor_satisfaction=flavor_sat,
             dietary_satisfaction=5.0 if feedback_data.success else 2.0,
             comments=feedback_data.comments
         )
