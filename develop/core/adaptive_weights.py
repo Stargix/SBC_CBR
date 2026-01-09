@@ -84,16 +84,22 @@ class AdaptiveWeightLearner:
         initial_weights: Optional[SimilarityWeights] = None,
         learning_rate: float = 0.05,
         min_weight: float = 0.02,
-        max_weight: float = 0.50
+        max_weight: float = 0.50,
+        lr_scheduler: Optional[str] = None,
+        lr_decay_rate: float = 0.95,
+        lr_min: float = 0.001
     ):
         """
         Inicializa el aprendiz adaptativo.
         
         Args:
             initial_weights: Pesos iniciales (si None, usa defaults)
-            learning_rate: Tasa de aprendizaje (0.01-0.1 recomendado)
+            learning_rate: Tasa de aprendizaje inicial (0.01-0.1 recomendado)
             min_weight: Peso mínimo permitido
             max_weight: Peso máximo permitido
+            lr_scheduler: Tipo de scheduler ('exponential', 'linear', 'step', None)
+            lr_decay_rate: Factor de decay (0.9-0.99 recomendado para exponential)
+            lr_min: Learning rate mínimo
         """
         # Pesos actuales
         if initial_weights:
@@ -103,9 +109,15 @@ class AdaptiveWeightLearner:
             self.weights.normalize()
         
         # Parámetros de aprendizaje
+        self.initial_learning_rate = learning_rate
         self.learning_rate = learning_rate
         self.min_weight = min_weight
         self.max_weight = max_weight
+        
+        # Parámetros del scheduler
+        self.lr_scheduler = lr_scheduler
+        self.lr_decay_rate = lr_decay_rate
+        self.lr_min = lr_min
         
         # Historial de aprendizaje
         self.history: List[LearningSnapshot] = []
@@ -239,6 +251,9 @@ class AdaptiveWeightLearner:
         # Normalizar pesos (suma = 1.0)
         self._normalize_weights()
         
+        # Actualizar learning rate según scheduler
+        self._update_learning_rate()
+        
         # Registrar snapshot
         self._record_snapshot(
             feedback_score=overall_satisfaction,
@@ -246,6 +261,51 @@ class AdaptiveWeightLearner:
         )
         
         return adjustments_made
+    
+    def _update_learning_rate(self):
+        """
+        Actualiza el learning rate según el scheduler configurado.
+        
+        Estrategias disponibles:
+        - 'exponential': lr = lr_initial * (decay_rate ^ iteration)
+        - 'linear': lr = lr_initial - (lr_initial - lr_min) * (iteration / max_iter)
+        - 'step': lr = lr_initial * (decay_rate ^ (iteration // step_size))
+        - None: learning rate constante
+        """
+        if self.lr_scheduler is None:
+            return
+        
+        old_lr = self.learning_rate
+        
+        if self.lr_scheduler == 'exponential':
+            # Decay exponencial: lr disminuye exponencialmente
+            self.learning_rate = self.initial_learning_rate * (self.lr_decay_rate ** self.iteration)
+            self.learning_rate = max(self.learning_rate, self.lr_min)
+            
+        elif self.lr_scheduler == 'linear':
+            # Decay lineal: lr disminuye linealmente hasta lr_min
+            # Asumimos 100 iteraciones para llegar a lr_min (ajustable)
+            max_iterations = 100
+            progress = min(self.iteration / max_iterations, 1.0)
+            self.learning_rate = self.initial_learning_rate - (self.initial_learning_rate - self.lr_min) * progress
+            
+        elif self.lr_scheduler == 'step':
+            # Step decay: lr se reduce cada N iteraciones
+            step_size = 10  # Reducir cada 10 iteraciones
+            self.learning_rate = self.initial_learning_rate * (self.lr_decay_rate ** (self.iteration // step_size))
+            self.learning_rate = max(self.learning_rate, self.lr_min)
+        
+        # Registrar cambio si es significativo
+        if abs(old_lr - self.learning_rate) > 0.0001:
+            self.adjustments_history.append(
+                WeightAdjustment(
+                    timestamp=datetime.now(),
+                    weight_name='learning_rate',
+                    delta=self.learning_rate - old_lr,
+                    reason=f"Scheduler {self.lr_scheduler}: iteración {self.iteration}",
+                    feedback_score=0.0
+                )
+            )
     
     def _adjust_weight(self, weight_name: str, delta: float, reason: str):
         """
@@ -347,7 +407,13 @@ class AdaptiveWeightLearner:
                 }
                 for name, data in sorted_changes[:3]
             ],
-            'current_weights': current.weights
+            'current_weights': current.weights,
+            'learning_rate': {
+                'current': self.learning_rate,
+                'initial': self.initial_learning_rate,
+                'scheduler': self.lr_scheduler or 'constant',
+                'min': self.lr_min
+            }
         }
     
     def save_learning_history(self, filepath: str):
@@ -845,7 +911,13 @@ class AdaptiveDishWeightLearner:
                 }
                 for name, data in sorted_changes[:3]
             ],
-            'current_weights': current.weights
+            'current_weights': current.weights,
+            'learning_rate': {
+                'current': self.learning_rate,
+                'initial': self.initial_learning_rate,
+                'scheduler': self.lr_scheduler or 'constant',
+                'min': self.lr_min
+            }
         }
     
     def save_learning_history(self, filepath: str):
