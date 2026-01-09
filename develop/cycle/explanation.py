@@ -24,10 +24,9 @@ from ..core.models import (
     CulinaryStyle, EventType, Season, DishType, Flavor
 )
 from ..core.knowledge import (
-    STYLE_DESCRIPTIONS, EVENT_STYLE_PREFERENCES,
+    EVENT_STYLE_PREFERENCES,
     FLAVOR_COMPATIBILITY, CATEGORY_INCOMPATIBILITIES,
-    CALORIE_RANGES, CULTURAL_TRADITIONS, WINE_COMPATIBILITY,
-    CHEF_SIGNATURES
+    CALORIE_RANGES, CULTURAL_TRADITIONS, WINE_COMPATIBILITY
 )
 
 
@@ -255,41 +254,6 @@ class ExplanationGenerator:
         return Explanation(
             type=ExplanationType.ADAPTATION,
             title="Adaptaciones realizadas",
-            content=content,
-            details=details
-        )
-    
-    def generate_style_explanation(self, style: CulinaryStyle,
-                                    menu: Menu) -> Explanation:
-        """
-        Genera explicación sobre la influencia del estilo culinario.
-        
-        Args:
-            style: Estilo culinario aplicado
-            menu: Menú con el estilo aplicado
-            
-        Returns:
-            Explicación del estilo
-        """
-        style_desc = STYLE_DESCRIPTIONS.get(style, "")
-        
-        details = []
-        
-        # Explicar cómo se refleja en el menú
-        details.append("")
-        details.append("Reflejo en el menú:")
-        
-        for dish in _get_menu_dishes(menu):
-            if style in dish.styles:
-                details.append(
-                    f"  • {dish.name}: representa la esencia del estilo {style.value}"
-                )
-        
-        content = style_desc or f"Menú diseñado siguiendo el estilo {style.value}"
-        
-        return Explanation(
-            type=ExplanationType.STYLE,
-            title=f"Estilo Culinario: {style.value.title()}",
             content=content,
             details=details
         )

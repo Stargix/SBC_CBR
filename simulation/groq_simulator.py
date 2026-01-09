@@ -127,14 +127,51 @@ class GroqCBRSimulator:
             Diccionario con los datos de la solicitud
         """
         event_types = ["WEDDING", "FAMILIAR", "CONGRESS", "CORPORATE", "CHRISTENING", "COMMUNION"]
-        dietary = ["vegan", "vegetarian", "gluten-free", "lactose-free", "kosher", "pork-free"]
+        # Todas las 33 restricciones dietéticas disponibles
+        dietary = [
+            "alcohol-free", "celery-free", "crustacean-free", "dairy-free", "dash",
+            "egg-free", "fish-free", "fodmap-free", "gluten-free", "immuno-supportive",
+            "keto-friendly", "kidney-friendly", "kosher", "low potassium", "lupine-free",
+            "mediterranean", "mollusk-free", "mustard-free", "no oil added", "paleo",
+            "peanut-free", "pescatarian", "pork-free", "red-meat-free", "sesame-free",
+            "shellfish-free", "soy-free", "sugar-conscious", "sulfite-free", "tree-nut-free",
+            "vegan", "vegetarian", "wheat-free"
+        ]
         seasons = ["SPRING", "SUMMER", "AUTUMN", "WINTER"]
         styles = ["CLASSIC", "MODERN", "FUSION", "REGIONAL", "SIBARITA", "GOURMET"]
         cultures = ["AMERICAN", "CHINESE", "FRENCH", "INDIAN", "ITALIAN", "JAPANESE", "MEXICAN", "SPANISH", "KOREAN", "VIETNAMESE", "LEBANESE"]
-        ingredients = ["shellfish", "nuts", "dairy", "eggs", "fish"]
+        # Ingredientes más comunes e intercambiables (que aparecen en múltiples recetas)
+        ingredients = [
+            # Lácteos intercambiables
+            "butter", "milk", "cream cheese", "heavy cream", "sour cream", "yogurt",
+            "cheddar cheese", "feta cheese", "goat cheese", "mozzarella cheese",
+            # Proteínas intercambiables
+            "chicken", "beef", "pork", "fish", "shrimp", "tofu", "ground turkey",
+            # Harinas/granos intercambiables
+            "all-purpose flour", "bread flour", "whole wheat flour", "rice", "pasta",
+            # Aceites/condimentos intercambiables
+            "olive oil", "vegetable oil", "sesame oil", "coconut oil", "butter",
+            # Frutos secos intercambiables
+            "almonds", "walnuts", "cashews", "peanuts", "pecans", "pistachios",
+            # Vegetales intercambiables
+            "onion", "garlic", "bell pepper", "tomato", "carrot", "celery", "broccoli",
+            # Especias/hierbas intercambiables
+            "basil", "oregano", "thyme", "parsley", "coriander", "cumin",
+            # Otros básicos
+            "sugar", "salt", "black pepper", "eggs", "baking powder"
+        ]
         
         price_min = random.randint(15, 40)
         price_max = price_min + random.randint(10, 40)
+        
+        # Probabilidades ajustadas para reducir nulls:
+        # - preferred_style: 80% de tener valor (antes 50%)
+        # - cultural_preference: 70% de tener valor (antes 50%)
+        # - dietary restrictions: al menos 1 en 60% de casos
+        # - wants_wine: 70% True (más realista para eventos)
+        
+        has_dietary = random.random() < 0.6  # 60% tienen restricciones
+        num_diets = random.randint(1, 2) if has_dietary else 0
         
         return {
             "event_type": random.choice(event_types),
@@ -142,11 +179,11 @@ class GroqCBRSimulator:
             "season": random.choice(seasons),
             "price_min": price_min,
             "price_max": price_max,
-            "wants_wine": random.choice([True, False]),
-            "required_diets": random.sample(dietary, k=random.randint(0, 2)),
+            "wants_wine": random.random() < 0.7,  # 70% quieren vino
+            "required_diets": random.sample(dietary, k=num_diets),
             "restricted_ingredients": random.sample(ingredients, k=random.randint(0, 2)),
-            "preferred_style": random.choice(styles) if random.random() > 0.5 else None,
-            "cultural_preference": random.choice(cultures) if random.random() > 0.5 else None
+            "preferred_style": random.choice(styles) if random.random() < 0.9 else None,  # 90% tienen preferencia
+            "cultural_preference": random.choice(cultures) if random.random() < 0.9 else None  # 90% tienen preferencia
         }
     
 
@@ -194,9 +231,9 @@ class GroqCBRSimulator:
         return Request(
             event_type=event_type,
             season=season,
-            num_guests=int(request_data.get("num_guests", 4)),
-            price_min=float(request_data.get("price_min", 20.0)),
-            price_max=float(request_data.get("price_max", 50.0)),
+            num_guests=int(request_data.get("num_guests", 15)),
+            price_min=float(request_data.get("price_min", 40.0)),
+            price_max=float(request_data.get("price_max", 60.0)),
             wants_wine=bool(request_data.get("wants_wine", False)),
             preferred_style=preferred_style,
             cultural_preference=cultural_preference,

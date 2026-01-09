@@ -23,7 +23,8 @@ import json
 from pathlib import Path
 
 from .similarity import SimilarityWeights, DishSimilarityWeights
-from .models import Feedback, Request, CulturalTradition, Dish
+from .models import Feedback, Request, CulturalTradition, Dish, Menu
+from . import knowledge
 
 
 @dataclass
@@ -135,7 +136,8 @@ class AdaptiveWeightLearner:
     def update_from_feedback(
         self, 
         feedback: Feedback, 
-        request: Request
+        request: Request,
+        menu: Optional[Menu] = None
     ) -> Dict[str, float]:
         """
         Actualiza pesos basándose en feedback del cliente.
@@ -145,9 +147,18 @@ class AdaptiveWeightLearner:
         - Feedback alto (>= 4): Reforzar criterios que funcionaron bien
         - Feedback medio: Ajustes menores
         
+        Actualiza TODOS los pesos según reglas del dominio:
+        - price_range, cultural, dietary: Basado en satisfacciones específicas
+        - event_type: Siempre cuando overall >= 4
+        - style: Validado con knowledge.EVENT_STYLES
+        - wine_preference: Correlacionado con flavor_satisfaction
+        - season: Reforzado con flavor_satisfaction alto
+        - guests: Por escala y problemas de cantidad
+        
         Args:
             feedback: Feedback del cliente
             request: Request original del caso
+            menu: Menú propuesto (opcional, para validar estilos)
             
         Returns:
             Diccionario con los ajustes realizados (para logging)
@@ -192,12 +203,9 @@ class AdaptiveWeightLearner:
                 reasons.append("Priorizar cultura (insatisfacción)")
             
             # 3. Sabor/Calidad problema
-            # NOTA: El feedback de sabor se maneja principalmente en DishWeightLearner
-            # a nivel de platos individuales, donde se ajusta el peso de 'flavors'.
-            # A nivel de casos completos no hay un peso directo para sabores,
-            # por lo que este feedback se gestiona mejor durante la adaptación.
             if feedback.flavor_satisfaction < 3:
-                # No ajustamos pesos de caso aquí - el sabor es específico del plato
+                # No ajustamos wine_preference aquí porque no podemos determinar
+                # si el problema fue el maridaje o los platos en sí
                 reasons.append("INFO: Sabor insatisfactorio - revisar en adaptación de platos")
             
             # 4. Dietas no cumplidas
@@ -207,6 +215,33 @@ class AdaptiveWeightLearner:
                 self._adjust_weight('dietary', delta,
                                    "Dietas no cumplidas (crítico)")
                 reasons.append("CRÍTICO: Reforzar restricciones dietéticas")
+            
+            # 5. Estilo inadecuado para el evento
+            if menu and overall_satisfaction < 3:
+                # Verificar si los estilos del menú son apropiados para el evento
+                menu_styles = set()
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    menu_styles.update(dish.styles)
+                
+                preferred_styles = knowledge.get_preferred_styles_for_event(request.event_type)
+                if menu_styles and not any(style in preferred_styles for style in menu_styles):
+                    # El estilo no era apropiado para el evento
+                    delta = 0.08 * self.learning_rate
+                    adjustments_made['style'] = delta
+                    self._adjust_weight('style', delta,
+                                       "Estilo inadecuado para tipo de evento")
+                    reasons.append("Priorizar matching de estilo culinario")
+            
+            # 6. Temporada inapropiada (calorías no adecuadas para la estación)
+            if menu and overall_satisfaction < 3:
+                # Verificar si el problema fue un menú inapropiado para la temporada
+                # (ej: menú muy pesado en verano, muy ligero en invierno)
+                if not knowledge.is_calorie_count_appropriate(menu.total_calories, request.season):
+                    delta = 0.06 * self.learning_rate
+                    adjustments_made['season'] = delta
+                    self._adjust_weight('season', delta,
+                                       "Menú inapropiado para temporada (calorías)")
+                    reasons.append("Priorizar matching de temporada (ligero/pesado)")
         
         # ===== ANÁLISIS DE FEEDBACK ALTO (Satisfacción) =====
         elif overall_satisfaction >= 4:
@@ -229,13 +264,54 @@ class AdaptiveWeightLearner:
                                    "Precio bien ajustado")
                 reasons.append("Mantener precisión de precio")
             
-            # 3. Tipo de evento bien matcheado
-            if overall_satisfaction == 5:  # Perfecto
+            # 3. Estilo apropiado para el evento
+            if menu:
+                menu_styles = set()
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    menu_styles.update(dish.styles)
+                
+                preferred_styles = knowledge.get_preferred_styles_for_event(request.event_type)
+                if menu_styles and any(style in preferred_styles for style in menu_styles):
+                    # El estilo era apropiado y funcionó bien
+                    delta = 0.03 * self.learning_rate
+                    adjustments_made['style'] = delta
+                    self._adjust_weight('style', delta,
+                                       "Estilo apropiado para evento (éxito)")
+                    reasons.append("Reforzar matching de estilo culinario")
+            
+            # 4. Maridaje de vino exitoso
+            if feedback.flavor_satisfaction >= 4 and request.wants_wine:
+                delta = 0.03 * self.learning_rate
+                adjustments_made['wine_preference'] = delta
+                self._adjust_weight('wine_preference', delta,
+                                   "Maridaje de vino exitoso")
+                reasons.append("Reforzar importancia de maridaje")
+            
+            # 5. Temporada bien aprovechada (calorías apropiadas para la estación)
+            if menu and feedback.flavor_satisfaction >= 4:
+                # Verificar si el menú tenía calorías apropiadas para la temporada
+                if knowledge.is_calorie_count_appropriate(menu.total_calories, request.season):
+                    delta = 0.02 * self.learning_rate
+                    adjustments_made['season'] = delta
+                    self._adjust_weight('season', delta,
+                                       "Menú apropiado para temporada (calorías)")
+                    reasons.append("Reforzar matching de temporada")
+            
+            # 6. Restricciones dietéticas bien cumplidas
+            if feedback.dietary_satisfaction >= 4 and request.required_diets:
+                delta = 0.03 * self.learning_rate
+                adjustments_made['dietary'] = delta
+                self._adjust_weight('dietary', delta,
+                                   "Restricciones dietéticas bien cumplidas")
+                reasons.append("Reforzar importancia de dietas")
+            
+            # 7. Escala de invitados bien manejada
+            if overall_satisfaction >= 4 and request.num_guests > 100:
                 delta = 0.02 * self.learning_rate
-                adjustments_made['event_type'] = delta
-                self._adjust_weight('event_type', delta,
-                                   "Match perfecto de tipo de evento")
-                reasons.append("Reforzar matching de evento")
+                adjustments_made['guests'] = delta
+                self._adjust_weight('guests', delta,
+                                   "Evento grande bien manejado")
+                reasons.append("Reforzar matching de escala de invitados")
         
         # ===== ANÁLISIS DE FEEDBACK MEDIO =====
         else:

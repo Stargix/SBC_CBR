@@ -16,7 +16,7 @@ from .core.models import (
 from .core.knowledge import (
     FLAVOR_COMPATIBILITY, INCOMPATIBLE_CATEGORIES,
     WINE_FLAVOR_COMPATIBILITY, EVENT_STYLES, CULTURAL_CHARACTERISTICS,
-    CALORIE_RANGES, STYLE_DESCRIPTIONS, CHEF_SIGNATURES
+    CALORIE_RANGES
 )
 
 from .core.case_base import CaseBase
@@ -38,7 +38,7 @@ __all__ = [
     # Conocimiento
     'FLAVOR_COMPATIBILITY', 'INCOMPATIBLE_CATEGORIES',
     'WINE_FLAVOR_COMPATIBILITY', 'EVENT_STYLES', 'CULTURAL_CHARACTERISTICS',
-    'CALORIE_RANGES', 'STYLE_DESCRIPTIONS', 'CHEF_SIGNATURES',
+    'CALORIE_RANGES',
     # Ciclo CBR
     'CaseBase', 'SimilarityCalculator', 'calculate_menu_similarity',
     'CaseRetriever', 'CaseAdapter', 'MenuReviser', 'ValidationResult',
