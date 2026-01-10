@@ -332,7 +332,7 @@ class SimilarityCalculator:
             return total_similarity
         except Exception as e:
             # Manejo de errores: devolver similitud neutra en vez de crashear
-            print(f"⚠️  Error calculando similitud: {e}")
+            print(f"⚠  Error calculando similitud: {e}")
             return 0.5  # Similitud neutra por defecto
     
     def _event_similarity(self, req_event: EventType, case_event: EventType, 

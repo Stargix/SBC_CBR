@@ -1,0 +1,23 @@
+# Chef Digital CBR - Dependencias
+# Sistema de Razonamiento Basado en Casos para planificación de menús
+
+# Core dependencies
+numpy>=1.24
+pandas>=2.0
+scikit-learn>=1.3
+umap-learn>=0.5.5
+
+# Web API (opcional)
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+
+# Simulación con LLM (opcional)
+groq>=1.0
+python-dotenv>=1.0
+
+# Visualización (opcional)
+matplotlib>=3.9
+
+# Instalación:
+# pip install -r requirements.txt

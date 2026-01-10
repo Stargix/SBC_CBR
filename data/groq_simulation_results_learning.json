@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "total_iterations": 5,
+    "learning_rate": 0.05,
+    "min_weight": 0.02,
+    "max_weight": 0.5
+  },
+  "history": [
+    {
+      "timestamp": "2026-01-10T04:04:52.684853",
+      "iteration": 0,
+      "weights": {
+        "event_type": 0.2,
+        "season": 0.12,
+        "price_range": 0.18,
+        "style": 0.12,
+        "cultural": 0.08,
+        "dietary": 0.1,
+        "guests": 0.05,
+        "wine_preference": 0.05,
+        "success_bonus": 0.1
+      },
+      "feedback_score": 0.0,
+      "adjustments": [
+        "Inicialización con pesos por defecto"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T04:04:53.947504",
+      "iteration": 1,
+      "weights": {
+        "event_type": 0.2,
+        "season": 0.12,
+        "price_range": 0.18,
+        "style": 0.12,
+        "cultural": 0.08,
+        "dietary": 0.1,
+        "guests": 0.05,
+        "wine_preference": 0.05,
+        "success_bonus": 0.1
+      },
+      "feedback_score": 3.3,
+      "adjustments": [
+        "Sin ajustes (feedback neutral)"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T04:04:55.258207",
+      "iteration": 2,
+      "weights": {
+        "event_type": 0.19980019980019978,
+        "season": 0.11988011988011986,
+        "price_range": 0.1808191808191808,
+        "style": 0.11988011988011986,
+        "cultural": 0.0799200799200799,
+        "dietary": 0.09990009990009989,
+        "guests": 0.049950049950049945,
+        "wine_preference": 0.049950049950049945,
+        "success_bonus": 0.09990009990009989
+      },
+      "feedback_score": 4.0,
+      "adjustments": [
+        "Mantener precisión de precio"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T04:04:56.649633",
+      "iteration": 3,
+      "weights": {
+        "event_type": 0.1990041830679281,
+        "season": 0.11940250984075686,
+        "price_range": 0.18109480161272992,
+        "style": 0.11940250984075686,
+        "cultural": 0.07960167322717124,
+        "dietary": 0.10099611543834652,
+        "guests": 0.04975104576698203,
+        "wine_preference": 0.051245069671364496,
+        "success_bonus": 0.09950209153396405
+      },
+      "feedback_score": 4.0,
+      "adjustments": [
+        "Mantener precisión de precio",
+        "Reforzar importancia de maridaje",
+        "Reforzar importancia de dietas"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T04:04:58.478385",
+      "iteration": 4,
+      "weights": {
+        "event_type": 0.1988053776902379,
+        "season": 0.11928322661414273,
+        "price_range": 0.18191288872400593,
+        "style": 0.11928322661414273,
+        "cultural": 0.07952215107609516,
+        "dietary": 0.10089522021812841,
+        "guests": 0.049701344422559475,
+        "wine_preference": 0.05119387579556893,
+        "success_bonus": 0.09940268884511895
+      },
+      "feedback_score": 4.0,
+      "adjustments": [
+        "Mantener precisión de precio"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T04:05:00.165192",
+      "iteration": 5,
+      "weights": {
+        "event_type": 0.19880537769023784,
+        "season": 0.1192832266141427,
+        "price_range": 0.1819128887240059,
+        "style": 0.1192832266141427,
+        "cultural": 0.07952215107609514,
+        "dietary": 0.10089522021812838,
+        "guests": 0.04970134442255946,
+        "wine_preference": 0.051193875795568916,
+        "success_bonus": 0.09940268884511892
+      },
+      "feedback_score": 3.2,
+      "adjustments": [
+        "Sin ajustes (feedback neutral)"
+      ]
+    }
+  ],
+  "summary": {
+    "total_iterations": 5,
+    "total_adjustments": 5,
+    "weight_changes": {
+      "event_type": {
+        "initial": 0.2,
+        "current": 0.19880537769023784,
+        "change": -0.0011946223097621667,
+        "change_pct": -0.5973111548810833
+      },
+      "season": {
+        "initial": 0.12,
+        "current": 0.1192832266141427,
+        "change": -0.0007167733858572944,
+        "change_pct": -0.5973111548810788
+      },
+      "price_range": {
+        "initial": 0.18,
+        "current": 0.1819128887240059,
+        "change": 0.0019128887240059123,
+        "change_pct": 1.0627159577810625
+      },
+      "style": {
+        "initial": 0.12,
+        "current": 0.1192832266141427,
+        "change": -0.0007167733858572944,
+        "change_pct": -0.5973111548810788
+      },
+      "cultural": {
+        "initial": 0.08,
+        "current": 0.07952215107609514,
+        "change": -0.00047784892390485834,
+        "change_pct": -0.5973111548810729
+      },
+      "dietary": {
+        "initial": 0.1,
+        "current": 0.10089522021812838,
+        "change": 0.0008952202181283786,
+        "change_pct": 0.8952202181283786
+      },
+      "guests": {
+        "initial": 0.05,
+        "current": 0.04970134442255946,
+        "change": -0.00029865557744054166,
+        "change_pct": -0.5973111548810833
+      },
+      "wine_preference": {
+        "initial": 0.05,
+        "current": 0.051193875795568916,
+        "change": 0.0011938757955689133,
+        "change_pct": 2.3877515911378264
+      },
+      "success_bonus": {
+        "initial": 0.1,
+        "current": 0.09940268884511892,
+        "change": -0.0005973111548810833,
+        "change_pct": -0.5973111548810833
+      }
+    },
+    "most_changed": [
+      {
+        "weight": "price_range",
+        "change": 0.0019128887240059123,
+        "change_pct": "1.1%"
+      },
+      {
+        "weight": "event_type",
+        "change": -0.0011946223097621667,
+        "change_pct": "-0.6%"
+      },
+      {
+        "weight": "wine_preference",
+        "change": 0.0011938757955689133,
+        "change_pct": "2.4%"
+      }
+    ],
+    "current_weights": {
+      "event_type": 0.19880537769023784,
+      "season": 0.1192832266141427,
+      "price_range": 0.1819128887240059,
+      "style": 0.1192832266141427,
+      "cultural": 0.07952215107609514,
+      "dietary": 0.10089522021812838,
+      "guests": 0.04970134442255946,
+      "wine_preference": 0.051193875795568916,
+      "success_bonus": 0.09940268884511892
+    },
+    "learning_rate": {
+      "current": 0.05,
+      "initial": 0.05,
+      "scheduler": "constant",
+      "min": 0.001
+    }
+  }
+}

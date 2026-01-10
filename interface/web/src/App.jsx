@@ -32,18 +32,18 @@ const CULTURES = [
 ]
 
 const PALETTE = [
-  '#0f766e',
-  '#1d4ed8',
-  '#b91c1c',
-  '#ca8a04',
-  '#0f172a',
-  '#9333ea',
-  '#0ea5e9',
-  '#4d7c0f',
-  '#be185d',
-  '#ea580c',
-  '#16a34a',
-  '#475569',
+  '#0f766e', // Teal (original)
+  '#f59e0b', // Amber
+  '#ec4899', // Pink
+  '#8b5cf6', // Purple
+  '#3b82f6', // Blue
+  '#10b981', // Emerald
+  '#f97316', // Orange
+  '#06b6d4', // Cyan
+  '#a855f7', // Violet
+  '#14b8a6', // Teal bright
+  '#ef4444', // Red
+  '#22c55e', // Green
 ]
 
 const DEFAULT_FORM = {
@@ -75,6 +75,10 @@ function App() {
   const [syntheticLoading, setSyntheticLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState(DEFAULT_FORM)
+  const [feedbackMode, setFeedbackMode] = useState(null)
+  const [feedbackScores, setFeedbackScores] = useState({ price: 3, cultural: 3, flavor: 3, overall: 3 })
+  const [feedbackLoading, setFeedbackLoading] = useState(false)
+  const [simulationCount, setSimulationCount] = useState(1) // Added simulation count state
 
   const fetchEmbeddings = async () => {
     try {
@@ -219,6 +223,84 @@ function App() {
     }
   }
 
+  const handleSimulation = async () => {
+    setSyntheticLoading(true)
+    setError('')
+    try {
+      for (let i = 0; i < simulationCount; i++) {
+        const response = await fetch(`${API_BASE}/synthetic`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ use_llm: true }),
+        })
+
+        if (!response.ok) {
+          const detail = await response.json()
+          throw new Error(detail?.detail?.error || 'Simulation failed')
+        }
+
+        const data = await response.json()
+        if (data.trace) {
+          setTrace(data.trace)
+          setSyntheticResult(null)
+          await fetchEmbeddings()
+        } else {
+          setTrace(null)
+          setSyntheticResult(data)
+        }
+
+        // Small delay to ensure UI updates are visible
+        await new Promise(r => setTimeout(r, 500))
+      }
+    } catch (err) {
+      setError(err.message || 'Simulation error')
+    } finally {
+      setSyntheticLoading(false)
+    }
+  }
+
+  const handleFeedback = async (menuIndex) => {
+    if (!trace) return
+    setFeedbackLoading(true)
+    setError('')
+    try {
+      const menu = trace.proposed_menus[menuIndex]
+      const payload = {
+        request: trace.request,
+        menu_id: menu.menu.id,
+        price_satisfaction: feedbackScores.price,
+        cultural_satisfaction: feedbackScores.cultural,
+        flavor_satisfaction: feedbackScores.flavor,
+        overall_satisfaction: feedbackScores.overall,
+      }
+
+      const response = await fetch(`${API_BASE}/feedback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.detail || 'Feedback submission failed')
+      }
+
+      const data = await response.json()
+      setFeedbackMode(null)
+      setFeedbackScores({ price: 3, cultural: 3, flavor: 3, overall: 3 })
+      setError('')
+      // Mostrar mensaje de éxito brevemente
+      const successMsg = data.case_retained ? 'Feedback guardado y caso añadido a la base' : 'Feedback procesado'
+      setError(successMsg)
+      setTimeout(() => setError(''), 3000)
+      await fetchEmbeddings()
+    } catch (err) {
+      setError(err.message || 'Feedback error')
+    } finally {
+      setFeedbackLoading(false)
+    }
+  }
+
   return (
     <div className="app">
       <header className="header">
@@ -257,10 +339,6 @@ function App() {
               </select>
             </label>
             <label>
-              Guests
-              <input type="number" value={form.num_guests} onChange={handleChange('num_guests')} />
-            </label>
-            <label>
               Price min
               <input type="number" value={form.price_min} onChange={handleChange('price_min')} />
             </label>
@@ -268,9 +346,16 @@ function App() {
               Price max
               <input type="number" value={form.price_max} onChange={handleChange('price_max')} />
             </label>
-            <label className="checkbox">
-              <input type="checkbox" checked={form.wants_wine} onChange={handleChange('wants_wine')} />
-              Wants wine
+            <label>
+              Guests
+              <input type="number" value={form.num_guests} onChange={handleChange('num_guests')} />
+            </label>
+            <label>
+              Wine pairing
+              <select value={form.wants_wine ? 'yes' : 'no'} onChange={(e) => setForm({ ...form, wants_wine: e.target.value === 'yes' })}>
+                <option value="yes">Yes, include wine</option>
+                <option value="no">No wine</option>
+              </select>
             </label>
             <label>
               Preferred style
@@ -319,9 +404,20 @@ function App() {
               <button type="button" className="secondary" onClick={handleSynthetic} disabled={syntheticLoading}>
                 {syntheticLoading ? 'Simulating...' : 'Usuario sintetico'}
               </button>
+              <input
+                type="number"
+                min="1"
+                max="15"
+                value={simulationCount}
+                onChange={(e) => setSimulationCount(Math.min(15, Math.max(1, parseInt(e.target.value) || 1)))}
+                className="simulation-input"
+              />
+              <button type="button" className="secondary" onClick={handleSimulation} disabled={syntheticLoading}>
+                Simulación
+              </button>
             </div>
           </form>
-          {error && <p className="error">{error}</p>}
+          {error && <p className={error.startsWith('✅') ? 'success-message' : 'error'}>{error}</p>}
           {trace && (
             <div className="trace">
               <h3>Trace summary</h3>
@@ -336,16 +432,127 @@ function App() {
                   Auto-retain: {trace.retention.message}
                 </p>
               )}
+
+              {feedbackMode === 0 ? (
+                <div className="feedback-form">
+                  <h5>Evaluar menú</h5>
+
+                  <label>
+                    Precio <span className="score-display">{feedbackScores.price.toFixed(1)}</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="5"
+                      step="0.5"
+                      value={feedbackScores.price}
+                      onChange={(e) => setFeedbackScores({ ...feedbackScores, price: parseFloat(e.target.value) })}
+                    />
+                  </label>
+
+                  <label>
+                    Cultura <span className="score-display">{feedbackScores.cultural.toFixed(1)}</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="5"
+                      step="0.5"
+                      value={feedbackScores.cultural}
+                      onChange={(e) => setFeedbackScores({ ...feedbackScores, cultural: parseFloat(e.target.value) })}
+                    />
+                  </label>
+
+                  <label>
+                    Sabor <span className="score-display">{feedbackScores.flavor.toFixed(1)}</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="5"
+                      step="0.5"
+                      value={feedbackScores.flavor}
+                      onChange={(e) => setFeedbackScores({ ...feedbackScores, flavor: parseFloat(e.target.value) })}
+                    />
+                  </label>
+
+                  <label>
+                    General <span className="score-display">{feedbackScores.overall.toFixed(1)}</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="5"
+                      step="0.5"
+                      value={feedbackScores.overall}
+                      onChange={(e) => setFeedbackScores({ ...feedbackScores, overall: parseFloat(e.target.value) })}
+                    />
+                  </label>
+
+                  <div className="feedback-actions">
+                    <button
+                      className="primary"
+                      onClick={() => handleFeedback(0)}
+                      disabled={feedbackLoading}
+                    >
+                      {feedbackLoading ? 'Enviando...' : 'Enviar'}
+                    </button>
+                    <button
+                      className="secondary"
+                      onClick={() => setFeedbackMode(null)}
+                      disabled={feedbackLoading}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className="evaluate-btn"
+                  onClick={() => {
+                    setFeedbackMode(0)
+                    setFeedbackScores({ price: 3, cultural: 3, flavor: 3, overall: 3 })
+                  }}
+                >
+                  Evaluar
+                </button>
+              )}
+
               <div className="menus">
-                {trace.proposed_menus.map((menu) => (
+                {trace.proposed_menus.slice(0, 1).map((menu, idx) => (
                   <div key={menu.rank} className="menu-card">
-                    <h4>Proposal #{menu.rank}</h4>
-                    <p>Starter: {menu.menu.starter.name}</p>
-                    <p>Main: {menu.menu.main_course.name}</p>
-                    <p>Dessert: {menu.menu.dessert.name}</p>
-                    <p>Beverage: {menu.menu.beverage.name}</p>
-                    <p>Similarity: {(menu.similarity * 100).toFixed(1)}%</p>
-                    <p>Status: {menu.validation?.status}</p>
+                    <div className="menu-header">
+                      <h4>Menú Propuesto</h4>
+                      <span className="price-badge">{menu.menu.total_price?.toFixed(2) || '—'}€</span>
+                    </div>
+
+                    <div className="course">
+                      <strong>Entrante:</strong> {menu.menu.starter.name}
+                      <span className="ingredients">{menu.menu.starter.ingredients?.join(', ') || ''}</span>
+                    </div>
+
+                    <div className="course">
+                      <strong>Principal:</strong> {menu.menu.main_course.name}
+                      <span className="ingredients">{menu.menu.main_course.ingredients?.join(', ') || ''}</span>
+                    </div>
+
+                    <div className="course">
+                      <strong>Postre:</strong> {menu.menu.dessert.name}
+                      <span className="ingredients">{menu.menu.dessert.ingredients?.join(', ') || ''}</span>
+                    </div>
+
+                    <div className="course">
+                      <strong>Bebida:</strong> {menu.menu.beverage.name}
+                    </div>
+
+                    {menu.validation?.explanations && menu.validation.explanations.length > 0 && (
+                      <div className="validation-note">
+                        {menu.validation.explanations.map((exp, i) => (
+                          <div key={i}>• {exp}</div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="menu-meta">
+                      <span>Similitud: {(menu.similarity * 100).toFixed(1)}%</span>
+                      <span>Calidad: {menu.validation?.score ? `${menu.validation.score.toFixed(1)}/100` : '—'}</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -363,7 +570,7 @@ function App() {
                 <summary>LLM evaluation</summary>
                 <p className="score-hint">Scores (0-5)</p>
                 <pre>
-                  {syntheticResult.llm_evaluation || 'Sin evaluación disponible.'}
+                  {syntheticResult.llm_evaluation || syntheticResult.llm_summary || 'Evaluación en proceso. Verifica la consola del backend o ejecuta más solicitudes.'}
                 </pre>
               </details>
             </div>
@@ -402,19 +609,19 @@ function App() {
           <div className="legend">
             {colorMode === 'culture'
               ? Object.entries(cultureColors).map(([culture, color]) => (
-                  <div key={culture} className="legend-item">
-                    <span className="swatch" style={{ background: color }} />
-                    {culture}
-                  </div>
-                ))
+                <div key={culture} className="legend-item">
+                  <span className="swatch" style={{ background: color }} />
+                  {culture}
+                </div>
+              ))
               : [
-                  <div key="success" className="legend-item">
-                    <span className="swatch" style={{ background: '#16a34a' }} />Success
-                  </div>,
-                  <div key="fail" className="legend-item">
-                    <span className="swatch" style={{ background: '#dc2626' }} />Failure
-                  </div>,
-                ]}
+                <div key="success" className="legend-item">
+                  <span className="swatch" style={{ background: '#16a34a' }} />Success
+                </div>,
+                <div key="fail" className="legend-item">
+                  <span className="swatch" style={{ background: '#dc2626' }} />Failure
+                </div>,
+              ]}
           </div>
           {selectedCase && (
             <div className="case-detail">

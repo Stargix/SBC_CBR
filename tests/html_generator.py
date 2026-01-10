@@ -1186,7 +1186,7 @@ def generate_negative_cases_html(data, output_path):
     
     html += """
         <div class="header">
-            <h1>⚠️ Negative Cases Learning</h1>
+            <h1>⚠ Negative Cases Learning</h1>
             <p class="subtitle">Learning from Failures: Negative Case Management</p>
         </div>
     """
@@ -1225,7 +1225,7 @@ def generate_negative_cases_html(data, output_path):
         </div>
         
         <div class="panel">
-            <h2>⚠️ Feedback Distribution</h2>
+            <h2>⚠ Feedback Distribution</h2>
             <div class="plot-container">
                 <div id="feedbackDistPlot"></div>
             </div>
@@ -1359,7 +1359,7 @@ def generate_negative_cases_html(data, output_path):
         
         if 'warnings_found' in scenario and scenario['warnings_found'] > 0:
             html += f"""
-            <h3>⚠️ Warnings Detected: {scenario['warnings_found']}</h3>
+            <h3>⚠ Warnings Detected: {scenario['warnings_found']}</h3>
             <table class="comparison-table">
                 <thead>
                     <tr>
@@ -1900,7 +1900,7 @@ def generate_index_html(htmls_dir):
                 </a>
                 
                 <a href="report_negative_cases.html" class="report-card">
-                    <span class="icon">⚠️</span>
+                    <span class="icon">⚠</span>
                     <h2>Negative Cases</h2>
                     <p>Failure learning and negative feedback handling</p>
                 </a>
@@ -1986,7 +1986,7 @@ def main():
             data = load_json(json_path)
             generator_func(data, htmls_dir / html_file)
         else:
-            print(f"⚠️  Skipped {json_file} (not found)")
+            print(f"⚠  Skipped {json_file} (not found)")
     
     # Generate index
     generate_index_html(htmls_dir)

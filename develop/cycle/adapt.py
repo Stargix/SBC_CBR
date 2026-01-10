@@ -229,7 +229,7 @@ class CaseAdapter:
         negative_similarity = self._check_against_negative_cases(request, adapted_menu)
         if negative_similarity > 0.75:  # Similar a un failure previo
             adaptations.append(
-                f"⚠️ RECHAZADO: {negative_similarity:.0%} similar a un caso negativo"
+                f"⚠ RECHAZADO: {negative_similarity:.0%} similar a un caso negativo"
             )
             return None  # No usar este caso
         
@@ -612,7 +612,7 @@ class CaseAdapter:
         # Advertir si no se pudo ajustar completamente
         if remaining > 0.5:  # Tolerancia de 0.5€
             adaptations.append(
-                f"⚠️ No se pudo reducir completamente el precio (faltan {remaining:.2f}€)"
+                f"⚠ No se pudo reducir completamente el precio (faltan {remaining:.2f}€)"
             )
         
         return adaptations
@@ -670,7 +670,7 @@ class CaseAdapter:
         # Advertir si no se pudo ajustar completamente
         if remaining > 0.5:  # Tolerancia de 0.5€
             adaptations.append(
-                f"⚠️ No se pudo aumentar completamente el precio (faltan {remaining:.2f}€)"
+                f"⚠ No se pudo aumentar completamente el precio (faltan {remaining:.2f}€)"
             )
         
         return adaptations
@@ -1586,7 +1586,7 @@ class CaseAdapter:
             if missing_diets:
                 # Último intento: marcar advertencia
                 adaptations.append(
-                    f"⚠️ Advertencia: Pueden faltar dietas {', '.join(missing_diets)}"
+                    f"⚠ Advertencia: Pueden faltar dietas {', '.join(missing_diets)}"
                 )
         
         # 3. VALIDACIÓN PREVENTIVA DE INGREDIENTES PROHIBIDOS
@@ -1599,7 +1599,7 @@ class CaseAdapter:
             
             if found_restricted:
                 adaptations.append(
-                    f"⚠️ CRÍTICO: Ingredientes prohibidos detectados: {', '.join(found_restricted)}"
+                    f"⚠ CRÍTICO: Ingredientes prohibidos detectados: {', '.join(found_restricted)}"
                 )
         
         # 4. VALIDACIÓN PREVENTIVA DE TEMPERATURA-TEMPORADA

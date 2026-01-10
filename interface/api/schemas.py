@@ -59,3 +59,20 @@ class RetainResponse(BaseModel):
     message: str
     case_id: Optional[str] = None
     embedding: Optional[Dict[str, Any]] = None
+
+
+class FeedbackRequest(BaseModel):
+    request: Dict[str, Any]
+    menu_id: str
+    price_satisfaction: float = Field(ge=0.0, le=5.0)
+    cultural_satisfaction: float = Field(ge=0.0, le=5.0)
+    flavor_satisfaction: float = Field(ge=0.0, le=5.0)
+    overall_satisfaction: float = Field(ge=0.0, le=5.0)
+
+
+class FeedbackResponse(BaseModel):
+    success: bool
+    message: str
+    case_retained: Optional[bool] = None
+    case_id: Optional[str] = None
+    weights_updated: Optional[Dict[str, Any]] = None

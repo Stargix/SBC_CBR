@@ -18,6 +18,8 @@ for path in [str(INTERFACE_DIR), str(PROJECT_ROOT)]:
 from api.schemas import (
     CBRRequest,
     EmbeddingsResponse,
+    FeedbackRequest,
+    FeedbackResponse,
     RetainRequest,
     RetainResponse,
     SyntheticRequest,
@@ -108,3 +110,20 @@ def retain_case(payload: RetainRequest) -> RetainResponse:
 def transform_embeddings(payload: Dict[str, Any]) -> EmbeddingsResponse:
     embeddings = umap_store.transform_cases(payload)
     return EmbeddingsResponse(embeddings=embeddings, total=len(embeddings))
+
+
+@app.post("/feedback", response_model=FeedbackResponse)
+def submit_feedback(payload: FeedbackRequest) -> FeedbackResponse:
+    result = service.process_manual_feedback(
+        request_data=payload.request,
+        menu_id=payload.menu_id,
+        price_satisfaction=payload.price_satisfaction,
+        cultural_satisfaction=payload.cultural_satisfaction,
+        flavor_satisfaction=payload.flavor_satisfaction,
+        overall_satisfaction=payload.overall_satisfaction,
+    )
+    
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("message", "Feedback failed"))
+    
+    return FeedbackResponse(**result)

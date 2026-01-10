@@ -6,8 +6,10 @@ Suite de tests formales para el sistema CBR Chef Digital.
 
 ```
 tests/
-├── runner.py          # Script unificado: ejecuta tests + genera reportes
-├── cases/             # Directorio con los 8 tests formales
+├── test_executor.py      # Ejecutor de tests (ejecuta los 8 tests formales)
+├── report_generator.py   # Generador de reportes MD/CSV
+├── html_generator.py     # Generador de HTMLs interactivos con Plotly
+├── cases/                # Directorio con los 8 tests formales
 │   ├── test_complete_cbr_cycle.py
 │   ├── test_user_simulation.py
 │   ├── test_adaptive_weights.py
@@ -16,28 +18,34 @@ tests/
 │   ├── test_semantic_retrieve.py
 │   ├── test_semantic_retain.py
 │   └── test_negative_cases.py
-└── README.md          # Este archivo
+└── README.md             # Este archivo
 ```
 
 ## Uso
 
-### Ejecutar toda la suite de tests + generar reportes
+### Ejecutar desde la raíz (recomendado)
 
 ```bash
-python tests/runner.py
+python run_tests.py
 ```
 
 Esto ejecutará:
 1. **Todos los tests** en `tests/cases/`
 2. **Generará reportes**:
-   - `data/results/master_test_report.json` - reporte maestro JSON
-   - `data/reports/FORMAL_REPORT.md` - reporte académico en markdown
-   - `data/reports/test_summary.csv` - resumen CSV para análisis
+   - `data/results/*.json` - Resultados individuales por test
+   - `data/results/master_test_report.json` - Reporte maestro consolidado
+   - `data/reports/FORMAL_REPORT.md` - Reporte académico en markdown
+   - `data/reports/test_summary.csv` - Resumen CSV para análisis
+3. **Generará HTMLs interactivos**:
+   - `data/htmls/index.html` - Índice de navegación
+   - `data/htmls/report_*.html` - 8 reportes HTML con plots Plotly
 
-### Solo ejecutar tests (sin generar reportes)
+### Opciones de ejecución
 
 ```bash
-python tests/runner.py --no-report
+python run_tests.py --no-report  # Solo tests (sin reportes MD/CSV)
+python run_tests.py --no-html    # Tests + reportes (sin HTMLs)
+python run_tests.py --quiet      # Modo silencioso
 ```
 
 ## Tests Incluidos

@@ -292,10 +292,14 @@ class CBRService:
         ]
         self._store_trace(trace_id, request, stored_proposals)
 
+        # NO auto-retain: El feedback automático (validation_score/20) siempre da ~4.95
+        # Esto NO es adecuado para CBR porque:
+        # 1. No hay feedback real del usuario
+        # 2. No permite aprendizaje adaptativo de pesos
+        # 3. Contamina la base de casos con casos no validados por humanos
+        # El usuario debe evaluar manualmente cada menú propuesto
         retention_info = None
         retained_case = None
-        if proposed:
-            retention_info, retained_case = self._auto_retain(request, proposed)
 
         return {
             "trace_id": trace_id,
@@ -336,15 +340,15 @@ class CBRService:
     def run_synthetic(self, use_llm: bool) -> Dict[str, Any]:
         if use_llm:
             try:
-                from simulation.groq_simulator import GroqCBRSimulator, GroqSimulationConfig
+                from simulation.llm_simulator import LLMCBRSimulator, LLMSimulationConfig
             except ImportError as exc:
                 return {
-                    "error": "groq simulator dependencies missing",
+                    "error": "LLM simulator dependencies missing",
                     "details": str(exc),
                 }
 
-            config = GroqSimulationConfig(num_interactions=1, verbose=False, save_results=False)
-            simulator = GroqCBRSimulator(config)
+            config = LLMSimulationConfig(num_interactions=1, verbose=False, save_results=False)
+            simulator = LLMCBRSimulator(config)
             result = simulator.run_simulation()
             interaction = result.interactions[0] if result.interactions else None
             interaction_eval = interaction.llm_evaluation if interaction else ""
@@ -480,3 +484,95 @@ class CBRService:
             "case": case,
             "case_id": case_id,
         }
+
+    def process_manual_feedback(
+        self,
+        request_data: Dict[str, Any],
+        menu_id: str,
+        price_satisfaction: float,
+        cultural_satisfaction: float,
+        flavor_satisfaction: float,
+        overall_satisfaction: float,
+    ) -> Dict[str, Any]:
+        """Process manual feedback with multi-dimensional scores and RETAIN the case"""
+        try:
+            request = self.build_request(request_data)
+            
+            # Create feedback with multi-dimensional scores
+            feedback = FeedbackData(
+                menu_id=menu_id,
+                success=overall_satisfaction >= 3.5,
+                score=overall_satisfaction,
+                price_satisfaction=price_satisfaction,
+                cultural_satisfaction=cultural_satisfaction,
+                flavor_satisfaction=flavor_satisfaction,
+                would_recommend=overall_satisfaction >= 4.0,
+                comments=f"Manual evaluation - P:{price_satisfaction} C:{cultural_satisfaction} F:{flavor_satisfaction} O:{overall_satisfaction}",
+            )
+            
+            # Apply learning to adaptive weights
+            self.cbr.learn_from_feedback(feedback, request, None)
+            
+            # RETAIN: Guardar el caso en la base de datos
+            # Necesitamos recuperar el menú desde los traces
+            menu_to_retain = None
+            source_case = None
+            
+            # Buscar en traces el menú evaluado
+            for trace_id, trace_data in self._trace_cache.items():
+                for proposal in trace_data.get('proposals', []):
+                    if proposal['menu'].id == menu_id:
+                        menu_to_retain = proposal['menu']
+                        source_case = proposal.get('source_case')
+                        break
+                if menu_to_retain:
+                    break
+            
+            case_retained = False
+            case_id = None
+            
+            if menu_to_retain:
+                before_ids = {case.id for case in self.cbr.case_base.get_all_cases()}
+                retained, message = self.cbr.retainer.retain(
+                    request, 
+                    menu_to_retain, 
+                    feedback, 
+                    source_case
+                )
+                
+                if retained:
+                    case_retained = True
+                    after_cases = self.cbr.case_base.get_all_cases()
+                    new_case = next((c for c in after_cases if c.id not in before_ids), None)
+                    if new_case:
+                        case_id = new_case.id
+            
+            # Get updated weights for response
+            weights_info = None
+            try:
+                if hasattr(self.cbr, 'weight_learner') and self.cbr.weight_learner:
+                    current_weights = self.cbr.weight_learner.get_current_weights()
+                    weights_info = {
+                        'event_type': current_weights.event_type,
+                        'season': current_weights.season,
+                        'price_range': current_weights.price_range,
+                        'cultural': current_weights.cultural,
+                        'style': current_weights.style,
+                    }
+            except AttributeError:
+                pass
+            
+            return {
+                "success": True,
+                "message": f"Feedback procesado. {'Caso guardado!' if case_retained else 'Pesos actualizados.'}",
+                "case_retained": case_retained,
+                "case_id": case_id,
+                "weights_updated": weights_info,
+            }
+            
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Error procesando feedback: {str(e)}",
+                "weights_updated": None,
+            }

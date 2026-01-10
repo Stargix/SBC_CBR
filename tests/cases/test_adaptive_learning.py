@@ -420,21 +420,21 @@ def compare_results(static_metrics: EvaluationMetrics,
     if precision_improvement > 0:
         print(f"   ✅ Precisión mejoró {precision_improvement:.1f}% con aprendizaje")
     elif precision_improvement < 0:
-        print(f"   ⚠️ Precisión empeoró {abs(precision_improvement):.1f}% (normal en muestras pequeñas)")
+        print(f"   ⚠ Precisión empeoró {abs(precision_improvement):.1f}% (normal en muestras pequeñas)")
     else:
         print(f"   ➖ Precisión sin cambios")
     
     if satisfaction_improvement > 0:
         print(f"   ✅ Satisfacción mejoró {satisfaction_improvement:.2f} puntos")
     elif satisfaction_improvement < 0:
-        print(f"   ⚠️ Satisfacción bajó {abs(satisfaction_improvement):.2f} puntos")
+        print(f"   ⚠ Satisfacción bajó {abs(satisfaction_improvement):.2f} puntos")
     else:
         print(f"   ➖ Satisfacción sin cambios")
     
     if abs(time_diff) < 0.1:
         print(f"   ✅ Tiempo de procesamiento similar (overhead mínimo)")
     elif time_diff > 0:
-        print(f"   ⚠️ Aprendizaje añade {time_diff:.3f}s por caso")
+        print(f"   ⚠ Aprendizaje añade {time_diff:.3f}s por caso")
     else:
         print(f"   ✅ Aprendizaje es más rápido por {abs(time_diff):.3f}s")
     

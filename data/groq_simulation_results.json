@@ -1,0 +1,1006 @@
+{
+  "config": {
+    "model_name": "llama-3.3-70b-versatile",
+    "num_interactions": 5,
+    "enable_adaptive_weights": true,
+    "temperature": 0.9
+  },
+  "interactions": [
+    {
+      "request_num": 1,
+      "generated_request": {
+        "event_type": "COMMUNION",
+        "num_guests": 24,
+        "season": "SUMMER",
+        "price_min": 37,
+        "price_max": 48,
+        "wants_wine": true,
+        "required_diets": [],
+        "restricted_ingredients": [],
+        "preferred_style": "FUSION",
+        "cultural_preference": "INDIAN"
+      },
+      "proposed_dishes": [
+        "Carrot Rainbow salad with Mung",
+        "Spaghettini with Pesto Tomatoes and Grilled Eggplant",
+        "Valencia Orange Curd",
+        "Apple and Brussels Sprout Salad",
+        "Pineapple Sweet and Sour Chicken (Easy and Delicious!)",
+        "Accidentally Vegan Banana-Nut Muffins",
+        "Oat and Wheat Sandwich Bread",
+        "Butternut Squash and Carrot",
+        "Gooey Pumpkin Bars with Praline Topping"
+      ],
+      "adaptations_made": [
+        "Sustituido BROCCOLI LASAGNA BIANCA por Spaghettini with Pesto Tomatoes and Grilled Eggplant (ahorro: 7.00€)",
+        "Sustituido Crop Pot Apple Crisp por Valencia Orange Curd (ahorro: 7.00€)",
+        "Sustituido Carrot Rainbow salad with Mung por Honey Mustard Kale Chips (ahorro: 3.50€)",
+        "Sustituido Honey Mustard Kale Chips por Carrot Rainbow salad with Mung (más apropiado para summer)",
+        "Cambiado Fennel Digestive por Cloudy Bay Sauvignon Blanc (maridaje de vino)",
+        "⚙️ Precios ajustados preventivamente (-6.00€ para cumplir presupuesto)",
+        "Menú adaptado culturalmente: chinese → indian",
+        "Apple and Brussels Sprout Salad: apple cider vinegar→white vinegar (+6%), dijon mustard→mustard seeds (+9%), lemon juice→orange juice (+6%), dried cranberries→raisins (+6%), pecans→almonds (+9%), bacon→chicken breasts (+6%) (cultural: 28%→72%, global: 93.8%)",
+        "Accidentally Vegan Banana-Nut Muffins: pecans→almonds (+6%), almond milk→milk (+3%), apples→mango (+6%) (cultural: 60%→76%, global: 93.8%)",
+        "Mejorado Eggplant 'Meatballs' a Butternut Squash and Carrot (+7.00€ calidad premium)",
+        "Sustituido 100 Percent Whole Wheat Bread por Oat and Wheat Sandwich Bread (más apropiado para summer)",
+        "Cambiado Chamomile Infusion por Cloudy Bay Sauvignon Blanc (maridaje de vino)",
+        "Menú adaptado culturalmente: italian → indian",
+        "Butternut Squash and Carrot: heavy cream→milk (+8%) (cultural: 59%→68%, global: 73.8%)",
+        "Gooey Pumpkin Bars with Praline Topping: evaporated milk→milk (+10%), pecans→almonds (+10%) (cultural: 56%→76%, global: 73.8%)",
+        "⚙️ Precios ajustados preventivamente (-25.62€ para cumplir presupuesto)"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "Carrot Rainbow salad with Mung",
+            "ingredients": [
+              "carrots",
+              "vegetable oil",
+              "mustard seeds",
+              "lime",
+              "salt",
+              "cilantro"
+            ],
+            "price": 12.444444444444443,
+            "calories": 454
+          },
+          "main_course": {
+            "name": "Spaghettini with Pesto Tomatoes and Grilled Eggplant",
+            "ingredients": [
+              "garlic",
+              "basil",
+              "olive oil",
+              "olive oil",
+              "salt",
+              "black pepper",
+              "cherry tomatoes",
+              "ricotta cheese"
+            ],
+            "price": 18.666666666666664,
+            "calories": 3392
+          },
+          "dessert": {
+            "name": "Valencia Orange Curd",
+            "ingredients": [
+              "eggs",
+              "sugar",
+              "orange juice",
+              "lemon juice",
+              "salt",
+              "orange zest",
+              "lemon zest",
+              "butter"
+            ],
+            "price": 12.444444444444443,
+            "calories": 2095
+          },
+          "beverage": {
+            "name": "Cloudy Bay Sauvignon Blanc",
+            "price": 2.357548270881853,
+            "alcoholic": true
+          },
+          "total_price": 47.99999999999999,
+          "total_calories": 5941,
+          "similarity_score": 0.913,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (5941 kcal) para summer', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Apple and Brussels Sprout Salad",
+            "ingredients": [
+              "white vinegar",
+              "olive oil",
+              "honey",
+              "mustard seeds",
+              "salt",
+              "black pepper",
+              "orange juice",
+              "red onion",
+              "raisins",
+              "almonds"
+            ],
+            "price": 10.5,
+            "calories": 1883
+          },
+          "main_course": {
+            "name": "Pineapple Sweet and Sour Chicken (Easy and Delicious!)",
+            "ingredients": [
+              "all-purpose flour",
+              "ketchup",
+              "pineapple juice",
+              "sugar",
+              "white vinegar",
+              "salt"
+            ],
+            "price": 14.0,
+            "calories": 2719
+          },
+          "dessert": {
+            "name": "Accidentally Vegan Banana-Nut Muffins",
+            "ingredients": [
+              "bananas",
+              "eggs",
+              "sugar",
+              "butter",
+              "all-purpose flour",
+              "baking powder",
+              "walnuts",
+              "bananas",
+              "vegetable oil",
+              "whole wheat flour"
+            ],
+            "price": 14.0,
+            "calories": 4478
+          },
+          "beverage": {
+            "name": "Bogle Cabernet Sauvignon",
+            "price": 3.5,
+            "alcoholic": true
+          },
+          "total_price": 42.0,
+          "total_calories": 9080,
+          "similarity_score": 0.8220000000000001,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (9080 kcal) para summer', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Oat and Wheat Sandwich Bread",
+            "ingredients": [
+              "oats",
+              "salt",
+              "yeast",
+              "whole wheat flour",
+              "honey",
+              "vegetable oil",
+              "all-purpose flour"
+            ],
+            "price": 22.821225864559075,
+            "calories": 3332
+          },
+          "main_course": {
+            "name": "Butternut Squash and Carrot",
+            "ingredients": [
+              "butternut squash",
+              "onion",
+              "garlic",
+              "olive oil",
+              "water",
+              "carrots",
+              "milk",
+              "nutmeg",
+              "ground cinnamon",
+              "ground cloves"
+            ],
+            "price": 13.692735518735445,
+            "calories": 1082
+          },
+          "dessert": {
+            "name": "Gooey Pumpkin Bars with Praline Topping",
+            "ingredients": [
+              "eggs",
+              "butter",
+              "pumpkin",
+              "eggs",
+              "milk",
+              "oats",
+              "brown sugar",
+              "ground cinnamon",
+              "butter",
+              "almonds"
+            ],
+            "price": 9.12849034582363,
+            "calories": 5310
+          },
+          "beverage": {
+            "name": "Cloudy Bay Sauvignon Blanc",
+            "price": 2.357548270881853,
+            "alcoholic": true
+          },
+          "total_price": 48.0,
+          "total_calories": 9724,
+          "similarity_score": 0.75230303030303,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (9724 kcal) para summer', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "La evaluación del menú propuesto para la comunión indica que, aunque hay esfuerzos por adaptar el menú a los requisitos, hay aspectos que no se ajustan completamente a las expectativas.\n\nEn cuanto al precio, el menú se encuentra dentro del presupuesto establecido, lo que es positivo. Sin embargo, la calidad y la autenticidad de los platos podrían ser cuestionadas en relación con el costo. La cultura india no está bien representada en el menú, ya que ninguno de los platos es tradicionalmente indio, aunque se han hecho intentos de incorporar algunos ingredientes y sabores característicos de la cocina india. Los sabores y combinaciones de ingredientes pueden ser coherentes en algunos platos, pero la falta de autenticidad y la mezcla de estilos culinarios diferentes podrían afectar la experiencia gastronómica.\n\nPRECIO: 4.5\nCULTURA: 2.0\nSABOR: 3.5\nGENERAL: 3.3",
+      "llm_score": 3.3,
+      "feedback_breakdown": {
+        "overall_satisfaction": 3.3,
+        "price_satisfaction": 4.5,
+        "cultural_satisfaction": 2.0,
+        "dietary_satisfaction": 2.0,
+        "flavor_satisfaction": 3.5
+      },
+      "timestamp": "2026-01-10T04:04:53.947554"
+    },
+    {
+      "request_num": 2,
+      "generated_request": {
+        "event_type": "CHRISTENING",
+        "num_guests": 45,
+        "season": "SUMMER",
+        "price_min": 17,
+        "price_max": 31,
+        "wants_wine": false,
+        "required_diets": [],
+        "restricted_ingredients": [],
+        "preferred_style": "GOURMET",
+        "cultural_preference": "AMERICAN"
+      },
+      "proposed_dishes": [
+        "Egg mayo toasted sandwich",
+        "Chow Mein Chicken",
+        "Valencia Orange Curd",
+        "Homemade Cheesy Bean and Rice Burrito",
+        "Roasted Asparagus and Tomato with Lemon Garlic Hollandaise",
+        "Red Velvet Ice Cream",
+        "Grilled Pepper Jack Chicken Sandwiches",
+        "Okra and Onion Stir fry. Mom’s Pyaaz Waali Bhindi.",
+        "Flourless Chocolate Cake"
+      ],
+      "adaptations_made": [
+        "Sustituido Leftover Turkey Corn Chowder por Low Carb Mushroom Soup (ahorro: 3.50€)",
+        "Sustituido Crockpot Honey Sesame Chicken por Chow Mein Chicken (ahorro: 3.50€)",
+        "Sustituido Piña Colada Bars por Valencia Orange Curd (ahorro: 1.56€)",
+        "⚠ No se pudo reducir completamente el precio (faltan 11.44€)",
+        "Sustituido Low Carb Mushroom Soup por Egg mayo toasted sandwich (más apropiado para summer)",
+        "Cambiado Stag's Leap Cabernet por CocaCola (sin alcohol)",
+        "⚙️ Precios ajustados preventivamente (-4.78€ para cumplir presupuesto)",
+        "Sustituido Copycat Olive Garden Breadsticks por Roasted bell pepper soup recipe| soup recipes| (ahorro: 3.50€)",
+        "Sustituido Peanut Butter and Apple Quesadilla por Roasted Asparagus and Tomato with Lemon Garlic Hollandaise (ahorro: 3.50€)",
+        "Sustituido Nutella Caramel Pretzel Fudge por Red Velvet Ice Cream (ahorro: 3.50€)",
+        "⚠ No se pudo reducir completamente el precio (faltan 4.50€)",
+        "Sustituido Roasted bell pepper soup recipe| soup recipes| por Homemade Cheesy Bean and Rice Burrito (más apropiado para summer)",
+        "Cambiado Josh Cellars Cabernet Sauvignon por Sprite (sin alcohol)",
+        "⚙️ Precios ajustados preventivamente (-6.20€ para cumplir presupuesto)",
+        "Sustituido Hot Brown Sandwiches por Grilled Pepper Jack Chicken Sandwiches (ahorro: 21.00€)",
+        "Sustituido Homemade Eggnog and Video por Flourless Chocolate Cake (ahorro: 7.00€)",
+        "Sustituido Roasted Beets with Balsamic Glaze por Okra and Onion Stir fry. Mom’s Pyaaz Waali Bhindi. (ahorro: 3.50€)",
+        "⚠ No se pudo reducir completamente el precio (faltan 11.50€)",
+        "Cambiado Josh Cellars Cabernet Sauvignon por Sparkling Water (sin alcohol)",
+        "⚙️ Precios ajustados preventivamente (-9.50€ para cumplir presupuesto)"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "Egg mayo toasted sandwich",
+            "ingredients": [
+              "eggs",
+              "mayonnaise",
+              "chives",
+              "white bread",
+              "butter"
+            ],
+            "price": 9.215741789354475,
+            "calories": 1193
+          },
+          "main_course": {
+            "name": "Chow Mein Chicken",
+            "ingredients": [
+              "chicken",
+              "celery",
+              "onion",
+              "vegetable oil",
+              "soy sauce",
+              "ground ginger",
+              "cooked rice",
+              "noodles"
+            ],
+            "price": 9.09682899207248,
+            "calories": 1113
+          },
+          "dessert": {
+            "name": "Valencia Orange Curd",
+            "ingredients": [
+              "eggs",
+              "sugar",
+              "orange juice",
+              "lemon juice",
+              "salt",
+              "orange zest",
+              "lemon zest",
+              "butter"
+            ],
+            "price": 10.781426953567381,
+            "calories": 2095
+          },
+          "beverage": {
+            "name": "CocaCola",
+            "price": 0.8637556392533421,
+            "alcoholic": false
+          },
+          "total_price": 31.0,
+          "total_calories": 4401,
+          "similarity_score": 0.8583333333333334,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (4401 kcal) para summer', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Homemade Cheesy Bean and Rice Burrito",
+            "ingredients": [
+              "brown rice",
+              "salsa",
+              "water",
+              "black beans",
+              "black pepper",
+              "garlic powder",
+              "flour tortillas",
+              "cheese"
+            ],
+            "price": 11.666666666666666,
+            "calories": 1929
+          },
+          "main_course": {
+            "name": "Roasted Asparagus and Tomato with Lemon Garlic Hollandaise",
+            "ingredients": [
+              "olive oil",
+              "salt",
+              "egg yolks",
+              "salt",
+              "cayenne pepper",
+              "lemon juice",
+              "garlic",
+              "butter"
+            ],
+            "price": 8.75,
+            "calories": 1039
+          },
+          "dessert": {
+            "name": "Red Velvet Ice Cream",
+            "ingredients": [
+              "cream cheese",
+              "sour cream",
+              "half-and-half",
+              "sugar",
+              "salt"
+            ],
+            "price": 8.75,
+            "calories": 3066
+          },
+          "beverage": {
+            "name": "Sprite",
+            "price": 1.8333333333333333,
+            "alcoholic": false
+          },
+          "total_price": 30.999999999999996,
+          "total_calories": 6034,
+          "similarity_score": 0.8160000000000001,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (6034 kcal) para summer', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='dessert', message='El postre podría resultar pesado tras un plato graso', suggestion='Considerar un postre más ligero o ácido')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Grilled Pepper Jack Chicken Sandwiches",
+            "ingredients": [
+              "chicken breasts",
+              "bacon",
+              "jack cheese",
+              "lettuce",
+              "onion",
+              "tomatoes"
+            ],
+            "price": 5.3580246913580245,
+            "calories": 979
+          },
+          "main_course": {
+            "name": "Okra and Onion Stir fry. Mom’s Pyaaz Waali Bhindi.",
+            "ingredients": [
+              "vegetable oil",
+              "onion",
+              "turmeric",
+              "green chilies",
+              "salt",
+              "chili peppers"
+            ],
+            "price": 8.037037037037036,
+            "calories": 258
+          },
+          "dessert": {
+            "name": "Flourless Chocolate Cake",
+            "ingredients": [
+              "butter",
+              "eggs",
+              "sugar",
+              "salt"
+            ],
+            "price": 16.074074074074073,
+            "calories": 3962
+          },
+          "beverage": {
+            "name": "Sparkling Water",
+            "price": 1.5308641975308641,
+            "alcoholic": false
+          },
+          "total_price": 30.999999999999996,
+          "total_calories": 5199,
+          "similarity_score": 0.7605,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (5199 kcal) para summer', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "La evaluación del menú propuesto para el evento de bautizo es la siguiente:\n\nEl menú parece ser una mezcla de platos internacionales, con un intento de adaptación a la tradición americana. El precio total se encuentra en el límite superior del presupuesto. La combinación de sabores y platos es interesante, aunque podría ser más coherente.\n\nEn cuanto a la cultura, el menú no refleja de manera auténtica la tradición americana, pero hay un esfuerzo por adaptar ingredientes y platos. El sabor de los platos es coherente, aunque podría ser más complementario. \n\nPRECIO: 4.5\nCULTURA: 3.5\nSABOR: 4.0\nGENERAL: 4.0",
+      "llm_score": 4.0,
+      "feedback_breakdown": {
+        "overall_satisfaction": 4.0,
+        "price_satisfaction": 4.5,
+        "cultural_satisfaction": 3.5,
+        "dietary_satisfaction": 5.0,
+        "flavor_satisfaction": 4.0
+      },
+      "timestamp": "2026-01-10T04:04:55.258334"
+    },
+    {
+      "request_num": 3,
+      "generated_request": {
+        "event_type": "CONGRESS",
+        "num_guests": 50,
+        "season": "WINTER",
+        "price_min": 21,
+        "price_max": 42,
+        "wants_wine": true,
+        "required_diets": [
+          "immuno-supportive"
+        ],
+        "restricted_ingredients": [
+          "butter",
+          "coconut oil"
+        ],
+        "preferred_style": "SIBARITA",
+        "cultural_preference": null
+      },
+      "proposed_dishes": [
+        "Roasted bell pepper soup recipe| soup recipes|",
+        "Stuffed Tomatoes",
+        "Banana Smoothie Pancakes",
+        "Georgian Spicy Eggplant Tomato Salad",
+        "methi pulao",
+        "Banana Smoothie Pancakes"
+      ],
+      "adaptations_made": [
+        "Plato cambiado: Homemade Cheesy Bean and Rice Burrito → Weight Watchers Potato & Parsnip Soup (cumple immuno-supportive)",
+        "Plato cambiado: Barbeque Chicken → Santa Fe Cornmeal Pizza (cumple immuno-supportive)",
+        "No-Cook Fig, Buckwheat Honey, and Sea Salt Ice Cream: heavy cream→almond milk (Dietary: violates immuno-supportive, same group (milk_group))",
+        "No-Cook Fig, Buckwheat Honey, and Sea Salt Ice Cream: sweetened condensed milk→almond milk (Dietary: violates immuno-supportive, same group (milk_group))",
+        "Sustituido No-Cook Fig, Buckwheat Honey, and Sea Salt Ice Cream por Banana Smoothie Pancakes (ahorro: 7.00€)",
+        "Sustituido Weight Watchers Potato & Parsnip Soup por Roasted bell pepper soup recipe| soup recipes| (ahorro: 3.50€)",
+        "Sustituido Santa Fe Cornmeal Pizza por Stuffed Tomatoes (ahorro: 7.00€)",
+        "⚠ No se pudo reducir completamente el precio (faltan 9.50€)",
+        "⚙️ Precios ajustados preventivamente (-9.50€ para cumplir presupuesto)",
+        "Menú generado desde cero"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "Roasted bell pepper soup recipe| soup recipes|",
+            "ingredients": [
+              "red bell pepper",
+              "tomatoes",
+              "onion",
+              "garlic",
+              "water",
+              "white pepper",
+              "herbs",
+              "olive oil",
+              "salt"
+            ],
+            "price": 8.563106796116504,
+            "calories": 252
+          },
+          "main_course": {
+            "name": "Stuffed Tomatoes",
+            "ingredients": [
+              "bread crumbs",
+              "garlic",
+              "parsley",
+              "olive oil",
+              "salt",
+              "tomatoes"
+            ],
+            "price": 5.70873786407767,
+            "calories": 297
+          },
+          "dessert": {
+            "name": "Banana Smoothie Pancakes",
+            "ingredients": [
+              "bananas",
+              "eggs",
+              "milk",
+              "yogurt",
+              "whole wheat flour",
+              "baking powder"
+            ],
+            "price": 11.41747572815534,
+            "calories": 800
+          },
+          "beverage": {
+            "name": "Opus One",
+            "price": 16.310679611650485,
+            "alcoholic": true
+          },
+          "total_price": 42.0,
+          "total_calories": 1349,
+          "similarity_score": 0.5424575424575423,
+          "validation": {
+            "passed": true,
+            "issues": [],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Georgian Spicy Eggplant Tomato Salad",
+            "ingredients": [
+              "tomatoes",
+              "onion",
+              "dill",
+              "parsley",
+              "basil",
+              "cilantro",
+              "salt",
+              "black pepper",
+              "vegetable oil"
+            ],
+            "price": 14.0,
+            "calories": 904
+          },
+          "main_course": {
+            "name": "methi pulao",
+            "ingredients": [
+              "cardamom",
+              "cardamom",
+              "ground cinnamon",
+              "ground cloves"
+            ],
+            "price": 7.0,
+            "calories": 20
+          },
+          "dessert": {
+            "name": "Banana Smoothie Pancakes",
+            "ingredients": [
+              "bananas",
+              "eggs",
+              "milk",
+              "yogurt",
+              "whole wheat flour",
+              "baking powder"
+            ],
+            "price": 11.41747572815534,
+            "calories": 800
+          },
+          "beverage": {
+            "name": "Cantine Pellegrino Marsala",
+            "price": 4.0,
+            "alcoholic": true
+          },
+          "total_price": 36.41747572815534,
+          "total_calories": 1724,
+          "similarity_score": 0.47802197802197793,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='warning', category='temperature', message='Temperatura del entrante (cold) no ideal para winter', suggestion='Considerar entrante con temperatura más apropiada')",
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (1724 kcal) para winter', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='complexity', message='Complejidad low podría no ser ideal para congress', suggestion='Ajustar complejidad según tipo de evento')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "La evaluación del menú propuesto para el congreso revela algunas fortalezas y debilidades. El presupuesto parece estar bien manejado, con un total de 42.0€, que se ajusta al límite superior del rango establecido. Sin embargo, la adecuación cultural es difícil de evaluar debido a la falta de preferencias culturales específicas. Los sabores y combinaciones de ingredientes parecen coherentes, aunque la inclusión de platos como el \"Banana Smoothie Pancakes\" podría ser un punto de debate en términos de originalidad y cohesión con el resto del menú.\n\nEn cuanto a las dietas, el menú parece haber sido adaptado para cumplir con las restricciones inmuno-supportive, lo que es un punto a favor.\n\nPRECIO: 4.5\nCULTURA: 3.0\nSABOR: 4.0\nGENERAL: 4.0",
+      "llm_score": 4.0,
+      "feedback_breakdown": {
+        "overall_satisfaction": 4.0,
+        "price_satisfaction": 4.5,
+        "cultural_satisfaction": 3.0,
+        "dietary_satisfaction": 5.0,
+        "flavor_satisfaction": 4.0
+      },
+      "timestamp": "2026-01-10T04:04:56.649732"
+    },
+    {
+      "request_num": 4,
+      "generated_request": {
+        "event_type": "CONGRESS",
+        "num_guests": 48,
+        "season": "SPRING",
+        "price_min": 27,
+        "price_max": 65,
+        "wants_wine": false,
+        "required_diets": [],
+        "restricted_ingredients": [],
+        "preferred_style": "SIBARITA",
+        "cultural_preference": "JAPANESE"
+      },
+      "proposed_dishes": [
+        "Sweet and sour shrimp soup recipe. — Steemit",
+        "Grilled Chicken Teriyaki",
+        "Multigrain Pumpkin Muffins",
+        "Bourbon Pecan Bread",
+        "CAPOCOLLO AND MINI SWEET PEPPER PASTA",
+        "Homemade Nutter Butters",
+        "Kombu Chicken Soup with Carrots and Mushrooms",
+        "Chicken and lentil korma",
+        "Sour Cream Banana Cranberry Bread"
+      ],
+      "adaptations_made": [
+        "Cambiado Robert Mondavi Chardonnay por Schweppes (sin alcohol)",
+        "Cambiado Kendall-Jackson Cabernet Sauvignon por Ginger Lemon Blend (sin alcohol)",
+        "Menú adaptado culturalmente: american → japanese",
+        "Bourbon Pecan Bread: pecans→walnuts (+7%), milk→soy milk (+10%), bourbon→rum (+14%) (cultural: 31%→62%, global: 90.6%)",
+        "CAPOCOLLO AND MINI SWEET PEPPER PASTA: pasta→noodles (+17%) (cultural: 37%→53%, global: 90.6%)",
+        "Homemade Nutter Butters: milk→soy milk (+14%) (cultural: 44%→59%, global: 90.6%)",
+        "Sustituido Poppy Seed Bread 5 por Sour Cream Banana Cranberry Bread (ahorro: 92.97€)",
+        "Cambiado Mateus Rosé por Schweppes (sin alcohol)"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "Sweet and sour shrimp soup recipe. — Steemit",
+            "ingredients": [
+              "shallots",
+              "tomatoes",
+              "water",
+              "shrimp",
+              "sugar",
+              "fish sauce",
+              "salt",
+              "coriander",
+              "green onions"
+            ],
+            "price": 21.0,
+            "calories": 981
+          },
+          "main_course": {
+            "name": "Grilled Chicken Teriyaki",
+            "ingredients": [
+              "chicken breasts",
+              "soy sauce",
+              "brown sugar",
+              "ginger",
+              "garlic"
+            ],
+            "price": 14.0,
+            "calories": 3142
+          },
+          "dessert": {
+            "name": "Multigrain Pumpkin Muffins",
+            "ingredients": [
+              "whole wheat flour",
+              "baking soda",
+              "baking powder",
+              "ground cinnamon",
+              "pumpkin pie spice",
+              "salt",
+              "sugar",
+              "ground cinnamon",
+              "water",
+              "egg whites"
+            ],
+            "price": 14.0,
+            "calories": 3612
+          },
+          "beverage": {
+            "name": "Schweppes",
+            "price": 2.8,
+            "alcoholic": false
+          },
+          "total_price": 51.8,
+          "total_calories": 7735,
+          "similarity_score": 0.9304315040868827,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (7735 kcal) para spring', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='complexity', message='Complejidad low podría no ser ideal para congress', suggestion='Ajustar complejidad según tipo de evento')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Bourbon Pecan Bread",
+            "ingredients": [
+              "all-purpose flour",
+              "baking powder",
+              "salt",
+              "sugar",
+              "butter",
+              "walnuts",
+              "soy milk",
+              "rum",
+              "eggs",
+              "rum"
+            ],
+            "price": 28.0,
+            "calories": 4258
+          },
+          "main_course": {
+            "name": "CAPOCOLLO AND MINI SWEET PEPPER PASTA",
+            "ingredients": [
+              "noodles",
+              "red onion",
+              "garlic",
+              "oregano",
+              "ricotta cheese",
+              "salt"
+            ],
+            "price": 14.0,
+            "calories": 1897
+          },
+          "dessert": {
+            "name": "Homemade Nutter Butters",
+            "ingredients": [
+              "sugar",
+              "peanut butter",
+              "eggs",
+              "butter",
+              "peanut butter",
+              "powdered sugar",
+              "soy milk"
+            ],
+            "price": 14.0,
+            "calories": 4920
+          },
+          "beverage": {
+            "name": "Ginger Lemon Blend",
+            "price": 3.0,
+            "alcoholic": false
+          },
+          "total_price": 59.0,
+          "total_calories": 11075,
+          "similarity_score": 0.7853234912497862,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (11075 kcal) para spring', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Kombu Chicken Soup with Carrots and Mushrooms",
+            "ingredients": [
+              "spinach",
+              "soy sauce",
+              "salt",
+              "boneless",
+              "chicken breasts",
+              "carrots",
+              "sesame seeds"
+            ],
+            "price": 14.0,
+            "calories": 1315
+          },
+          "main_course": {
+            "name": "Chicken and lentil korma",
+            "ingredients": [
+              "olive oil",
+              "onion",
+              "water",
+              "coconut milk"
+            ],
+            "price": 14.0,
+            "calories": 4733
+          },
+          "dessert": {
+            "name": "Sour Cream Banana Cranberry Bread",
+            "ingredients": [
+              "butter",
+              "sugar",
+              "eggs",
+              "vanilla extract",
+              "all-purpose flour",
+              "baking soda",
+              "salt",
+              "sour cream",
+              "dried cranberries",
+              "bananas"
+            ],
+            "price": 19.033417490997888,
+            "calories": 3089
+          },
+          "beverage": {
+            "name": "Schweppes",
+            "price": 2.8,
+            "alcoholic": false
+          },
+          "total_price": 49.83341749099789,
+          "total_calories": 9137,
+          "similarity_score": 0.7577114618449281,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (9137 kcal) para spring', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='dessert', message='El postre podría resultar pesado tras un plato graso', suggestion='Considerar un postre más ligero o ácido')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "La evaluación del menú propuesto para el congreso de 48 invitados en primavera, con un presupuesto de 27-65€ y una preferencia cultural japonesa, se presenta a continuación:\n\nEl menú muestra un esfuerzo por adaptarse a la cultura japonesa, especialmente con el plato principal \"Grilled Chicken Teriyaki\", que es una opción clásica japonesa. Sin embargo, la sopa de camarones y los muffins de calabaza parecen fuera de lugar en un menú japonés tradicional. El precio total del menú se encuentra dentro del presupuesto establecido, lo que es positivo.\n\nEn cuanto a la cultura, aunque hay un intento de aproximación, el menú no es completamente fiel a la tradición japonesa. La inclusión de ingredientes y platos no tradicionales japoneses reduce la autenticidad del menú.\n\nLa coherencia de los sabores y combinaciones de ingredientes es razonable, aunque la variedad de platos podría ser más armoniosa.\n\nPRECIO: 4.5\nCULTURA: 3.5\nSABOR: 4.0\nGENERAL: 4.0",
+      "llm_score": 4.0,
+      "feedback_breakdown": {
+        "overall_satisfaction": 4.0,
+        "price_satisfaction": 4.5,
+        "cultural_satisfaction": 3.5,
+        "dietary_satisfaction": 5.0,
+        "flavor_satisfaction": 4.0
+      },
+      "timestamp": "2026-01-10T04:04:58.478508"
+    },
+    {
+      "request_num": 5,
+      "generated_request": {
+        "event_type": "CONGRESS",
+        "num_guests": 29,
+        "season": "AUTUMN",
+        "price_min": 34,
+        "price_max": 67,
+        "wants_wine": false,
+        "required_diets": [
+          "sulfite-free"
+        ],
+        "restricted_ingredients": [],
+        "preferred_style": "MODERN",
+        "cultural_preference": "VIETNAMESE"
+      },
+      "proposed_dishes": [
+        "Shamrock Quiche",
+        "Cheeseburger Noodle Casserole",
+        "Summer Berry Mint Chocolate Galette"
+      ],
+      "adaptations_made": [
+        "Sustituido Beet and Carrot Salad with Citrus Vinaigrette por Shamrock Quiche (más apropiado para autumn)",
+        "Cambiado Caymus Cabernet Sauvignon por Nestea (sin alcohol)",
+        "Menú adaptado culturalmente: spanish → vietnamese",
+        "Shamrock Quiche: heavy cream→coconut milk (+12%) (cultural: 54%→66%, global: 94.1%)",
+        "Cheeseburger Noodle Casserole: ground beef→chicken breasts (+8%), spaghetti→noodles (+11%), sour cream→coconut milk (+11%), dried basil→cilantro (+11%) (cultural: 27%→68%, global: 94.1%)",
+        "Summer Berry Mint Chocolate Galette: coconut oil→vegetable oil (+8%), blueberries→strawberries (+8%), lemon juice→lime juice (+11%) (cultural: 41%→68%, global: 94.1%)"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "Shamrock Quiche",
+            "ingredients": [
+              "cheese",
+              "onion",
+              "broccoli florets",
+              "eggs",
+              "coconut milk",
+              "garlic",
+              "salt",
+              "black pepper"
+            ],
+            "price": 14.0,
+            "calories": 1483
+          },
+          "main_course": {
+            "name": "Cheeseburger Noodle Casserole",
+            "ingredients": [
+              "chicken breasts",
+              "noodles",
+              "diced tomatoes",
+              "coconut milk",
+              "cilantro",
+              "garlic powder",
+              "salt",
+              "black pepper",
+              "cheddar cheese"
+            ],
+            "price": 14.0,
+            "calories": 3098
+          },
+          "dessert": {
+            "name": "Summer Berry Mint Chocolate Galette",
+            "ingredients": [
+              "semi-sweet chocolate",
+              "mint",
+              "salt",
+              "vegetable oil",
+              "water",
+              "strawberries",
+              "strawberries",
+              "lime juice",
+              "mint"
+            ],
+            "price": 17.5,
+            "calories": 3035
+          },
+          "beverage": {
+            "name": "Nestea",
+            "price": 2.4,
+            "alcoholic": false
+          },
+          "total_price": 47.9,
+          "total_calories": 7616,
+          "similarity_score": 0.680502445416814,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (7616 kcal) para autumn', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "La evaluación del menú propuesto para el congreso de 29 invitados en otoño con un presupuesto de 34-67€ y preferencia cultural vietnamita es la siguiente:\n\nEl precio total del menú es de 47.9€, lo que está dentro del presupuesto establecido. Sin embargo, la calidad y la variedad de los platos pueden no justificar completamente el costo en relación con la experiencia gastronómica vietnamita auténtica que se esperaría.\n\nEn cuanto a la cultura, aunque el sistema CBR ha intentado adaptar el menú con cambios como el uso de coconut milk y cilantro, los platos en sí mismos no son tradicionalmente vietnamitas. La falta de ingredientes y técnicas de cocina vietnamitas auténticas reduce la autenticidad del menú.\n\nLos sabores y combinaciones de ingredientes en los platos propuestos pueden no ser coherentes con la tradición vietnamita, que suele enfatizar el equilibrio de sabores dulces, salados, ácidos y umamis, y el uso de ingredientes frescos y aromáticos.\n\nPRECIO: 4.0\nCULTURA: 2.5\nSABOR: 3.0\nGENERAL: 3.2",
+      "llm_score": 3.2,
+      "feedback_breakdown": {
+        "overall_satisfaction": 3.2,
+        "price_satisfaction": 4.0,
+        "cultural_satisfaction": 2.5,
+        "dietary_satisfaction": 2.0,
+        "flavor_satisfaction": 3.0
+      },
+      "timestamp": "2026-01-10T04:05:00.165229"
+    }
+  ],
+  "start_time": "2026-01-10T04:04:52.686467",
+  "end_time": "2026-01-10T04:05:00.665619",
+  "duration_seconds": 7.979152,
+  "total_requests": 5,
+  "successful_proposals": 5,
+  "llm_evaluation": "RESUMEN DE EVALUACIONES INDIVIDUALES:\n==================================================\n\nSolicitud #1:\n  Evento: COMMUNION\n  Puntuación: 3.3/5.0\n  Comentario: La evaluación del menú propuesto para la comunión indica que, aunque hay esfuerzos por adaptar el me...\n\nSolicitud #2:\n  Evento: CHRISTENING\n  Puntuación: 4.0/5.0\n  Comentario: La evaluación del menú propuesto para el evento de bautizo es la siguiente:...\n\nSolicitud #3:\n  Evento: CONGRESS\n  Puntuación: 4.0/5.0\n  Comentario: La evaluación del menú propuesto para el congreso revela algunas fortalezas y debilidades. El presup...\n\nSolicitud #4:\n  Evento: CONGRESS\n  Puntuación: 4.0/5.0\n  Comentario: La evaluación del menú propuesto para el congreso de 48 invitados en primavera, con un presupuesto d...\n\nSolicitud #5:\n  Evento: CONGRESS\n  Puntuación: 3.2/5.0\n  Comentario: La evaluación del menú propuesto para el congreso de 29 invitados en otoño con un presupuesto de 34-...\n\n==================================================\nPUNTUACIÓN PROMEDIO: 3.70/5.00",
+  "llm_score": 3.7,
+  "summary": {
+    "avg_dishes_per_request": 7.2,
+    "avg_adaptations_per_request": 12.0,
+    "success_rate": 100.0
+  }
+}

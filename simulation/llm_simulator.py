@@ -1,5 +1,6 @@
 """
-Simulador CBR con Groq LLM para generar solicitudes aleatorias y evaluación con aprendizaje adaptativo.
+Simulador CBR con LLM para generar solicitudes aleatorias y evaluación con aprendizaje adaptativo.
+Utiliza Groq Cloud API para evaluación de menús.
 """
 
 import os
@@ -14,8 +15,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 from groq import Groq
 
-# Cargar variables de entorno desde .env
-load_dotenv()
+# Cargar variables de entorno desde .env en raíz del proyecto
+load_dotenv(Path(__file__).parent.parent / '.env')
 
 import sys
 sys.path.append(str(Path(__file__).parent.parent))
@@ -28,9 +29,9 @@ from develop.cycle.retain import FeedbackData
 
 
 @dataclass
-class GroqSimulationConfig:
-    """Configuración de la simulación con Groq."""
-    groq_api_key: str = field(default_factory=lambda: os.environ.get("GROQ_API_KEY", ""))
+class LLMSimulationConfig:
+    """Configuración de la simulación con LLM."""
+    api_key: str = field(default_factory=lambda: os.environ.get("GROQ_API_KEY", ""))
     model_name: str = "llama-3.3-70b-versatile"
     num_interactions: int = 5
     enable_adaptive_weights: bool = True
@@ -38,7 +39,7 @@ class GroqSimulationConfig:
     temperature: float = 0.9
     verbose: bool = True
     save_results: bool = True
-    results_path: str = "data/groq_simulation_results.json"
+    results_path: str = "data/llm_simulation_results.json"
 
 
 @dataclass
@@ -56,9 +57,9 @@ class InteractionResult:
 
 
 @dataclass
-class GroqSimulationResult:
+class LLMSimulationResult:
     """Resultado de una simulación completa."""
-    config: GroqSimulationConfig
+    config: LLMSimulationConfig
     interactions: List[InteractionResult]
     start_time: str
     end_time: str
@@ -70,16 +71,16 @@ class GroqSimulationResult:
     summary: Dict[str, Any] = field(default_factory=dict)
 
 
-class GroqCBRSimulator:
-    """Simulador CBR que usa Groq para generar solicitudes aleatorias y evaluar resultados."""
+class LLMCBRSimulator:
+    """Simulador CBR que usa LLM (Groq) para generar solicitudes aleatorias y evaluar resultados."""
     
-    def __init__(self, config: Optional[GroqSimulationConfig] = None):
-        self.config = config or GroqSimulationConfig()
+    def __init__(self, config: Optional[LLMSimulationConfig] = None):
+        self.config = config or LLMSimulationConfig()
         
-        if not self.config.groq_api_key:
-            raise ValueError("GROQ_API_KEY no encontrada. Configura la variable de entorno.")
+        if not self.config.api_key:
+            raise ValueError("GROQ_API_KEY no encontrada. Configura la variable de entorno en .env")
         
-        self.groq_client = Groq(api_key=self.config.groq_api_key)
+        self.groq_client = Groq(api_key=self.config.api_key)
         
         cbr_config = CBRConfig(
             case_base_path=self.config.case_base_path,
@@ -114,7 +115,7 @@ class GroqCBRSimulator:
             return chat_completion.choices[0].message.content
         except Exception as e:
             if self.config.verbose:
-                print(f"⚠️ Error en llamada a Groq: {e}")
+                print(f"⚠ Error en llamada a Groq: {e}")
             return ""
     
     def _generate_random_request(self) -> Dict[str, Any]:
@@ -346,6 +347,34 @@ class GroqCBRSimulator:
                 llm_eval.get('cultural_score', llm_eval['score']),
                 llm_eval.get('flavor_score', llm_eval['score'])
             )
+        
+        # RETAIN: Guardar el mejor menú evaluado en la base de casos si tiene puntuación >= 3.5
+        if menus_details and result and hasattr(result, 'proposed_menus') and result.proposed_menus:
+            best_proposal = result.proposed_menus[0]  # Ya está ordenado por ranking
+            if llm_eval['score'] >= 3.5:  # Solo guardar si es satisfactorio
+                try:
+                    feedback_data = FeedbackData(
+                        menu_id=best_proposal.menu.id,
+                        success=True,
+                        score=llm_eval['score'],
+                        comments=f"LLM evaluation: {llm_eval['score']:.1f}/5.0",
+                        would_recommend=llm_eval['score'] >= 4.0,
+                        price_satisfaction=llm_eval.get('price_score', llm_eval['score']),
+                        cultural_satisfaction=llm_eval.get('cultural_score', llm_eval['score']),
+                        flavor_satisfaction=llm_eval.get('flavor_score', llm_eval['score'])
+                    )
+                    source_case = best_proposal.source_case if hasattr(best_proposal, 'source_case') else None
+                    retained, message = self.cbr_system.retainer.retain(
+                        request,
+                        best_proposal.menu,
+                        feedback_data,
+                        source_case
+                    )
+                    if self.config.verbose and retained:
+                        print(f"✅ Caso añadido a la base de datos: {message}")
+                except Exception as e:
+                    if self.config.verbose:
+                        print(f"⚠ Error al guardar caso: {e}")
         
         return InteractionResult(
             request_num=request_num,
@@ -646,10 +675,10 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
         
         # Si no se encuentra puntuación, retornar 2.5 (neutral)
         if self.config.verbose:
-            print("⚠️ No se pudo extraer puntuación del LLM, usando 2.5 por defecto")
+            print("⚠ No se pudo extraer puntuación del LLM, usando 2.5 por defecto")
         return 2.5
     
-    def run_simulation(self) -> GroqSimulationResult:
+    def run_simulation(self) -> LLMSimulationResult:
         """
         Ejecuta la simulación completa.
         
@@ -682,7 +711,7 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
                 
             except Exception as e:
                 if self.config.verbose:
-                    print(f"⚠️ Error en interacción {i}: {e}")
+                    print(f"⚠ Error en interacción {i}: {e}")
         
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()
@@ -704,7 +733,7 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
         # Preparar resultado
         successful = sum(1 for i in self.interactions if i.proposed_dishes)
         
-        result = GroqSimulationResult(
+        result = LLMSimulationResult(
             config=self.config,
             interactions=self.interactions,
             start_time=start_time.isoformat(),
@@ -751,7 +780,7 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
         
         return result
     
-    def _save_results(self, result: GroqSimulationResult):
+    def _save_results(self, result: LLMSimulationResult):
         """Guarda los resultados en un archivo JSON."""
         try:
             output_path = Path(self.config.results_path)
@@ -797,27 +826,28 @@ Donde X.X es un número entre 0.0 y 5.0 para cada dimensión."""
                 
         except Exception as e:
             if self.config.verbose:
-                print(f"⚠️ Error guardando resultados: {e}")
+                print(f"⚠ Error guardando resultados: {e}")
 
 
 def main():
     """Función principal para ejecutar el simulador."""
     # Verificar que existe la API key
     if not os.environ.get("GROQ_API_KEY"):
-        print("⚠️ ERROR: GROQ_API_KEY no encontrada.")
+        print("⚠ ERROR: GROQ_API_KEY no encontrada.")
         print("Configura la variable de entorno:")
         print("export GROQ_API_KEY='tu_api_key_aqui'")
+        print("O crea un archivo .env con: GROQ_API_KEY=tu_api_key_aqui")
         return
     
     # Crear y ejecutar simulador
-    config = GroqSimulationConfig(
+    config = LLMSimulationConfig(
         num_interactions=5,
         enable_adaptive_weights=True,
         verbose=True,
         temperature=0.9
     )
     
-    simulator = GroqCBRSimulator(config)
+    simulator = LLMCBRSimulator(config)
     result = simulator.run_simulation()
     
     print("\n✅ Simulación completada exitosamente!")

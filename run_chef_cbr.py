@@ -227,7 +227,7 @@ def main():
     price_max = get_positive_float("  Precio máximo (€): ", min_val=price_min)
     
     if price_max < price_min:
-        print(f"⚠️  Ajustando: precio máximo debe ser >= precio mínimo")
+        print(f"⚠  Ajustando: precio máximo debe ser >= precio mínimo")
         price_max = price_min
     
     season = get_season()

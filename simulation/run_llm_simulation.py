@@ -1,11 +1,11 @@
 """
-Script para ejecutar simulación CBR con Groq LLM.
+Script para ejecutar simulación CBR con LLM (Groq API).
 
 Uso:
-    python simulation/run_groq_simulation.py
-    python simulation/run_groq_simulation.py -n 10
-    python simulation/run_groq_simulation.py --adaptive
-    python simulation/run_groq_simulation.py --static
+    python simulation/run_llm_simulation.py
+    python simulation/run_llm_simulation.py -n 10
+    python simulation/run_llm_simulation.py --adaptive
+    python simulation/run_llm_simulation.py --static
 """
 
 import argparse
@@ -15,17 +15,17 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Cargar variables de entorno desde .env
-load_dotenv()
+# Cargar variables de entorno desde .env en raíz del proyecto
+load_dotenv(Path(__file__).parent.parent / '.env')
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from simulation.groq_simulator import GroqCBRSimulator, GroqSimulationConfig
+from simulation.llm_simulator import LLMCBRSimulator, LLMSimulationConfig
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Simulador CBR con Groq LLM para generar solicitudes aleatorias"
+        description="Simulador CBR con LLM (Groq API) para evaluación automatizada"
     )
     
     parser.add_argument(
@@ -64,8 +64,8 @@ def main():
     parser.add_argument(
         '-o', '--output',
         type=str,
-        default='data/groq_simulation_results.json',
-        help='Ruta para guardar resultados (default: data/groq_simulation_results.json)'
+        default='data/llm_simulation_results.json',
+        help='Ruta para guardar resultados (default: data/llm_simulation_results.json)'
     )
     
     parser.add_argument(
@@ -78,18 +78,18 @@ def main():
     
     # Verificar API key
     if not os.environ.get("GROQ_API_KEY"):
-        print("⚠️ ERROR: GROQ_API_KEY no encontrada.")
+        print("⚠ ERROR: GROQ_API_KEY no encontrada.")
         print("\nConfigura la variable de entorno:")
         print("  export GROQ_API_KEY='tu_api_key_aqui'")
-        print("\nO usa:")
-        print("  GROQ_API_KEY='tu_key' python simulation/run_groq_simulation.py")
+        print("\nO crea archivo .env con:")
+        print("  GROQ_API_KEY=tu_api_key_aqui")
         sys.exit(1)
     
     # Determinar si usar adaptive weights
     enable_adaptive = not args.static if args.static else True
     
     # Configurar simulación
-    config = GroqSimulationConfig(
+    config = LLMSimulationConfig(
         model_name=args.model,
         num_interactions=args.num_interactions,
         enable_adaptive_weights=enable_adaptive,
@@ -99,7 +99,7 @@ def main():
     )
     
     print(f"\n{'='*70}")
-    print("GROQ CBR SIMULATOR")
+    print("LLM CBR SIMULATOR (Groq API)")
     print('='*70)
     print(f"Modelo: {config.model_name}")
     print(f"Interacciones: {config.num_interactions}")
@@ -110,14 +110,14 @@ def main():
     
     try:
         # Crear y ejecutar simulador
-        simulator = GroqCBRSimulator(config)
+        simulator = LLMCBRSimulator(config)
         result = simulator.run_simulation()
         
         print("\n✅ Simulación completada exitosamente!")
         print(f"\n📊 Resultados guardados en: {config.results_path}")
         
     except KeyboardInterrupt:
-        print("\n\n⚠️ Simulación interrumpida por el usuario")
+        print("\n\n⚠ Simulación interrumpida por el usuario")
         sys.exit(0)
     except Exception as e:
         print(f"\n❌ Error durante la simulación: {e}")
