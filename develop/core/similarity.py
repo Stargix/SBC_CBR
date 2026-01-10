@@ -266,7 +266,8 @@ class SimilarityCalculator:
             
             # 1. Similitud por tipo de evento
             similarities['event'] = self._event_similarity(
-                request.event_type, case.request.event_type
+                request.event_type, case.request.event_type,
+                case.menu.dominant_style
             )
             
             # 2. Similitud por temporada
@@ -308,7 +309,8 @@ class SimilarityCalculator:
             # 8. Similitud por preferencia de vino
             similarities['wine'] = self._wine_similarity(
                 request.wants_wine,
-                case.request.wants_wine
+                case.request.wants_wine,
+                case.menu.beverage
             )
             
             # 9. Bonus por éxito del caso
@@ -333,12 +335,16 @@ class SimilarityCalculator:
             print(f"⚠️  Error calculando similitud: {e}")
             return 0.5  # Similitud neutra por defecto
     
-    def _event_similarity(self, req_event: EventType, case_event: EventType) -> float:
+    def _event_similarity(self, req_event: EventType, case_event: EventType, 
+                          case_menu_style: Optional[CulinaryStyle] = None) -> float:
         """
         Calcula similitud entre tipos de evento.
         
         Si req_event=EventType.ANY, significa que no se especificó tipo
         (este caso se maneja en _adjust_weights_for_request poniendo peso=0).
+        
+        MEJORADO: Cuando los eventos coinciden, verifica que el estilo del menú
+        del caso sea apropiado para ese tipo de evento.
         
         Los eventos similares tienen mayor puntuación.
         """
@@ -347,7 +353,10 @@ class SimilarityCalculator:
             return 0.8  # Neutral - acepta cualquier evento
         
         if req_event == case_event:
-            return 1.0
+            # Mismo evento - verificar si el estilo es apropiado
+            if case_menu_style and not is_style_appropriate_for_event(case_menu_style, req_event):
+                return 0.8  # Mismo evento pero estilo no apropiado (penalización leve)
+            return 1.0  # Mismo evento con estilo apropiado o sin estilo definido
         
         # Matriz de similitud entre eventos
         event_similarity_matrix = {
@@ -451,35 +460,34 @@ class SimilarityCalculator:
         """
         Calcula similitud por estilo culinario.
         
-        Considera tanto el estilo preferido como la adecuación al evento.
+        MEJORADO: Se enfoca en preferencias EXPLÍCITAS de estilo del usuario.
+        La validación de estilos apropiados para eventos ya se hace en _event_similarity.
         """
-        if req_style is None and case_style is None:
-            return 0.8  # Ambos flexibles
+        # Si el usuario NO especificó estilo, es neutral
+        # (la validación de estilo apropiado ya se hizo en event_similarity)
+        if req_style is None:
+            return 0.9  # Neutral - sin preferencia explícita
         
-        if req_style is not None and req_style == case_style:
-            return 1.0  # Coincidencia exacta
+        # Si el usuario SÍ especificó estilo
+        if req_style == case_style:
+            return 1.0  # Match exacto con la preferencia del usuario
         
-        # Si no hay preferencia, evaluar si el estilo del caso es apropiado para el evento
-        if req_style is None and case_style is not None:
-            if is_style_appropriate_for_event(case_style, req_event):
-                return 0.9
-            return 0.5
-        
-        # Si hay preferencia pero no coincide
-        if req_style is not None and case_style is not None:
-            # Verificar si ambos son apropiados para el evento
+        # El usuario pidió un estilo específico pero el caso tiene otro
+        if case_style is not None:
+            # Verificar si ambos estilos son apropiados para el evento
             preferred_styles = get_preferred_styles_for_event(req_event)
             req_in_preferred = req_style in preferred_styles
             case_in_preferred = case_style in preferred_styles
             
             if req_in_preferred and case_in_preferred:
-                return 0.7  # Ambos son apropiados
+                return 0.7  # Ambos apropiados para el evento, aunque no coinciden
             elif case_in_preferred:
-                return 0.5
+                return 0.5  # Al menos el caso es apropiado
             else:
-                return 0.3
+                return 0.3  # El caso no es apropiado para el evento
         
-        return 0.5
+        # El caso no tiene estilo definido pero el usuario sí pidió uno
+        return 0.6
     
     def _cultural_similarity(self, req_culture: Optional[CulturalTradition],
                             case_culture: Optional[CulturalTradition]) -> float:
@@ -778,13 +786,39 @@ class SimilarityCalculator:
         
         return ratio
     
-    def _wine_similarity(self, req_wine: bool, case_wine: bool) -> float:
+    def _wine_similarity(self, req_wine: bool, case_wine: bool, case_beverage) -> float:
         """
         Calcula similitud por preferencia de vino/alcohol.
+        
+        MEJORADO: Si ambos quieren vino, compara también el subtype
+        para preferir casos con tipos de vino compatibles.
+        
+        Args:
+            req_wine: Si la solicitud quiere vino
+            case_wine: Si el caso tiene vino
+            case_beverage: Bebida del caso (para comparar subtype)
+        
+        Returns:
+            Similitud 0.0-1.0
         """
-        if req_wine == case_wine:
-            return 1.0
-        return 0.5  # Diferente preferencia pero no es crítico
+        # Si ninguno quiere vino
+        if not req_wine and not case_wine:
+            return 1.0  # Match perfecto
+        
+        # Si uno quiere y otro no
+        if req_wine != case_wine:
+            return 0.5  # No ideal pero no crítico
+        
+        # Ambos quieren vino - evaluar si la bebida del caso es vino
+        if req_wine and case_wine:
+            # Si el caso tiene bebida alcohólica con subtype, es un buen match
+            if case_beverage and case_beverage.alcoholic:
+                if case_beverage.subtype:
+                    return 1.0  # Tiene vino con tipo definido
+                return 0.8  # Tiene vino pero sin subtype específico
+            return 0.6  # Quiere vino pero el caso no tiene vino adecuado
+        
+        return 1.0
     
     def calculate_detailed_similarity(self, request: Request, 
                                        case: Case) -> Dict[str, float]:
@@ -801,14 +835,14 @@ class SimilarityCalculator:
             Diccionario con similitud por cada dimensión
         """
         details = {
-            'event_type': self._event_similarity(request.event_type, case.request.event_type),
+            'event_type': self._event_similarity(request.event_type, case.request.event_type, case.menu.dominant_style),
             'season': self._season_similarity(request.season, case.request.season),
             'price_range': self._price_similarity(request.price_min, request.price_max, case.menu.total_price),
             'style': self._style_similarity(request.preferred_style, request.event_type, case.menu.dominant_style),
             'cultural': self._cultural_similarity(request.cultural_preference, case.menu.cultural_theme),
             'dietary': self._dietary_similarity(request.required_diets, case.menu),
             'guests': self._guests_similarity(request.num_guests, case.request.num_guests, case.menu),
-            'wine': self._wine_similarity(request.wants_wine, case.request.wants_wine),
+            'wine': self._wine_similarity(request.wants_wine, case.request.wants_wine, case.menu.beverage),
             'success_bonus': case.feedback_score / 5.0 if case.success else 0.0
         }
         

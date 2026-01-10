@@ -41,8 +41,8 @@ try:
     from .cycle.explanation import ExplanationGenerator
     from .cycle.diversity import ensure_diversity, get_diversity_explanation
     from .core.knowledge import (
-        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+        EVENT_STYLE_PREFERENCES,
+        CULTURAL_TRADITIONS
     )
 except ImportError:
     # Cuando se ejecuta como script o desde demo sin ser módulo
@@ -59,8 +59,8 @@ except ImportError:
     from cycle.explanation import ExplanationGenerator
     from cycle.diversity import ensure_diversity, get_diversity_explanation
     from core.knowledge import (
-        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+        EVENT_STYLE_PREFERENCES,
+        CULTURAL_TRADITIONS
     )
 
 
@@ -565,7 +565,7 @@ class ChefDigitalCBR:
         )
         
         # Actualizar pesos mediante aprendizaje
-        adjustments = self.weight_learner.update_from_feedback(feedback, request)
+        adjustments = self.weight_learner.update_from_feedback(feedback, request, menu)
         
         # Actualizar pesos en el retriever
         self.retriever.similarity_calc.weights = self.weight_learner.get_current_weights()
@@ -638,31 +638,6 @@ class ChefDigitalCBR:
             "supported_seasons": [s.value for s in Season],
             "cultural_traditions": list(CULTURAL_TRADITIONS.keys())
         }
-    
-    def explain_style(self, style: CulinaryStyle) -> str:
-        """
-        Obtiene explicación detallada de un estilo culinario.
-        
-        Args:
-            style: Estilo a explicar
-            
-        Returns:
-            Descripción del estilo
-        """
-        description = STYLE_DESCRIPTIONS.get(style, "")
-        signature = CHEF_SIGNATURES.get(style, {})
-        
-        lines = [f"Estilo: {style.value.upper()}"]
-        lines.append("=" * 40)
-        lines.append(description)
-        
-        if signature:
-            lines.append("")
-            lines.append(f"Chef de referencia: {signature.get('chef', 'N/A')}")
-            lines.append(f"Restaurante: {signature.get('restaurant', 'N/A')}")
-            lines.append(f"Características: {', '.join(signature.get('characteristics', []))}")
-        
-        return "\n".join(lines)
 
 
 def create_cbr_system(case_base_path: Optional[str] = None,
