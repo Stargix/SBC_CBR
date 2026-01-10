@@ -1,6 +1,6 @@
 {
   "test_name": "Adaptive Weight Learning",
-  "timestamp": "2026-01-10T02:33:40.596866",
+  "timestamp": "2026-01-10T02:56:30.847751",
   "systems": {
     "static": {
       "name": "Static Weights",
@@ -15,7 +15,7 @@
           "iteration": 2,
           "proposals_count": 3,
           "top_similarity": 0.7150000000000001,
-          "avg_similarity": 0.685
+          "avg_similarity": 0.6856666666666668
         },
         {
           "iteration": 3,
@@ -110,9 +110,9 @@
         },
         {
           "iteration": 5,
-          "proposals_count": 2,
+          "proposals_count": 3,
           "top_similarity": 0.7589950218041774,
-          "avg_similarity": 0.7439894888232413,
+          "avg_similarity": 0.7409638258773769,
           "weights": {
             "event_type": 0.19761813811142143,
             "season": 0.11857088286685284,

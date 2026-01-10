@@ -22,7 +22,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Añadir path del proyecto
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from develop.main import ChefDigitalCBR, CBRConfig
 from develop.core.models import Request, EventType, Season
@@ -474,7 +474,35 @@ def main():
     # Comparar resultados
     compare_results(static_metrics, adaptive_metrics)
     
-    print(f"\n✅ Evaluación completada")
+    # Obtener resúmenes
+    static_summary = static_metrics.get_summary()
+    adaptive_summary = adaptive_metrics.get_summary()
+    
+    # Guardar resultado del test en JSON para reports/HTML
+    test_result = {
+        "summary": {
+            "test_type": "Comparative Evaluation",
+            "static_precision": static_summary.get("precision", 0),
+            "static_satisfaction": static_summary.get("avg_satisfaction", 0),
+            "static_time": static_summary.get("avg_processing_time", 0),
+            "adaptive_precision": adaptive_summary.get("precision", 0),
+            "adaptive_satisfaction": adaptive_summary.get("avg_satisfaction", 0),
+            "adaptive_time": adaptive_summary.get("avg_processing_time", 0),
+            "precision_improvement_pct": ((adaptive_summary.get("precision", 0) - static_summary.get("precision", 0)) / static_summary.get("precision", 1) * 100) if static_summary.get("precision", 0) > 0 else 0,
+            "satisfaction_improvement": adaptive_summary.get("avg_satisfaction", 0) - static_summary.get("avg_satisfaction", 0),
+            "time_overhead_seconds": adaptive_summary.get("avg_processing_time", 0) - static_summary.get("avg_processing_time", 0),
+            "total_test_cases": len(TEST_CASES),
+            "adaptive_better": adaptive_summary.get("avg_satisfaction", 0) > static_summary.get("avg_satisfaction", 0)
+        }
+    }
+    
+    output_file = Path(__file__).parent.parent.parent / "data" / "results" / "test_adaptive_learning.json"
+    output_file.parent.mkdir(exist_ok=True)
+    
+    with open(output_file, 'w') as f:
+        json.dump(test_result, f, indent=2)
+    
+    print(f"✅ Evaluación completada")
     print(f"⏰ Fin: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*60 + "\n")
 

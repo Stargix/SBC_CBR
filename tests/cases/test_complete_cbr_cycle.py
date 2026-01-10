@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import List, Dict
 from datetime import datetime
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from develop import (
     ChefDigitalCBR, CBRConfig,
@@ -160,7 +160,7 @@ def main():
     print("Starting Complete CBR Cycle Test...")
     results = run_test()
     
-    output_file = Path(__file__).parent.parent / "data" / "results" / "test_complete_cbr_cycle.json"
+    output_file = Path(__file__).parent.parent.parent / "data" / "results" / "test_complete_cbr_cycle.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:

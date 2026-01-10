@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-01-10T02:33:42.678764",
+  "timestamp": "2026-01-10T02:56:32.802012",
   "static": {
     "precision": 0.9,
     "avg_satisfaction": 4.4,
-    "avg_processing_time": 0.016288018226623534,
+    "avg_processing_time": 0.015210294723510742,
     "total_cases": 10,
     "successful_cases": 9,
-    "avg_proposals_per_case": 2.6
+    "avg_proposals_per_case": 2.7
   },
   "adaptive": {
     "precision": 0.9,
     "avg_satisfaction": 4.4,
-    "avg_processing_time": 0.01648709774017334,
+    "avg_processing_time": 0.014780020713806153,
     "total_cases": 10,
     "successful_cases": 9,
     "avg_proposals_per_case": 2.5
@@ -19,6 +19,6 @@
   "improvements": {
     "precision": 0.0,
     "satisfaction": 0.0,
-    "time": 0.0001990795135498047
+    "time": -0.00043027400970458915
   }
 }

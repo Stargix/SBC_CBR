@@ -21,7 +21,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from develop import (
     ChefDigitalCBR, CBRConfig,
@@ -176,7 +176,7 @@ def main():
     print("Starting Multi-User Simulation Test...")
     results = run_test(num_users=5, iterations=15)
     
-    output_file = Path(__file__).parent.parent / "data" / "results" / "test_user_simulation.json"
+    output_file = Path(__file__).parent.parent.parent / "data" / "results" / "test_user_simulation.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:
@@ -239,7 +239,7 @@ def generate_feedback_evolution_plot(results: Dict):
     plt.tight_layout()
     
     # Save plot
-    plot_file = Path(__file__).parent.parent / "data" / "plots" / "feedback_evolution.png"
+    plot_file = Path(__file__).parent.parent.parent / "data" / "plots" / "feedback_evolution.png"
     plot_file.parent.mkdir(exist_ok=True)
     plt.savefig(plot_file, dpi=150, bbox_inches='tight')
     plt.close()

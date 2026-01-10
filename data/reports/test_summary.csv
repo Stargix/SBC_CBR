@@ -7,12 +7,12 @@ test_complete_cbr_cycle,avg_retrieval_similarity,0.9289999999999999
 test_complete_cbr_cycle,avg_valid_proposals,3.0
 test_complete_cbr_cycle,retention_rate,1.0
 test_user_simulation,initial_cases,41
-test_user_simulation,final_cases,41
-test_user_simulation,total_cases_learned,0
+test_user_simulation,final_cases,45
+test_user_simulation,total_cases_learned,4
 test_user_simulation,total_requests,75
-test_user_simulation,avg_final_feedback,4.045120012758888
-test_user_simulation,avg_initial_feedback,3.8485825883692986
-test_user_simulation,improvement,0.19653742438958943
+test_user_simulation,avg_final_feedback,3.7275664653897294
+test_user_simulation,avg_initial_feedback,3.827916189079115
+test_user_simulation,improvement,-0.10034972368938577
 test_user_simulation,avg_success_rate,1.0
 test_adaptive_weights,test_cases,5
 test_adaptive_weights,static_avg_similarity,0.8181422077922077

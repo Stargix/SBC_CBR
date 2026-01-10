@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBR Test Results</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .metric-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        .test-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .status-success {
+            color: #059669;
+        }
+        .status-failed {
+            color: #dc2626;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .metric-item {
+            padding: 8px;
+            background: #f9fafb;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CBR System - Test Results</h1>
+        <p>Generated: 2026-01-10T02:56:28.994186</p>
+    </div>
+    
+    <div class="summary">
+        <div class="metric-card">
+            <div class="metric-value">8</div>
+            <div class="metric-label">Total Tests</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value" style="color: #059669">8</div>
+            <div class="metric-label">Successful</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value" style="color: #dc2626">0</div>
+            <div class="metric-label">Failed</div>
+        </div>
+    </div>
+    
+    <h2>Test Details</h2>
+
+    <div class="test-card">
+        <div class="test-title">Complete CBR Cycle <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Initial Cases:</strong> 41</div>
+            <div class="metric-item"><strong>Final Cases:</strong> 44</div>
+            <div class="metric-item"><strong>Cases Learned:</strong> 3</div>
+            <div class="metric-item"><strong>Scenarios Executed:</strong> 3</div>
+            <div class="metric-item"><strong>Avg Retrieval Similarity:</strong> 0.929</div>
+            <div class="metric-item"><strong>Avg Valid Proposals:</strong> 3.000</div>
+            <div class="metric-item"><strong>Retention Rate:</strong> 1.000</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Multi-User Simulation <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Initial Cases:</strong> 41</div>
+            <div class="metric-item"><strong>Final Cases:</strong> 41</div>
+            <div class="metric-item"><strong>Total Cases Learned:</strong> 0</div>
+            <div class="metric-item"><strong>Total Requests:</strong> 75</div>
+            <div class="metric-item"><strong>Avg Final Feedback:</strong> 4.022</div>
+            <div class="metric-item"><strong>Avg Initial Feedback:</strong> 3.989</div>
+            <div class="metric-item"><strong>Improvement:</strong> 0.033</div>
+            <div class="metric-item"><strong>Avg Success Rate:</strong> 1.000</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Adaptive Weight Learning <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Test Cases:</strong> 5</div>
+            <div class="metric-item"><strong>Static Avg Similarity:</strong> 0.818</div>
+            <div class="metric-item"><strong>Adaptive Avg Similarity:</strong> 0.818</div>
+            <div class="metric-item"><strong>Improvement:</strong> -0.000</div>
+            <div class="metric-item"><strong>Improvement Pct:</strong> -0.017</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Semantic Cultural Adaptation <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Scenarios Tested:</strong> 4</div>
+            <div class="metric-item"><strong>Avg Retrieval Similarity:</strong> 0.904</div>
+            <div class="metric-item"><strong>Total Cultural Adaptations:</strong> 5</div>
+            <div class="metric-item"><strong>Total Ingredient Substitutions:</strong> 0</div>
+            <div class="metric-item"><strong>Total Dish Replacements:</strong> 1</div>
+            <div class="metric-item"><strong>Adaptation Rate:</strong> 1.250</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Semantic RETRIEVE <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Cultures Tested:</strong> 5</div>
+            <div class="metric-item"><strong>Total Cases Retrieved:</strong> 25</div>
+            <div class="metric-item"><strong>Exact Cultural Matches:</strong> 15</div>
+            <div class="metric-item"><strong>Exact Match Rate:</strong> 0.600</div>
+            <div class="metric-item"><strong>Top Result Match Rate:</strong> 1.000</div>
+            <div class="metric-item"><strong>Avg Retrieval Similarity:</strong> 0.972</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Negative Cases Learning <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Initial Total Cases:</strong> 41</div>
+            <div class="metric-item"><strong>Final Total Cases:</strong> 42</div>
+            <div class="metric-item"><strong>Initial Negative Cases:</strong> 0</div>
+            <div class="metric-item"><strong>Final Negative Cases:</strong> 1</div>
+            <div class="metric-item"><strong>Cases Added:</strong> 1</div>
+            <div class="metric-item"><strong>Negative Cases Added:</strong> 1</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Semantic RETAIN <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Initial Cases:</strong> 41</div>
+            <div class="metric-item"><strong>Final Cases:</strong> 43</div>
+            <div class="metric-item"><strong>Test Menus Submitted:</strong> 3</div>
+            <div class="metric-item"><strong>Menus Retained:</strong> 3</div>
+            <div class="metric-item"><strong>Retention Rate:</strong> 1.000</div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <div class="test-title">Adaptive Learning Evaluation <span class="status-success">(SUCCESS)</span></div>
+        <div class="metrics">
+            <div class="metric-item"><strong>Static Precision:</strong> 0.900</div>
+            <div class="metric-item"><strong>Static Satisfaction:</strong> 4.400</div>
+            <div class="metric-item"><strong>Static Time:</strong> 0.015</div>
+            <div class="metric-item"><strong>Adaptive Precision:</strong> 0.900</div>
+            <div class="metric-item"><strong>Adaptive Satisfaction:</strong> 4.400</div>
+            <div class="metric-item"><strong>Adaptive Time:</strong> 0.015</div>
+            <div class="metric-item"><strong>Precision Improvement Pct:</strong> 0.000</div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; color: #666;">
+        <p>For detailed analysis, see FORMAL_REPORT.md</p>
+    </div>
+</body>
+</html>

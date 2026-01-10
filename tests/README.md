@@ -1,53 +1,103 @@
 # Formal Testing Suite
 
-This directory contains formal experimental tests for the CBR system, designed for academic presentation and evaluation.
+Suite de tests formales para el sistema CBR Chef Digital.
 
-## Test Suite Overview
+## Estructura
 
-### Core Tests
-
-1. **test_complete_cbr_cycle.py** - Complete CBR cycle evaluation
-2. **test_user_simulation.py** - Multi-user simulation with learning
-3. **test_adaptive_weights.py** - Adaptive weight optimization
-4. **test_semantic_cultural_adaptation.py** - Semantic cultural adaptation
-5. **test_semantic_retrieve.py** - Semantic similarity in RETRIEVE
-6. **test_negative_cases.py** - Negative case learning
-7. **test_semantic_retain.py** - Semantic similarity in RETAIN
-8. **test_adaptive_learning.py** - Comparative evaluation (static vs adaptive)
-
-## Running Tests
-
-### Run All Tests
-
-```bash
-python run_all_tests.py
+```
+tests/
+├── runner.py          # Script unificado: ejecuta tests + genera reportes
+├── cases/             # Directorio con los 8 tests formales
+│   ├── test_complete_cbr_cycle.py
+│   ├── test_user_simulation.py
+│   ├── test_adaptive_weights.py
+│   ├── test_adaptive_learning.py
+│   ├── test_semantic_cultural_adaptation.py
+│   ├── test_semantic_retrieve.py
+│   ├── test_semantic_retain.py
+│   └── test_negative_cases.py
+└── README.md          # Este archivo
 ```
 
-### Run Individual Test
+## Uso
+
+### Ejecutar toda la suite de tests + generar reportes
 
 ```bash
-python tests/test_complete_cbr_cycle.py
+python tests/runner.py
 ```
 
-### Generate Formal Report
+Esto ejecutará:
+1. **Todos los tests** en `tests/cases/`
+2. **Generará reportes**:
+   - `data/results/master_test_report.json` - reporte maestro JSON
+   - `data/reports/FORMAL_REPORT.md` - reporte académico en markdown
+   - `data/reports/test_summary.csv` - resumen CSV para análisis
+
+### Solo ejecutar tests (sin generar reportes)
 
 ```bash
-python run_all_tests.py
-python generate_formal_report.py
+python tests/runner.py --no-report
 ```
 
-## Output Files
+## Tests Incluidos
 
-All test results are saved in organized subdirectories within `data/`:
+## Tests Incluidos
 
-### Test Results (`data/results/`)
-- `test_*.json` - Individual test results (JSON format)
-- `master_test_report.json` - Consolidated results from all tests
-- `groq_*.json` - LLM simulation results
-- `simulation_*.json` - Simulation data
-- `evaluation_comparison.json` - Static vs adaptive comparison
+### 1. Complete CBR Cycle (`test_complete_cbr_cycle.py`)
+- **Objetivo**: Validar el ciclo completo RETRIEVE → ADAPT → REVISE → RETAIN
+- **Métricas**: similarity, retention_rate, cases_learned
 
-### Reports (`data/reports/`)
+### 2. Multi-User Simulation (`test_user_simulation.py`)
+- **Objetivo**: Simular múltiples usuarios con diferentes preferencias
+- **Métricas**: feedback evolution, learning improvement
+- **Plot**: `data/plots/feedback_evolution.png`
+
+### 3. Adaptive Weight Learning (`test_adaptive_weights.py`)
+- **Objetivo**: Comparar sistema estático vs adaptativo
+- **Métricas**: similarity improvement, weight convergence
+- **Plot**: `data/plots/weight_evolution.png`
+
+### 4. Adaptive Learning Evaluation (`test_adaptive_learning.py`)
+- **Objetivo**: Evaluación completa del aprendizaje adaptativo
+- **Métricas**: static vs adaptive comparison
+- **Plots**: generados por cbr.plot_learning_evolution()
+
+### 5. Semantic Cultural Adaptation (`test_semantic_cultural_adaptation.py`)
+- **Objetivo**: Validar adaptaciones culturales semánticas
+- **Métricas**: cultural_match_rate, adaptation_accuracy
+
+### 6. Semantic RETRIEVE (`test_semantic_retrieve.py`)
+- **Objetivo**: Validar retrieval semántico por cultura
+- **Métricas**: exact_match_rate, top_result_match_rate
+
+### 7. Semantic RETAIN (`test_semantic_retain.py`)
+- **Objetivo**: Validar almacenamiento de nuevos casos
+- **Métricas**: retention_rate, cases_stored
+
+### 8. Negative Cases Learning (`test_negative_cases.py`)
+- **Objetivo**: Validar aprendizaje de casos negativos
+- **Métricas**: negative_cases_stored, avoidance_rate
+
+## Outputs
+
+Todos los tests generan outputs en `data/`:
+
+- **`data/results/`**: JSONs con resultados de cada test
+- **`data/plots/`**: Gráficos de visualización (matplotlib)
+- **`data/reports/`**: Reportes formateados (MD, CSV)
+
+## Requisitos
+
+- Python 3.10+
+- Dependencias: ver `requirements.txt` en el directorio raíz
+- matplotlib (para generación de plots)
+
+## Notas
+
+- Cada test puede ejecutarse individualmente: `python tests/cases/test_*.py`
+- Los tests usan el sistema CBR real (no mocks)
+- Tiempo de ejecución total: ~2-5 minutos
 - `FORMAL_REPORT.md` - Formatted report for presentation
 - `test_summary.csv` - Metrics summary (spreadsheet compatible)
 - Text explanations and documentation

@@ -20,7 +20,7 @@ from dataclasses import asdict
 import matplotlib.pyplot as plt
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from develop import (
     ChefDigitalCBR, CBRConfig,
@@ -184,7 +184,7 @@ def main():
     print("Starting Adaptive Weight Learning Test...")
     results = run_test()
     
-    output_file = Path(__file__).parent.parent / "data" / "results" / "test_adaptive_weights.json"
+    output_file = Path(__file__).parent.parent.parent / "data" / "results" / "test_adaptive_weights.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:
@@ -242,7 +242,7 @@ def generate_weight_evolution_plot(results: Dict):
     plt.tight_layout()
     
     # Save plot
-    plot_file = Path(__file__).parent.parent / "data" / "plots" / "weight_evolution.png"
+    plot_file = Path(__file__).parent.parent.parent / "data" / "plots" / "weight_evolution.png"
     plot_file.parent.mkdir(exist_ok=True)
     plt.savefig(plot_file, dpi=150, bbox_inches='tight')
     plt.close()

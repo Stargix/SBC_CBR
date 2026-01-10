@@ -1,6 +1,6 @@
 # CBR System - Formal Experimental Results
 
-**Report Generated:** 2026-01-10 02:34:35
+**Report Generated:** 2026-01-10 02:54:36
 
 ---
 
@@ -37,12 +37,12 @@
 **Key Metrics:**
 
 - Initial Cases: 41
-- Final Cases: 41
-- Total Cases Learned: 0
+- Final Cases: 45
+- Total Cases Learned: 4
 - Total Requests: 75
-- Avg Final Feedback: 4.045
-- Avg Initial Feedback: 3.849
-- Improvement: 19.7%
+- Avg Final Feedback: 3.728
+- Avg Initial Feedback: 3.828
+- Improvement: -10.0%
 - Avg Success Rate: 100.0%
 
 
