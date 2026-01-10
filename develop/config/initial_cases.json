@@ -17,28 +17,7 @@
             "style": "classic",
             "culture": "american",
             "success": true,
-            "feedback": 4.2
-        },
-        {
-            "event": "familiar",
-            "season": "winter",
-            "price_min": 31.0,
-            "price_max": 65.0,
-            "num_guests": 30,
-            "required_diets": [
-                "low-calorie"
-            ],
-            "restricted_ingredients": [
-                "gluten"
-            ],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "vietnamese",
-            "success": false,
-            "feedback": 1.0
+            "feedback": 4.4
         },
         {
             "event": "congress",
@@ -54,27 +33,8 @@
             "beverage": "opus-one",
             "style": "classic",
             "culture": "mexican",
-            "success": false,
-            "feedback": 2.8
-        },
-        {
-            "event": "wedding",
-            "season": "autumn",
-            "price_min": 116.0,
-            "price_max": 147.0,
-            "num_guests": 200,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "chinese",
-            "success": false,
-            "feedback": 1.0
+            "success": true,
+            "feedback": 3.9
         },
         {
             "event": "congress",
@@ -89,9 +49,9 @@
             "dessert": "banana-cream-rum-parfaits",
             "beverage": "opus-one",
             "style": "classic",
-            "culture": "french",
+            "culture": "indian",
             "success": true,
-            "feedback": 3.8
+            "feedback": 4.1
         },
         {
             "event": "familiar",
@@ -106,9 +66,9 @@
             "dessert": "strawberry-pomegranete-sorbet",
             "beverage": "josh-cellars-cabernet-sauvignon",
             "style": "classic",
-            "culture": "french",
+            "culture": "chinese",
             "success": true,
-            "feedback": 4.5
+            "feedback": 4.2
         },
         {
             "event": "communion",
@@ -127,7 +87,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.3
+            "feedback": 4.5
         },
         {
             "event": "christening",
@@ -144,7 +104,7 @@
             "style": "classic",
             "culture": "french",
             "success": true,
-            "feedback": 4.6
+            "feedback": 4.7
         },
         {
             "event": "christening",
@@ -159,9 +119,9 @@
             "dessert": "pina-colada-bars",
             "beverage": "stags-leap-cabernet",
             "style": "classic",
-            "culture": "italian",
+            "culture": "american",
             "success": true,
-            "feedback": 3.7
+            "feedback": 3.8
         },
         {
             "event": "wedding",
@@ -177,8 +137,8 @@
             "beverage": "josh-cellars-cabernet-sauvignon",
             "style": "classic",
             "culture": "french",
-            "success": false,
-            "feedback": 2.9
+            "success": true,
+            "feedback": 4.0
         },
         {
             "event": "corporate",
@@ -193,9 +153,9 @@
             "dessert": "no-cook-fig-buckwheat-honey-and-sea-salt-ice-cream",
             "beverage": "stags-leap-cabernet",
             "style": "classic",
-            "culture": "italian",
+            "culture": "american",
             "success": true,
-            "feedback": 4.0
+            "feedback": 4.2
         },
         {
             "event": "communion",
@@ -212,7 +172,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.1
+            "feedback": 4.3
         },
         {
             "event": "communion",
@@ -229,7 +189,7 @@
             "style": "classic",
             "culture": "indian",
             "success": false,
-            "feedback": 3.0
+            "feedback": 2.6
         },
         {
             "event": "familiar",
@@ -244,28 +204,9 @@
             "dessert": "blackberry-oatmeal-breakfast-cookies",
             "beverage": "caymus-cabernet-sauvignon",
             "style": "classic",
-            "culture": "french",
+            "culture": "lebanese",
             "success": true,
-            "feedback": 4.0
-        },
-        {
-            "event": "familiar",
-            "season": "summer",
-            "price_min": 50.0,
-            "price_max": 60.0,
-            "num_guests": 30,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "french",
-            "success": false,
-            "feedback": 1.0
+            "feedback": 3.7
         },
         {
             "event": "christening",
@@ -282,24 +223,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.5
-        },
-        {
-            "event": "corporate",
-            "season": "winter",
-            "price_min": 97.0,
-            "price_max": 114.0,
-            "num_guests": 40,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": "pina-colada-bars",
-            "beverage": "opus-one",
-            "style": "classic",
-            "culture": "french",
-            "success": false,
-            "feedback": 2.5
+            "feedback": 4.6
         },
         {
             "event": "familiar",
@@ -315,8 +239,8 @@
             "beverage": "josh-cellars-cabernet-sauvignon",
             "style": "classic",
             "culture": "indian",
-            "success": true,
-            "feedback": 4.2
+            "success": false,
+            "feedback": 3.2
         },
         {
             "event": "communion",
@@ -333,26 +257,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.3
-        },
-        {
-            "event": "corporate",
-            "season": "autumn",
-            "price_min": 69.0,
-            "price_max": 115.0,
-            "num_guests": 80,
-            "required_diets": [
-                "vegetarian"
-            ],
-            "restricted_ingredients": [],
-            "starter": "caprese-flatbread-with-balsamic-reduction",
-            "main": null,
-            "dessert": "stuffed-french-toast-sticks",
-            "beverage": "château-desclans-garrus-rosé",
-            "style": "classic",
-            "culture": "italian",
-            "success": false,
-            "feedback": 2.0
+            "feedback": 4.4
         },
         {
             "event": "familiar",
@@ -367,9 +272,9 @@
             "dessert": "poppy-seed-bread-5",
             "beverage": "mateus-rosé",
             "style": "classic",
-            "culture": "indian",
+            "culture": "japanese",
             "success": true,
-            "feedback": 4.0
+            "feedback": 4.1
         },
         {
             "event": "christening",
@@ -385,8 +290,8 @@
             "beverage": "josh-cellars-cabernet-sauvignon",
             "style": "classic",
             "culture": "american",
-            "success": false,
-            "feedback": 2.8
+            "success": true,
+            "feedback": 3.5
         },
         {
             "event": "corporate",
@@ -401,9 +306,9 @@
             "dessert": "breakfast-worthy-banana-bread",
             "beverage": "silver-oak-cabernet",
             "style": "classic",
-            "culture": "indian",
+            "culture": "mexican",
             "success": false,
-            "feedback": 3.1
+            "feedback": 2.8
         },
         {
             "event": "wedding",
@@ -411,7 +316,9 @@
             "price_min": 79.0,
             "price_max": 134.0,
             "num_guests": 100,
-            "required_diets": [],
+            "required_diets": [
+                "vegetarian"
+            ],
             "restricted_ingredients": [],
             "starter": "caprese-flatbread-with-balsamic-reduction",
             "main": "pumpkin-lasagna",
@@ -420,7 +327,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.4
+            "feedback": 4.6
         },
         {
             "event": "congress",
@@ -437,26 +344,7 @@
             "style": "classic",
             "culture": "american",
             "success": true,
-            "feedback": 3.9
-        },
-        {
-            "event": "christening",
-            "season": "autumn",
-            "price_min": 50.0,
-            "price_max": 75.0,
-            "num_guests": 30,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "spanish",
-            "success": false,
-            "feedback": 1.0
+            "feedback": 4.0
         },
         {
             "event": "familiar",
@@ -473,7 +361,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.4
+            "feedback": 4.5
         },
         {
             "event": "communion",
@@ -492,7 +380,7 @@
             "style": "classic",
             "culture": "indian",
             "success": true,
-            "feedback": 3.9
+            "feedback": 4.0
         },
         {
             "event": "communion",
@@ -509,7 +397,7 @@
             "style": "classic",
             "culture": "mexican",
             "success": true,
-            "feedback": 4.2
+            "feedback": 4.3
         },
         {
             "event": "wedding",
@@ -525,8 +413,8 @@
             "beverage": "kendall-jackson-cabernet-sauvignon",
             "style": "classic",
             "culture": "french",
-            "success": false,
-            "feedback": 3.2
+            "success": true,
+            "feedback": 4.1
         },
         {
             "event": "communion",
@@ -543,28 +431,9 @@
             "dessert": "accidentally-vegan-banana-nut-muffins",
             "beverage": "bogle-cabernet-sauvignon",
             "style": "classic",
-            "culture": "american",
+            "culture": "chinese",
             "success": true,
-            "feedback": 4.1
-        },
-        {
-            "event": "wedding",
-            "season": "summer",
-            "price_min": 127.0,
-            "price_max": 143.0,
-            "num_guests": 150,
-            "required_diets": [
-                "lactose-free"
-            ],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "lebanese",
-            "success": false,
-            "feedback": 1.0
+            "feedback": 4.0
         },
         {
             "event": "corporate",
@@ -581,41 +450,7 @@
             "style": "classic",
             "culture": "american",
             "success": true,
-            "feedback": 3.7
-        },
-        {
-            "event": "familiar",
-            "season": "spring",
-            "price_min": 37.0,
-            "price_max": 49.0,
-            "num_guests": 10,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": "carrot-loaf-with-cream-cheese-frosting",
-            "main": null,
-            "dessert": "tropical-pineapple-muffins",
-            "beverage": "linden-blossom-tea",
-            "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.5
-        },
-        {
-            "event": "familiar",
-            "season": "winter",
-            "price_min": 47.0,
-            "price_max": 58.0,
-            "num_guests": 30,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": "bourbon-fig-swirled-brown-butter-banana-bread",
-            "main": "thai-brussels-sprouts",
-            "dessert": null,
-            "beverage": "decoy-cabernet-sauvignon",
-            "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.9
+            "feedback": 3.9
         },
         {
             "event": "congress",
@@ -632,7 +467,7 @@
             "style": "classic",
             "culture": "american",
             "success": true,
-            "feedback": 3.8
+            "feedback": 4.0
         },
         {
             "event": "congress",
@@ -649,7 +484,7 @@
             "style": "classic",
             "culture": "french",
             "success": false,
-            "feedback": 3.0
+            "feedback": 2.9
         },
         {
             "event": "wedding",
@@ -664,9 +499,9 @@
             "dessert": "chocolate-cake",
             "beverage": "ginger-lemon-blend",
             "style": "classic",
-            "culture": "american",
-            "success": false,
-            "feedback": 3.4
+            "culture": "indian",
+            "success": true,
+            "feedback": 3.8
         },
         {
             "event": "christening",
@@ -681,9 +516,9 @@
             "dessert": "summer-berry-mint-chocolate-galette",
             "beverage": "caymus-cabernet-sauvignon",
             "style": "classic",
-            "culture": "italian",
-            "success": false,
-            "feedback": 3.1
+            "culture": "spanish",
+            "success": true,
+            "feedback": 3.7
         },
         {
             "event": "wedding",
@@ -698,26 +533,9 @@
             "dessert": "gingerbread-scones",
             "beverage": "josh-cellars-cabernet-sauvignon",
             "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.7
-        },
-        {
-            "event": "wedding",
-            "season": "spring",
-            "price_min": 89.0,
-            "price_max": 137.0,
-            "num_guests": 150,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": "roasted-masala-chickpeas",
-            "dessert": "english-walnut-toffee",
-            "beverage": "chamomile-infusion",
-            "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 2.3
+            "culture": "thai",
+            "success": true,
+            "feedback": 3.6
         },
         {
             "event": "communion",
@@ -734,9 +552,9 @@
             "dessert": "mimis-german-apple-cake",
             "beverage": "peppermint-herbal",
             "style": "classic",
-            "culture": "french",
+            "culture": "chinese",
             "success": false,
-            "feedback": 2.0
+            "feedback": 2.3
         },
         {
             "event": "communion",
@@ -751,30 +569,9 @@
             "dessert": "peanut-butter-crumb-cakes-4",
             "beverage": "château-desclans-garrus-rosé",
             "style": "classic",
-            "culture": "french",
+            "culture": "chinese",
             "success": true,
-            "feedback": 3.8
-        },
-        {
-            "event": "communion",
-            "season": "summer",
-            "price_min": 57.0,
-            "price_max": 78.0,
-            "num_guests": 60,
-            "required_diets": [
-                "low-fat"
-            ],
-            "restricted_ingredients": [
-                "peanuts"
-            ],
-            "starter": null,
-            "main": null,
-            "dessert": null,
-            "beverage": null,
-            "style": null,
-            "culture": "thai",
-            "success": false,
-            "feedback": 1.0
+            "feedback": 4.0
         },
         {
             "event": "familiar",
@@ -782,16 +579,19 @@
             "price_min": 38.0,
             "price_max": 53.0,
             "num_guests": 40,
-            "required_diets": [],
+            "required_diets": [
+                "peanut-free",
+                "fish-free"
+            ],
             "restricted_ingredients": [],
             "starter": "cornbread-cups",
             "main": "spicy-gochujang-wings",
             "dessert": "a-scone-for-one",
             "beverage": "josh-cellars-cabernet-sauvignon",
             "style": "classic",
-            "culture": "american",
+            "culture": "korean",
             "success": true,
-            "feedback": 3.9
+            "feedback": 4.0
         },
         {
             "event": "familiar",
@@ -800,7 +600,7 @@
             "price_max": 70.0,
             "num_guests": 20,
             "required_diets": [
-                "low-fat"
+                "pork-free"
             ],
             "restricted_ingredients": [],
             "starter": "sweet-and-sour-shrimp-soup-recipe-steemit",
@@ -808,9 +608,9 @@
             "dessert": "multigrain-pumpkin-muffins",
             "beverage": "robert-mondavi-chardonnay",
             "style": "classic",
-            "culture": "indian",
+            "culture": "japanese",
             "success": true,
-            "feedback": 4.1
+            "feedback": 4.2
         },
         {
             "event": "congress",
@@ -825,26 +625,9 @@
             "dessert": "peanut-butter-honey-cereal-bars",
             "beverage": "rooibos-plain",
             "style": "classic",
-            "culture": "french",
+            "culture": "italian",
             "success": true,
-            "feedback": 4.3
-        },
-        {
-            "event": "familiar",
-            "season": "spring",
-            "price_min": 35.0,
-            "price_max": 54.0,
-            "num_guests": 30,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": "balsamic-chicken-salad",
-            "main": null,
-            "dessert": "chocolate-orange-bundt-cake",
-            "beverage": "josh-cellars-cabernet-sauvignon",
-            "style": "classic",
-            "culture": "american",
-            "success": false,
-            "feedback": 2.8
+            "feedback": 4.4
         },
         {
             "event": "congress",
@@ -863,7 +646,7 @@
             "style": "classic",
             "culture": "italian",
             "success": true,
-            "feedback": 4.5
+            "feedback": 4.6
         },
         {
             "event": "christening",
@@ -873,7 +656,7 @@
             "num_guests": 50,
             "required_diets": [],
             "restricted_ingredients": [
-                "dairy"
+                "dairy-free"
             ],
             "starter": "skillet-cornbread",
             "main": "chicken-schnitzel",
@@ -882,7 +665,7 @@
             "style": "classic",
             "culture": "american",
             "success": true,
-            "feedback": 4.2
+            "feedback": 4.3
         },
         {
             "event": "familiar",
@@ -890,7 +673,9 @@
             "price_min": 43.0,
             "price_max": 69.0,
             "num_guests": 20,
-            "required_diets": [],
+            "required_diets": [
+                "gluten-free"
+            ],
             "restricted_ingredients": [],
             "starter": "southern-baked-parmesan-chicken-courgette-tomato-and-bulgur-wheat-summer-salad-bowl",
             "main": "grilled-polenta-with-spicy-steak",
@@ -899,7 +684,7 @@
             "style": "classic",
             "culture": "mexican",
             "success": true,
-            "feedback": 4.1
+            "feedback": 4.2
         },
         {
             "event": "christening",
@@ -907,7 +692,9 @@
             "price_min": 79.0,
             "price_max": 90.0,
             "num_guests": 30,
-            "required_diets": [],
+            "required_diets": [
+                "pescatarian"
+            ],
             "restricted_ingredients": [],
             "starter": "recipe-summer-vegetable-grain-salad",
             "main": "protein-packed-peppers",
@@ -916,24 +703,7 @@
             "style": "classic",
             "culture": "indian",
             "success": true,
-            "feedback": 4.0
-        },
-        {
-            "event": "familiar",
-            "season": "spring",
-            "price_min": 26.0,
-            "price_max": 65.0,
-            "num_guests": 15,
-            "required_diets": [],
-            "restricted_ingredients": [],
-            "starter": null,
-            "main": "chicken-gyros-4",
-            "dessert": "velvet-apricot-oatmeal-smoothie",
-            "beverage": "stags-leap-cabernet",
-            "style": "classic",
-            "culture": "french",
-            "success": false,
-            "feedback": 2.9
+            "feedback": 4.1
         },
         {
             "event": "congress",
@@ -948,9 +718,9 @@
             "dessert": "chocolate-chunk-pancakes-with-fresh-raspberry-maple-syrup",
             "beverage": "caymus-cabernet-sauvignon",
             "style": "classic",
-            "culture": "indian",
-            "success": false,
-            "feedback": 3.3
+            "culture": "mexican",
+            "success": true,
+            "feedback": 3.9
         }
     ]
 }

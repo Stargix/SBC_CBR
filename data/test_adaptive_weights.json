@@ -1,0 +1,217 @@
+{
+  "test_name": "Adaptive Weight Learning",
+  "timestamp": "2026-01-08T00:49:56.124341",
+  "systems": {
+    "static": {
+      "name": "Static Weights",
+      "results": [
+        {
+          "iteration": 1,
+          "proposals_count": 3,
+          "top_similarity": 0.7968181818181818,
+          "avg_similarity": 0.7456060606060606
+        },
+        {
+          "iteration": 2,
+          "proposals_count": 3,
+          "top_similarity": 0.7150000000000001,
+          "avg_similarity": 0.685
+        },
+        {
+          "iteration": 3,
+          "proposals_count": 3,
+          "top_similarity": 0.9395,
+          "avg_similarity": 0.8982777777777778
+        },
+        {
+          "iteration": 4,
+          "proposals_count": 3,
+          "top_similarity": 0.8799999999999999,
+          "avg_similarity": 0.8346666666666667
+        },
+        {
+          "iteration": 5,
+          "proposals_count": 3,
+          "top_similarity": 0.7593928571428572,
+          "avg_similarity": 0.7434642857142858
+        }
+      ]
+    },
+    "adaptive": {
+      "name": "Adaptive Weights",
+      "results": [
+        {
+          "iteration": 1,
+          "proposals_count": 3,
+          "top_similarity": 0.7968181818181818,
+          "avg_similarity": 0.7456060606060606,
+          "weights": {
+            "event_type": 0.2,
+            "season": 0.12,
+            "price_range": 0.18,
+            "style": 0.12,
+            "cultural": 0.08,
+            "dietary": 0.1,
+            "guests": 0.05,
+            "wine_preference": 0.05,
+            "success_bonus": 0.1
+          }
+        },
+        {
+          "iteration": 2,
+          "proposals_count": 3,
+          "top_similarity": 0.7042957042957043,
+          "avg_similarity": 0.6536796536796535,
+          "weights": {
+            "event_type": 0.19980019980019978,
+            "season": 0.11988011988011986,
+            "price_range": 0.1808191808191808,
+            "style": 0.11988011988011986,
+            "cultural": 0.0799200799200799,
+            "dietary": 0.09990009990009989,
+            "guests": 0.049950049950049945,
+            "wine_preference": 0.049950049950049945,
+            "success_bonus": 0.09990009990009989
+          }
+        },
+        {
+          "iteration": 3,
+          "proposals_count": 3,
+          "top_similarity": 0.939620818741698,
+          "avg_similarity": 0.8984809174619365,
+          "weights": {
+            "event_type": 0.19960059920099885,
+            "season": 0.1197603595205993,
+            "price_range": 0.18163754327590495,
+            "style": 0.1197603595205993,
+            "cultural": 0.07984023968039954,
+            "dietary": 0.09980029960049942,
+            "guests": 0.04990014980024971,
+            "wine_preference": 0.04990014980024971,
+            "success_bonus": 0.09980029960049942
+          }
+        },
+        {
+          "iteration": 4,
+          "proposals_count": 3,
+          "top_similarity": 0.8803592811982025,
+          "avg_similarity": 0.8351616763175235,
+          "weights": {
+            "event_type": 0.19940119800299583,
+            "season": 0.11964071880179748,
+            "price_range": 0.18245508818771722,
+            "style": 0.11964071880179748,
+            "cultural": 0.07976047920119833,
+            "dietary": 0.09970059900149791,
+            "guests": 0.04985029950074896,
+            "wine_preference": 0.04985029950074896,
+            "success_bonus": 0.09970059900149791
+          }
+        },
+        {
+          "iteration": 5,
+          "proposals_count": 3,
+          "top_similarity": 0.7596087334366641,
+          "avg_similarity": 0.7417577385946679,
+          "weights": {
+            "event_type": 0.2000011956117723,
+            "season": 0.11940191497185378,
+            "price_range": 0.18308891036698324,
+            "style": 0.11940191497185378,
+            "cultural": 0.07960127664790252,
+            "dietary": 0.09950159580987816,
+            "guests": 0.04975079790493908,
+            "wine_preference": 0.04975079790493908,
+            "success_bonus": 0.09950159580987816
+          }
+        }
+      ]
+    }
+  },
+  "summary": {
+    "test_cases": 5,
+    "static_avg_similarity": 0.8181422077922077,
+    "adaptive_avg_similarity": 0.8161405438980902,
+    "improvement": -0.002001663894117489,
+    "improvement_pct": -0.24465965391506522,
+    "weight_changes": {
+      "event_type": {
+        "initial": 0.2,
+        "final": 0.2000011956117723,
+        "change": 1.1956117722811133e-06,
+        "change_pct": 0.0005978058861405566
+      },
+      "season": {
+        "initial": 0.12,
+        "final": 0.11940191497185378,
+        "change": -0.0005980850281462197,
+        "change_pct": -0.4984041901218497
+      },
+      "price_range": {
+        "initial": 0.18,
+        "final": 0.18308891036698324,
+        "change": 0.0030889103669832496,
+        "change_pct": 1.7160613149906943
+      },
+      "style": {
+        "initial": 0.12,
+        "final": 0.11940191497185378,
+        "change": -0.0005980850281462197,
+        "change_pct": -0.4984041901218497
+      },
+      "cultural": {
+        "initial": 0.08,
+        "final": 0.07960127664790252,
+        "change": -0.0003987233520974798,
+        "change_pct": -0.4984041901218497
+      },
+      "dietary": {
+        "initial": 0.1,
+        "final": 0.09950159580987816,
+        "change": -0.0004984041901218428,
+        "change_pct": -0.4984041901218428
+      },
+      "guests": {
+        "initial": 0.05,
+        "final": 0.04975079790493908,
+        "change": -0.0002492020950609214,
+        "change_pct": -0.4984041901218428
+      },
+      "wine_preference": {
+        "initial": 0.05,
+        "final": 0.04975079790493908,
+        "change": -0.0002492020950609214,
+        "change_pct": -0.4984041901218428
+      },
+      "success_bonus": {
+        "initial": 0.1,
+        "final": 0.09950159580987816,
+        "change": -0.0004984041901218428,
+        "change_pct": -0.4984041901218428
+      }
+    },
+    "most_changed_weights": [
+      {
+        "name": "price_range",
+        "initial": 0.18,
+        "final": 0.18308891036698324,
+        "change": 0.0030889103669832496,
+        "change_pct": 1.7160613149906943
+      },
+      {
+        "name": "season",
+        "initial": 0.12,
+        "final": 0.11940191497185378,
+        "change": -0.0005980850281462197,
+        "change_pct": -0.4984041901218497
+      },
+      {
+        "name": "style",
+        "initial": 0.12,
+        "final": 0.11940191497185378,
+        "change": -0.0005980850281462197,
+        "change_pct": -0.4984041901218497
+      }
+    ]
+  }
+}

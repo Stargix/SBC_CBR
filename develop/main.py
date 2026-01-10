@@ -41,8 +41,8 @@ try:
     from .cycle.explanation import ExplanationGenerator
     from .cycle.diversity import ensure_diversity, get_diversity_explanation
     from .core.knowledge import (
-        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+        EVENT_STYLE_PREFERENCES,
+        CULTURAL_TRADITIONS
     )
 except ImportError:
     # Cuando se ejecuta como script o desde demo sin ser módulo
@@ -59,8 +59,8 @@ except ImportError:
     from cycle.explanation import ExplanationGenerator
     from cycle.diversity import ensure_diversity, get_diversity_explanation
     from core.knowledge import (
-        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+        EVENT_STYLE_PREFERENCES,
+        CULTURAL_TRADITIONS
     )
 
 
@@ -154,26 +154,42 @@ class ChefDigitalCBR:
         }
         
         # FASE 1: RETRIEVE - Recuperar casos similares
-        retrieved_cases = self._retrieve_phase(request)
-        stats["cases_retrieved"] = len(retrieved_cases)
+        retrieval_results = self._retrieve_phase_detailed(request)
+        stats["cases_retrieved"] = len(retrieval_results)
         
-        if not retrieved_cases:
+        if not retrieval_results:
             # Sin casos similares, intentar generación desde conocimiento
-            retrieved_cases = self._generate_from_knowledge(request)
+            retrieval_results = self._generate_from_knowledge_detailed(request)
         
         # FASE 2-3: REUSE/ADAPT + REVISE para cada caso
-        for case, similarity in retrieved_cases:
+        for result in retrieval_results:
             if len(proposed_menus) >= self.config.max_proposals * 2:  # Recuperar más para diversificar
                 break
             
+            case = result.case
+            similarity = result.similarity
+            
             # REUSE/ADAPT
-            adapted_menu, adaptations = self._adapt_phase(case, request)
+            adapt_result = self._adapt_phase(case, request)
+            
+            if adapt_result is None:
+                # ADAPT rechazó el caso (no se pudo adaptar a las restricciones)
+                stats["cases_rejected"] += 1
+                rejected_cases.append({
+                    "case": case,
+                    "menu_name": f"Menú basado en caso {case.id}",
+                    "reasons": ["No se pudo adaptar a las restricciones dietéticas"],
+                    "similarity": similarity
+                })
+                continue
+            
+            adapted_menu, adaptations = adapt_result
             stats["cases_adapted"] += 1
             
             # REVISE
             validation = self._revise_phase(adapted_menu, request)
             
-            if validation.is_valid:
+            if validation.is_valid():  # Llamar al método para verificar validación
                 stats["cases_validated"] += 1
                 
                 # Crear propuesta
@@ -209,9 +225,11 @@ class ChefDigitalCBR:
             for i, proposal in enumerate(proposed_menus, 1):
                 proposal.rank = i
         
-        # Generar explicaciones
+        # Generar explicaciones CON DATOS DETALLADOS DE RETRIEVE
         explanations = self.explainer.generate_full_report(
-            proposed_menus, rejected_cases, request
+            proposed_menus, rejected_cases, request, 
+            retrieval_results=retrieval_results,  # Pasar resultados detallados
+            stats=stats  # Pasar estadísticas precisas
         )
         
         # Calcular tiempo de procesamiento
@@ -226,6 +244,30 @@ class ChefDigitalCBR:
             stats=stats
         )
     
+    def _retrieve_phase_detailed(self, request: Request) -> List:
+        """
+        Ejecuta la fase RETRIEVE del ciclo CBR con detalles completos.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            Lista de RetrievalResult con similarity_details
+        """
+        # Recuperar casos candidatos con detalles completos
+        candidates = self.retriever.retrieve(
+            request,
+            k=self.config.max_proposals * 3  # Recuperar más para tener opciones
+        )
+        
+        # Filtrar por similitud mínima
+        filtered = [
+            result for result in candidates
+            if result.similarity >= self.config.min_similarity
+        ]
+        
+        return filtered
+    
     def _retrieve_phase(self, request: Request) -> List[Tuple[Case, float]]:
         """
         Ejecuta la fase RETRIEVE del ciclo CBR.
@@ -236,21 +278,12 @@ class ChefDigitalCBR:
         Returns:
             Lista de (caso, similitud) ordenada por similitud
         """
-        # Recuperar casos candidatos
-        candidates = self.retriever.retrieve(
-            request,
-            k=self.config.max_proposals * 3  # Recuperar más para tener opciones
-        )
+        # Usar versión detallada y convertir a formato antiguo
+        detailed_results = self._retrieve_phase_detailed(request)
         
-        # Filtrar por similitud mínima y convertir a tuplas (case, similarity)
-        filtered = [
-            (result.case, result.similarity) for result in candidates
-            if result.similarity >= self.config.min_similarity
-        ]
-        
-        return filtered
+        return [(result.case, result.similarity) for result in detailed_results]
     
-    def _adapt_phase(self, case: Case, request: Request) -> Tuple[Menu, List[str]]:
+    def _adapt_phase(self, case: Case, request: Request) -> Optional[Tuple[Menu, List[str]]]:
         """
         Ejecuta la fase REUSE/ADAPT del ciclo CBR.
         
@@ -259,7 +292,7 @@ class ChefDigitalCBR:
             request: Solicitud del cliente
             
         Returns:
-            Tupla (menú adaptado, lista de adaptaciones)
+            Tupla (menú adaptado, lista de adaptaciones) o None si no se pudo adaptar
         """
         # Usar el CaseAdapter para adaptar el caso
         try:
@@ -282,8 +315,8 @@ class ChefDigitalCBR:
             result = adapted_results[0]
             return result.adapted_menu, result.adaptations_made
         else:
-            # Fallback: retornar menú original
-            return case.menu, [f"Caso base sin adaptar: {case.id}"]
+            # ADAPT rechazó el caso (no se pudo adaptar)
+            return None
     
     def _revise_phase(self, menu: Menu, request: Request) -> ValidationResult:
         """
@@ -296,18 +329,46 @@ class ChefDigitalCBR:
         Returns:
             Resultado de la validación
         """
-        # Validación simple - por ahora aceptar todos los menús
-        # TODO: Implementar validación real
+        # Usar el MenuReviser para validación completa
+        validation_result = self.reviser._validate_menu(menu, request)
+        return validation_result
+    
+    def _generate_from_knowledge_detailed(self, request: Request) -> List:
+        """
+        Genera casos desde el conocimiento cuando no hay casos similares.
+        
+        Retorna resultados detallados para explicabilidad.
+        
+        Args:
+            request: Solicitud del cliente
+            
+        Returns:
+            Lista de RetrievalResult generados
+        """
+        # Usar versión antigua y convertir
+        old_format = self._generate_from_knowledge(request)
+        
+        # Convertir a formato detallado
         try:
-            from .cycle.revise import ValidationStatus
+            from .cycle.retrieve import RetrievalResult
         except ImportError:
-            from cycle.revise import ValidationStatus
-        return ValidationResult(
-            menu=menu,
-            status=ValidationStatus.VALID,
-            issues=[],
-            score=0.8
-        )
+            from cycle.retrieve import RetrievalResult
+        
+        detailed_results = []
+        for case, similarity in old_format:
+            result = RetrievalResult(
+                case=case,
+                similarity=similarity,
+                similarity_details={
+                    'event_type': 0.5,
+                    'style': 0.5,
+                    'generated': True
+                },
+                rank=len(detailed_results) + 1
+            )
+            detailed_results.append(result)
+        
+        return detailed_results
     
     def _generate_from_knowledge(self, request: Request) -> List[Tuple[Case, float]]:
         """
@@ -425,7 +486,7 @@ class ChefDigitalCBR:
         except Exception as e:
             return False
     
-    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request):
+    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request, menu: Menu = None) -> 'Feedback':
         """
         Aprende de feedback del usuario y actualiza pesos de similitud.
         
@@ -433,8 +494,12 @@ class ChefDigitalCBR:
         de cada criterio según la satisfacción del cliente.
         
         Args:
-            feedback_data: Datos de feedback del cliente
+            feedback_data: Datos de feedback del cliente (con dimensiones separadas)
             request: Request original del caso
+            menu: Menú generado (opcional, para calcular dietas cumplidas)
+            
+        Returns:
+            Feedback calculado con todas las dimensiones
         """
         # Convertir FeedbackData a objeto Feedback compatible
         try:
@@ -442,17 +507,59 @@ class ChefDigitalCBR:
         except ImportError:
             from core.models import Feedback
         
+        # Usar las dimensiones específicas de FeedbackData si están disponibles
+        # Si no, usar el score general como fallback
+        price_sat = feedback_data.price_satisfaction if feedback_data.price_satisfaction is not None else feedback_data.score
+        cultural_sat = feedback_data.cultural_satisfaction if feedback_data.cultural_satisfaction is not None else (feedback_data.score if request.cultural_preference else 3.0)
+        flavor_sat = feedback_data.flavor_satisfaction if feedback_data.flavor_satisfaction is not None else feedback_data.score
+        
+        # Calcular satisfacción dietética proporcional
+        dietary_sat = 5.0 if feedback_data.success else 2.0  # Fallback binario
+        
+        if menu and request.required_diets:
+            # Importar ingredient_adapter para verificar ingredientes
+            try:
+                from .cycle.ingredient_adapter import get_ingredient_adapter
+            except ImportError:
+                from cycle.ingredient_adapter import get_ingredient_adapter
+            
+            adapter = get_ingredient_adapter()
+            diets_fulfilled = 0
+            diets_required = len(request.required_diets)
+            
+            # Verificar cada dieta requerida contra los ingredientes ACTUALES del menú
+            for diet in request.required_diets:
+                diet_satisfied = True
+                
+                # Verificar todos los platos
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    # Verificar si algún ingrediente viola esta dieta
+                    for ingredient in dish.ingredients:
+                        if adapter.violates_dietary_restriction(ingredient, diet):
+                            diet_satisfied = False
+                            break
+                    if not diet_satisfied:
+                        break
+                
+                if diet_satisfied:
+                    diets_fulfilled += 1
+            
+            # Calcular score proporcional: 1.0 (0%) a 5.0 (100%)
+            if diets_required > 0:
+                diet_ratio = diets_fulfilled / diets_required
+                dietary_sat = 1.0 + (diet_ratio * 4.0)
+        
         feedback = Feedback(
             overall_satisfaction=feedback_data.score,
-            price_satisfaction=feedback_data.score,  # Simplificado
-            cultural_satisfaction=feedback_data.score if request.cultural_preference else 3.0,
-            flavor_satisfaction=feedback_data.score,
-            dietary_satisfaction=5.0 if feedback_data.success else 2.0,
+            price_satisfaction=price_sat,
+            cultural_satisfaction=cultural_sat,
+            flavor_satisfaction=flavor_sat,
+            dietary_satisfaction=dietary_sat,
             comments=feedback_data.comments
         )
         
         # Actualizar pesos mediante aprendizaje
-        adjustments = self.weight_learner.update_from_feedback(feedback, request)
+        adjustments = self.weight_learner.update_from_feedback(feedback, request, menu)
         
         # Actualizar pesos en el retriever
         self.retriever.similarity_calc.weights = self.weight_learner.get_current_weights()
@@ -468,6 +575,9 @@ class ChefDigitalCBR:
                 print(f"\n📈 Pesos más cambiados desde inicio:")
                 for item in summary['most_changed']:
                     print(f"   {item['weight']}: {item['change_pct']}")
+        
+        # Retornar el feedback calculado
+        return feedback
     
     def save_learning_data(self, filepath: str = 'data/learning_history.json'):
         """
@@ -520,31 +630,6 @@ class ChefDigitalCBR:
             "supported_seasons": [s.value for s in Season],
             "cultural_traditions": list(CULTURAL_TRADITIONS.keys())
         }
-    
-    def explain_style(self, style: CulinaryStyle) -> str:
-        """
-        Obtiene explicación detallada de un estilo culinario.
-        
-        Args:
-            style: Estilo a explicar
-            
-        Returns:
-            Descripción del estilo
-        """
-        description = STYLE_DESCRIPTIONS.get(style, "")
-        signature = CHEF_SIGNATURES.get(style, {})
-        
-        lines = [f"Estilo: {style.value.upper()}"]
-        lines.append("=" * 40)
-        lines.append(description)
-        
-        if signature:
-            lines.append("")
-            lines.append(f"Chef de referencia: {signature.get('chef', 'N/A')}")
-            lines.append(f"Restaurante: {signature.get('restaurant', 'N/A')}")
-            lines.append(f"Características: {', '.join(signature.get('characteristics', []))}")
-        
-        return "\n".join(lines)
 
 
 def create_cbr_system(case_base_path: Optional[str] = None,

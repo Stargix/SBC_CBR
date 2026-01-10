@@ -1,0 +1,146 @@
+================================================================================
+INFORME COMPLETO DE RAZONAMIENTO CBR - Chef Digital
+================================================================================
+
+📋 SOLICITUD RECIBIDA
+--------------------------------------------------------------------------------
+Tipo de evento: wedding
+Número de comensales: 100
+Presupuesto por persona: 60.00€
+Temporada: summer
+Estilo preferido: classic
+Preferencia cultural: italian
+Restricciones dietéticas: vegetarian
+
+🔍 FASE 1: RETRIEVE - Recuperación de casos similares
+--------------------------------------------------------------------------------
+Casos analizados: 6
+
+  Caso #1: case-init-7 (Similitud: 99.1%)
+    Desglose de similitud:
+      • Tipo de evento           : 60.0% ████████████
+      • Rango de precio          : 100.0% ████████████████████
+      • Temporada                : 100.0% ████████████████████
+      • Tradición cultural       : 100.0% ████████████████████
+      • Requisitos dietéticos    : 30.0% ██████
+
+  Caso #2: case-init-16 (Similitud: 97.0%)
+    Desglose de similitud:
+      • Tipo de evento           : 50.0% ██████████
+      • Rango de precio          : 100.0% ████████████████████
+      • Temporada                : 100.0% ████████████████████
+      • Tradición cultural       : 100.0% ████████████████████
+      • Requisitos dietéticos    : 30.0% ██████
+
+  Caso #3: case-init-9 (Similitud: 90.8%)
+    Desglose de similitud:
+      • Tipo de evento           : 50.0% ██████████
+      • Rango de precio          : 100.0% ████████████████████
+      • Temporada                : 70.0% ██████████████
+      • Tradición cultural       : 100.0% ████████████████████
+      • Requisitos dietéticos    : 30.0% ██████
+
+  Caso #4: case-init-27 (Similitud: 90.2%)
+    Desglose de similitud:
+      • Tipo de evento           : 30.0% ██████
+      • Rango de precio          : 100.0% ████████████████████
+      • Temporada                : 70.0% ██████████████
+      • Tradición cultural       : 100.0% ████████████████████
+      • Requisitos dietéticos    : 30.0% ██████
+
+  Caso #5: case-init-12 (Similitud: 88.8%)
+    Desglose de similitud:
+      • Tipo de evento           : 60.0% ████████████
+      • Rango de precio          : 100.0% ████████████████████
+      • Temporada                : 30.0% ██████
+      • Tradición cultural       : 100.0% ████████████████████
+      • Requisitos dietéticos    : 30.0% ██████
+
+
+✅ FASE 2-3: ADAPT + REVISE - Menús adaptados y validados
+--------------------------------------------------------------------------------
+
+================================================================================
+🍽️ PROPUESTA #1
+================================================================================
+
+📋 COMPOSICIÓN DEL MENÚ:
+  Entrante:     Fresh Cucumber Salad
+  Plato Fuerte: Baked Ziti Made Lighter
+  Postre:       We're Back, with Cookies!
+  Bebida:       Caymus Cabernet Sauvignon
+
+  💰 Precio total: 50.00€ por persona
+
+🔍 RETRIEVE: Caso base seleccionado
+  • Caso origen: case-init-7
+  • Similitud inicial: 99.1%
+  • Desglose de similitud:
+    - season: 100.0%
+    - price_range: 100.0%
+    - style: 100.0%
+    - cultural: 100.0%
+    - cultural_match: 100.0%
+    - success_bonus: 86.0%
+    - total: 79.1%
+    - event_type: 60.0%
+    - guests: 60.0%
+    - wine: 50.0%
+    - dietary: 30.0%
+
+🔧 ADAPT: Adaptaciones aplicadas (1 total)
+  1. Caso base sin adaptar: case-init-7
+
+✓ REVISE: Validación del menú
+  • Estado: VALID
+  • Puntuación de calidad: 80.0%
+
+
+================================================================================
+🍽️ PROPUESTA #2
+================================================================================
+
+📋 COMPOSICIÓN DEL MENÚ:
+  Entrante:     Leftover Turkey Corn Chowder
+  Plato Fuerte: Crockpot Honey Sesame Chicken
+  Postre:       Piña Colada Bars
+  Bebida:       Stag's Leap Cabernet
+
+  💰 Precio total: 51.00€ por persona
+
+🔍 RETRIEVE: Caso base seleccionado
+  • Caso origen: case-init-9
+  • Similitud inicial: 90.8%
+  • Desglose de similitud:
+    - price_range: 100.0%
+    - style: 100.0%
+    - cultural: 100.0%
+    - cultural_match: 100.0%
+    - success_bonus: 74.0%
+    - total: 70.8%
+    - season: 70.0%
+    - event_type: 50.0%
+    - wine: 50.0%
+    - dietary: 30.0%
+    - guests: 30.0%
+
+🔧 ADAPT: Adaptaciones aplicadas (1 total)
+  1. Caso base sin adaptar: case-init-9
+
+✓ REVISE: Validación del menú
+  • Estado: VALID
+  • Puntuación de calidad: 80.0%
+
+
+================================================================================
+📊 RESUMEN DEL PROCESO CBR
+--------------------------------------------------------------------------------
+✓ Casos analizados en RETRIEVE: 6
+✓ Menús adaptados en ADAPT: 2
+✓ Menús validados en REVISE: 2
+✓ Menús rechazados: 0
+✓ Propuestas finales presentadas: 2
+
+================================================================================
+Sistema CBR de Chef Digital - Explicabilidad Completa
+================================================================================

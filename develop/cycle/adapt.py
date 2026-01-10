@@ -117,7 +117,7 @@ class CaseAdapter:
         
         # Advertir si se rechazaron casos por similitud a failures
         if rejected_by_negatives > 0:
-            print(f"⚠️  {rejected_by_negatives} caso(s) rechazado(s) por similitud a failures previos")
+            pass  # Información capturada en stats, no imprimir
         
         # Si no hay suficientes, generar menús nuevos
         attempts = 0
@@ -132,7 +132,7 @@ class CaseAdapter:
                 neg_sim = self._check_against_negative_cases(request, new_menu.adapted_menu)
                 
                 if neg_sim > 0.75:
-                    print(f"⚠️  Menú generado rechazado: {neg_sim:.0%} similar a failure")
+                    # Menú rechazado, información capturada en attempts
                     continue  # Intentar otro
                 
                 adapted_menus.append(new_menu)
@@ -147,6 +147,66 @@ class CaseAdapter:
         adapted_menus.sort(key=lambda x: x.final_similarity, reverse=True)
         
         return adapted_menus[:num_proposals]
+    
+    def _try_adapt_dishes_ingredients(self, dishes: List[Dish], 
+                                       required_diets: List[str]) -> List[Dish]:
+        """
+        Intenta adaptar ingredientes de platos para cumplir dietas.
+        
+        Retorna solo los platos que se pudieron adaptar exitosamente.
+        """
+        if not required_diets:
+            return dishes
+        
+        adapter = get_ingredient_adapter()
+        adapted_dishes = []
+        
+        for dish in dishes:
+            # Verificar qué dietas no cumple
+            missing_diets = [d for d in required_diets if d not in dish.diets]
+            
+            if not missing_diets:
+                # Ya cumple todas
+                adapted_dishes.append(dish)
+                continue
+            
+            # Buscar ingredientes que violan restricciones
+            violating = []
+            for ingredient in dish.ingredients:
+                for diet in missing_diets:
+                    if adapter.violates_dietary_restriction(ingredient, diet):
+                        if ingredient not in violating:
+                            violating.append(ingredient)
+            
+            if not violating:
+                # No hay ingredientes específicos que violen
+                continue
+            
+            # Intentar sustituir TODOS los ingredientes problemáticos
+            adapted_dish = deepcopy(dish)
+            new_ingredients = list(adapted_dish.ingredients)
+            substitutions_count = 0
+            
+            for ing in violating:
+                substitution = adapter.find_dietary_substitution(ing, missing_diets)
+                if substitution:
+                    new_ingredients = [
+                        substitution.replacement if item == ing else item 
+                        for item in new_ingredients
+                    ]
+                    substitutions_count += 1
+            
+            # Solo aceptar si se pudieron sustituir TODOS
+            if substitutions_count == len(violating):
+                adapted_dish.ingredients = new_ingredients
+                # Añadir las dietas que ahora cumple
+                if adapted_dish.diets is None:
+                    adapted_dish.diets = list(missing_diets)
+                else:
+                    adapted_dish.diets = list(set(adapted_dish.diets + missing_diets))
+                adapted_dishes.append(adapted_dish)
+        
+        return adapted_dishes
     
     def _adapt_case(self, case: Case, request: Request, 
                     original_similarity: float = 0.0) -> Optional[AdaptationResult]:
@@ -189,14 +249,18 @@ class CaseAdapter:
             return None
         adaptations.extend(ing_adaptations)
         
-        # 3. Adaptar precio al presupuesto
+        # 3. Adaptar precio al presupuesto (respetando dietas)
         price_ok, price_adaptations = self._adapt_for_price(
-            adapted_menu, request.price_min, request.price_max
+            adapted_menu, request.price_min, request.price_max,
+            request.required_diets, request.restricted_ingredients
         )
         adaptations.extend(price_adaptations)
         
-        # 4. Adaptar temporada (temperatura del starter)
-        season_adaptations = self._adapt_for_season(adapted_menu, request.season)
+        # 4. Adaptar temporada (temperatura del starter, respetando dietas)
+        season_adaptations = self._adapt_for_season(
+            adapted_menu, request.season,
+            request.required_diets, request.restricted_ingredients
+        )
         adaptations.extend(season_adaptations)
         
         # 5. Adaptar bebida
@@ -205,14 +269,18 @@ class CaseAdapter:
         )
         adaptations.extend(bev_adaptations)
         
-        # 6. Adaptar culturalmente si es necesario
+        # 6. Adaptar culturalmente si es necesario (respetando dietas)
         cultural_adaptations = self._adapt_for_culture(
-            adapted_menu, case.menu.cultural_theme, request.cultural_preference, request
+            adapted_menu, case.menu.cultural_theme, request.cultural_preference, request,
+            request.required_diets, request.restricted_ingredients
         )
         adaptations.extend(cultural_adaptations)
         
-        # 7. Adaptar estilo si es necesario
-        style_adaptations = self._adapt_style(adapted_menu, request)
+        # 7. Adaptar estilo si es necesario (respetando dietas)
+        style_adaptations = self._adapt_style(
+            adapted_menu, request,
+            request.required_diets, request.restricted_ingredients
+        )
         adaptations.extend(style_adaptations)
         
         # Recalcular totales
@@ -221,6 +289,13 @@ class CaseAdapter:
         # VALIDACIÓN PREVENTIVA: Ajustar antes de enviar a REVISE
         preventive_adaptations = self._preventive_validation(adapted_menu, request)
         adaptations.extend(preventive_adaptations)
+        
+        # VALIDACIÓN FINAL: Ingredientes restringidos (alergias)
+        if request.restricted_ingredients:
+            ingredient_adaptations = self._adapt_restricted_ingredients(
+                adapted_menu, request.restricted_ingredients, request.cultural_preference
+            )
+            adaptations.extend(ingredient_adaptations)
         
         # Recalcular totales tras validación preventiva
         adapted_menu.calculate_totals()
@@ -231,10 +306,10 @@ class CaseAdapter:
         temp_case = Case(
             id="temp",
             menu=adapted_menu,
-            request=request,  # Usar request actual
+            request=case.request,  # Usar request del CASO original (no del cliente)
             is_negative=False
         )
-        final_similarity = self.similarity_calc.calculate_similarity(request, temp_case)
+        final_similarity = self.similarity_calc.calculate_similarity(case.request, temp_case)
         
         # Calcular score de adaptación
         adaptation_score = self._calculate_adaptation_score(
@@ -310,28 +385,103 @@ class CaseAdapter:
                             substitutions_made.append(substitution)
                     
                     if substitutions_made:
-                        # Actualizar ingredientes del plato COPIADO
+                        # NIVEL 1 ÉXITO: Actualizar ingredientes del plato COPIADO
                         adapted_dish.ingredients = new_ingredients
-                        # Añadir las dietas que ahora cumple
-                        if adapted_dish.diets is None:
-                            adapted_dish.diets = list(missing_diets)
+                        
+                        # VALIDACIÓN CRÍTICA: Verificar que NO quedan ingredientes prohibidos
+                        remaining_violations = []
+                        for ingredient in adapted_dish.ingredients:
+                            for diet in missing_diets:
+                                if adapter.violates_dietary_restriction(ingredient, diet):
+                                    remaining_violations.append((ingredient, diet))
+                        
+                        if not remaining_violations:
+                            # TODO OK: Ahora sí podemos añadir las dietas
+                            if adapted_dish.diets is None:
+                                adapted_dish.diets = list(missing_diets)
+                            else:
+                                adapted_dish.diets = list(set(adapted_dish.diets + missing_diets))
+                            
+                            # Reemplazar el plato en el menú con la versión adaptada
+                            setattr(menu, dish_attr, adapted_dish)
+                            
+                            for sub in substitutions_made:
+                                adaptations.append(
+                                    f"{dish.name}: {sub.original}→{sub.replacement} ({sub.reason})"
+                                )
                         else:
-                            adapted_dish.diets = list(set(adapted_dish.diets + missing_diets))
-                        
-                        # Reemplazar el plato en el menú con la versión adaptada
-                        setattr(menu, dish_attr, adapted_dish)
-                        
-                        for sub in substitutions_made:
-                            adaptations.append(
-                                f"{dish.name}: {sub.original}→{sub.replacement} ({sub.reason})"
-                            )
+                            # AÚN HAY VIOLACIONES: Buscar plato alternativo en NIVEL 2
+                            alternative_dishes = self.case_base.get_dishes_by_type(dish.dish_type)
+                            compatible = [
+                                d for d in alternative_dishes 
+                                if all(diet in d.diets for diet in missing_diets)
+                            ]
+                            
+                            if compatible:
+                                best = max(
+                                    compatible,
+                                    key=lambda d: calculate_dish_similarity(dish, d)
+                                )
+                                setattr(menu, dish_attr, best)
+                                adaptations.append(
+                                    f"Plato cambiado: {dish.name} → {best.name} "
+                                    f"(cumple {', '.join(missing_diets)})"
+                                )
+                            else:
+                                # No se pudo adaptar de ninguna forma
+                                violation_details = ', '.join([f"{ing} (violates {diet})" for ing, diet in remaining_violations[:3]])
+                                return False, adaptations + [
+                                    f"ERROR: {dish.name} - quedan violaciones dietéticas: {violation_details}"
+                                ]
                     else:
-                        # No se pudieron sustituir ingredientes
-                        return False, adaptations + [f"ERROR: {dish.name} no cumple {', '.join(missing_diets)} y no se encontraron sustituciones"]
+                        # NIVEL 1 FALLÓ: No se pudieron sustituir ingredientes
+                        # NIVEL 2: Buscar plato alternativo compatible
+                        alternative_dishes = self.case_base.get_dishes_by_type(dish.dish_type)
+                        compatible = [
+                            d for d in alternative_dishes 
+                            if all(diet in d.diets for diet in missing_diets)
+                        ]
+                        
+                        if compatible:
+                            # Elegir el más similar
+                            best = max(
+                                compatible,
+                                key=lambda d: calculate_dish_similarity(dish, d)
+                            )
+                            setattr(menu, dish_attr, best)
+                            adaptations.append(
+                                f"Plato cambiado: {dish.name} → {best.name} "
+                                f"(cumple {', '.join(missing_diets)})"
+                            )
+                        else:
+                            # Ni ingredientes ni platos funcionan
+                            return False, adaptations + [
+                                f"ERROR: {dish.name} no cumple {', '.join(missing_diets)} "
+                                f"y no hay alternativas compatibles"
+                            ]
                 else:
                     # El plato no cumple la dieta pero no hay ingredientes específicos que violen
-                    # (caso edge: puede ser por método de preparación)
-                    return False, adaptations + [f"ERROR: {dish.name} no cumple {', '.join(missing_diets)}"]
+                    # NIVEL 2: Buscar plato alternativo
+                    alternative_dishes = self.case_base.get_dishes_by_type(dish.dish_type)
+                    compatible = [
+                        d for d in alternative_dishes 
+                        if all(diet in d.diets for diet in missing_diets)
+                    ]
+                    
+                    if compatible:
+                        best = max(
+                            compatible,
+                            key=lambda d: calculate_dish_similarity(dish, d)
+                        )
+                        setattr(menu, dish_attr, best)
+                        adaptations.append(
+                            f"Plato cambiado: {dish.name} → {best.name} "
+                            f"(cumple {', '.join(missing_diets)})"
+                        )
+                    else:
+                        return False, adaptations + [
+                            f"ERROR: {dish.name} no cumple {', '.join(missing_diets)}"
+                        ]
         
         return True, adaptations
     
@@ -360,9 +510,12 @@ class CaseAdapter:
         return True, []
     
     def _adapt_for_price(self, menu: Menu, 
-                         min_price: float, max_price: float) -> Tuple[bool, List[str]]:
+                         min_price: float, max_price: float,
+                         required_diets: List[str] = None,
+                         restricted_ingredients: List[str] = None) -> Tuple[bool, List[str]]:
         """
         Adapta el menú al rango de precios solicitado.
+        Respeta restricciones dietéticas y alergias.
         """
         adaptations = []
         current_total = menu.total_price
@@ -375,20 +528,22 @@ class CaseAdapter:
         if current_total > max_price:
             excess = current_total - max_price
             adaptations.extend(
-                self._reduce_price(menu, excess)
+                self._reduce_price(menu, excess, required_diets, restricted_ingredients)
             )
         
         # Si está por debajo, buscar alternativas más premium
         elif current_total < min_price:
             deficit = min_price - current_total
             adaptations.extend(
-                self._increase_price(menu, deficit)
+                self._increase_price(menu, deficit, required_diets, restricted_ingredients)
             )
         
         menu.calculate_totals()
         return True, adaptations
     
-    def _reduce_price(self, menu: Menu, amount: float) -> List[str]:
+    def _reduce_price(self, menu: Menu, amount: float,
+                      required_diets: List[str] = None,
+                      restricted_ingredients: List[str] = None) -> List[str]:
         """Reduce el precio del menú buscando alternativas más económicas"""
         adaptations = []
         
@@ -408,7 +563,35 @@ class CaseAdapter:
             
             # Buscar alternativa más barata
             alternatives = self.case_base.get_dishes_by_type(dish.dish_type)
-            cheaper = [d for d in alternatives if d.price < dish.price]
+            
+            # NIVEL 1: Platos que YA tienen etiquetas correctas (preferido)
+            if required_diets:
+                with_label = [
+                    d for d in alternatives 
+                    if all(diet in d.diets for diet in required_diets)
+                ]
+            else:
+                with_label = alternatives
+            
+            # Filtrar por ingredientes restringidos
+            if restricted_ingredients:
+                with_label = [
+                    d for d in with_label
+                    if not any(ing in d.ingredients for ing in restricted_ingredients)
+                ]
+            
+            # NIVEL 2: Si no hay con etiqueta, intentar adaptar ingredientes
+            if not with_label and required_diets:
+                with_label = self._try_adapt_dishes_ingredients(alternatives, required_diets)
+                # Filtrar por ingredientes restringidos también
+                if restricted_ingredients:
+                    with_label = [
+                        d for d in with_label
+                        if not any(ing in d.ingredients for ing in restricted_ingredients)
+                    ]
+            
+            candidates = with_label if with_label else alternatives
+            cheaper = [d for d in candidates if d.price < dish.price]
             
             if cheaper:
                 # Elegir la más similar que sea más barata
@@ -434,7 +617,9 @@ class CaseAdapter:
         
         return adaptations
     
-    def _increase_price(self, menu: Menu, amount: float) -> List[str]:
+    def _increase_price(self, menu: Menu, amount: float,
+                        required_diets: List[str] = None,
+                        restricted_ingredients: List[str] = None) -> List[str]:
         """Aumenta el precio del menú buscando alternativas premium"""
         adaptations = []
         
@@ -451,6 +636,20 @@ class CaseAdapter:
                 break
             
             alternatives = self.case_base.get_dishes_by_type(dish.dish_type)
+            
+            # Filtrar por restricciones
+            if required_diets:
+                alternatives = [
+                    d for d in alternatives 
+                    if all(diet in d.diets for diet in required_diets)
+                ]
+            
+            if restricted_ingredients:
+                alternatives = [
+                    d for d in alternatives
+                    if not any(ing in d.ingredients for ing in restricted_ingredients)
+                ]
+            
             pricier = [d for d in alternatives if d.price > dish.price]
             
             if pricier:
@@ -476,9 +675,12 @@ class CaseAdapter:
         
         return adaptations
     
-    def _adapt_for_season(self, menu: Menu, season: Season) -> List[str]:
+    def _adapt_for_season(self, menu: Menu, season: Season,
+                          required_diets: List[str] = None,
+                          restricted_ingredients: List[str] = None) -> List[str]:
         """
         Adapta el menú a la temporada (principalmente temperatura del starter).
+        Respeta restricciones dietéticas y alergias.
         """
         adaptations = []
         
@@ -495,6 +697,19 @@ class CaseAdapter:
                 if is_starter_temperature_appropriate(d.temperature, season)
                 and d.is_available_in_season(season)
             ]
+            
+            # Filtrar por restricciones
+            if required_diets:
+                appropriate = [
+                    d for d in appropriate 
+                    if all(diet in d.diets for diet in required_diets)
+                ]
+            
+            if restricted_ingredients:
+                appropriate = [
+                    d for d in appropriate
+                    if not any(ing in d.ingredients for ing in restricted_ingredients)
+                ]
             
             if appropriate:
                 # Elegir el más similar
@@ -576,9 +791,12 @@ class CaseAdapter:
         scored_wines.sort(key=lambda x: x[1], reverse=True)
         return scored_wines[0][0] if scored_wines else wines[0]
     
-    def _adapt_style(self, menu: Menu, request: Request) -> List[str]:
+    def _adapt_style(self, menu: Menu, request: Request,
+                     required_diets: List[str] = None,
+                     restricted_ingredients: List[str] = None) -> List[str]:
         """
         Adapta el estilo culinario si es necesario.
+        Respeta restricciones dietéticas y alergias.
         """
         adaptations = []
         
@@ -603,6 +821,19 @@ class CaseAdapter:
                         d for d in alternatives
                         if request.preferred_style in d.styles
                     ]
+                    
+                    # Filtrar por restricciones
+                    if required_diets:
+                        styled = [
+                            d for d in styled 
+                            if all(diet in d.diets for diet in required_diets)
+                        ]
+                    
+                    if restricted_ingredients:
+                        styled = [
+                            d for d in styled
+                            if not any(ing in d.ingredients for ing in restricted_ingredients)
+                        ]
                     
                     if styled:
                         best = max(
@@ -806,6 +1037,81 @@ class CaseAdapter:
         
         return max_similarity
     
+    def _adapt_restricted_ingredients(self, menu: Menu, 
+                                       restricted_ingredients: List[str],
+                                       target_culture: Optional[CulturalTradition] = None) -> List[str]:
+        """
+        Valida y adapta ingredientes restringidos (alergias) en el menú final.
+        Si un plato contiene un ingrediente prohibido, lo sustituye por uno de su grupo
+        maximizando adaptación cultural.
+        """
+        adaptations = []
+        adapter = get_ingredient_adapter()
+        
+        for dish_attr in ['starter', 'main_course', 'dessert']:
+            dish = getattr(menu, dish_attr)
+            
+            # Buscar ingredientes prohibidos en el plato
+            forbidden_found = [
+                ing for ing in dish.ingredients 
+                if ing in restricted_ingredients
+            ]
+            
+            if forbidden_found:
+                # Intentar sustituir cada ingrediente prohibido
+                adapted_dish = deepcopy(dish)
+                new_ingredients = list(adapted_dish.ingredients)
+                
+                for forbidden_ing in forbidden_found:
+                    # Buscar sustituto en el mismo grupo
+                    if forbidden_ing in adapter.ingredient_to_group:
+                        group_name = adapter.ingredient_to_group[forbidden_ing]
+                        group_ingredients = adapter.groups[group_name]
+                        
+                        # Filtrar ingredientes del grupo que NO estén restringidos
+                        safe_alternatives = [
+                            ing for ing in group_ingredients
+                            if ing not in restricted_ingredients and ing != forbidden_ing
+                        ]
+                        
+                        if safe_alternatives:
+                            # Si hay cultura objetivo, maximizar compatibilidad cultural
+                            if target_culture:
+                                best_replacement = None
+                                
+                                for alt in safe_alternatives:
+                                    if adapter.similarity_calc.is_ingredient_cultural(alt, target_culture):
+                                        # Ingrediente cultural tiene prioridad
+                                        best_replacement = alt
+                                        break
+                                
+                                # Si no hay cultural, usar el primero
+                                if best_replacement is None:
+                                    best_replacement = safe_alternatives[0]
+                                
+                                replacement = best_replacement
+                            else:
+                                # Sin cultura objetivo, usar el primero del grupo
+                                replacement = safe_alternatives[0]
+                            
+                            # Reemplazar el ingrediente
+                            new_ingredients = [
+                                replacement if ing == forbidden_ing else ing
+                                for ing in new_ingredients
+                            ]
+                            
+                            adaptations.append(
+                                f"{dish.name}: {forbidden_ing}→{replacement} "
+                                f"(alergia: {group_name})"
+                            )
+                
+                # Actualizar el plato si hubo sustituciones
+                if len(forbidden_found) == len([a for a in adaptations if dish.name in a]):
+                    adapted_dish.ingredients = new_ingredients
+                    setattr(menu, dish_attr, adapted_dish)
+        
+        return adaptations
+    
     def _classify_by_price(self, results: List[AdaptationResult],
                            request: Request):
         """
@@ -902,34 +1208,34 @@ class CaseAdapter:
     def _find_cultural_dish_replacement(self, original_dish: Dish, 
                                        target_culture: CulturalTradition,
                                        current_menu: Menu,
-                                       request: Request) -> Optional[Dish]:
+                                       request: Request,
+                                       required_diets: List[str] = None,
+                                       restricted_ingredients: List[str] = None) -> Optional[Dish]:
         """
         Busca un plato de reemplazo usando similitud global del sistema.
         
         REFACTORIZADO: Usa calculate_similarity() con 9 dimensiones en vez de
         scoring manual de 3 factores. Esto asegura consistencia con RETRIEVE.
+        Respeta restricciones dietéticas y alergias.
         
         Args:
             original_dish: Plato a reemplazar
             target_culture: Cultura objetivo
             current_menu: Menú actual (para crear caso temporal)
             request: Solicitud del cliente
+            required_diets: Restricciones dietéticas a respetar
+            restricted_ingredients: Ingredientes prohibidos (alergias)
             
         Returns:
             Plato de reemplazo con mejor similitud global o None
         """
-        print(f"\n   🔍 BÚSQUEDA DE REEMPLAZO para {original_dish.name}")
+        # Buscar plato de reemplazo
         target_culture_name = target_culture if isinstance(target_culture, str) else target_culture.value
-        print(f"      Cultura objetivo: {target_culture_name}")
-        print(f"      Tipo de plato: {original_dish.dish_type.value}")
         
         # Obtener todos los platos del mismo tipo
         candidates = self.case_base.get_dishes_by_type(original_dish.dish_type)
         
-        print(f"      Candidatos totales: {len(candidates)}")
-        
         if not candidates:
-            print(f"      ❌ Sin candidatos")
             return None
         
         # FILTRO 1: Platos que ya están en el menú (evitar duplicados)
@@ -941,70 +1247,90 @@ class CaseAdapter:
         candidates = [d for d in candidates if d.id not in current_dish_ids]
         
         # FILTRO 2: Restricciones dietéticas obligatorias (CRÍTICO)
-        if request.required_diets:
+        if required_diets:
+            candidates = [d for d in candidates 
+                         if all(diet in d.diets for diet in required_diets)]
+        elif request.required_diets:
             candidates = [d for d in candidates 
                          if all(diet in d.diets for diet in request.required_diets)]
         
         # FILTRO 3: Ingredientes prohibidos (CRÍTICO - alergias)
-        if request.restricted_ingredients:
+        if restricted_ingredients:
+            candidates = [d for d in candidates
+                         if not any(ing in d.ingredients for ing in restricted_ingredients)]
+        elif request.restricted_ingredients:
             candidates = [d for d in candidates
                          if not any(ing in d.ingredients for ing in request.restricted_ingredients)]
         
-        print(f"      Candidatos tras filtros críticos: {len(candidates)}")
+        # FILTRO 4: Incompatibilidad de categorías con otros platos del menú
+        # Evitar que dos platos del menú tengan categorías incompatibles
+        other_dishes = []
+        for dish_attr in ['starter', 'main_course', 'dessert']:
+            other_dish = getattr(current_menu, dish_attr)
+            if other_dish.id != original_dish.id:  # Excluir el plato que estamos reemplazando
+                other_dishes.append(other_dish)
+        
+        if other_dishes:
+            candidates_compatible = []
+            for candidate in candidates:
+                # Verificar compatibilidad con todos los otros platos
+                is_compatible = True
+                for other in other_dishes:
+                    if not are_categories_compatible(candidate.category, other.category):
+                        is_compatible = False
+                        break
+                
+                if is_compatible:
+                    candidates_compatible.append(candidate)
+            
+            if candidates_compatible:
+                candidates = candidates_compatible
         
         if not candidates:
-            print(f"      ❌ Sin candidatos válidos")
             return None
         
-        # SCORING HÍBRIDO: Similitud de plato + Componente cultural
+        # SCORING: Usar calculate_dish_similarity mejorado que ya incluye cultura
         # 
-        # calculate_dish_similarity() ya considera: categoría, precio, complejidad,
-        # sabores, estilos, temperatura, dietas - PERO no considera cultura.
+        # calculate_dish_similarity() ahora considera 8 dimensiones con pesos calibrados:
+        # - Categoría (15%)
+        # - Precio (15%)
+        # - Complejidad (10%)
+        # - Sabores (15%)
+        # - Estilos (15%)
+        # - Temperatura (5%)
+        # - Dietas (10%)
+        # - Cultura de ingredientes (15%) - evaluada con get_cultural_score
         #
-        # Combinamos ambos:
-        # - Similitud base de plato: 50%
-        # - Score cultural de ingredientes: 50%
+        # Esto elimina la ponderación manual arbitraria y usa un sistema coherente.
         
         scored_candidates = []
         
         for dish in candidates:
-            # SCORE 1: Similitud general del plato (todas las características)
-            # Esto incluye: categoría, precio, complejidad, sabores, estilos, temperatura
-            dish_similarity = calculate_dish_similarity(original_dish, dish)
-            
-            # SCORE 2: Score cultural de ingredientes
-            cultural_score = self.similarity_calc.get_cultural_score(dish.ingredients, target_culture)
-            
-            # SCORE FINAL: Combinar similitud de plato + cultural
-            # En contexto de adaptación cultural, cultura pesa más
-            final_score = (
-                dish_similarity * 0.40 +     # Similitud general del plato
-                cultural_score * 0.60        # Score cultural PRIORITARIO
+            # Calcular similitud completa incluyendo evaluación cultural
+            similarity = calculate_dish_similarity(
+                original_dish, 
+                dish,
+                target_culture=target_culture,
+                similarity_calc=self.similarity_calc
             )
             
-            scored_candidates.append((dish, final_score, cultural_score, dish_similarity))
+            scored_candidates.append((dish, similarity))
         
-        # Ordenar por score final
+        # Ordenar por score
         scored_candidates.sort(key=lambda x: x[1], reverse=True)
-        
-        # Mostrar top 5
-        print(f"      📊 TOP 5 candidatos:")
-        for i, (dish, final, cultural, dish_sim) in enumerate(scored_candidates[:5], 1):
-            print(f"         {i}. {dish.name}:")
-            print(f"            Cultural: {cultural:.0%} | Similitud plato: {dish_sim:.0%} | TOTAL: {final:.0%}")
         
         # Retornar el mejor
         best_dish = scored_candidates[0][0]
         best_score = scored_candidates[0][1]
-        
-        print(f"      ✅ SELECCIONADO: {best_dish.name} (score: {best_score:.0%})")
         
         return best_dish
     
     def _adapt_for_culture(self, menu: Menu, 
                           original_culture: Optional[CulturalTradition],
                           target_culture: Optional[CulturalTradition],
-                          request: Request) -> List[str]:
+                          request: Request,
+                          required_diets: List[str] = None,
+                          restricted_ingredients: List[str] = None) -> List[str]:
         """
         Adapta el menú a una cultura gastronómica diferente.
         
@@ -1083,7 +1409,8 @@ class CaseAdapter:
             
             # OPCIÓN 2: Buscar plato de reemplazo
             replacement_dish = self._find_cultural_dish_replacement(
-                dish, target_culture, menu, request
+                dish, target_culture, menu, request,
+                required_diets, restricted_ingredients
             )
             
             # Comparar similitud global de ambas opciones
