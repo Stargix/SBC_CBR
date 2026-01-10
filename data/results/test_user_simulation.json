@@ -1,6 +1,6 @@
 {
   "test_name": "Multi-User Simulation",
-  "timestamp": "2026-01-10T03:03:19.666334",
+  "timestamp": "2026-01-10T03:32:39.832353",
   "parameters": {
     "num_users": 5,
     "iterations": 15
@@ -10,9 +10,9 @@
       "iteration": 1,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 18.179410188077753,
-      "cases_retained": 2,
-      "avg_feedback_score": 3.6358820376155507,
+      "total_feedback_score": 19.760318710604086,
+      "cases_retained": 1,
+      "avg_feedback_score": 3.952063742120817,
       "success_rate": 1.0,
       "current_case_count": 41
     },
@@ -20,9 +20,9 @@
       "iteration": 2,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 20.123446066089443,
+      "total_feedback_score": 20.16314098274919,
       "cases_retained": 1,
-      "avg_feedback_score": 4.024689213217888,
+      "avg_feedback_score": 4.0326281965498385,
       "success_rate": 1.0,
       "current_case_count": 41
     },
@@ -30,9 +30,9 @@
       "iteration": 3,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 19.728636862291516,
+      "total_feedback_score": 19.80565450208722,
       "cases_retained": 1,
-      "avg_feedback_score": 3.945727372458303,
+      "avg_feedback_score": 3.9611309004174435,
       "success_rate": 1.0,
       "current_case_count": 41
     },
@@ -40,9 +40,9 @@
       "iteration": 4,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 19.023422592157186,
+      "total_feedback_score": 19.521223975323984,
       "cases_retained": 0,
-      "avg_feedback_score": 3.8046845184314373,
+      "avg_feedback_score": 3.904244795064797,
       "success_rate": 1.0,
       "current_case_count": 41
     },
@@ -50,9 +50,9 @@
       "iteration": 5,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 19.145521939885285,
+      "total_feedback_score": 19.66146104459475,
       "cases_retained": 0,
-      "avg_feedback_score": 3.8291043879770568,
+      "avg_feedback_score": 3.9322922089189496,
       "success_rate": 1.0,
       "current_case_count": 41
     },
@@ -60,111 +60,111 @@
       "iteration": 6,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 17.279802047285372,
+      "total_feedback_score": 20.375194022033646,
       "cases_retained": 1,
-      "avg_feedback_score": 3.4559604094570746,
+      "avg_feedback_score": 4.075038804406729,
       "success_rate": 1.0,
-      "current_case_count": 42
+      "current_case_count": 41
     },
     {
       "iteration": 7,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 17.8458597035152,
-      "cases_retained": 1,
-      "avg_feedback_score": 3.56917194070304,
+      "total_feedback_score": 19.723257967028374,
+      "cases_retained": 0,
+      "avg_feedback_score": 3.9446515934056747,
       "success_rate": 1.0,
-      "current_case_count": 43
+      "current_case_count": 41
     },
     {
       "iteration": 8,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 17.931779985669433,
-      "cases_retained": 0,
-      "avg_feedback_score": 3.5863559971338868,
+      "total_feedback_score": 19.873764823219897,
+      "cases_retained": 1,
+      "avg_feedback_score": 3.9747529646439794,
       "success_rate": 1.0,
-      "current_case_count": 43
+      "current_case_count": 41
     },
     {
       "iteration": 9,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 18.21053015510514,
+      "total_feedback_score": 18.829368918448363,
       "cases_retained": 0,
-      "avg_feedback_score": 3.642106031021028,
+      "avg_feedback_score": 3.7658737836896727,
       "success_rate": 1.0,
-      "current_case_count": 43
+      "current_case_count": 41
     },
     {
       "iteration": 10,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 17.254676251993704,
-      "cases_retained": 1,
-      "avg_feedback_score": 3.4509352503987407,
+      "total_feedback_score": 18.647981891295164,
+      "cases_retained": 0,
+      "avg_feedback_score": 3.729596378259033,
       "success_rate": 1.0,
-      "current_case_count": 44
+      "current_case_count": 41
     },
     {
       "iteration": 11,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 18.497058848879142,
-      "cases_retained": 1,
-      "avg_feedback_score": 3.6994117697758284,
+      "total_feedback_score": 20.602379236284968,
+      "cases_retained": 0,
+      "avg_feedback_score": 4.120475847256993,
       "success_rate": 1.0,
-      "current_case_count": 45
+      "current_case_count": 41
     },
     {
       "iteration": 12,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 19.283556827303258,
+      "total_feedback_score": 18.25610955716306,
       "cases_retained": 0,
-      "avg_feedback_score": 3.8567113654606517,
+      "avg_feedback_score": 3.651221911432612,
       "success_rate": 1.0,
-      "current_case_count": 45
+      "current_case_count": 41
     },
     {
       "iteration": 13,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 16.8114842375313,
-      "cases_retained": 1,
-      "avg_feedback_score": 3.36229684750626,
+      "total_feedback_score": 20.237860690112154,
+      "cases_retained": 0,
+      "avg_feedback_score": 4.0475721380224305,
       "success_rate": 1.0,
-      "current_case_count": 46
+      "current_case_count": 41
     },
     {
       "iteration": 14,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 17.499022953143953,
+      "total_feedback_score": 20.242164340508673,
       "cases_retained": 0,
-      "avg_feedback_score": 3.4998045906287905,
+      "avg_feedback_score": 4.0484328681017345,
       "success_rate": 1.0,
-      "current_case_count": 46
+      "current_case_count": 41
     },
     {
       "iteration": 15,
       "requests_processed": 5,
       "successful_proposals": 5,
-      "total_feedback_score": 17.662187980191298,
-      "cases_retained": 1,
-      "avg_feedback_score": 3.5324375960382595,
+      "total_feedback_score": 18.229237679839763,
+      "cases_retained": 0,
+      "avg_feedback_score": 3.6458475359679525,
       "success_rate": 1.0,
-      "current_case_count": 47
+      "current_case_count": 41
     }
   ],
   "summary": {
     "initial_cases": 41,
-    "final_cases": 47,
-    "total_cases_learned": 6,
+    "final_cases": 41,
+    "total_cases_learned": 0,
     "total_requests": 75,
-    "avg_final_feedback": 3.4648463447244366,
-    "avg_initial_feedback": 3.868766207763914,
-    "improvement": -0.40391986303947736,
+    "avg_final_feedback": 3.9139508473640396,
+    "avg_initial_feedback": 3.9819409463626996,
+    "improvement": -0.06799009899865993,
     "avg_success_rate": 1.0
   }
 }

@@ -1,5 +1,5 @@
 {
-  "execution_timestamp": "2026-01-10T03:03:18.803833",
+  "execution_timestamp": "2026-01-10T03:32:38.858681",
   "tests_executed": 8,
   "results": {
     "test_complete_cbr_cycle": {
@@ -11,7 +11,7 @@
       },
       "data": {
         "test_name": "Complete CBR Cycle",
-        "timestamp": "2026-01-10T03:03:18.886173",
+        "timestamp": "2026-01-10T03:32:38.905259",
         "scenarios": [
           {
             "scenario_id": "scenario_1",
@@ -104,12 +104,12 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "Starting Multi-User Simulation Test...\n  Plot saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/plots/feedback_evolution.png\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_user_simulation.json\n\nSummary:\n  Total requests: 75\n  Cases learned: 6\n  Initial avg feedback: 3.869\n  Final avg feedback: 3.465\n  Improvement: -0.404\n  Success rate: 100.0%\n",
+        "stdout": "Starting Multi-User Simulation Test...\n  Plot saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/plots/feedback_evolution.png\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_user_simulation.json\n\nSummary:\n  Total requests: 75\n  Cases learned: 0\n  Initial avg feedback: 3.982\n  Final avg feedback: 3.914\n  Improvement: -0.068\n  Success rate: 100.0%\n",
         "stderr": ""
       },
       "data": {
         "test_name": "Multi-User Simulation",
-        "timestamp": "2026-01-10T03:03:19.666334",
+        "timestamp": "2026-01-10T03:32:39.832353",
         "parameters": {
           "num_users": 5,
           "iterations": 15
@@ -119,9 +119,9 @@
             "iteration": 1,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 18.179410188077753,
-            "cases_retained": 2,
-            "avg_feedback_score": 3.6358820376155507,
+            "total_feedback_score": 19.760318710604086,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.952063742120817,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -129,9 +129,9 @@
             "iteration": 2,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 20.123446066089443,
+            "total_feedback_score": 20.16314098274919,
             "cases_retained": 1,
-            "avg_feedback_score": 4.024689213217888,
+            "avg_feedback_score": 4.0326281965498385,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -139,9 +139,9 @@
             "iteration": 3,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.728636862291516,
+            "total_feedback_score": 19.80565450208722,
             "cases_retained": 1,
-            "avg_feedback_score": 3.945727372458303,
+            "avg_feedback_score": 3.9611309004174435,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -149,9 +149,9 @@
             "iteration": 4,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.023422592157186,
+            "total_feedback_score": 19.521223975323984,
             "cases_retained": 0,
-            "avg_feedback_score": 3.8046845184314373,
+            "avg_feedback_score": 3.904244795064797,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -159,9 +159,9 @@
             "iteration": 5,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.145521939885285,
+            "total_feedback_score": 19.66146104459475,
             "cases_retained": 0,
-            "avg_feedback_score": 3.8291043879770568,
+            "avg_feedback_score": 3.9322922089189496,
             "success_rate": 1.0,
             "current_case_count": 41
           },
@@ -169,111 +169,111 @@
             "iteration": 6,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.279802047285372,
+            "total_feedback_score": 20.375194022033646,
             "cases_retained": 1,
-            "avg_feedback_score": 3.4559604094570746,
+            "avg_feedback_score": 4.075038804406729,
             "success_rate": 1.0,
-            "current_case_count": 42
+            "current_case_count": 41
           },
           {
             "iteration": 7,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.8458597035152,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.56917194070304,
+            "total_feedback_score": 19.723257967028374,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.9446515934056747,
             "success_rate": 1.0,
-            "current_case_count": 43
+            "current_case_count": 41
           },
           {
             "iteration": 8,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.931779985669433,
-            "cases_retained": 0,
-            "avg_feedback_score": 3.5863559971338868,
+            "total_feedback_score": 19.873764823219897,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.9747529646439794,
             "success_rate": 1.0,
-            "current_case_count": 43
+            "current_case_count": 41
           },
           {
             "iteration": 9,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 18.21053015510514,
+            "total_feedback_score": 18.829368918448363,
             "cases_retained": 0,
-            "avg_feedback_score": 3.642106031021028,
+            "avg_feedback_score": 3.7658737836896727,
             "success_rate": 1.0,
-            "current_case_count": 43
+            "current_case_count": 41
           },
           {
             "iteration": 10,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.254676251993704,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.4509352503987407,
+            "total_feedback_score": 18.647981891295164,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.729596378259033,
             "success_rate": 1.0,
-            "current_case_count": 44
+            "current_case_count": 41
           },
           {
             "iteration": 11,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 18.497058848879142,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.6994117697758284,
+            "total_feedback_score": 20.602379236284968,
+            "cases_retained": 0,
+            "avg_feedback_score": 4.120475847256993,
             "success_rate": 1.0,
-            "current_case_count": 45
+            "current_case_count": 41
           },
           {
             "iteration": 12,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 19.283556827303258,
+            "total_feedback_score": 18.25610955716306,
             "cases_retained": 0,
-            "avg_feedback_score": 3.8567113654606517,
+            "avg_feedback_score": 3.651221911432612,
             "success_rate": 1.0,
-            "current_case_count": 45
+            "current_case_count": 41
           },
           {
             "iteration": 13,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 16.8114842375313,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.36229684750626,
+            "total_feedback_score": 20.237860690112154,
+            "cases_retained": 0,
+            "avg_feedback_score": 4.0475721380224305,
             "success_rate": 1.0,
-            "current_case_count": 46
+            "current_case_count": 41
           },
           {
             "iteration": 14,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.499022953143953,
+            "total_feedback_score": 20.242164340508673,
             "cases_retained": 0,
-            "avg_feedback_score": 3.4998045906287905,
+            "avg_feedback_score": 4.0484328681017345,
             "success_rate": 1.0,
-            "current_case_count": 46
+            "current_case_count": 41
           },
           {
             "iteration": 15,
             "requests_processed": 5,
             "successful_proposals": 5,
-            "total_feedback_score": 17.662187980191298,
-            "cases_retained": 1,
-            "avg_feedback_score": 3.5324375960382595,
+            "total_feedback_score": 18.229237679839763,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.6458475359679525,
             "success_rate": 1.0,
-            "current_case_count": 47
+            "current_case_count": 41
           }
         ],
         "summary": {
           "initial_cases": 41,
-          "final_cases": 47,
-          "total_cases_learned": 6,
+          "final_cases": 41,
+          "total_cases_learned": 0,
           "total_requests": 75,
-          "avg_final_feedback": 3.4648463447244366,
-          "avg_initial_feedback": 3.868766207763914,
-          "improvement": -0.40391986303947736,
+          "avg_final_feedback": 3.9139508473640396,
+          "avg_initial_feedback": 3.9819409463626996,
+          "improvement": -0.06799009899865993,
           "avg_success_rate": 1.0
         }
       }
@@ -287,7 +287,7 @@
       },
       "data": {
         "test_name": "Adaptive Weight Learning",
-        "timestamp": "2026-01-10T03:03:20.846512",
+        "timestamp": "2026-01-10T03:32:40.904038",
         "systems": {
           "static": {
             "name": "Static Weights",
@@ -302,7 +302,7 @@
                 "iteration": 2,
                 "proposals_count": 3,
                 "top_similarity": 0.7150000000000001,
-                "avg_similarity": 0.685
+                "avg_similarity": 0.6856666666666668
               },
               {
                 "iteration": 3,
@@ -399,7 +399,7 @@
                 "iteration": 5,
                 "proposals_count": 3,
                 "top_similarity": 0.7589950218041774,
-                "avg_similarity": 0.7304090796370444,
+                "avg_similarity": 0.7409638258773769,
                 "weights": {
                   "event_type": 0.19761813811142143,
                   "season": 0.11857088286685284,
@@ -512,7 +512,7 @@
       },
       "data": {
         "test_name": "Semantic Cultural Adaptation",
-        "timestamp": "2026-01-10T03:03:21.463508",
+        "timestamp": "2026-01-10T03:32:41.502778",
         "test_cases": [
           {
             "scenario_id": "italian_adaptation",
@@ -528,7 +528,7 @@
               "ingredient_substitutions": 0,
               "dish_replacements": 0,
               "cultural_theme": "italian",
-              "total_price": 44.3
+              "total_price": 44.8
             }
           },
           {
@@ -545,7 +545,7 @@
               "ingredient_substitutions": 0,
               "dish_replacements": 0,
               "cultural_theme": "spanish",
-              "total_price": 33.9
+              "total_price": 34.3
             }
           },
           {
@@ -562,7 +562,7 @@
               "ingredient_substitutions": 0,
               "dish_replacements": 1,
               "cultural_theme": "japanese",
-              "total_price": 40.0
+              "total_price": 39.99999999999999
             }
           },
           {
@@ -579,7 +579,7 @@
               "ingredient_substitutions": 0,
               "dish_replacements": 0,
               "cultural_theme": "french",
-              "total_price": 47.747191011235955
+              "total_price": 47.7
             }
           }
         ],
@@ -602,7 +602,7 @@
       },
       "data": {
         "test_name": "Semantic Similarity in RETRIEVE",
-        "timestamp": "2026-01-10T03:03:21.659953",
+        "timestamp": "2026-01-10T03:32:41.702923",
         "cultural_preferences": [
           {
             "target_culture": "italian",
@@ -872,7 +872,7 @@
       },
       "data": {
         "test_name": "Negative Cases Learning",
-        "timestamp": "2026-01-10T03:03:21.719235",
+        "timestamp": "2026-01-10T03:32:41.764565",
         "scenarios": [
           {
             "scenario_id": "negative_case_creation",
@@ -883,7 +883,7 @@
               "score": 2.1,
               "success": false,
               "retained": true,
-              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260110-030321-361"
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260110-033241-615"
             }
           },
           {
@@ -892,7 +892,7 @@
             "warnings_found": 1,
             "warning_details": [
               {
-                "case_id": "case-20260110-030321-361",
+                "case_id": "case-20260110-033241-615",
                 "similarity": 0.8195569136745607,
                 "feedback_score": 2.1
               }
@@ -928,7 +928,7 @@
       },
       "data": {
         "test_name": "Semantic Similarity in RETAIN",
-        "timestamp": "2026-01-10T03:03:21.780975",
+        "timestamp": "2026-01-10T03:32:41.827759",
         "test_cases": [
           {
             "test_id": "italian_vs_spanish",
@@ -978,7 +978,7 @@
       "execution": {
         "status": "success",
         "returncode": 0,
-        "stdout": "\n============================================================\n\ud83e\uddea EVALUACI\u00d3N COMPARATIVA: CBR Est\u00e1tico vs Adaptativo\n============================================================\n\ud83d\udccb Total de casos de prueba: 10\n\u23f0 Inicio: 2026-01-10 03:03:21\n\n============================================================\n\ud83d\udd39 EVALUACI\u00d3N: CBR EST\u00c1TICO (Pesos Fijos)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 1 propuestas en 0.02s\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS EST\u00c1TICO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.01s\n\n============================================================\n\ud83d\udd38 EVALUACI\u00d3N: CBR ADAPTATIVO (Aprendizaje Activo)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (4.0/5.0)\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (4.8/5.0)\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 2 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (3.8/5.0)\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.2/5.0)\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.05s\n  \ud83d\udcda Pesos actualizados con feedback (3.5/5.0)\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS ADAPTATIVO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.02s\n\u2705 Historial de aprendizaje guardado en: data/results/learning_history_test.json\n\u2705 Gr\u00e1fica guardada en: data/plots/weight_evolution.png\n\u2705 Gr\u00e1fica de correlaci\u00f3n guardada en: data/plots/feedback_correlation.png\n\u2705 Gr\u00e1ficas generadas en: data/plots/\n\n============================================================\n\ud83d\udcc8 COMPARACI\u00d3N DE RESULTADOS\n============================================================\n\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 M\u00e9trica                     \u2502 Est\u00e1tico \u2502 Adaptivo \u2502  Mejora  \u2502\n\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n\u2502 Precisi\u00f3n                   \u2502   90.0% \u2502   90.0% \u2502    +0.0% \u2502\n\u2502 Satisfacci\u00f3n promedio       \u2502   4.40/5 \u2502   4.40/5 \u2502   +0.00   \u2502\n\u2502 Tiempo promedio (s)         \u2502   0.015  \u2502   0.016  \u2502   +0.001  \u2502\n\u2502 Casos exitosos              \u2502     9    \u2502     9    \u2502    +0    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\ud83c\udfaf CONCLUSIONES:\n   \u2796 Precisi\u00f3n sin cambios\n   \u2796 Satisfacci\u00f3n sin cambios\n   \u2705 Tiempo de procesamiento similar (overhead m\u00ednimo)\n\n\ud83d\udcbe Comparaci\u00f3n guardada en: data/evaluation_comparison.json\n\u2705 Evaluaci\u00f3n completada\n\u23f0 Fin: 2026-01-10 03:03:22\n============================================================\n\n",
+        "stdout": "\n============================================================\n\ud83e\uddea EVALUACI\u00d3N COMPARATIVA: CBR Est\u00e1tico vs Adaptativo\n============================================================\n\ud83d\udccb Total de casos de prueba: 10\n\u23f0 Inicio: 2026-01-10 03:32:41\n\n============================================================\n\ud83d\udd39 EVALUACI\u00d3N: CBR EST\u00c1TICO (Pesos Fijos)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 1 propuestas en 0.03s\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.04s\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS EST\u00c1TICO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.02s\n\n============================================================\n\ud83d\udd38 EVALUACI\u00d3N: CBR ADAPTATIVO (Aprendizaje Activo)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.04s\n  \ud83d\udcda Pesos actualizados con feedback (4.0/5.0)\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (4.8/5.0)\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 1 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (3.8/5.0)\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.2/5.0)\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.05s\n  \ud83d\udcda Pesos actualizados con feedback (3.5/5.0)\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS ADAPTATIVO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.02s\n\u2705 Historial de aprendizaje guardado en: data/results/learning_history_test.json\n\u2705 Gr\u00e1fica guardada en: data/plots/weight_evolution.png\n\u2705 Gr\u00e1fica de correlaci\u00f3n guardada en: data/plots/feedback_correlation.png\n\u2705 Gr\u00e1ficas generadas en: data/plots/\n\n============================================================\n\ud83d\udcc8 COMPARACI\u00d3N DE RESULTADOS\n============================================================\n\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 M\u00e9trica                     \u2502 Est\u00e1tico \u2502 Adaptivo \u2502  Mejora  \u2502\n\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n\u2502 Precisi\u00f3n                   \u2502   90.0% \u2502   90.0% \u2502    +0.0% \u2502\n\u2502 Satisfacci\u00f3n promedio       \u2502   4.40/5 \u2502   4.40/5 \u2502   +0.00   \u2502\n\u2502 Tiempo promedio (s)         \u2502   0.015  \u2502   0.017  \u2502   +0.002  \u2502\n\u2502 Casos exitosos              \u2502     9    \u2502     9    \u2502    +0    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\ud83c\udfaf CONCLUSIONES:\n   \u2796 Precisi\u00f3n sin cambios\n   \u2796 Satisfacci\u00f3n sin cambios\n   \u2705 Tiempo de procesamiento similar (overhead m\u00ednimo)\n\n\ud83d\udcbe Comparaci\u00f3n guardada en: data/evaluation_comparison.json\n\u2705 Evaluaci\u00f3n completada\n\u23f0 Fin: 2026-01-10 03:32:42\n============================================================\n\n",
         "stderr": ""
       },
       "data": {
@@ -986,13 +986,13 @@
           "test_type": "Comparative Evaluation",
           "static_precision": 0.9,
           "static_satisfaction": 4.4,
-          "static_time": 0.014959144592285156,
+          "static_time": 0.015253114700317382,
           "adaptive_precision": 0.9,
           "adaptive_satisfaction": 4.4,
-          "adaptive_time": 0.016005802154541015,
+          "adaptive_time": 0.01679544448852539,
           "precision_improvement_pct": 0.0,
           "satisfaction_improvement": 0.0,
-          "time_overhead_seconds": 0.0010466575622558594,
+          "time_overhead_seconds": 0.0015423297882080078,
           "total_test_cases": 10,
           "adaptive_better": false
         }

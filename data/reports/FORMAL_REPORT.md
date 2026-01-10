@@ -1,6 +1,6 @@
 # CBR System - Formal Experimental Results
 
-**Report Generated:** 2026-01-10 02:54:36
+**Report Generated:** 2026-01-10 03:32:42
 
 ---
 
@@ -37,12 +37,12 @@
 **Key Metrics:**
 
 - Initial Cases: 41
-- Final Cases: 45
-- Total Cases Learned: 4
+- Final Cases: 41
+- Total Cases Learned: 0
 - Total Requests: 75
-- Avg Final Feedback: 3.728
-- Avg Initial Feedback: 3.828
-- Improvement: -10.0%
+- Avg Final Feedback: 3.914
+- Avg Initial Feedback: 3.982
+- Improvement: -6.8%
 - Avg Success Rate: 100.0%
 
 
@@ -123,6 +123,20 @@
 
 **Status:** SUCCESS
 
+
+**Key Metrics:**
+
+- Test Type: Comparative Evaluation
+- Static Precision: 0.900
+- Static Satisfaction: 4.400
+- Static Time: 0.015
+- Adaptive Precision: 0.900
+- Adaptive Satisfaction: 4.400
+- Adaptive Time: 0.017
+- Precision Improvement Pct: 0.0%
+- Satisfaction Improvement: 0.0%
+- Time Overhead Seconds: 0.002
+- Total Test Cases: 10
 
 
 ---

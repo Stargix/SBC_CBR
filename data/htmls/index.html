@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBR Test Reports - Index</title>
+    <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f5f0e8 100%);
+            color: var(--ink);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--muted);
+            font-size: 1.2em;
+        }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .report-card {
+            background: var(--surface);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: var(--ink);
+            display: block;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .report-card h2 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        
+        .report-card p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        
+        .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .category {
+            margin-bottom: 50px;
+        }
+        
+        .category h2 {
+            color: var(--accent-2);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--line);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CBR Test Reports</h1>
+            <p class="subtitle">Interactive Visual Reports for Case-Based Reasoning System</p>
+        </header>
+        
+        <div class="category">
+            <h2>🎯 Learning & Adaptation</h2>
+            <div class="reports-grid">
+                <a href="report_adaptive_weights.html" class="report-card">
+                    <span class="icon">⚖️</span>
+                    <h2>Adaptive Weights</h2>
+                    <p>Static vs Adaptive weight learning comparison with performance metrics</p>
+                </a>
+                
+                <a href="report_adaptive_learning.html" class="report-card">
+                    <span class="icon">📈</span>
+                    <h2>Adaptive Learning</h2>
+                    <p>Learning system performance: precision, satisfaction, and time overhead</p>
+                </a>
+                
+                <a href="report_user_simulation.html" class="report-card">
+                    <span class="icon">👥</span>
+                    <h2>User Simulation</h2>
+                    <p>Multi-user interactions with feedback evolution and retention analysis</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>🔄 CBR Cycle</h2>
+            <div class="reports-grid">
+                <a href="report_complete_cbr_cycle.html" class="report-card">
+                    <span class="icon">♻️</span>
+                    <h2>Complete CBR Cycle</h2>
+                    <p>Full 4R cycle (Retrieve, Reuse, Revise, Retain) across scenarios</p>
+                </a>
+                
+                <a href="report_semantic_retrieve.html" class="report-card">
+                    <span class="icon">🔍</span>
+                    <h2>Semantic Retrieve</h2>
+                    <p>Case retrieval with similarity scores and rankings</p>
+                </a>
+                
+                <a href="report_semantic_retain.html" class="report-card">
+                    <span class="icon">💾</span>
+                    <h2>Semantic Retain</h2>
+                    <p>Case retention strategies and learning integration</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>🌍 Cultural & Edge Cases</h2>
+            <div class="reports-grid">
+                <a href="report_semantic_cultural_adaptation.html" class="report-card">
+                    <span class="icon">🌏</span>
+                    <h2>Cultural Adaptation</h2>
+                    <p>Cross-cultural recipe adaptations and ingredient substitutions</p>
+                </a>
+                
+                <a href="report_negative_cases.html" class="report-card">
+                    <span class="icon">⚠️</span>
+                    <h2>Negative Cases</h2>
+                    <p>Failure learning and negative feedback handling</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

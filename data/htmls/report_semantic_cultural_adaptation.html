@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Cultural Adaptation - CBR System Report</title>
+    <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f4f1eb 100%);
+            color: var(--ink);
+            padding: 28px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .panel {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+        
+        .panel h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .panel h3 {
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: #faf7f1;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .stat-value.positive {
+            color: #059669;
+        }
+        
+        .stat-value.negative {
+            color: #dc2626;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: var(--accent);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .comparison-table tr:hover {
+            background: #faf7f1;
+        }
+        
+        .plot-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        
+        .plot-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .alert.info {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(15, 118, 110, 0.2);
+        }
+        
+        .alert.success {
+            background: rgba(5, 150, 105, 0.08);
+            color: #059669;
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        
+        .alert.warning {
+            background: rgba(224, 122, 95, 0.08);
+            color: var(--accent-2);
+            border: 1px solid rgba(224, 122, 95, 0.2);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge.success {
+            background: rgba(5, 150, 105, 0.15);
+            color: #059669;
+        }
+        
+        .badge.neutral {
+            background: rgba(91, 100, 116, 0.15);
+            color: var(--muted);
+        }
+        
+        .badge.warning {
+            background: rgba(224, 122, 95, 0.15);
+            color: var(--accent-2);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--accent-2);
+        }
+    </style>
+    
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <h1>🌍 Semantic Cultural Adaptation</h1>
+            <p class="subtitle">Cross-Cultural Recipe Adaptation Analysis</p>
+        </div>
+    
+        <div class="panel">
+            <h2>📊 Summary Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Cultures Tested</div>
+                    <div class="stat-value">4</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Adaptations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Similarity</div>
+                    <div class="stat-value">0.904</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🎯 Retrieval Quality by Culture</h2>
+            <div class="plot-container">
+                <div id="retrievalQualityPlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🔧 Adaptation Intensity</h2>
+            <div class="plot-container">
+                <div id="adaptationPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var cultures = [];
+            var topSim = [];
+            var avgSim = [];
+            var adaptations = [];
+            var substitutions = [];
+            var replacements = [];
+    
+            cultures.push('ITALIAN');
+            topSim.push(1.0);
+            avgSim.push(0.9635999999999999);
+            adaptations.push(0);
+            substitutions.push(0);
+            replacements.push(0);
+        
+            cultures.push('SPANISH');
+            topSim.push(0.895);
+            avgSim.push(0.8624);
+            adaptations.push(2);
+            substitutions.push(0);
+            replacements.push(0);
+        
+            cultures.push('JAPANESE');
+            topSim.push(0.742);
+            avgSim.push(0.6984);
+            adaptations.push(3);
+            substitutions.push(0);
+            replacements.push(1);
+        
+            cultures.push('FRENCH');
+            topSim.push(0.9809999999999999);
+            avgSim.push(0.8858285714285714);
+            adaptations.push(0);
+            substitutions.push(0);
+            replacements.push(0);
+        
+            // Retrieval quality
+            var topSimTrace = {
+                x: cultures,
+                y: topSim,
+                name: 'Top Match',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#0f766e', width: 3},
+                marker: {size: 10}
+            };
+            
+            var avgSimTrace = {
+                x: cultures,
+                y: avgSim,
+                name: 'Avg of Top 5',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#e07a5f', width: 3},
+                marker: {size: 10}
+            };
+            
+            var retrievalLayout = {
+                title: 'Semantic Similarity in Retrieval Phase',
+                xaxis: {title: 'Target Culture'},
+                yaxis: {title: 'Similarity Score', range: [0, 1]},
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('retrievalQualityPlot', [topSimTrace, avgSimTrace], retrievalLayout, {responsive: true});
+            
+            // Adaptation intensity
+            var adaptTrace = {
+                x: cultures,
+                y: adaptations,
+                name: 'Cultural Adaptations',
+                type: 'bar',
+                marker: {color: '#0f766e'}
+            };
+            
+            var substTrace = {
+                x: cultures,
+                y: substitutions,
+                name: 'Ingredient Substitutions',
+                type: 'bar',
+                marker: {color: '#f59e0b'}
+            };
+            
+            var replaceTrace = {
+                x: cultures,
+                y: replacements,
+                name: 'Dish Replacements',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var adaptLayout = {
+                title: 'Adaptation Operations Applied',
+                xaxis: {title: 'Target Culture'},
+                yaxis: {title: 'Number of Operations'},
+                barmode: 'stack',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('adaptationPlot', [adaptTrace, substTrace, replaceTrace], adaptLayout, {responsive: true});
+        </script>
+    
+        <div class="panel">
+            <h2>ITALIAN Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">1.000</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€44.80</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>SPANISH Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">0.895</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€34.30</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>JAPANESE Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">0.742</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€40.00</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>FRENCH Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">0.981</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€47.70</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="footer">
+        <p>Generated on 2026-01-10 03:32:42</p>
+        <p>CBR Chef System - Experimental Results Report</p>
+    </div>
+</body>
+</html>

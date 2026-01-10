@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Retain - CBR System Report</title>
+    <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f4f1eb 100%);
+            color: var(--ink);
+            padding: 28px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .panel {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+        
+        .panel h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .panel h3 {
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: #faf7f1;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .stat-value.positive {
+            color: #059669;
+        }
+        
+        .stat-value.negative {
+            color: #dc2626;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: var(--accent);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .comparison-table tr:hover {
+            background: #faf7f1;
+        }
+        
+        .plot-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        
+        .plot-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .alert.info {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(15, 118, 110, 0.2);
+        }
+        
+        .alert.success {
+            background: rgba(5, 150, 105, 0.08);
+            color: #059669;
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        
+        .alert.warning {
+            background: rgba(224, 122, 95, 0.08);
+            color: var(--accent-2);
+            border: 1px solid rgba(224, 122, 95, 0.2);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge.success {
+            background: rgba(5, 150, 105, 0.15);
+            color: #059669;
+        }
+        
+        .badge.neutral {
+            background: rgba(91, 100, 116, 0.15);
+            color: var(--muted);
+        }
+        
+        .badge.warning {
+            background: rgba(224, 122, 95, 0.15);
+            color: var(--accent-2);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--accent-2);
+        }
+    </style>
+    
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <h1>💾 Semantic Retain</h1>
+            <p class="subtitle">Case Base Retention and Update Strategies</p>
+        </div>
+    
+        <div class="panel">
+            <h2>📊 Retention Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Initial Cases</div>
+                    <div class="stat-value">41</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Final Cases</div>
+                    <div class="stat-value">43</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Retention Rate</div>
+                    <div class="stat-value">100%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Cases Added</div>
+                    <div class="stat-value positive">+2</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🔄 Retention Actions Distribution</h2>
+            <div class="plot-container">
+                <div id="actionsPlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📈 Case Base Growth</h2>
+            <div class="plot-container">
+                <div id="growthPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var testNames = [];
+            var actions = [];
+            var actionColors = {
+                'add_new': '#059669',
+                'update_existing': '#f59e0b',
+                'reject': '#dc2626'
+            };
+    
+            testNames.push('Test 1');
+            actions.push({action: 'add_new', color: actionColors['add_new'] || '#5b6474'});
+        
+            testNames.push('Test 2');
+            actions.push({action: 'add_new', color: actionColors['add_new'] || '#5b6474'});
+        
+            testNames.push('Test 3');
+            actions.push({action: 'update_existing', color: actionColors['update_existing'] || '#5b6474'});
+        
+            // Actions pie chart
+            var actionCounts = {};
+            actions.forEach(a => {
+                actionCounts[a.action] = (actionCounts[a.action] || 0) + 1;
+            });
+            
+            var pieTrace = {
+                labels: Object.keys(actionCounts).map(k => k.replace('_', ' ').toUpperCase()),
+                values: Object.values(actionCounts),
+                type: 'pie',
+                marker: {
+                    colors: Object.keys(actionCounts).map(k => actionColors[k])
+                },
+                textinfo: 'label+percent',
+                textposition: 'outside'
+            };
+            
+            var pieLayout = {
+                title: 'Retention Strategy Distribution',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('actionsPlot', [pieTrace], pieLayout, {responsive: true});
+            
+            // Growth visualization
+    
+            var growthTrace = {
+                x: ['Initial', 'Final'],
+                y: [41, 43],
+                type: 'bar',
+                marker: {
+                    color: ['#5b6474', '#0f766e']
+                },
+                text: [41, 43],
+                textposition: 'outside'
+            };
+            
+            var growthLayout = {
+                title: 'Case Base Size Evolution',
+                xaxis: {title: 'State'},
+                yaxis: {title: 'Number of Cases'},
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('growthPlot', [growthTrace], growthLayout, {responsive: true});
+        </script>
+    
+        <div class="panel">
+            <h2>Test 1: Italian menu vs existing Spanish cases (semantically similar)</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Culture</div>
+                    <div class="stat-value">ITALIAN</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Action</div>
+                    <div class="stat-value positive">Add New</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Retained</div>
+                    <div class="stat-value">✓</div>
+                </div>
+            </div>
+            <div class="alert info">
+                <strong>Reason:</strong> Caso novedoso para la base de conocimiento
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Test 2: Japanese menu vs European cases (semantically different)</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Culture</div>
+                    <div class="stat-value">JAPANESE</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Action</div>
+                    <div class="stat-value positive">Add New</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Retained</div>
+                    <div class="stat-value">✓</div>
+                </div>
+            </div>
+            <div class="alert info">
+                <strong>Reason:</strong> Caso novedoso para la base de conocimiento
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Test 3: French menu vs European cases (semantically similar)</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Culture</div>
+                    <div class="stat-value">FRENCH</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Action</div>
+                    <div class="stat-value positive">Update Existing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Retained</div>
+                    <div class="stat-value">✓</div>
+                </div>
+            </div>
+            <div class="alert info">
+                <strong>Reason:</strong> Mejora caso existente (4.8 vs 4.5)
+            </div>
+        </div>
+        
+    </div>
+    <div class="footer">
+        <p>Generated on 2026-01-10 03:32:42</p>
+        <p>CBR Chef System - Experimental Results Report</p>
+    </div>
+</body>
+</html>
