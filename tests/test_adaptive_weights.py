@@ -17,6 +17,8 @@ from pathlib import Path
 from typing import Dict, List
 from datetime import datetime
 from dataclasses import asdict
+import matplotlib.pyplot as plt
+import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -182,11 +184,14 @@ def main():
     print("Starting Adaptive Weight Learning Test...")
     results = run_test()
     
-    output_file = Path(__file__).parent.parent / "data" / "test_adaptive_weights.json"
+    output_file = Path(__file__).parent.parent / "data" / "results" / "test_adaptive_weights.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
+    
+    # Generate plot
+    generate_weight_evolution_plot(results)
     
     print(f"\nTest completed. Results saved to: {output_file}")
     print(f"\nSummary:")
@@ -197,6 +202,52 @@ def main():
     print(f"\n  Top weight changes:")
     for w in results['summary']['most_changed_weights']:
         print(f"    {w['name']}: {w['change']:+.3f} ({w['change_pct']:+.1f}%)")
+
+
+def generate_weight_evolution_plot(results: Dict):
+    """Generate plot showing weight evolution over iterations."""
+    
+    adaptive_results = results['systems']['adaptive']['results']
+    
+    # Extract weight evolution
+    iterations = range(1, len(adaptive_results) + 1)
+    weight_names = list(adaptive_results[0]['weights'].keys())
+    
+    # Create figure with subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+    
+    # Plot 1: Weight evolution over iterations
+    for weight_name in weight_names:
+        values = [r['weights'][weight_name] for r in adaptive_results]
+        ax1.plot(iterations, values, marker='o', label=weight_name, linewidth=2)
+    
+    ax1.set_xlabel('Iteration', fontsize=12)
+    ax1.set_ylabel('Weight Value', fontsize=12)
+    ax1.set_title('Weight Evolution - Adaptive Learning', fontsize=14, fontweight='bold')
+    ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=9)
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot 2: Weight changes comparison
+    weight_changes = results['summary']['weight_changes']
+    names = list(weight_changes.keys())
+    changes = [weight_changes[n]['change'] for n in names]
+    colors = ['green' if c > 0 else 'red' if c < 0 else 'gray' for c in changes]
+    
+    ax2.barh(names, changes, color=colors, alpha=0.7)
+    ax2.set_xlabel('Weight Change', fontsize=12)
+    ax2.set_title('Total Weight Changes', fontsize=14, fontweight='bold')
+    ax2.axvline(x=0, color='black', linestyle='-', linewidth=0.5)
+    ax2.grid(True, alpha=0.3, axis='x')
+    
+    plt.tight_layout()
+    
+    # Save plot
+    plot_file = Path(__file__).parent.parent / "data" / "plots" / "weight_evolution.png"
+    plot_file.parent.mkdir(exist_ok=True)
+    plt.savefig(plot_file, dpi=150, bbox_inches='tight')
+    plt.close()
+    
+    print(f"  Plot saved to: {plot_file}")
 
 
 if __name__ == "__main__":

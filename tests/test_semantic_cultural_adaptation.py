@@ -158,7 +158,7 @@ def main():
     print("Starting Semantic Cultural Adaptation Test...")
     results = run_test()
     
-    output_file = Path(__file__).parent.parent / "data" / "test_semantic_cultural_adaptation.json"
+    output_file = Path(__file__).parent.parent / "data" / "results" / "test_semantic_cultural_adaptation.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:

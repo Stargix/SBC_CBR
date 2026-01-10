@@ -371,8 +371,8 @@ def run_evaluation_adaptive() -> Tuple[EvaluationMetrics, Dict]:
     print(f"  Tiempo promedio: {summary['avg_processing_time']:.2f}s")
     
     # Guardar datos de aprendizaje
-    cbr.save_learning_data('data/learning_history_test.json')
-    cbr.plot_learning_evolution('docs')
+    cbr.save_learning_data('data/results/learning_history_test.json')
+    cbr.plot_learning_evolution('data/plots')
     
     return metrics, {"summary": summary, "details": results}
 
@@ -451,7 +451,7 @@ def compare_results(static_metrics: EvaluationMetrics,
     }
     
     os.makedirs('data', exist_ok=True)
-    with open('data/evaluation_comparison.json', 'w') as f:
+    with open('data/results/evaluation_comparison.json', 'w') as f:
         json.dump(comparison, f, indent=2)
     
     print(f"\n💾 Comparación guardada en: data/evaluation_comparison.json")

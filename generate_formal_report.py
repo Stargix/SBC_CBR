@@ -109,7 +109,7 @@ def generate_csv_summary(data: Dict) -> str:
 def main():
     """Generate formal report from test results."""
     
-    master_report_file = Path(__file__).parent / "data" / "master_test_report.json"
+    master_report_file = Path(__file__).parent / "data" / "results" / "master_test_report.json"
     
     if not master_report_file.exists():
         print("Error: Master test report not found. Run 'python run_all_tests.py' first.")
@@ -120,7 +120,7 @@ def main():
     
     # Generate markdown report
     markdown_content = generate_markdown_report(data)
-    markdown_file = Path(__file__).parent / "data" / "FORMAL_REPORT.md"
+    markdown_file = Path(__file__).parent / "data" / "reports" / "FORMAL_REPORT.md"
     
     with open(markdown_file, 'w') as f:
         f.write(markdown_content)
@@ -129,7 +129,7 @@ def main():
     
     # Generate CSV summary
     csv_content = generate_csv_summary(data)
-    csv_file = Path(__file__).parent / "data" / "test_summary.csv"
+    csv_file = Path(__file__).parent / "data" / "reports" / "test_summary.csv"
     
     with open(csv_file, 'w') as f:
         f.write(csv_content)

@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import List, Dict
 from datetime import datetime
 import random
+import matplotlib.pyplot as plt
+import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -174,11 +176,14 @@ def main():
     print("Starting Multi-User Simulation Test...")
     results = run_test(num_users=5, iterations=15)
     
-    output_file = Path(__file__).parent.parent / "data" / "test_user_simulation.json"
+    output_file = Path(__file__).parent.parent / "data" / "results" / "test_user_simulation.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
+    
+    # Generate plot
+    generate_feedback_evolution_plot(results)
     
     print(f"\nTest completed. Results saved to: {output_file}")
     print(f"\nSummary:")
@@ -188,6 +193,58 @@ def main():
     print(f"  Final avg feedback: {results['summary']['avg_final_feedback']:.3f}")
     print(f"  Improvement: {results['summary']['improvement']:+.3f}")
     print(f"  Success rate: {results['summary']['avg_success_rate']:.1%}")
+
+
+def generate_feedback_evolution_plot(results: Dict):
+    """Generate plot showing feedback evolution across iterations."""
+    
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+    
+    iterations = [it["iteration"] for it in results["iterations"]]
+    avg_scores = [it["avg_feedback_score"] for it in results["iterations"]]
+    success_rates = [it["success_rate"] for it in results["iterations"]]
+    
+    # Plot 1: Feedback scores evolution
+    ax1.plot(iterations, avg_scores, marker='o', color='darkblue', linewidth=2.5, markersize=8, label='Avg Feedback')
+    ax1.fill_between(iterations, avg_scores, alpha=0.2, color='darkblue')
+    
+    # Add trend line
+    z = np.polyfit(iterations, avg_scores, 1)
+    p = np.poly1d(z)
+    ax1.plot(iterations, p(iterations), "--", color='red', alpha=0.7, linewidth=2, label=f'Trend (slope: {z[0]:+.3f})')
+    
+    ax1.set_xlabel('Iteration', fontsize=12)
+    ax1.set_ylabel('Average Feedback Score', fontsize=12)
+    ax1.set_title('Feedback Score Evolution', fontsize=14, fontweight='bold')
+    ax1.legend(fontsize=10)
+    ax1.grid(True, alpha=0.3)
+    ax1.set_ylim(0, 5.5)
+    
+    # Plot 2: Success rate evolution
+    ax2.plot(iterations, [sr * 100 for sr in success_rates], marker='s', color='green', linewidth=2.5, markersize=8, label='Success Rate')
+    ax2.fill_between(iterations, [sr * 100 for sr in success_rates], alpha=0.2, color='green')
+    
+    # Add trend line
+    z2 = np.polyfit(iterations, [sr * 100 for sr in success_rates], 1)
+    p2 = np.poly1d(z2)
+    ax2.plot(iterations, p2(iterations), "--", color='darkred', alpha=0.7, linewidth=2, label=f'Trend (slope: {z2[0]:+.3f}%)')
+    
+    ax2.set_xlabel('Iteration', fontsize=12)
+    ax2.set_ylabel('Success Rate (%)', fontsize=12)
+    ax2.set_title('Success Rate Evolution', fontsize=14, fontweight='bold')
+    ax2.legend(fontsize=10)
+    ax2.grid(True, alpha=0.3)
+    ax2.set_ylim(0, 105)
+    
+    plt.tight_layout()
+    
+    # Save plot
+    plot_file = Path(__file__).parent.parent / "data" / "plots" / "feedback_evolution.png"
+    plot_file.parent.mkdir(exist_ok=True)
+    plt.savefig(plot_file, dpi=150, bbox_inches='tight')
+    plt.close()
+    
+    print(f"  Plot saved to: {plot_file}")
 
 
 if __name__ == "__main__":

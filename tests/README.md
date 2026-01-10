@@ -38,12 +38,25 @@ python generate_formal_report.py
 
 ## Output Files
 
-All test results are saved in `data/` directory:
+All test results are saved in organized subdirectories within `data/`:
 
+### Test Results (`data/results/`)
 - `test_*.json` - Individual test results (JSON format)
-- `master_test_report.json` - Consolidated results
+- `master_test_report.json` - Consolidated results from all tests
+- `groq_*.json` - LLM simulation results
+- `simulation_*.json` - Simulation data
+- `evaluation_comparison.json` - Static vs adaptive comparison
+
+### Reports (`data/reports/`)
 - `FORMAL_REPORT.md` - Formatted report for presentation
 - `test_summary.csv` - Metrics summary (spreadsheet compatible)
+- Text explanations and documentation
+
+### Visualizations (`data/plots/`)
+- Generated charts and plots (PNG format)
+
+### Interactive (`data/htmls/`)
+- HTML visualizations and reports
 
 ## Test Characteristics
 

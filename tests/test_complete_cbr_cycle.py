@@ -160,7 +160,7 @@ def main():
     print("Starting Complete CBR Cycle Test...")
     results = run_test()
     
-    output_file = Path(__file__).parent.parent / "data" / "test_complete_cbr_cycle.json"
+    output_file = Path(__file__).parent.parent / "data" / "results" / "test_complete_cbr_cycle.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:

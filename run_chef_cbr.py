@@ -30,7 +30,7 @@ def main():
     result = cbr.process_request(request)
     
     # Mostrar resultados
-    print(f"\n✅ Solicitud procesada exitosamente")
+    print(f"\n Solicitud procesada exitosamente")
     print(f"   Propuestas: {len(result.proposed_menus)}")
     print(f"   Tiempo: {result.processing_time:.2f}s")
     print(f"\n{result.explanations}")

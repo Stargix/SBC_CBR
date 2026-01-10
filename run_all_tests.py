@@ -44,7 +44,7 @@ def run_test(test_name: str) -> Dict:
 def load_test_results(test_name: str) -> Dict:
     """Load test results from JSON file."""
     
-    data_file = Path(__file__).parent / "data" / f"{test_name}.json"
+    data_file = Path(__file__).parent / "data" / "results" / f"{test_name}.json"
     
     if not data_file.exists():
         return {}
@@ -100,7 +100,7 @@ def main():
                 print(f"Error: {execution['stderr'][:200]}")
     
     # Save master report
-    output_file = Path(__file__).parent / "data" / "master_test_report.json"
+    output_file = Path(__file__).parent / "data" / "results" / "master_test_report.json"
     output_file.parent.mkdir(exist_ok=True)
     
     with open(output_file, 'w') as f:
