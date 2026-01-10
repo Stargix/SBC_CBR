@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete CBR Cycle Test - Chef Digital CBR</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <title>Complete CBR Cycle - CBR System Report</title>
     <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,413 +21,473 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f4f1eb 100%);
+            color: var(--ink);
+            padding: 28px;
             min-height: 100vh;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
         }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
+            margin-bottom: 32px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 16px;
         }
         
-        .summary-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            background: #f8f9fa;
+        .panel {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
         }
         
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-        }
-        
-        .card-title {
-            font-size: 0.9em;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        
-        .card-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .card-subtitle {
-            font-size: 0.85em;
-            color: #999;
-            margin-top: 5px;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .section {
-            margin-bottom: 50px;
-        }
-        
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .scenarios-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-        
-        .scenario-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-left: 5px solid #667eea;
-        }
-        
-        .scenario-header {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .scenario-desc {
-            color: #666;
-            font-style: italic;
+        .panel h2 {
+            font-size: 26px;
             margin-bottom: 20px;
-            font-size: 0.95em;
+            color: var(--accent);
         }
         
-        .phase-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            margin: 8px 0;
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: background 0.2s;
+        .panel h3 {
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
         }
         
-        .phase-item:hover {
-            background: #e9ecef;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
         
-        .phase-label {
-            font-weight: 600;
-            color: #555;
+        .stat-card {
+            background: #faf7f1;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
             text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 8px;
         }
         
-        .phase-value {
-            font-weight: bold;
-            color: #667eea;
-            font-size: 1.1em;
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .stat-value.positive {
+            color: #059669;
+        }
+        
+        .stat-value.negative {
+            color: #dc2626;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: var(--accent);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .comparison-table tr:hover {
+            background: #faf7f1;
+        }
+        
+        .plot-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        
+        .plot-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .alert.info {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(15, 118, 110, 0.2);
+        }
+        
+        .alert.success {
+            background: rgba(5, 150, 105, 0.08);
+            color: #059669;
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        
+        .alert.warning {
+            background: rgba(224, 122, 95, 0.08);
+            color: var(--accent-2);
+            border: 1px solid rgba(224, 122, 95, 0.2);
         }
         
         .badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
-        .badge-success {
-            background: #d4edda;
-            color: #155724;
+        .badge.success {
+            background: rgba(5, 150, 105, 0.15);
+            color: #059669;
         }
         
-        .badge-info {
-            background: #d1ecf1;
-            color: #0c5460;
+        .badge.neutral {
+            background: rgba(91, 100, 116, 0.15);
+            color: var(--muted);
+        }
+        
+        .badge.warning {
+            background: rgba(224, 122, 95, 0.15);
+            color: var(--accent-2);
         }
         
         .footer {
-            background: #2c3e50;
-            color: white;
+            margin-top: 40px;
             text-align: center;
+            color: var(--muted);
+            font-size: 14px;
             padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
             font-size: 0.9em;
+            color: var(--accent-2);
         }
     </style>
+    
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
 </head>
 <body>
     <div class="container">
+
         <div class="header">
-            <h1>🔄 Complete CBR Cycle Test</h1>
-            <p>RETRIEVE → ADAPT → REVISE → RETAIN</p>
-            <p style="font-size: 0.9em; opacity: 0.7; margin-top: 10px;">Executed: January 5, 2026</p>
+            <h1>♻️ Complete CBR Cycle</h1>
+            <p class="subtitle">Full Cycle Testing: Retrieve → Reuse → Revise → Retain</p>
         </div>
-        
-        <div class="summary-cards">
-            <div class="card">
-                <div class="card-title">Scenarios Tested</div>
-                <div class="card-value">3</div>
-                <div class="card-subtitle">Different cultural contexts</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Avg Retrieval Similarity</div>
-                <div class="card-value">87.5%</div>
-                <div class="card-subtitle">High-quality case matching</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Cases Learned</div>
-                <div class="card-value">+2</div>
-                <div class="card-subtitle">41 → 43 cases</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Retention Rate</div>
-                <div class="card-value">100%</div>
-                <div class="card-subtitle">All cases retained</div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2 class="section-title">📊 CBR Phases Performance</h2>
-                <div class="chart-container">
-                    <canvas id="phasesChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">🎯 Scenario Details</h2>
-                <div class="scenarios-grid">
-                    <div class="scenario-card">
-                        <div class="scenario-header">Scenario 1</div>
-                        <div class="scenario-desc">Italian cultural preference, summer wedding</div>
-                        <div class="phase-item">
-                            <span class="phase-label">🔍 Retrieve</span>
-                            <span class="phase-value">100% similarity</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">🔧 Adapt</span>
-                            <span class="phase-value">3 menus, 0 cultural adaptations</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">✓ Revise</span>
-                            <span class="phase-value">3 valid proposals</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">💾 Retain</span>
-                            <span class="badge badge-success">ADD NEW (4.7★)</span>
-                        </div>
-                    </div>
-                    
-                    <div class="scenario-card">
-                        <div class="scenario-header">Scenario 2</div>
-                        <div class="scenario-desc">Chinese cultural preference, congress event</div>
-                        <div class="phase-item">
-                            <span class="phase-label">🔍 Retrieve</span>
-                            <span class="phase-value">76.7% similarity</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">🔧 Adapt</span>
-                            <span class="phase-value">3 menus, 3 cultural adaptations</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">✓ Revise</span>
-                            <span class="phase-value">3 valid proposals</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">💾 Retain</span>
-                            <span class="badge badge-success">ADD NEW (4.5★)</span>
-                        </div>
-                    </div>
-                    
-                    <div class="scenario-card">
-                        <div class="scenario-header">Scenario 3</div>
-                        <div class="scenario-desc">Spanish regional style, family event</div>
-                        <div class="phase-item">
-                            <span class="phase-label">🔍 Retrieve</span>
-                            <span class="phase-value">88.6% similarity</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">🔧 Adapt</span>
-                            <span class="phase-value">3 menus, 3 cultural adaptations</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">✓ Revise</span>
-                            <span class="phase-value">3 valid proposals</span>
-                        </div>
-                        <div class="phase-item">
-                            <span class="phase-label">💾 Retain</span>
-                            <span class="badge badge-info">UPDATE EXISTING (4.8★)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">📈 Similarity Comparison</h2>
-                <div class="chart-container">
-                    <canvas id="similarityChart"></canvas>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p><strong>Chef Digital CBR System</strong> | Complete CBR Cycle Evaluation</p>
-            <p style="opacity: 0.7; margin-top: 5px;">Sistema de Razonamiento Basado en Casos para Elaboración de Menús</p>
-        </div>
-    </div>
     
-    <script>
-        // Phases Performance Chart
-        const phasesCtx = document.getElementById('phasesChart').getContext('2d');
-        new Chart(phasesCtx, {
-            type: 'bar',
-            data: {
-                labels: ['RETRIEVE', 'ADAPT', 'REVISE', 'RETAIN'],
-                datasets: [{
-                    label: 'Avg Performance Score',
-                    data: [87.5, 100, 100, 100],
-                    backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
-                        'rgba(237, 100, 166, 0.8)',
-                        'rgba(255, 154, 158, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(102, 126, 234, 1)',
-                        'rgba(118, 75, 162, 1)',
-                        'rgba(237, 100, 166, 1)',
-                        'rgba(255, 154, 158, 1)'
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Performance by CBR Phase (%)',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        <div class="panel">
+            <h2>📊 Overall Results</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Scenarios Executed</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Initial Cases</div>
+                    <div class="stat-value">41</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Cases Learned</div>
+                    <div class="stat-value positive">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Final Cases</div>
+                    <div class="stat-value">44</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Similarity</div>
+                    <div class="stat-value positive">92.90%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Retention Rate</div>
+                    <div class="stat-value positive">100.0%</div>
+                </div>
+            </div>
+        </div>
         
-        // Similarity Comparison Chart
-        const similarityCtx = document.getElementById('similarityChart').getContext('2d');
-        new Chart(similarityCtx, {
-            type: 'line',
-            data: {
-                labels: ['Scenario 1', 'Scenario 2', 'Scenario 3'],
-                datasets: [{
-                    label: 'Top Similarity',
-                    data: [100, 76.7, 88.6],
-                    borderColor: 'rgba(102, 126, 234, 1)',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Avg Similarity',
-                    data: [98.3, 68.0, 82.7],
-                    borderColor: 'rgba(118, 75, 162, 1)',
-                    backgroundColor: 'rgba(118, 75, 162, 0.1)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Retrieval Similarity Across Scenarios',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    }
+        <div class="panel">
+            <h2>📈 4R Cycle Performance</h2>
+            <div class="plot-container">
+                <div id="cyclePerformancePlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🎯 Quality Metrics by Scenario</h2>
+            <div class="plot-container">
+                <div id="qualityMetricsPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var scenarios = [];
+            var topSimilarity = [];
+            var avgSimilarity = [];
+            var culturalAdapt = [];
+            var feedbackScores = [];
+    
+            scenarios.push('Scenario 1');
+            topSimilarity.push(1.0);
+            avgSimilarity.push(0.9686);
+            culturalAdapt.push(0);
+            feedbackScores.push(4.7);
+        
+            scenarios.push('Scenario 2');
+            topSimilarity.push(0.9309999999999998);
+            avgSimilarity.push(0.8002);
+            culturalAdapt.push(0);
+            feedbackScores.push(4.5);
+        
+            scenarios.push('Scenario 3');
+            topSimilarity.push(0.8560000000000001);
+            avgSimilarity.push(0.8241333333333335);
+            culturalAdapt.push(3);
+            feedbackScores.push(4.8);
+        
+            // Cycle performance - Radar-like stacked bars
+            var retrieveTrace = {
+                x: scenarios,
+                y: topSimilarity,
+                name: 'Retrieve Quality',
+                type: 'bar',
+                marker: {color: '#0f766e'}
+            };
+            
+            var adaptTrace = {
+                x: scenarios,
+                y: culturalAdapt.map(v => v / 5), // Normalize to 0-1 scale
+                name: 'Adapt Intensity',
+                type: 'bar',
+                marker: {color: '#f59e0b'}
+            };
+            
+            var feedbackTrace = {
+                x: scenarios,
+                y: feedbackScores.map(v => v / 5), // Normalize to 0-1 scale
+                name: 'Retain Quality',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var cycleLayout = {
+                title: '4R Cycle Phase Performance (Normalized)',
+                xaxis: {title: 'Scenario'},
+                yaxis: {title: 'Performance Score', range: [0, 1]},
+                barmode: 'group',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('cyclePerformancePlot', [retrieveTrace, adaptTrace, feedbackTrace], cycleLayout, {responsive: true});
+            
+            // Quality metrics - dual axis
+            var simTrace = {
+                x: scenarios,
+                y: avgSimilarity,
+                name: 'Avg Similarity',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#0f766e', width: 3},
+                marker: {size: 10},
+                yaxis: 'y1'
+            };
+            
+            var feedbackLineTrace = {
+                x: scenarios,
+                y: feedbackScores,
+                name: 'Feedback Score',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#e07a5f', width: 3},
+                marker: {size: 10},
+                yaxis: 'y2'
+            };
+            
+            var qualityLayout = {
+                title: 'Similarity vs Feedback Across Scenarios',
+                xaxis: {title: 'Scenario'},
+                yaxis: {
+                    title: 'Similarity Score',
+                    titlefont: {color: '#0f766e'},
+                    tickfont: {color: '#0f766e'},
+                    range: [0, 1]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+                yaxis2: {
+                    title: 'Feedback Score',
+                    titlefont: {color: '#e07a5f'},
+                    tickfont: {color: '#e07a5f'},
+                    overlaying: 'y',
+                    side: 'right',
+                    range: [0, 5]
+                },
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('qualityMetricsPlot', [simTrace, feedbackLineTrace], qualityLayout, {responsive: true});
+        </script>
+    
+        <div class="panel">
+            <h2>Scenario 1: Italian cultural preference, summer wedding</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">📥 Retrieved Cases</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🎯 Top Similarity</div>
+                    <div class="stat-value positive">100.00%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🔄 Menus Adapted</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"> Valid Proposals</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">💾 Retained</div>
+                    <div class="stat-value">✓</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">⭐ Feedback</div>
+                    <div class="stat-value positive">4.7/5</div>
+                </div>
+            </div>
+            <div class="alert info">
+                <strong>Retention Action:</strong> Add New
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Scenario 2: Chinese cultural preference, congress event</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">📥 Retrieved Cases</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🎯 Top Similarity</div>
+                    <div class="stat-value positive">93.10%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🔄 Menus Adapted</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"> Valid Proposals</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">💾 Retained</div>
+                    <div class="stat-value">✓</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">⭐ Feedback</div>
+                    <div class="stat-value positive">4.5/5</div>
+                </div>
+            </div>
+            <div class="alert info">
+                <strong>Retention Action:</strong> Add New
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Scenario 3: Spanish regional style, family event</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">📥 Retrieved Cases</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🎯 Top Similarity</div>
+                    <div class="stat-value positive">85.60%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🔄 Menus Adapted</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"> Valid Proposals</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">💾 Retained</div>
+                    <div class="stat-value">✓</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">⭐ Feedback</div>
+                    <div class="stat-value positive">4.8/5</div>
+                </div>
+            </div>
+            <div class="alert info">
+                <strong>Retention Action:</strong> Add New
+            </div>
+        </div>
+        
+    </div>
+    <div class="footer">
+        <p>Generated on 2026-01-10 03:39:54</p>
+        <p>CBR Chef System - Experimental Results Report</p>
+    </div>
 </body>
 </html>

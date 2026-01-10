@@ -1,0 +1,522 @@
+{
+  "config": {
+    "model_name": "llama-3.3-70b-versatile",
+    "num_interactions": 2,
+    "enable_adaptive_weights": true,
+    "temperature": 0.9
+  },
+  "interactions": [
+    {
+      "request_num": 1,
+      "generated_request": {
+        "event_type": "FAMILIAR",
+        "num_guests": 43,
+        "season": "WINTER",
+        "price_min": 24,
+        "price_max": 49,
+        "wants_wine": false,
+        "required_diets": [],
+        "restricted_ingredients": [
+          "basil",
+          "onion"
+        ],
+        "preferred_style": "SIBARITA",
+        "cultural_preference": "FRENCH"
+      },
+      "proposed_dishes": [
+        "100 Percent Whole Wheat Bread",
+        "Eggplant 'Meatballs'",
+        "Gooey Pumpkin Bars with Praline Topping",
+        "Cornbread Cups",
+        "Spicy Gochujang Wings",
+        "A Scone for One",
+        "Buckwheat, Beet, and Citrus Salad with Crumbled Sunflower Feta",
+        "CAPOCOLLO AND MINI SWEET PEPPER PASTA",
+        "Lemon Tart"
+      ],
+      "adaptations_made": [
+        "Menú adaptado culturalmente: italian → french",
+        "100 Percent Whole Wheat Bread: coconut oil→vegetable oil (+7%) (cultural: 51%→58%, global: 90.6%)",
+        "Eggplant 'Meatballs': fresh basil→parsley (+10%), italian seasoning→thyme (+10%) (cultural: 44%→64%, global: 90.6%)",
+        "Gooey Pumpkin Bars with Praline Topping: evaporated milk→milk (+10%), ground cinnamon→allspice (+7%), pecans→walnuts (+7%) (cultural: 46%→70%, global: 90.6%)",
+        "Cambiado Josh Cellars Cabernet Sauvignon por Ginger Lemon Blend (sin alcohol)",
+        "Menú adaptado culturalmente: korean → french",
+        "Cornbread Cups: cheddar cheese→swiss cheese (+14%), cayenne pepper→black pepper (+10%) (cultural: 51%→76%, global: 90.6%)",
+        "Spicy Gochujang Wings: sesame oil→vegetable oil (+5%), sweet potatoes→carrots (+5%) (cultural: 45%→55%, global: 90.6%)",
+        "A Scone for One: dried cranberries→raisins (+9%) (cultural: 64%→72%, global: 90.6%)",
+        "Sustituido ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS por Butternut Squash and Goat Cheese Pasta Salad (más apropiado para winter)",
+        "Cambiado Decoy Cabernet Sauvignon por Bitter Kas (sin alcohol)",
+        "Menú adaptado culturalmente: italian → french",
+        "Plato reemplazado: Butternut Squash and Goat Cheese Pasta Salad → Buckwheat, Beet, and Citrus Salad with Crumbled Sunflower Feta (similitud: 80.8% → 90.6%)",
+        "CAPOCOLLO AND MINI SWEET PEPPER PASTA: oregano→thyme (+17%) (cultural: 37%→53%, global: 90.6%)",
+        "Lemon Tart: dates→raisins (+8%), ground cinnamon→allspice (+8%) (cultural: 62%→78%, global: 90.6%)"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "100 Percent Whole Wheat Bread",
+            "ingredients": [
+              "water",
+              "honey",
+              "yeast",
+              "whole wheat flour",
+              "oats",
+              "sesame seeds",
+              "quinoa",
+              "sunflower seeds",
+              "salt",
+              "vegetable oil"
+            ],
+            "price": 7.0,
+            "calories": 3361
+          },
+          "main_course": {
+            "name": "Eggplant 'Meatballs'",
+            "ingredients": [
+              "olive oil",
+              "garlic",
+              "parsley",
+              "salt",
+              "black pepper",
+              "egg whites",
+              "parmesan cheese",
+              "thyme",
+              "parsley",
+              "spaghetti sauce"
+            ],
+            "price": 14.0,
+            "calories": 921
+          },
+          "dessert": {
+            "name": "Gooey Pumpkin Bars with Praline Topping",
+            "ingredients": [
+              "eggs",
+              "butter",
+              "pumpkin",
+              "eggs",
+              "milk",
+              "oats",
+              "brown sugar",
+              "allspice",
+              "butter",
+              "walnuts"
+            ],
+            "price": 14.0,
+            "calories": 5310
+          },
+          "beverage": {
+            "name": "Chamomile Infusion",
+            "price": 1.8,
+            "alcoholic": false
+          },
+          "total_price": 36.8,
+          "total_calories": 9592,
+          "similarity_score": 0.8432558139534885,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (9592 kcal) para winter', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Cornbread Cups",
+            "ingredients": [
+              "all-purpose flour",
+              "swiss cheese",
+              "garlic powder",
+              "salt",
+              "black pepper",
+              "butter",
+              "eggs"
+            ],
+            "price": 14.0,
+            "calories": 3135
+          },
+          "main_course": {
+            "name": "Spicy Gochujang Wings",
+            "ingredients": [
+              "ketchup",
+              "rice wine vinegar",
+              "garlic",
+              "water",
+              "honey",
+              "vegetable oil",
+              "cornstarch",
+              "chicken wings",
+              "green onions",
+              "sesame seeds"
+            ],
+            "price": 17.5,
+            "calories": 7221
+          },
+          "dessert": {
+            "name": "A Scone for One",
+            "ingredients": [
+              "all-purpose flour",
+              "baking powder",
+              "salt",
+              "sugar",
+              "butter",
+              "raisins",
+              "walnuts",
+              "milk"
+            ],
+            "price": 3.5,
+            "calories": 404
+          },
+          "beverage": {
+            "name": "Ginger Lemon Blend",
+            "price": 3.0,
+            "alcoholic": false
+          },
+          "total_price": 38.0,
+          "total_calories": 10760,
+          "similarity_score": 0.8355116279069768,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (10760 kcal) para winter', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Buckwheat, Beet, and Citrus Salad with Crumbled Sunflower Feta",
+            "ingredients": [
+              "sunflower seeds",
+              "salt",
+              "garlic",
+              "lemon juice",
+              "apple cider vinegar",
+              "black pepper",
+              "dried oregano",
+              "water",
+              "beets",
+              "olive oil"
+            ],
+            "price": 14.0,
+            "calories": 1945
+          },
+          "main_course": {
+            "name": "CAPOCOLLO AND MINI SWEET PEPPER PASTA",
+            "ingredients": [
+              "pasta",
+              "red onion",
+              "garlic",
+              "thyme",
+              "ricotta cheese",
+              "salt"
+            ],
+            "price": 14.0,
+            "calories": 1897
+          },
+          "dessert": {
+            "name": "Lemon Tart",
+            "ingredients": [
+              "raisins",
+              "butter",
+              "allspice",
+              "butter",
+              "vanilla extract",
+              "lemon",
+              "egg yolks",
+              "eggs",
+              "starch"
+            ],
+            "price": 14.0,
+            "calories": 4046
+          },
+          "beverage": {
+            "name": "Bitter Kas",
+            "price": 2.3,
+            "alcoholic": false
+          },
+          "total_price": 44.3,
+          "total_calories": 7888,
+          "similarity_score": 0.732,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (7888 kcal) para winter', suggestion='Considerar opciones más ligeras')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "",
+      "llm_score": 2.5,
+      "feedback_breakdown": {
+        "overall_satisfaction": 2.5,
+        "price_satisfaction": 2.5,
+        "cultural_satisfaction": 2.5,
+        "dietary_satisfaction": 2.0,
+        "flavor_satisfaction": 2.5
+      },
+      "timestamp": "2026-01-10T05:31:55.406462"
+    },
+    {
+      "request_num": 2,
+      "generated_request": {
+        "event_type": "WEDDING",
+        "num_guests": 12,
+        "season": "SUMMER",
+        "price_min": 23,
+        "price_max": 41,
+        "wants_wine": true,
+        "required_diets": [
+          "celery-free"
+        ],
+        "restricted_ingredients": [
+          "chicken"
+        ],
+        "preferred_style": null,
+        "cultural_preference": "MEXICAN"
+      },
+      "proposed_dishes": [
+        "Horiatiki Salata (Greek Salad)",
+        "Steamed Ribs in Black Bean Sauce (豉汁蒸排骨)",
+        "DEEP DISH CARAMEL APPLE PIE",
+        "Sesame Chicken Salad with Honey Sesame Dressing",
+        "Bacon Mac and Cheese for Crockpot",
+        "Strawberry Pomegranete Sorbet",
+        "Goat Cheese And Dried Cherry Salad With Red Wine Vinaigrette",
+        "Spicy Gochujang Wings",
+        "A Scone for One"
+      ],
+      "adaptations_made": [
+        "Sustituido Grilled Polenta with Spicy Steak por Steamed Ribs in Black Bean Sauce (豉汁蒸排骨) (ahorro: 3.50€)",
+        "Sustituido Southern Baked Parmesan Chicken, Courgette, Tomato and Bulgur Wheat Summer Salad Bowl por Horiatiki Salata (Greek Salad) (más apropiado para summer)",
+        "⚙️ Precios ajustados preventivamente (-5.50€ para cumplir presupuesto)",
+        "Menú adaptado culturalmente: chinese → mexican",
+        "Sesame Chicken Salad with Honey Sesame Dressing: romaine lettuce→spinach (+7%), noodles→flour tortillas (+10%), sesame oil→vegetable oil (+7%) (cultural: 31%→55%, global: 97.7%)",
+        "Bacon Mac and Cheese for Crockpot: bacon→pork (+12%) (cultural: 32%→45%, global: 97.7%)",
+        "Sustituido Cornbread Cups por Goat Cheese And Dried Cherry Salad With Red Wine Vinaigrette (más apropiado para summer)",
+        "Menú adaptado culturalmente: korean → mexican",
+        "Goat Cheese And Dried Cherry Salad With Red Wine Vinaigrette: red wine vinegar→white vinegar (+9%) (cultural: 45%→54%, global: 97.7%)",
+        "Spicy Gochujang Wings: ketchup→salsa (+7%), sesame oil→vegetable oil (+5%), sweet potatoes→carrots (+5%) (cultural: 45%→62%, global: 97.7%)",
+        "A Scone for One: dried cranberries→raisins (+9%) (cultural: 39%→48%, global: 97.7%)"
+      ],
+      "menus_details": [
+        {
+          "starter": {
+            "name": "Horiatiki Salata (Greek Salad)",
+            "ingredients": [
+              "tomatoes",
+              "red onion",
+              "feta cheese",
+              "olive oil",
+              "red wine vinegar",
+              "oregano",
+              "salt",
+              "black pepper"
+            ],
+            "price": 12.344086021505376,
+            "calories": 172
+          },
+          "main_course": {
+            "name": "Steamed Ribs in Black Bean Sauce (豉汁蒸排骨)",
+            "ingredients": [
+              "green onions",
+              "ginger",
+              "chili peppers",
+              "vegetable oil",
+              "white wine",
+              "ginger",
+              "garlic",
+              "cornstarch",
+              "sugar",
+              "salt"
+            ],
+            "price": 9.258064516129032,
+            "calories": 1325
+          },
+          "dessert": {
+            "name": "DEEP DISH CARAMEL APPLE PIE",
+            "ingredients": [
+              "walnuts",
+              "oats",
+              "dates",
+              "coconut oil",
+              "salt",
+              "dates",
+              "salt",
+              "vanilla extract",
+              "ground cinnamon",
+              "water"
+            ],
+            "price": 12.344086021505376,
+            "calories": 5679
+          },
+          "beverage": {
+            "name": "Caymus Cabernet Sauvignon",
+            "price": 7.053763440860215,
+            "alcoholic": true
+          },
+          "total_price": 41.0,
+          "total_calories": 7176,
+          "similarity_score": 0.8781516301061081,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (7176 kcal) para summer', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='complexity', message='Complejidad high podría no ser ideal para wedding', suggestion='Ajustar complejidad según tipo de evento')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Sesame Chicken Salad with Honey Sesame Dressing",
+            "ingredients": [
+              "chicken breasts",
+              "spinach",
+              "carrots",
+              "flour tortillas",
+              "honey",
+              "rice wine vinegar",
+              "mayonnaise",
+              "vegetable oil",
+              "salt",
+              "dijon mustard"
+            ],
+            "price": 7.0,
+            "calories": 2618
+          },
+          "main_course": {
+            "name": "Bacon Mac and Cheese for Crockpot",
+            "ingredients": [
+              "cheese",
+              "cheddar cheese",
+              "garlic powder",
+              "onion",
+              "black pepper",
+              "butter",
+              "pork",
+              "milk"
+            ],
+            "price": 14.0,
+            "calories": 5550
+          },
+          "dessert": {
+            "name": "Strawberry Pomegranete Sorbet",
+            "ingredients": [
+              "sugar",
+              "lemon juice",
+              "cornstarch",
+              "strawberries"
+            ],
+            "price": 10.5,
+            "calories": 1072
+          },
+          "beverage": {
+            "name": "Josh Cellars Cabernet Sauvignon",
+            "price": 4.0,
+            "alcoholic": true
+          },
+          "total_price": 35.5,
+          "total_calories": 9240,
+          "similarity_score": 0.7394557149925781,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (9240 kcal) para summer', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='complexity', message='Complejidad low podría no ser ideal para wedding', suggestion='Ajustar complejidad según tipo de evento')"
+            ],
+            "warnings": []
+          }
+        },
+        {
+          "starter": {
+            "name": "Goat Cheese And Dried Cherry Salad With Red Wine Vinaigrette",
+            "ingredients": [
+              "white vinegar",
+              "ground mustard",
+              "olive oil",
+              "salt",
+              "black pepper",
+              "lettuce",
+              "sunflower seeds",
+              "goat cheese"
+            ],
+            "price": 14.0,
+            "calories": 1154
+          },
+          "main_course": {
+            "name": "Spicy Gochujang Wings",
+            "ingredients": [
+              "salsa",
+              "rice wine vinegar",
+              "garlic",
+              "water",
+              "honey",
+              "vegetable oil",
+              "cornstarch",
+              "chicken wings",
+              "green onions",
+              "sesame seeds"
+            ],
+            "price": 17.5,
+            "calories": 7221
+          },
+          "dessert": {
+            "name": "A Scone for One",
+            "ingredients": [
+              "all-purpose flour",
+              "baking powder",
+              "salt",
+              "sugar",
+              "butter",
+              "raisins",
+              "walnuts",
+              "milk"
+            ],
+            "price": 3.5,
+            "calories": 404
+          },
+          "beverage": {
+            "name": "Josh Cellars Cabernet Sauvignon",
+            "price": 4.0,
+            "alcoholic": true
+          },
+          "total_price": 39.0,
+          "total_calories": 8779,
+          "similarity_score": 0.6569520039584366,
+          "validation": {
+            "passed": true,
+            "issues": [
+              "ValidationIssue(severity='info', category='calories', message='Menú contundente (8779 kcal) para summer', suggestion='Considerar opciones más ligeras')",
+              "ValidationIssue(severity='warning', category='complexity', message='Complejidad low podría no ser ideal para wedding', suggestion='Ajustar complejidad según tipo de evento')"
+            ],
+            "warnings": []
+          }
+        }
+      ],
+      "llm_evaluation": "",
+      "llm_score": 2.5,
+      "feedback_breakdown": {
+        "overall_satisfaction": 2.5,
+        "price_satisfaction": 2.5,
+        "cultural_satisfaction": 2.5,
+        "dietary_satisfaction": 2.0,
+        "flavor_satisfaction": 2.5
+      },
+      "timestamp": "2026-01-10T05:31:56.187140"
+    }
+  ],
+  "start_time": "2026-01-10T05:31:55.062119",
+  "end_time": "2026-01-10T05:31:56.687388",
+  "duration_seconds": 1.625269,
+  "total_requests": 2,
+  "successful_proposals": 2,
+  "llm_evaluation": "RESUMEN DE EVALUACIONES INDIVIDUALES:\n==================================================\n\nSolicitud #1:\n  Evento: FAMILIAR\n  Puntuación: 2.5/5.0\n  Comentario: Sin evaluación...\n\nSolicitud #2:\n  Evento: WEDDING\n  Puntuación: 2.5/5.0\n  Comentario: Sin evaluación...\n\n==================================================\nPUNTUACIÓN PROMEDIO: 2.50/5.00",
+  "llm_score": 2.5,
+  "summary": {
+    "avg_dishes_per_request": 9.0,
+    "avg_adaptations_per_request": 13.0,
+    "success_rate": 100.0
+  }
+}

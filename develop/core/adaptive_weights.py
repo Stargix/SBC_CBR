@@ -522,7 +522,7 @@ class AdaptiveWeightLearner:
             matplotlib.use('Agg')  # Backend sin GUI
             
             if len(self.history) < 2:
-                print("⚠️ Insuficiente historial para graficar (mínimo 2 snapshots)")
+                print("⚠ Insuficiente historial para graficar (mínimo 2 snapshots)")
                 return
             
             # Extraer datos
@@ -575,7 +575,7 @@ class AdaptiveWeightLearner:
             print(f"✅ Gráfica guardada en: {output_path}")
             
         except ImportError:
-            print("⚠️ matplotlib no disponible. Instalar con: pip install matplotlib")
+            print("⚠ matplotlib no disponible. Instalar con: pip install matplotlib")
         except Exception as e:
             print(f"❌ Error generando gráfica: {e}")
     
@@ -592,7 +592,7 @@ class AdaptiveWeightLearner:
             matplotlib.use('Agg')
             
             if len(self.history) < 2:
-                print("⚠️ Insuficiente historial para graficar")
+                print("⚠ Insuficiente historial para graficar")
                 return
             
             iterations = [s.iteration for s in self.history]
@@ -644,7 +644,7 @@ class AdaptiveWeightLearner:
             print(f"✅ Gráfica de correlación guardada en: {output_path}")
             
         except ImportError:
-            print("⚠️ matplotlib no disponible")
+            print("⚠ matplotlib no disponible")
         except Exception as e:
             print(f"❌ Error generando gráfica: {e}")
     

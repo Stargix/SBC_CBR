@@ -1,17 +1,17 @@
 """
-Sistema de simulación con LLM para CBR de Chef Digital.
+Sistema de simulación con LLM (Groq API) para CBR de Chef Digital.
 """
 
-from .groq_simulator import (
-    GroqCBRSimulator, 
-    GroqSimulationConfig, 
-    GroqSimulationResult,
+from .llm_simulator import (
+    LLMCBRSimulator, 
+    LLMSimulationConfig, 
+    LLMSimulationResult,
     InteractionResult
 )
 
 __all__ = [
-    'GroqCBRSimulator',
-    'GroqSimulationConfig', 
-    'GroqSimulationResult',
+    'LLMCBRSimulator',
+    'LLMSimulationConfig', 
+    'LLMSimulationResult',
     'InteractionResult'
 ]

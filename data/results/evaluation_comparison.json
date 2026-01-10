@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-01-10T03:39:54.926215",
+  "static": {
+    "precision": 0.9,
+    "avg_satisfaction": 4.4,
+    "avg_processing_time": 0.014043498039245605,
+    "total_cases": 10,
+    "successful_cases": 9,
+    "avg_proposals_per_case": 2.5
+  },
+  "adaptive": {
+    "precision": 0.9,
+    "avg_satisfaction": 4.4,
+    "avg_processing_time": 0.015658974647521973,
+    "total_cases": 10,
+    "successful_cases": 9,
+    "avg_proposals_per_case": 2.5
+  },
+  "improvements": {
+    "precision": 0.0,
+    "satisfaction": 0.0,
+    "time": 0.0016154766082763679
+  }
+}

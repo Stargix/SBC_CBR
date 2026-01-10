@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "total_iterations": 2,
+    "learning_rate": 0.05,
+    "min_weight": 0.02,
+    "max_weight": 0.5
+  },
+  "history": [
+    {
+      "timestamp": "2026-01-10T05:31:55.060502",
+      "iteration": 0,
+      "weights": {
+        "event_type": 0.2,
+        "season": 0.12,
+        "price_range": 0.18,
+        "style": 0.12,
+        "cultural": 0.08,
+        "dietary": 0.1,
+        "guests": 0.05,
+        "wine_preference": 0.05,
+        "success_bonus": 0.1
+      },
+      "feedback_score": 0.0,
+      "adjustments": [
+        "Inicialización con pesos por defecto"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T05:31:55.406363",
+      "iteration": 1,
+      "weights": {
+        "event_type": 0.19792182088075214,
+        "season": 0.11627906976744186,
+        "price_range": 0.1830776843146957,
+        "style": 0.11875309252845126,
+        "cultural": 0.0831271647699159,
+        "dietary": 0.10489856506679864,
+        "guests": 0.04750123701138051,
+        "wine_preference": 0.049480455220188034,
+        "success_bonus": 0.09896091044037607
+      },
+      "feedback_score": 2.5,
+      "adjustments": [
+        "Priorizar precio (insatisfacción)",
+        "Priorizar cultura (insatisfacción)",
+        "INFO: Sabor insatisfactorio - revisar en adaptación de platos",
+        "CRÍTICO: Reforzar restricciones dietéticas"
+      ]
+    },
+    {
+      "timestamp": "2026-01-10T05:31:56.187024",
+      "iteration": 2,
+      "weights": {
+        "event_type": 0.1958652359037626,
+        "season": 0.1125968033324511,
+        "price_range": 0.1861233887329992,
+        "style": 0.11751914154225754,
+        "cultural": 0.08622183549719534,
+        "dietary": 0.10974622965541675,
+        "guests": 0.0450284384080955,
+        "wine_preference": 0.04896630897594065,
+        "success_bonus": 0.0979326179518813
+      },
+      "feedback_score": 2.5,
+      "adjustments": [
+        "Priorizar precio (insatisfacción)",
+        "Priorizar cultura (insatisfacción)",
+        "INFO: Sabor insatisfactorio - revisar en adaptación de platos",
+        "CRÍTICO: Reforzar restricciones dietéticas"
+      ]
+    }
+  ],
+  "summary": {
+    "total_iterations": 2,
+    "total_adjustments": 10,
+    "weight_changes": {
+      "event_type": {
+        "initial": 0.2,
+        "current": 0.1958652359037626,
+        "change": -0.00413476409623742,
+        "change_pct": -2.06738204811871
+      },
+      "season": {
+        "initial": 0.12,
+        "current": 0.1125968033324511,
+        "change": -0.007403196667548892,
+        "change_pct": -6.169330556290744
+      },
+      "price_range": {
+        "initial": 0.18,
+        "current": 0.1861233887329992,
+        "change": 0.0061233887329991965,
+        "change_pct": 3.4018826294439983
+      },
+      "style": {
+        "initial": 0.12,
+        "current": 0.11751914154225754,
+        "change": -0.0024808584577424575,
+        "change_pct": -2.0673820481187146
+      },
+      "cultural": {
+        "initial": 0.08,
+        "current": 0.08622183549719534,
+        "change": 0.0062218354971953355,
+        "change_pct": 7.777294371494168
+      },
+      "dietary": {
+        "initial": 0.1,
+        "current": 0.10974622965541675,
+        "change": 0.009746229655416744,
+        "change_pct": 9.746229655416744
+      },
+      "guests": {
+        "initial": 0.05,
+        "current": 0.0450284384080955,
+        "change": -0.004971561591904504,
+        "change_pct": -9.943123183809007
+      },
+      "wine_preference": {
+        "initial": 0.05,
+        "current": 0.04896630897594065,
+        "change": -0.001033691024059355,
+        "change_pct": -2.06738204811871
+      },
+      "success_bonus": {
+        "initial": 0.1,
+        "current": 0.0979326179518813,
+        "change": -0.00206738204811871,
+        "change_pct": -2.06738204811871
+      }
+    },
+    "most_changed": [
+      {
+        "weight": "dietary",
+        "change": 0.009746229655416744,
+        "change_pct": "9.7%"
+      },
+      {
+        "weight": "season",
+        "change": -0.007403196667548892,
+        "change_pct": "-6.2%"
+      },
+      {
+        "weight": "cultural",
+        "change": 0.0062218354971953355,
+        "change_pct": "7.8%"
+      }
+    ],
+    "current_weights": {
+      "event_type": 0.1958652359037626,
+      "season": 0.1125968033324511,
+      "price_range": 0.1861233887329992,
+      "style": 0.11751914154225754,
+      "cultural": 0.08622183549719534,
+      "dietary": 0.10974622965541675,
+      "guests": 0.0450284384080955,
+      "wine_preference": 0.04896630897594065,
+      "success_bonus": 0.0979326179518813
+    },
+    "learning_rate": {
+      "current": 0.05,
+      "initial": 0.05,
+      "scheduler": "constant",
+      "min": 0.001
+    }
+  }
+}

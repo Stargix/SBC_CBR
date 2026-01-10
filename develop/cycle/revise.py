@@ -817,7 +817,7 @@ class MenuReviser:
             if result.issues:
                 lines.append("  Observaciones:")
                 for issue in result.issues:
-                    icon = {"error": "❌", "warning": "⚠️", "info": "ℹ️"}.get(issue.severity, "•")
+                    icon = {"error": "❌", "warning": "⚠", "info": "ℹ️"}.get(issue.severity, "•")
                     lines.append(f"    {icon} {issue.message}")
                 lines.append("")
             

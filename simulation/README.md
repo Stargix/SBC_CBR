@@ -5,25 +5,28 @@ Sistema de simulación para el CBR de Chef Digital usando Groq Cloud **solo para
 ## 🚀 Instalación
 
 ```bash
-pip install groq python-dotenv
+# Desde la raíz del proyecto
+pip install -r requirements.txt
 ```
 
-Configura tu API key en `simulation/.env`:
+Configura tu API key:
 ```bash
-GROQ_API_KEY=tu_api_key_aqui
+export GROQ_API_KEY=tu_api_key_aqui
+# O crea un archivo .env en la raíz:
+echo "GROQ_API_KEY=tu_api_key_aqui" > .env
 ```
 
 ## 📊 Uso Básico
 
 ```bash
 # Simulación con adaptive weights (recomendado)
-python simulation/run_groq_simulation.py -n 10 --adaptive
+python simulation/run_llm_simulation.py -n 10 --adaptive
 
 # Simulación sin adaptive weights
-python simulation/run_groq_simulation.py -n 10 --static
+python simulation/run_llm_simulation.py -n 10 --static
 
 # Personalizar temperatura y salida
-python simulation/run_groq_simulation.py -n 5 -t 0.9 -o data/mi_sim.json
+python simulation/run_llm_simulation.py -n 5 -t 0.9 -o data/mi_sim.json
 ```
 
 ## 🎯 Características
@@ -45,8 +48,8 @@ Esto reduce llamadas API innecesarias y costos.
 ## 📁 Resultados
 
 Los archivos generados:
-- `data/groq_simulation_results.json` - Resultados de la simulación
-- `data/groq_simulation_results_learning.json` - Evolución de pesos (si adaptive está activo)
+- `data/llm_simulation_results.json` - Resultados de la simulación
+- `data/llm_simulation_results_learning.json` - Evolución de pesos (si adaptive está activo)
 
 ## 🔧 Opciones
 

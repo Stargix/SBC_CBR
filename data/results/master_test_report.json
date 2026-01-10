@@ -1,0 +1,1002 @@
+{
+  "execution_timestamp": "2026-01-10T03:39:50.706655",
+  "tests_executed": 8,
+  "results": {
+    "test_complete_cbr_cycle": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Complete CBR Cycle Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_complete_cbr_cycle.json\n\nSummary:\n  Scenarios: 3\n  Cases learned: 3\n  Avg retrieval similarity: 0.929\n  Avg valid proposals: 3.0\n  Retention rate: 100.0%\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Complete CBR Cycle",
+        "timestamp": "2026-01-10T03:39:50.758752",
+        "scenarios": [
+          {
+            "scenario_id": "scenario_1",
+            "description": "Italian cultural preference, summer wedding",
+            "phases": {
+              "retrieve": {
+                "cases_found": 5,
+                "top_similarity": 1.0,
+                "avg_similarity": 0.9686
+              },
+              "adapt": {
+                "menus_adapted": 3,
+                "cultural_adaptations": 0
+              },
+              "revise": {
+                "valid_proposals": 3,
+                "validation_passed": true
+              },
+              "retain": {
+                "should_retain": true,
+                "retention_action": "add_new",
+                "retained": true,
+                "feedback_score": 4.7
+              }
+            }
+          },
+          {
+            "scenario_id": "scenario_2",
+            "description": "Chinese cultural preference, congress event",
+            "phases": {
+              "retrieve": {
+                "cases_found": 5,
+                "top_similarity": 0.9309999999999998,
+                "avg_similarity": 0.8002
+              },
+              "adapt": {
+                "menus_adapted": 3,
+                "cultural_adaptations": 0
+              },
+              "revise": {
+                "valid_proposals": 3,
+                "validation_passed": true
+              },
+              "retain": {
+                "should_retain": true,
+                "retention_action": "add_new",
+                "retained": true,
+                "feedback_score": 4.5
+              }
+            }
+          },
+          {
+            "scenario_id": "scenario_3",
+            "description": "Spanish regional style, family event",
+            "phases": {
+              "retrieve": {
+                "cases_found": 5,
+                "top_similarity": 0.8560000000000001,
+                "avg_similarity": 0.8241333333333335
+              },
+              "adapt": {
+                "menus_adapted": 3,
+                "cultural_adaptations": 3
+              },
+              "revise": {
+                "valid_proposals": 3,
+                "validation_passed": true
+              },
+              "retain": {
+                "should_retain": true,
+                "retention_action": "add_new",
+                "retained": true,
+                "feedback_score": 4.8
+              }
+            }
+          }
+        ],
+        "summary": {
+          "initial_cases": 41,
+          "final_cases": 44,
+          "cases_learned": 3,
+          "scenarios_executed": 3,
+          "avg_retrieval_similarity": 0.9289999999999999,
+          "avg_valid_proposals": 3.0,
+          "retention_rate": 1.0
+        }
+      }
+    },
+    "test_user_simulation": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Multi-User Simulation Test...\n  Plot saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/plots/feedback_evolution.png\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_user_simulation.json\n\nSummary:\n  Total requests: 75\n  Cases learned: 6\n  Initial avg feedback: 3.703\n  Final avg feedback: 4.060\n  Improvement: +0.357\n  Success rate: 100.0%\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Multi-User Simulation",
+        "timestamp": "2026-01-10T03:39:51.632253",
+        "parameters": {
+          "num_users": 5,
+          "iterations": 15
+        },
+        "iterations": [
+          {
+            "iteration": 1,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 18.72548819630359,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.745097639260718,
+            "success_rate": 1.0,
+            "current_case_count": 41
+          },
+          {
+            "iteration": 2,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 19.133699280792108,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.8267398561584214,
+            "success_rate": 1.0,
+            "current_case_count": 41
+          },
+          {
+            "iteration": 3,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 17.68656711683629,
+            "cases_retained": 2,
+            "avg_feedback_score": 3.537313423367258,
+            "success_rate": 1.0,
+            "current_case_count": 42
+          },
+          {
+            "iteration": 4,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 18.87100534218503,
+            "cases_retained": 2,
+            "avg_feedback_score": 3.774201068437006,
+            "success_rate": 1.0,
+            "current_case_count": 43
+          },
+          {
+            "iteration": 5,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 18.813604869675483,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.762720973935097,
+            "success_rate": 1.0,
+            "current_case_count": 44
+          },
+          {
+            "iteration": 6,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 18.603874105771883,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.7207748211543765,
+            "success_rate": 1.0,
+            "current_case_count": 45
+          },
+          {
+            "iteration": 7,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 18.365800809510272,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.6731601619020546,
+            "success_rate": 1.0,
+            "current_case_count": 45
+          },
+          {
+            "iteration": 8,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 17.504998611367377,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.5009997222734754,
+            "success_rate": 1.0,
+            "current_case_count": 46
+          },
+          {
+            "iteration": 9,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 19.7434886841193,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.94869773682386,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          },
+          {
+            "iteration": 10,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 20.481107923098698,
+            "cases_retained": 0,
+            "avg_feedback_score": 4.096221584619739,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          },
+          {
+            "iteration": 11,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 19.471986032894236,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.894397206578847,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          },
+          {
+            "iteration": 12,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 20.143513827134967,
+            "cases_retained": 0,
+            "avg_feedback_score": 4.028702765426994,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          },
+          {
+            "iteration": 13,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 19.047435198408863,
+            "cases_retained": 0,
+            "avg_feedback_score": 3.8094870396817724,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          },
+          {
+            "iteration": 14,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 21.792149151453696,
+            "cases_retained": 1,
+            "avg_feedback_score": 4.358429830290739,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          },
+          {
+            "iteration": 15,
+            "requests_processed": 5,
+            "successful_proposals": 5,
+            "total_feedback_score": 20.065664689503222,
+            "cases_retained": 0,
+            "avg_feedback_score": 4.013132937900645,
+            "success_rate": 1.0,
+            "current_case_count": 47
+          }
+        ],
+        "summary": {
+          "initial_cases": 41,
+          "final_cases": 47,
+          "total_cases_learned": 6,
+          "total_requests": 75,
+          "avg_final_feedback": 4.060349935957719,
+          "avg_initial_feedback": 3.7030503062621327,
+          "improvement": 0.35729962969558615,
+          "avg_success_rate": 1.0
+        }
+      }
+    },
+    "test_adaptive_weights": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Adaptive Weight Learning Test...\n  Plot saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/plots/weight_evolution.png\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_adaptive_weights.json\n\nSummary:\n  Test cases: 5\n  Static avg similarity: 0.818\n  Adaptive avg similarity: 0.818\n  Improvement: -0.000 (-0.0%)\n\n  Top weight changes:\n    wine_preference: +0.004 (+7.7%)\n    event_type: -0.002 (-1.2%)\n    price_range: +0.002 (+1.0%)\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Adaptive Weight Learning",
+        "timestamp": "2026-01-10T03:39:53.033775",
+        "systems": {
+          "static": {
+            "name": "Static Weights",
+            "results": [
+              {
+                "iteration": 1,
+                "proposals_count": 3,
+                "top_similarity": 0.7968181818181818,
+                "avg_similarity": 0.7456060606060606
+              },
+              {
+                "iteration": 2,
+                "proposals_count": 3,
+                "top_similarity": 0.7150000000000001,
+                "avg_similarity": 0.685
+              },
+              {
+                "iteration": 3,
+                "proposals_count": 3,
+                "top_similarity": 0.9395,
+                "avg_similarity": 0.8982777777777778
+              },
+              {
+                "iteration": 4,
+                "proposals_count": 3,
+                "top_similarity": 0.8799999999999999,
+                "avg_similarity": 0.8346666666666667
+              },
+              {
+                "iteration": 5,
+                "proposals_count": 3,
+                "top_similarity": 0.7593928571428572,
+                "avg_similarity": 0.7318531746031747
+              }
+            ]
+          },
+          "adaptive": {
+            "name": "Adaptive Weights",
+            "results": [
+              {
+                "iteration": 1,
+                "proposals_count": 3,
+                "top_similarity": 0.7968181818181818,
+                "avg_similarity": 0.7456060606060606,
+                "weights": {
+                  "event_type": 0.2,
+                  "season": 0.12,
+                  "price_range": 0.18,
+                  "style": 0.12,
+                  "cultural": 0.08,
+                  "dietary": 0.1,
+                  "guests": 0.05,
+                  "wine_preference": 0.05,
+                  "success_bonus": 0.1
+                }
+              },
+              {
+                "iteration": 2,
+                "proposals_count": 3,
+                "top_similarity": 0.7143924302788844,
+                "avg_similarity": 0.6845119521912352,
+                "weights": {
+                  "event_type": 0.19920318725099603,
+                  "season": 0.1195219123505976,
+                  "price_range": 0.1802788844621514,
+                  "style": 0.1195219123505976,
+                  "cultural": 0.0796812749003984,
+                  "dietary": 0.10109561752988049,
+                  "guests": 0.04980079681274901,
+                  "wine_preference": 0.05129482071713148,
+                  "success_bonus": 0.09960159362549802
+                }
+              },
+              {
+                "iteration": 3,
+                "proposals_count": 3,
+                "top_similarity": 0.9396118122321094,
+                "avg_similarity": 0.8985581515145892,
+                "weights": {
+                  "event_type": 0.19880557609879843,
+                  "season": 0.11928334565927905,
+                  "price_range": 0.18091705036142855,
+                  "style": 0.11928334565927905,
+                  "cultural": 0.07952223043951936,
+                  "dietary": 0.1008938298701402,
+                  "guests": 0.05069939801671558,
+                  "wine_preference": 0.051192435845440594,
+                  "success_bonus": 0.09940278804939921
+                }
+              },
+              {
+                "iteration": 4,
+                "proposals_count": 3,
+                "top_similarity": 0.8802177068799084,
+                "avg_similarity": 0.8352674851850845,
+                "weights": {
+                  "event_type": 0.1983098015948114,
+                  "season": 0.11898588095688684,
+                  "price_range": 0.18146339188172425,
+                  "style": 0.11898588095688684,
+                  "cultural": 0.07932392063792455,
+                  "dietary": 0.10064222430936678,
+                  "guests": 0.05057296560270881,
+                  "wine_preference": 0.05256103326228489,
+                  "success_bonus": 0.0991549007974057
+                }
+              },
+              {
+                "iteration": 5,
+                "proposals_count": 3,
+                "top_similarity": 0.7589950218041774,
+                "avg_similarity": 0.7313235585826462,
+                "weights": {
+                  "event_type": 0.19761813811142143,
+                  "season": 0.11857088286685284,
+                  "price_range": 0.18182699739085625,
+                  "style": 0.11857088286685284,
+                  "cultural": 0.07904725524456856,
+                  "dietary": 0.10029120509154636,
+                  "guests": 0.05139308978844924,
+                  "wine_preference": 0.05387247958374179,
+                  "success_bonus": 0.09880906905571071
+                }
+              }
+            ]
+          }
+        },
+        "summary": {
+          "test_cases": 5,
+          "static_avg_similarity": 0.8181422077922077,
+          "adaptive_avg_similarity": 0.8180070306026522,
+          "improvement": -0.00013517718955546876,
+          "improvement_pct": -0.01652245639792259,
+          "weight_changes": {
+            "event_type": {
+              "initial": 0.2,
+              "final": 0.19761813811142143,
+              "change": -0.0023818618885785847,
+              "change_pct": -1.1909309442892924
+            },
+            "season": {
+              "initial": 0.12,
+              "final": 0.11857088286685284,
+              "change": -0.0014291171331471536,
+              "change_pct": -1.1909309442892948
+            },
+            "price_range": {
+              "initial": 0.18,
+              "final": 0.18182699739085625,
+              "change": 0.001826997390856261,
+              "change_pct": 1.0149985504757006
+            },
+            "style": {
+              "initial": 0.12,
+              "final": 0.11857088286685284,
+              "change": -0.0014291171331471536,
+              "change_pct": -1.1909309442892948
+            },
+            "cultural": {
+              "initial": 0.08,
+              "final": 0.07904725524456856,
+              "change": -0.000952744755431445,
+              "change_pct": -1.1909309442893061
+            },
+            "dietary": {
+              "initial": 0.1,
+              "final": 0.10029120509154636,
+              "change": 0.00029120509154635654,
+              "change_pct": 0.29120509154635654
+            },
+            "guests": {
+              "initial": 0.05,
+              "final": 0.05139308978844924,
+              "change": 0.0013930897884492366,
+              "change_pct": 2.786179576898473
+            },
+            "wine_preference": {
+              "initial": 0.05,
+              "final": 0.05387247958374179,
+              "change": 0.003872479583741789,
+              "change_pct": 7.744959167483579
+            },
+            "success_bonus": {
+              "initial": 0.1,
+              "final": 0.09880906905571071,
+              "change": -0.0011909309442892924,
+              "change_pct": -1.1909309442892924
+            }
+          },
+          "most_changed_weights": [
+            {
+              "name": "wine_preference",
+              "initial": 0.05,
+              "final": 0.05387247958374179,
+              "change": 0.003872479583741789,
+              "change_pct": 7.744959167483579
+            },
+            {
+              "name": "event_type",
+              "initial": 0.2,
+              "final": 0.19761813811142143,
+              "change": -0.0023818618885785847,
+              "change_pct": -1.1909309442892924
+            },
+            {
+              "name": "price_range",
+              "initial": 0.18,
+              "final": 0.18182699739085625,
+              "change": 0.001826997390856261,
+              "change_pct": 1.0149985504757006
+            }
+          ]
+        }
+      }
+    },
+    "test_semantic_cultural_adaptation": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Semantic Cultural Adaptation Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_semantic_cultural_adaptation.json\n\nSummary:\n  Scenarios tested: 4\n  Avg retrieval similarity: 0.904\n  Total adaptations: 5\n  Ingredient substitutions: 0\n  Dish replacements: 1\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Semantic Cultural Adaptation",
+        "timestamp": "2026-01-10T03:39:53.635534",
+        "test_cases": [
+          {
+            "scenario_id": "italian_adaptation",
+            "target_culture": "ITALIAN",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 1.0,
+              "avg_similarity": 0.9635999999999999
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 0,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 0,
+              "cultural_theme": "italian",
+              "total_price": 44.8
+            }
+          },
+          {
+            "scenario_id": "spanish_adaptation",
+            "target_culture": "SPANISH",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 0.895,
+              "avg_similarity": 0.8624
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 2,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 0,
+              "cultural_theme": "spanish",
+              "total_price": 33.7
+            }
+          },
+          {
+            "scenario_id": "japanese_adaptation",
+            "target_culture": "JAPANESE",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 0.742,
+              "avg_similarity": 0.6984
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 3,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 1,
+              "cultural_theme": "japanese",
+              "total_price": 40.0
+            }
+          },
+          {
+            "scenario_id": "french_adaptation",
+            "target_culture": "FRENCH",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 0.9809999999999999,
+              "avg_similarity": 0.8858285714285714
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 0,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 0,
+              "cultural_theme": "french",
+              "total_price": 47.6
+            }
+          }
+        ],
+        "summary": {
+          "scenarios_tested": 4,
+          "avg_retrieval_similarity": 0.9045,
+          "total_cultural_adaptations": 5,
+          "total_ingredient_substitutions": 0,
+          "total_dish_replacements": 1,
+          "adaptation_rate": 1.25
+        }
+      }
+    },
+    "test_semantic_retrieve": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Semantic RETRIEVE Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_semantic_retrieve.json\n\nSummary:\n  Cultures tested: 5\n  Exact match rate: 60.0%\n  Top result match rate: 100.0%\n  Avg retrieval similarity: 0.972\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Semantic Similarity in RETRIEVE",
+        "timestamp": "2026-01-10T03:39:53.829822",
+        "cultural_preferences": [
+          {
+            "target_culture": "italian",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-5",
+                "similarity_score": 1.0,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-13",
+                "similarity_score": 1.0,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-21",
+                "similarity_score": 0.962,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-10",
+                "similarity_score": 0.95,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-37",
+                "similarity_score": 0.9060000000000001,
+                "case_culture": "italian",
+                "cultural_match": true
+              }
+            ],
+            "metrics": {
+              "top_similarity": 1.0,
+              "avg_similarity": 0.9635999999999999,
+              "exact_cultural_matches": 5,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "spanish",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-30",
+                "similarity_score": 1.0,
+                "case_culture": "spanish",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.8370000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-13",
+                "similarity_score": 0.8140000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-6",
+                "similarity_score": 0.764,
+                "case_culture": "french",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7510000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 1.0,
+              "avg_similarity": 0.8332,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "french",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-6",
+                "similarity_score": 0.996,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-28",
+                "similarity_score": 0.923,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-8",
+                "similarity_score": 0.907,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-24",
+                "similarity_score": 0.8560000000000001,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-5",
+                "similarity_score": 0.8290000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.996,
+              "avg_similarity": 0.9022,
+              "exact_cultural_matches": 4,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "japanese",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-35",
+                "similarity_score": 0.9309999999999998,
+                "case_culture": "japanese",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7830000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-13",
+                "similarity_score": 0.774,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-33",
+                "similarity_score": 0.7730000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8116,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "mexican",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-39",
+                "similarity_score": 0.9309999999999998,
+                "case_culture": "mexican",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-23",
+                "similarity_score": 0.925,
+                "case_culture": "mexican",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-2",
+                "similarity_score": 0.8660000000000001,
+                "case_culture": "mexican",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-41",
+                "similarity_score": 0.7833333333333334,
+                "case_culture": "mexican",
+                "cultural_match": true
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8604666666666667,
+              "exact_cultural_matches": 4,
+              "top_result_is_match": true
+            }
+          }
+        ],
+        "summary": {
+          "cultures_tested": 5,
+          "total_cases_retrieved": 25,
+          "exact_cultural_matches": 15,
+          "exact_match_rate": 0.6,
+          "top_result_match_rate": 1.0,
+          "avg_retrieval_similarity": 0.9715999999999999
+        },
+        "case_base_distribution": {
+          "american": 8,
+          "mexican": 5,
+          "indian": 6,
+          "chinese": 4,
+          "italian": 8,
+          "french": 4,
+          "lebanese": 1,
+          "japanese": 2,
+          "spanish": 1,
+          "thai": 1,
+          "korean": 1
+        }
+      }
+    },
+    "test_negative_cases": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Negative Cases Learning Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_negative_cases.json\n\nSummary:\n  Cases added: 1\n  Negative cases added: 1\n  Warning system functional: True\n  Final negative cases: 1\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Negative Cases Learning",
+        "timestamp": "2026-01-10T03:39:53.890980",
+        "scenarios": [
+          {
+            "scenario_id": "negative_case_creation",
+            "description": "Create negative case from low feedback",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.1,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260110-033953-725"
+            }
+          },
+          {
+            "scenario_id": "negative_case_warning",
+            "description": "Check warnings for similar request",
+            "warnings_found": 1,
+            "warning_details": [
+              {
+                "case_id": "case-20260110-033953-725",
+                "similarity": 0.8195569136745607,
+                "feedback_score": 2.1
+              }
+            ]
+          },
+          {
+            "scenario_id": "positive_case_creation",
+            "description": "Create positive case from high feedback",
+            "feedback": {
+              "score": 4.7,
+              "success": true,
+              "retained": false
+            }
+          }
+        ],
+        "summary": {
+          "initial_total_cases": 41,
+          "final_total_cases": 42,
+          "initial_negative_cases": 0,
+          "final_negative_cases": 1,
+          "cases_added": 1,
+          "negative_cases_added": 1,
+          "warning_system_functional": true
+        }
+      }
+    },
+    "test_semantic_retain": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Semantic RETAIN Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_semantic_retain.json\n\nSummary:\n  Test menus submitted: 3\n  Menus retained: 3\n  Retention rate: 100.0%\n  Semantic similarity enabled: True\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Semantic Similarity in RETAIN",
+        "timestamp": "2026-01-10T03:39:53.950689",
+        "test_cases": [
+          {
+            "test_id": "italian_vs_spanish",
+            "description": "Italian menu vs existing Spanish cases (semantically similar)",
+            "menu_culture": "ITALIAN",
+            "decision": {
+              "should_retain": true,
+              "action": "add_new",
+              "reason": "Caso novedoso para la base de conocimiento",
+              "retained": true
+            }
+          },
+          {
+            "test_id": "japanese_vs_european",
+            "description": "Japanese menu vs European cases (semantically different)",
+            "menu_culture": "JAPANESE",
+            "decision": {
+              "should_retain": true,
+              "action": "add_new",
+              "reason": "Caso novedoso para la base de conocimiento",
+              "retained": true
+            }
+          },
+          {
+            "test_id": "french_vs_european",
+            "description": "French menu vs European cases (semantically similar)",
+            "menu_culture": "FRENCH",
+            "decision": {
+              "should_retain": true,
+              "action": "update_existing",
+              "reason": "Mejora caso existente (4.8 vs 4.5)",
+              "retained": true
+            }
+          }
+        ],
+        "summary": {
+          "initial_cases": 41,
+          "final_cases": 43,
+          "test_menus_submitted": 3,
+          "menus_retained": 3,
+          "retention_rate": 1.0,
+          "semantic_similarity_used": true
+        }
+      }
+    },
+    "test_adaptive_learning": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "\n============================================================\n\ud83e\uddea EVALUACI\u00d3N COMPARATIVA: CBR Est\u00e1tico vs Adaptativo\n============================================================\n\ud83d\udccb Total de casos de prueba: 10\n\u23f0 Inicio: 2026-01-10 03:39:54\n\n============================================================\n\ud83d\udd39 EVALUACI\u00d3N: CBR EST\u00c1TICO (Pesos Fijos)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 1 propuestas en 0.02s\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.03s\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS EST\u00c1TICO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.01s\n\n============================================================\n\ud83d\udd38 EVALUACI\u00d3N: CBR ADAPTATIVO (Aprendizaje Activo)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.03s\n  \ud83d\udcda Pesos actualizados con feedback (4.0/5.0)\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (4.8/5.0)\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 1 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (3.8/5.0)\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.2/5.0)\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.00s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.04s\n  \ud83d\udcda Pesos actualizados con feedback (3.5/5.0)\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.01s\n\n\ud83d\udcca RESULTADOS ADAPTATIVO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.02s\n\u2705 Historial de aprendizaje guardado en: data/results/learning_history_test.json\n\u2705 Gr\u00e1fica guardada en: data/plots/weight_evolution.png\n\u2705 Gr\u00e1fica de correlaci\u00f3n guardada en: data/plots/feedback_correlation.png\n\u2705 Gr\u00e1ficas generadas en: data/plots/\n\n============================================================\n\ud83d\udcc8 COMPARACI\u00d3N DE RESULTADOS\n============================================================\n\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 M\u00e9trica                     \u2502 Est\u00e1tico \u2502 Adaptivo \u2502  Mejora  \u2502\n\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n\u2502 Precisi\u00f3n                   \u2502   90.0% \u2502   90.0% \u2502    +0.0% \u2502\n\u2502 Satisfacci\u00f3n promedio       \u2502   4.40/5 \u2502   4.40/5 \u2502   +0.00   \u2502\n\u2502 Tiempo promedio (s)         \u2502   0.014  \u2502   0.016  \u2502   +0.002  \u2502\n\u2502 Casos exitosos              \u2502     9    \u2502     9    \u2502    +0    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\ud83c\udfaf CONCLUSIONES:\n   \u2796 Precisi\u00f3n sin cambios\n   \u2796 Satisfacci\u00f3n sin cambios\n   \u2705 Tiempo de procesamiento similar (overhead m\u00ednimo)\n\n\ud83d\udcbe Comparaci\u00f3n guardada en: data/evaluation_comparison.json\n\u2705 Evaluaci\u00f3n completada\n\u23f0 Fin: 2026-01-10 03:39:54\n============================================================\n\n",
+        "stderr": ""
+      },
+      "data": {
+        "summary": {
+          "test_type": "Comparative Evaluation",
+          "static_precision": 0.9,
+          "static_satisfaction": 4.4,
+          "static_time": 0.014043498039245605,
+          "adaptive_precision": 0.9,
+          "adaptive_satisfaction": 4.4,
+          "adaptive_time": 0.015658974647521973,
+          "precision_improvement_pct": 0.0,
+          "satisfaction_improvement": 0.0,
+          "time_overhead_seconds": 0.0016154766082763679,
+          "total_test_cases": 10,
+          "adaptive_better": false
+        }
+      }
+    }
+  }
+}
