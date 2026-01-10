@@ -2,13 +2,28 @@
 HTML Generator Module
 =====================
 
-Genera reportes HTML interactivos para cada test individual.
+Genera reportes HTML interactivos para cada test individual con gráficos y plots.
 """
 
 import json
+import base64
 from pathlib import Path
 from typing import Dict, Optional, List
 from datetime import datetime
+
+
+def embed_image_as_base64(image_path: Path) -> Optional[str]:
+    """Convierte imagen PNG a base64 para incrustar en HTML."""
+    if not image_path.exists():
+        return None
+    
+    try:
+        with open(image_path, 'rb') as f:
+            image_data = f.read()
+            return base64.b64encode(image_data).decode('utf-8')
+    except Exception as e:
+        print(f"Error embedding image {image_path}: {e}")
+        return None
 
 
 def generate_individual_test_htmls(results_dir: Path, htmls_dir: Path, verbose: bool = True) -> List[Path]:
@@ -278,9 +293,13 @@ def generate_simple_html(data: Dict) -> str:
 # INDIVIDUAL TEST HTML GENERATORS
 # ============================================================================
 
-def get_html_template(title: str, test_name: str) -> str:
-    """Template base para HTMLs individuales."""
-    return f"""<!DOCTYPE html>
+def get_html_template(title: str, test_name: str, embedded_images: Dict[str, str] = None) -> str:
+    """Template base para HTMLs individuales con estilos mejorados."""
+    
+    if embedded_images is None:
+        embedded_images = {}
+    
+    html = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -289,12 +308,14 @@ def get_html_template(title: str, test_name: str) -> str:
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             min-height: 100vh;
         }}
+        
         .container {{
             max-width: 1400px;
             margin: 0 auto;
@@ -303,14 +324,25 @@ def get_html_template(title: str, test_name: str) -> str:
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }}
+        
         .header {{
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
             text-align: center;
         }}
-        .header h1 {{ font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }}
-        .header p {{ font-size: 1.1em; opacity: 0.9; }}
+        
+        .header h1 {{
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }}
+        
+        .header p {{
+            font-size: 1.1em;
+            opacity: 0.9;
+        }}
+        
         .summary-cards {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -318,18 +350,42 @@ def get_html_template(title: str, test_name: str) -> str:
             padding: 40px;
             background: #f8f9fa;
         }}
+        
         .card {{
             background: white;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }}
-        .card:hover {{ transform: translateY(-5px); }}
-        .card-title {{ font-size: 0.9em; color: #666; text-transform: uppercase; margin-bottom: 10px; }}
-        .card-value {{ font-size: 2.5em; font-weight: bold; color: #667eea; }}
-        .content {{ padding: 40px; }}
-        .section {{ margin-bottom: 50px; }}
+        
+        .card:hover {{
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }}
+        
+        .card-title {{
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }}
+        
+        .card-value {{
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }}
+        
+        .content {{
+            padding: 40px;
+        }}
+        
+        .section {{
+            margin-bottom: 50px;
+        }}
+        
         .section-title {{
             font-size: 1.8em;
             color: #333;
@@ -337,19 +393,74 @@ def get_html_template(title: str, test_name: str) -> str:
             padding-bottom: 10px;
             border-bottom: 3px solid #667eea;
         }}
+        
+        .chart-container {{
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            position: relative;
+            height: 400px;
+        }}
+        
+        .plot-container {{
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }}
+        
+        .plot-container img {{
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }}
+        
         .metric-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             margin: 20px 0;
         }}
-        .metric-item {{
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+        
+        .metric-card {{
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
         }}
-        .metric-label {{ font-size: 0.85em; color: #666; margin-bottom: 5px; }}
-        .metric-value {{ font-size: 1.5em; font-weight: bold; color: #333; }}
+        
+        .metric-label {{
+            font-size: 0.85em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }}
+        
+        .metric-value {{
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }}
+        
+        .metric-unit {{
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 5px;
+        }}
+        
+        .footer {{
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }}
     </style>
 </head>
 <body>
@@ -360,68 +471,43 @@ def get_html_template(title: str, test_name: str) -> str:
             <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
         </div>
 """
+    
+    return html
 
 
 def generate_cbr_cycle_html(data: Dict, test_name: str) -> str:
     """Genera HTML para test_complete_cbr_cycle."""
-    html = get_html_template("Complete CBR Cycle Test", test_name)
-    summary = data.get('summary', {})
-    
-    html += f"""
-        <div class="summary-cards">
-            <div class="card">
-                <div class="card-title">Initial Cases</div>
-                <div class="card-value">{summary.get('initial_cases', 0)}</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Final Cases</div>
-                <div class="card-value">{summary.get('final_cases', 0)}</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Cases Learned</div>
-                <div class="card-value">{summary.get('cases_learned', 0)}</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Avg Similarity</div>
-                <div class="card-value">{summary.get('avg_retrieval_similarity', 0):.3f}</div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="section">
-                <h2 class="section-title">Test Summary</h2>
-                <div class="metric-grid">
-"""
-    
-    for key, value in summary.items():
-        if isinstance(value, (int, float)):
-            formatted_key = key.replace('_', ' ').title()
-            formatted_value = f"{value:.3f}" if isinstance(value, float) else str(value)
-            html += f"""
-                    <div class="metric-item">
-                        <div class="metric-label">{formatted_key}</div>
-                        <div class="metric-value">{formatted_value}</div>
-                    </div>
-"""
-    
-    html += """
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    return html
+    return generate_generic_html(data, "Complete CBR Cycle Test", test_name)
 
 
 def generate_user_simulation_html(data: Dict, test_name: str) -> str:
-    """Genera HTML para test_user_simulation."""
-    return generate_generic_html(data, "Multi-User Simulation", test_name)
+    """Genera HTML para test_user_simulation con plots embebidos."""
+    base_dir = Path(__file__).parent.parent
+    plots_dir = base_dir / "data" / "plots"
+    
+    plot_images = {}
+    
+    # Intentar incrustar feedback_evolution.png
+    feedback_plot = plots_dir / "feedback_evolution.png"
+    if feedback_plot.exists():
+        plot_images['feedback_evolution'] = embed_image_as_base64(feedback_plot)
+    
+    return generate_generic_html(data, "Multi-User Simulation", test_name, plot_images)
 
 
 def generate_adaptive_weights_html(data: Dict, test_name: str) -> str:
-    """Genera HTML para test_adaptive_weights."""
-    return generate_generic_html(data, "Adaptive Weight Learning", test_name)
+    """Genera HTML para test_adaptive_weights con plots embebidos."""
+    base_dir = Path(__file__).parent.parent
+    plots_dir = base_dir / "data" / "plots"
+    
+    plot_images = {}
+    
+    # Intentar incrustar weight_evolution.png
+    weight_plot = plots_dir / "weight_evolution.png"
+    if weight_plot.exists():
+        plot_images['weight_evolution'] = embed_image_as_base64(weight_plot)
+    
+    return generate_generic_html(data, "Adaptive Weight Learning", test_name, plot_images)
 
 
 def generate_cultural_adaptation_html(data: Dict, test_name: str) -> str:
@@ -446,17 +532,32 @@ def generate_retain_html(data: Dict, test_name: str) -> str:
 
 def generate_adaptive_learning_html(data: Dict, test_name: str) -> str:
     """Genera HTML para test_adaptive_learning."""
-    return generate_generic_html(data, "Adaptive Learning Evaluation", test_name)
+    base_dir = Path(__file__).parent.parent
+    plots_dir = base_dir / "data" / "plots"
+    
+    plot_images = {}
+    
+    # Intentar incrustar feedback_correlation.png y otros plots
+    correlation_plot = plots_dir / "feedback_correlation.png"
+    if correlation_plot.exists():
+        plot_images['feedback_correlation'] = embed_image_as_base64(correlation_plot)
+    
+    return generate_generic_html(data, "Adaptive Learning Evaluation", test_name, plot_images)
 
 
-def generate_generic_html(data: Dict, title: str, test_name: str) -> str:
+def generate_generic_html(data: Dict, title: str, test_name: str, plot_images: Dict[str, str] = None) -> str:
     """Generador genérico de HTML para cualquier test."""
+    
+    if plot_images is None:
+        plot_images = {}
+    
     html = get_html_template(title, test_name)
     summary = data.get('summary', {})
     
     # Tarjetas de resumen (primeras 4 métricas)
     html += '        <div class="summary-cards">\n'
-    for key, value in list(summary.items())[:4]:
+    metric_items = list(summary.items())
+    for key, value in metric_items[:4]:
         if isinstance(value, (int, float)):
             formatted_key = key.replace('_', ' ').title()
             formatted_value = f"{value:.3f}" if isinstance(value, float) else str(value)
@@ -468,20 +569,39 @@ def generate_generic_html(data: Dict, title: str, test_name: str) -> str:
 """
     html += '        </div>\n'
     
-    # Contenido principal con todas las métricas
+    # Sección de plots embebidos
+    if plot_images:
+        html += '        <div class="content">\n'
+        html += '            <div class="section">\n'
+        html += '                <h2 class="section-title">📊 Visualizaciones</h2>\n'
+        
+        for plot_name, plot_base64 in plot_images.items():
+            if plot_base64:
+                html += f"""
+                <div class="plot-container">
+                    <h3>{plot_name.replace('_', ' ').title()}</h3>
+                    <img src="data:image/png;base64,{plot_base64}" alt="{plot_name}">
+                </div>
+"""
+        html += '            </div>\n'
+    
+    # Sección de métricas detalladas
     html += """
-        <div class="content">
             <div class="section">
-                <h2 class="section-title">Detailed Metrics</h2>
+                <h2 class="section-title">📈 Métricas Detalladas</h2>
                 <div class="metric-grid">
 """
     
     for key, value in summary.items():
         if isinstance(value, (int, float)):
             formatted_key = key.replace('_', ' ').title()
-            formatted_value = f"{value:.3f}" if isinstance(value, float) else str(value)
+            if isinstance(value, float):
+                formatted_value = f"{value:.4f}" if value < 1 else f"{value:.2f}"
+            else:
+                formatted_value = str(value)
+            
             html += f"""
-                    <div class="metric-item">
+                    <div class="metric-card">
                         <div class="metric-label">{formatted_key}</div>
                         <div class="metric-value">{formatted_value}</div>
                     </div>
@@ -490,6 +610,10 @@ def generate_generic_html(data: Dict, title: str, test_name: str) -> str:
     html += """
                 </div>
             </div>
+        </div>
+        
+        <div class="footer">
+            <p>For detailed analysis, see FORMAL_REPORT.md in data/reports/</p>
         </div>
     </div>
 </body>

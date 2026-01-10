@@ -1,6 +1,6 @@
 {
   "test_name": "Negative Cases Learning",
-  "timestamp": "2026-01-10T02:56:31.705748",
+  "timestamp": "2026-01-10T03:03:21.719235",
   "scenarios": [
     {
       "scenario_id": "negative_case_creation",
@@ -11,7 +11,7 @@
         "score": 2.1,
         "success": false,
         "retained": true,
-        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260110-025631-811"
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260110-030321-361"
       }
     },
     {
@@ -20,7 +20,7 @@
       "warnings_found": 1,
       "warning_details": [
         {
-          "case_id": "case-20260110-025631-811",
+          "case_id": "case-20260110-030321-361",
           "similarity": 0.8195569136745607,
           "feedback_score": 2.1
         }

@@ -3,13 +3,13 @@
     "test_type": "Comparative Evaluation",
     "static_precision": 0.9,
     "static_satisfaction": 4.4,
-    "static_time": 0.015210294723510742,
+    "static_time": 0.014959144592285156,
     "adaptive_precision": 0.9,
     "adaptive_satisfaction": 4.4,
-    "adaptive_time": 0.014780020713806153,
+    "adaptive_time": 0.016005802154541015,
     "precision_improvement_pct": 0.0,
     "satisfaction_improvement": 0.0,
-    "time_overhead_seconds": -0.00043027400970458915,
+    "time_overhead_seconds": 0.0010466575622558594,
     "total_test_cases": 10,
     "adaptive_better": false
   }
