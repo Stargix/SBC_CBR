@@ -76,3 +76,5 @@ class FeedbackResponse(BaseModel):
     case_retained: Optional[bool] = None
     case_id: Optional[str] = None
     weights_updated: Optional[Dict[str, Any]] = None
+    embedding: Optional[Dict[str, Any]] = None
+    retention_message: Optional[str] = None

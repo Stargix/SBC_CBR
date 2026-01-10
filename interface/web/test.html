@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Statistics Button</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 5px;
+            background: #0f766e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0d615a;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .view {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 400px;
+        }
+
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        #console {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .log {
+            margin: 3px 0;
+        }
+
+        .log-error {
+            color: #ff4444;
+        }
+
+        .log-warn {
+            color: #ffaa00;
+        }
+
+        .log-info {
+            color: #00aaff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 Test Statistics View</h1>
+
+    <div class="controls">
+        <strong>View Mode: <span id="viewMode">main</span></strong><br><br>
+        <button id="statsBtn">📈 Estadísticas</button>
+        <button id="mainBtn">🔙 Volver</button>
+        <button id="clearBtn">🗑️ Clear Console</button>
+    </div>
+
+    <div id="console"></div>
+
+    <div id="view" class="view">
+        <p>Click "Estadísticas" button to load statistics view</p>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let viewMode = 'main';
+        let statistics = null;
+        let statsLoading = false;
+
+        // Console logging
+        function log(msg, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = `log log-${type}`;
+            div.textContent = `[${timestamp}] ${msg}`;
+            document.getElementById('console').appendChild(div);
+            document.getElementById('console').scrollTop = document.getElementById('console').scrollHeight;
+            console[type](msg);
+        }
+
+        function updateUI() {
+            document.getElementById('viewMode').textContent = viewMode;
+
+            if (viewMode === 'statistics') {
+                if (statsLoading && !statistics) {
+                    document.getElementById('view').innerHTML = '<div class="loading"><h2>⏳ Cargando estadísticas...</h2></div>';
+                } else if (statistics) {
+                    let html = '<h2>📊 Evolución del Sistema</h2>';
+
+                    if (statistics.current_case_base) {
+                        html += `<div class="section">
+                            <h3>📦 Estado en tiempo real</h3>
+                            <p><strong>Total casos:</strong> ${statistics.current_case_base.total_cases}</p>
+                            <p><strong>Embeddings:</strong> ${statistics.current_case_base.embeddings_total}</p>
+                            <p><strong>Tasa de éxito:</strong> ${(statistics.current_case_base.retention_stats.success_rate * 100).toFixed(1)}%</p>
+                        </div>`;
+                    }
+
+                    if (statistics.learning_history) {
+                        html += `<div class="section">
+                            <h3>🎯 Historial de Aprendizaje</h3>
+                            <p><strong>Iteraciones:</strong> ${statistics.learning_history.metadata.total_iterations}</p>
+                            <p><strong>Learning rate:</strong> ${statistics.learning_history.metadata.learning_rate}</p>
+                        </div>`;
+                    }
+
+                    if (statistics.simulation_results) {
+                        html += `<div class="section">
+                            <h3>📈 Resultados de Simulación</h3>
+                            <p><strong>Requests:</strong> ${statistics.simulation_results.total_requests || statistics.simulation_results.interactions?.length || 'N/A'}</p>
+                        </div>`;
+                    }
+
+                    document.getElementById('view').innerHTML = html;
+                } else {
+                    document.getElementById('view').innerHTML = '<p>No statistics data available</p>';
+                }
+            } else {
+                document.getElementById('view').innerHTML = '<p>Main view - click "Estadísticas" to load statistics</p>';
+            }
+        }
+
+        async function fetchStatistics(silent = false) {
+            log(`[fetchStatistics] Called with silent=${silent}`, 'info');
+
+            if (!silent) {
+                statsLoading = true;
+                updateUI();
+            }
+
+            try {
+                log(`[fetchStatistics] Fetching from ${API_BASE}/statistics`, 'info');
+                const response = await fetch(`${API_BASE}/statistics`);
+                log(`[fetchStatistics] Response status: ${response.status}`, 'info');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                log(`[fetchStatistics] Data received with keys: ${Object.keys(data).join(', ')}`, 'info');
+                statistics = data;
+
+                if (!silent) {
+                    log('[fetchStatistics] Setting viewMode to statistics', 'info');
+                    viewMode = 'statistics';
+                    updateUI();
+                }
+            } catch (err) {
+                log(`[fetchStatistics] ERROR: ${err.message}`, 'error');
+            } finally {
+                if (!silent) {
+                    statsLoading = false;
+                    updateUI();
+                }
+            }
+        }
+
+        // Event listeners
+        document.getElementById('statsBtn').addEventListener('click', () => {
+            log('[Button Click] Statistics button clicked', 'info');
+            fetchStatistics();
+        });
+
+        document.getElementById('mainBtn').addEventListener('click', () => {
+            log('[Button Click] Main button clicked', 'info');
+            viewMode = 'main';
+            updateUI();
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('console').innerHTML = '';
+        });
+
+        // Initial render
+        updateUI();
+        log('Page loaded - ready to test', 'info');
+    </script>
+</body>
+
+</html>

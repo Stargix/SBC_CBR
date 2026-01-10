@@ -82,7 +82,11 @@ function App() {
   const [viewMode, setViewMode] = useState('main') // 'main' or 'statistics'
   const [statistics, setStatistics] = useState(null)
   const [statsLoading, setStatsLoading] = useState(false)
-  const [statsAutoRefresh, setStatsAutoRefresh] = useState(null)
+
+  // Debug: log viewMode changes
+  useEffect(() => {
+    console.log('[ViewMode Changed]', viewMode)
+  }, [viewMode])
 
   const fetchEmbeddings = async () => {
     try {
@@ -334,42 +338,55 @@ function App() {
   }
 
   const fetchStatistics = async (silent = false) => {
+    console.log('[fetchStatistics] Called with silent:', silent)
     if (!silent) setStatsLoading(true)
-    setError('')
+    if (!silent) setError('')
     try {
+      console.log('[fetchStatistics] Fetching from:', `${API_BASE}/statistics`)
       const response = await fetch(`${API_BASE}/statistics`)
+      console.log('[fetchStatistics] Response status:', response.status)
       if (!response.ok) {
         throw new Error('Failed to load statistics')
       }
       const data = await response.json()
+      console.log('[fetchStatistics] Data received:', Object.keys(data))
       setStatistics(data)
-      setViewMode('statistics')
+      if (!silent) {
+        console.log('[fetchStatistics] Setting viewMode to statistics')
+        setViewMode('statistics')
+      }
     } catch (err) {
-      setError(err.message || 'Error loading statistics')
+      console.error('[fetchStatistics] Error:', err)
+      if (!silent) setError(err.message || 'Error loading statistics')
     } finally {
       if (!silent) setStatsLoading(false)
     }
   }
 
-  // Auto-refresco cada pocos segundos mientras se está viendo estadísticas
+  // Auto-refresco cada 3s mientras se está viendo estadísticas
   useEffect(() => {
     if (viewMode !== 'statistics') {
-      if (statsAutoRefresh) {
-        clearInterval(statsAutoRefresh)
-        setStatsAutoRefresh(null)
-      }
       return
     }
 
     // Primera carga inmediata
-    fetchStatistics(true)
+    const doFetch = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/statistics`)
+        if (response.ok) {
+          const data = await response.json()
+          setStatistics(data)
+        }
+      } catch (e) {
+        // Ignorar errores en auto-refresh
+      }
+    }
+    doFetch()
 
-    const id = setInterval(() => fetchStatistics(true), 5000)
-    setStatsAutoRefresh(id)
+    const intervalId = setInterval(doFetch, 3000)
 
     return () => {
-      clearInterval(id)
-      setStatsAutoRefresh(null)
+      clearInterval(intervalId)
     }
   }, [viewMode])
 
@@ -392,7 +409,10 @@ function App() {
             </a>
             <button
               className={`nav-button ${viewMode === 'statistics' ? 'active' : ''}`}
-              onClick={fetchStatistics}
+              onClick={() => {
+                console.log('[Button Click] Statistics button clicked')
+                fetchStatistics()
+              }}
               disabled={statsLoading}
             >
               {statsLoading ? '⏳ Cargando...' : '📈 Estadísticas'}
@@ -413,12 +433,19 @@ function App() {
         </div>
       </header>
 
-      {viewMode === 'statistics' && statistics ? (
+      {viewMode === 'statistics' ? (
         <div className="statistics-view">
+          {console.log('[Render] Statistics view - statsLoading:', statsLoading, 'statistics:', !!statistics)}
           <section className="panel statistics-panel">
             <h2>📊 Evolución del Sistema</h2>
 
-            {statistics.learning_history && (
+            {statsLoading && !statistics && (
+              <div className="loading-message">
+                <p>⏳ Cargando estadísticas...</p>
+              </div>
+            )}
+
+            {statistics && statistics.learning_history && (
               <div className="stats-section">
                 <h3>🎯 Historial de Aprendizaje de Pesos</h3>
                 <div className="metadata">
@@ -567,7 +594,7 @@ function App() {
               </div>
             )}
 
-            {statistics.simulation_learning && (
+            {statistics && statistics.simulation_learning && (
               <div className="stats-section">
                 <h3>🤖 Resultados de Simulación con Aprendizaje</h3>
                 <div className="metadata">
@@ -637,7 +664,7 @@ function App() {
               </div>
             )}
 
-            {statistics.simulation_results && (
+            {statistics && statistics.simulation_results && (
               <div className="stats-section">
                 <h3>📈 Resultados de Simulación General</h3>
                 {statistics.simulation_results.summary && (
@@ -687,7 +714,7 @@ function App() {
               </div>
             )}
 
-            {statistics.current_case_base && !statistics.current_case_base.error && (
+            {statistics && statistics.current_case_base && !statistics.current_case_base.error && (
               <div className="stats-section">
                 <h3>📦 Estado en tiempo real</h3>
                 <div className="live-grid">
@@ -754,7 +781,7 @@ function App() {
               </div>
             )}
 
-            {!statistics.learning_history && !statistics.simulation_learning && !statistics.simulation_results && (
+            {statistics && !statistics.learning_history && !statistics.simulation_learning && !statistics.simulation_results && !statistics.current_case_base && (
               <div className="no-data">
                 <p>⚠️ No hay datos de estadísticas disponibles.</p>
                 <p>Ejecuta algunas simulaciones primero para generar datos.</p>

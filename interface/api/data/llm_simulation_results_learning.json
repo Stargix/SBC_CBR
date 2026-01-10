@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "total_iterations": 1,
+    "total_iterations": 0,
     "learning_rate": 0.05,
     "min_weight": 0.02,
     "max_weight": 0.5
   },
   "history": [
     {
-      "timestamp": "2026-01-10T18:54:40.341851",
+      "timestamp": "2026-01-10T19:28:12.899719",
       "iteration": 0,
       "weights": {
         "event_type": 0.2,
@@ -24,29 +24,10 @@
       "adjustments": [
         "Inicialización con pesos por defecto"
       ]
-    },
-    {
-      "timestamp": "2026-01-10T18:54:41.459036",
-      "iteration": 1,
-      "weights": {
-        "event_type": 0.2,
-        "season": 0.12,
-        "price_range": 0.18,
-        "style": 0.12,
-        "cultural": 0.08,
-        "dietary": 0.1,
-        "guests": 0.05,
-        "wine_preference": 0.05,
-        "success_bonus": 0.1
-      },
-      "feedback_score": 3.5,
-      "adjustments": [
-        "Sin ajustes (feedback neutral)"
-      ]
     }
   ],
   "summary": {
-    "total_iterations": 1,
+    "total_iterations": 0,
     "total_adjustments": 0,
     "weight_changes": {
       "event_type": {
