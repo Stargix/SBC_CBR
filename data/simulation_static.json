@@ -1,0 +1,57 @@
+{
+  "config": {
+    "ollama_url": "http://localhost:11434/api/generate",
+    "model_name": "phi3",
+    "num_interactions": 5,
+    "enable_adaptive_weights": false,
+    "case_base_path": "cases.json",
+    "temperature": 0.7,
+    "verbose": true,
+    "save_results": true,
+    "results_path": "data/simulation_static.json"
+  },
+  "interactions": [
+    {
+      "interaction": 1,
+      "success": true,
+      "request": {
+        "event_type": "wedding",
+        "num_guests": 128,
+        "price_max": 111.3044737464671,
+        "style": "modern"
+      },
+      "menu_proposed": {
+        "starter": "Caprese Flatbread with Balsamic Reduction",
+        "main": "Pumpkin Lasagna",
+        "dessert": "Strawberry Cheesecake French Toast Bake",
+        "total_price": 82.5,
+        "similarity": 0.8749999999999999
+      },
+      "feedback": {
+        "overall": 3.0,
+        "comments": "Auto-generated"
+      },
+      "timing": {
+        "total": 1.36789870262146,
+        "cbr_processing": 0.005402565002441406
+      }
+    }
+  ],
+  "start_time": "2026-01-08T02:34:34.235742",
+  "end_time": "2026-01-08T02:34:38.155458",
+  "duration_seconds": 3.919716,
+  "total_requests": 1,
+  "successful_proposals": 1,
+  "average_satisfaction": 3.0,
+  "weight_evolution": [],
+  "summary": {
+    "total_interactions": 1,
+    "successful_interactions": 1,
+    "average_satisfaction": 3.0,
+    "satisfaction_distribution": {
+      "low_1-2": 0,
+      "medium_3": 1,
+      "high_4-5": 0
+    }
+  }
+}

@@ -387,19 +387,52 @@ class CaseAdapter:
                     if substitutions_made:
                         # NIVEL 1 ÉXITO: Actualizar ingredientes del plato COPIADO
                         adapted_dish.ingredients = new_ingredients
-                        # Añadir las dietas que ahora cumple
-                        if adapted_dish.diets is None:
-                            adapted_dish.diets = list(missing_diets)
+                        
+                        # VALIDACIÓN CRÍTICA: Verificar que NO quedan ingredientes prohibidos
+                        remaining_violations = []
+                        for ingredient in adapted_dish.ingredients:
+                            for diet in missing_diets:
+                                if adapter.violates_dietary_restriction(ingredient, diet):
+                                    remaining_violations.append((ingredient, diet))
+                        
+                        if not remaining_violations:
+                            # TODO OK: Ahora sí podemos añadir las dietas
+                            if adapted_dish.diets is None:
+                                adapted_dish.diets = list(missing_diets)
+                            else:
+                                adapted_dish.diets = list(set(adapted_dish.diets + missing_diets))
+                            
+                            # Reemplazar el plato en el menú con la versión adaptada
+                            setattr(menu, dish_attr, adapted_dish)
+                            
+                            for sub in substitutions_made:
+                                adaptations.append(
+                                    f"{dish.name}: {sub.original}→{sub.replacement} ({sub.reason})"
+                                )
                         else:
-                            adapted_dish.diets = list(set(adapted_dish.diets + missing_diets))
-                        
-                        # Reemplazar el plato en el menú con la versión adaptada
-                        setattr(menu, dish_attr, adapted_dish)
-                        
-                        for sub in substitutions_made:
-                            adaptations.append(
-                                f"{dish.name}: {sub.original}→{sub.replacement} ({sub.reason})"
-                            )
+                            # AÚN HAY VIOLACIONES: Buscar plato alternativo en NIVEL 2
+                            alternative_dishes = self.case_base.get_dishes_by_type(dish.dish_type)
+                            compatible = [
+                                d for d in alternative_dishes 
+                                if all(diet in d.diets for diet in missing_diets)
+                            ]
+                            
+                            if compatible:
+                                best = max(
+                                    compatible,
+                                    key=lambda d: calculate_dish_similarity(dish, d)
+                                )
+                                setattr(menu, dish_attr, best)
+                                adaptations.append(
+                                    f"Plato cambiado: {dish.name} → {best.name} "
+                                    f"(cumple {', '.join(missing_diets)})"
+                                )
+                            else:
+                                # No se pudo adaptar de ninguna forma
+                                violation_details = ', '.join([f"{ing} (violates {diet})" for ing, diet in remaining_violations[:3]])
+                                return False, adaptations + [
+                                    f"ERROR: {dish.name} - quedan violaciones dietéticas: {violation_details}"
+                                ]
                     else:
                         # NIVEL 1 FALLÓ: No se pudieron sustituir ingredientes
                         # NIVEL 2: Buscar plato alternativo compatible

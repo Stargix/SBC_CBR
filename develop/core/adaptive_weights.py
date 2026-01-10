@@ -23,7 +23,8 @@ import json
 from pathlib import Path
 
 from .similarity import SimilarityWeights, DishSimilarityWeights
-from .models import Feedback, Request, CulturalTradition, Dish
+from .models import Feedback, Request, CulturalTradition, Dish, Menu
+from . import knowledge
 
 
 @dataclass
@@ -84,16 +85,22 @@ class AdaptiveWeightLearner:
         initial_weights: Optional[SimilarityWeights] = None,
         learning_rate: float = 0.05,
         min_weight: float = 0.02,
-        max_weight: float = 0.50
+        max_weight: float = 0.50,
+        lr_scheduler: Optional[str] = None,
+        lr_decay_rate: float = 0.95,
+        lr_min: float = 0.001
     ):
         """
         Inicializa el aprendiz adaptativo.
         
         Args:
             initial_weights: Pesos iniciales (si None, usa defaults)
-            learning_rate: Tasa de aprendizaje (0.01-0.1 recomendado)
+            learning_rate: Tasa de aprendizaje inicial (0.01-0.1 recomendado)
             min_weight: Peso mínimo permitido
             max_weight: Peso máximo permitido
+            lr_scheduler: Tipo de scheduler ('exponential', 'linear', 'step', None)
+            lr_decay_rate: Factor de decay (0.9-0.99 recomendado para exponential)
+            lr_min: Learning rate mínimo
         """
         # Pesos actuales
         if initial_weights:
@@ -103,9 +110,15 @@ class AdaptiveWeightLearner:
             self.weights.normalize()
         
         # Parámetros de aprendizaje
+        self.initial_learning_rate = learning_rate
         self.learning_rate = learning_rate
         self.min_weight = min_weight
         self.max_weight = max_weight
+        
+        # Parámetros del scheduler
+        self.lr_scheduler = lr_scheduler
+        self.lr_decay_rate = lr_decay_rate
+        self.lr_min = lr_min
         
         # Historial de aprendizaje
         self.history: List[LearningSnapshot] = []
@@ -123,7 +136,8 @@ class AdaptiveWeightLearner:
     def update_from_feedback(
         self, 
         feedback: Feedback, 
-        request: Request
+        request: Request,
+        menu: Optional[Menu] = None
     ) -> Dict[str, float]:
         """
         Actualiza pesos basándose en feedback del cliente.
@@ -133,9 +147,18 @@ class AdaptiveWeightLearner:
         - Feedback alto (>= 4): Reforzar criterios que funcionaron bien
         - Feedback medio: Ajustes menores
         
+        Actualiza TODOS los pesos según reglas del dominio:
+        - price_range, cultural, dietary: Basado en satisfacciones específicas
+        - event_type: Siempre cuando overall >= 4
+        - style: Validado con knowledge.EVENT_STYLES
+        - wine_preference: Correlacionado con flavor_satisfaction
+        - season: Reforzado con flavor_satisfaction alto
+        - guests: Por escala y problemas de cantidad
+        
         Args:
             feedback: Feedback del cliente
             request: Request original del caso
+            menu: Menú propuesto (opcional, para validar estilos)
             
         Returns:
             Diccionario con los ajustes realizados (para logging)
@@ -180,12 +203,9 @@ class AdaptiveWeightLearner:
                 reasons.append("Priorizar cultura (insatisfacción)")
             
             # 3. Sabor/Calidad problema
-            # NOTA: El feedback de sabor se maneja principalmente en DishWeightLearner
-            # a nivel de platos individuales, donde se ajusta el peso de 'flavors'.
-            # A nivel de casos completos no hay un peso directo para sabores,
-            # por lo que este feedback se gestiona mejor durante la adaptación.
             if feedback.flavor_satisfaction < 3:
-                # No ajustamos pesos de caso aquí - el sabor es específico del plato
+                # No ajustamos wine_preference aquí porque no podemos determinar
+                # si el problema fue el maridaje o los platos en sí
                 reasons.append("INFO: Sabor insatisfactorio - revisar en adaptación de platos")
             
             # 4. Dietas no cumplidas
@@ -195,6 +215,33 @@ class AdaptiveWeightLearner:
                 self._adjust_weight('dietary', delta,
                                    "Dietas no cumplidas (crítico)")
                 reasons.append("CRÍTICO: Reforzar restricciones dietéticas")
+            
+            # 5. Estilo inadecuado para el evento
+            if menu and overall_satisfaction < 3:
+                # Verificar si los estilos del menú son apropiados para el evento
+                menu_styles = set()
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    menu_styles.update(dish.styles)
+                
+                preferred_styles = knowledge.get_preferred_styles_for_event(request.event_type)
+                if menu_styles and not any(style in preferred_styles for style in menu_styles):
+                    # El estilo no era apropiado para el evento
+                    delta = 0.08 * self.learning_rate
+                    adjustments_made['style'] = delta
+                    self._adjust_weight('style', delta,
+                                       "Estilo inadecuado para tipo de evento")
+                    reasons.append("Priorizar matching de estilo culinario")
+            
+            # 6. Temporada inapropiada (calorías no adecuadas para la estación)
+            if menu and overall_satisfaction < 3:
+                # Verificar si el problema fue un menú inapropiado para la temporada
+                # (ej: menú muy pesado en verano, muy ligero en invierno)
+                if not knowledge.is_calorie_count_appropriate(menu.total_calories, request.season):
+                    delta = 0.06 * self.learning_rate
+                    adjustments_made['season'] = delta
+                    self._adjust_weight('season', delta,
+                                       "Menú inapropiado para temporada (calorías)")
+                    reasons.append("Priorizar matching de temporada (ligero/pesado)")
         
         # ===== ANÁLISIS DE FEEDBACK ALTO (Satisfacción) =====
         elif overall_satisfaction >= 4:
@@ -217,13 +264,54 @@ class AdaptiveWeightLearner:
                                    "Precio bien ajustado")
                 reasons.append("Mantener precisión de precio")
             
-            # 3. Tipo de evento bien matcheado
-            if overall_satisfaction == 5:  # Perfecto
+            # 3. Estilo apropiado para el evento
+            if menu:
+                menu_styles = set()
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    menu_styles.update(dish.styles)
+                
+                preferred_styles = knowledge.get_preferred_styles_for_event(request.event_type)
+                if menu_styles and any(style in preferred_styles for style in menu_styles):
+                    # El estilo era apropiado y funcionó bien
+                    delta = 0.03 * self.learning_rate
+                    adjustments_made['style'] = delta
+                    self._adjust_weight('style', delta,
+                                       "Estilo apropiado para evento (éxito)")
+                    reasons.append("Reforzar matching de estilo culinario")
+            
+            # 4. Maridaje de vino exitoso
+            if feedback.flavor_satisfaction >= 4 and request.wants_wine:
+                delta = 0.03 * self.learning_rate
+                adjustments_made['wine_preference'] = delta
+                self._adjust_weight('wine_preference', delta,
+                                   "Maridaje de vino exitoso")
+                reasons.append("Reforzar importancia de maridaje")
+            
+            # 5. Temporada bien aprovechada (calorías apropiadas para la estación)
+            if menu and feedback.flavor_satisfaction >= 4:
+                # Verificar si el menú tenía calorías apropiadas para la temporada
+                if knowledge.is_calorie_count_appropriate(menu.total_calories, request.season):
+                    delta = 0.02 * self.learning_rate
+                    adjustments_made['season'] = delta
+                    self._adjust_weight('season', delta,
+                                       "Menú apropiado para temporada (calorías)")
+                    reasons.append("Reforzar matching de temporada")
+            
+            # 6. Restricciones dietéticas bien cumplidas
+            if feedback.dietary_satisfaction >= 4 and request.required_diets:
+                delta = 0.03 * self.learning_rate
+                adjustments_made['dietary'] = delta
+                self._adjust_weight('dietary', delta,
+                                   "Restricciones dietéticas bien cumplidas")
+                reasons.append("Reforzar importancia de dietas")
+            
+            # 7. Escala de invitados bien manejada
+            if overall_satisfaction >= 4 and request.num_guests > 100:
                 delta = 0.02 * self.learning_rate
-                adjustments_made['event_type'] = delta
-                self._adjust_weight('event_type', delta,
-                                   "Match perfecto de tipo de evento")
-                reasons.append("Reforzar matching de evento")
+                adjustments_made['guests'] = delta
+                self._adjust_weight('guests', delta,
+                                   "Evento grande bien manejado")
+                reasons.append("Reforzar matching de escala de invitados")
         
         # ===== ANÁLISIS DE FEEDBACK MEDIO =====
         else:
@@ -239,6 +327,9 @@ class AdaptiveWeightLearner:
         # Normalizar pesos (suma = 1.0)
         self._normalize_weights()
         
+        # Actualizar learning rate según scheduler
+        self._update_learning_rate()
+        
         # Registrar snapshot
         self._record_snapshot(
             feedback_score=overall_satisfaction,
@@ -246,6 +337,51 @@ class AdaptiveWeightLearner:
         )
         
         return adjustments_made
+    
+    def _update_learning_rate(self):
+        """
+        Actualiza el learning rate según el scheduler configurado.
+        
+        Estrategias disponibles:
+        - 'exponential': lr = lr_initial * (decay_rate ^ iteration)
+        - 'linear': lr = lr_initial - (lr_initial - lr_min) * (iteration / max_iter)
+        - 'step': lr = lr_initial * (decay_rate ^ (iteration // step_size))
+        - None: learning rate constante
+        """
+        if self.lr_scheduler is None:
+            return
+        
+        old_lr = self.learning_rate
+        
+        if self.lr_scheduler == 'exponential':
+            # Decay exponencial: lr disminuye exponencialmente
+            self.learning_rate = self.initial_learning_rate * (self.lr_decay_rate ** self.iteration)
+            self.learning_rate = max(self.learning_rate, self.lr_min)
+            
+        elif self.lr_scheduler == 'linear':
+            # Decay lineal: lr disminuye linealmente hasta lr_min
+            # Asumimos 100 iteraciones para llegar a lr_min (ajustable)
+            max_iterations = 100
+            progress = min(self.iteration / max_iterations, 1.0)
+            self.learning_rate = self.initial_learning_rate - (self.initial_learning_rate - self.lr_min) * progress
+            
+        elif self.lr_scheduler == 'step':
+            # Step decay: lr se reduce cada N iteraciones
+            step_size = 10  # Reducir cada 10 iteraciones
+            self.learning_rate = self.initial_learning_rate * (self.lr_decay_rate ** (self.iteration // step_size))
+            self.learning_rate = max(self.learning_rate, self.lr_min)
+        
+        # Registrar cambio si es significativo
+        if abs(old_lr - self.learning_rate) > 0.0001:
+            self.adjustments_history.append(
+                WeightAdjustment(
+                    timestamp=datetime.now(),
+                    weight_name='learning_rate',
+                    delta=self.learning_rate - old_lr,
+                    reason=f"Scheduler {self.lr_scheduler}: iteración {self.iteration}",
+                    feedback_score=0.0
+                )
+            )
     
     def _adjust_weight(self, weight_name: str, delta: float, reason: str):
         """
@@ -347,7 +483,13 @@ class AdaptiveWeightLearner:
                 }
                 for name, data in sorted_changes[:3]
             ],
-            'current_weights': current.weights
+            'current_weights': current.weights,
+            'learning_rate': {
+                'current': self.learning_rate,
+                'initial': self.initial_learning_rate,
+                'scheduler': self.lr_scheduler or 'constant',
+                'min': self.lr_min
+            }
         }
     
     def save_learning_history(self, filepath: str):
@@ -845,7 +987,13 @@ class AdaptiveDishWeightLearner:
                 }
                 for name, data in sorted_changes[:3]
             ],
-            'current_weights': current.weights
+            'current_weights': current.weights,
+            'learning_rate': {
+                'current': self.learning_rate,
+                'initial': self.initial_learning_rate,
+                'scheduler': self.lr_scheduler or 'constant',
+                'min': self.lr_min
+            }
         }
     
     def save_learning_history(self, filepath: str):

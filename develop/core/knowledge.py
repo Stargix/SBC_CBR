@@ -26,6 +26,11 @@ _config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'knowledg
 with open(_config_path, 'r', encoding='utf-8') as f:
     _KB_CONFIG = json.load(f)
 
+# Cargar ingredientes desde JSON
+_ingredients_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'ingredients.json')
+with open(_ingredients_path, 'r', encoding='utf-8') as f:
+    _INGREDIENTS_DB = json.load(f)
+
 
 # ============================================================
 # COMPATIBILIDAD DE SABORES
@@ -375,68 +380,113 @@ def is_dessert_appropriate_after_fatty(main_has_fatty: bool,
 # TRADICIONES CULTURALES Y SUS CARACTERÍSTICAS
 # ============================================================
 
-CULTURAL_CHARACTERISTICS: Dict[CulturalTradition, Dict] = {
-    CulturalTradition.AMERICAN: {
-        "key_ingredients": ["butter", "beef", "bacon", "cheddar_cheese", "maple_syrup"],
-        "typical_categories": [DishCategory.MEAT, DishCategory.PASTRY, DishCategory.SNACK],
-        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.MODERN],
-    },
-    CulturalTradition.CHINESE: {
-        "key_ingredients": ["soy_sauce", "ginger", "garlic", "rice", "sesame_oil"],
-        "typical_categories": [DishCategory.RICE, DishCategory.MEAT, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
-    },
-    CulturalTradition.FRENCH: {
-        "key_ingredients": ["butter", "cream", "wine", "herbs", "shallot"],
-        "typical_categories": [DishCategory.CREAM, DishCategory.MEAT, DishCategory.PASTRY],
-        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.GOURMET],
-    },
-    CulturalTradition.INDIAN: {
-        "key_ingredients": ["turmeric", "cumin", "coriander", "garam_masala", "yogurt"],
-        "typical_categories": [DishCategory.LEGUME, DishCategory.RICE, DishCategory.MEAT],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
-    },
-    CulturalTradition.ITALIAN: {
-        "key_ingredients": ["olive_oil", "tomato", "parmesan", "basil", "garlic"],
-        "typical_categories": [DishCategory.PASTA, DishCategory.MEAT, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.REGIONAL],
-    },
-    CulturalTradition.JAPANESE: {
-        "key_ingredients": ["soy_sauce", "rice", "fish", "seaweed", "miso"],
-        "typical_categories": [DishCategory.FISH, DishCategory.RICE, DishCategory.SOUP],
-        "styles": [CulinaryStyle.MODERN, CulinaryStyle.SIBARITA],
-    },
-    CulturalTradition.KOREAN: {
-        "key_ingredients": ["gochugaru", "kimchi", "soy_sauce", "sesame_oil", "garlic"],
-        "typical_categories": [DishCategory.MEAT, DishCategory.RICE, DishCategory.VEGETABLE],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
-    },
-    CulturalTradition.LEBANESE: {
-        "key_ingredients": ["olive_oil", "lemon", "garlic", "tahini", "mint"],
-        "typical_categories": [DishCategory.SALAD, DishCategory.MEAT, DishCategory.LEGUME],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
-    },
-    CulturalTradition.MEXICAN: {
-        "key_ingredients": ["chili", "lime", "cilantro", "cumin", "beans"],
-        "typical_categories": [DishCategory.MEAT, DishCategory.LEGUME, DishCategory.SNACK],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
-    },
-    CulturalTradition.SPANISH: {
-        "key_ingredients": ["olive_oil", "garlic", "paprika", "saffron", "ham"],
-        "typical_categories": [DishCategory.FISH, DishCategory.RICE, DishCategory.TAPAS],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
-    },
-    CulturalTradition.THAI: {
-        "key_ingredients": ["fish_sauce", "lime", "lemongrass", "coconut_milk", "chili"],
-        "typical_categories": [DishCategory.SOUP, DishCategory.MEAT, DishCategory.RICE],
-        "styles": [CulinaryStyle.FUSION, CulinaryStyle.REGIONAL],
-    },
-    CulturalTradition.VIETNAMESE: {
-        "key_ingredients": ["fish_sauce", "lime", "mint", "rice", "cilantro"],
-        "typical_categories": [DishCategory.SOUP, DishCategory.RICE, DishCategory.SALAD],
-        "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.MODERN],
-    },
-}
+def _build_cultural_characteristics() -> Dict[CulturalTradition, Dict]:
+    """
+    Construye dinámicamente las características culturales desde ingredients.json.
+    
+    Extrae los ingredientes clave de cada cultura desde la base de datos
+    de ingredientes en lugar de tenerlos hardcoded.
+    
+    Returns:
+        Diccionario con características por tradición cultural
+    """
+    cultural_chars = {}
+    
+    # Mapeo de nombres de cultura en JSON a enum CulturalTradition
+    culture_mapping = {
+        "american": CulturalTradition.AMERICAN,
+        "chinese": CulturalTradition.CHINESE,
+        "french": CulturalTradition.FRENCH,
+        "indian": CulturalTradition.INDIAN,
+        "italian": CulturalTradition.ITALIAN,
+        "japanese": CulturalTradition.JAPANESE,
+        "korean": CulturalTradition.KOREAN,
+        "lebanese": CulturalTradition.LEBANESE,
+        "mexican": CulturalTradition.MEXICAN,
+        "spanish": CulturalTradition.SPANISH,
+        "thai": CulturalTradition.THAI,
+        "vietnamese": CulturalTradition.VIETNAMESE,
+    }
+    
+    # Extraer ingredientes por cultura desde ingredients.json
+    ingredient_to_cultures = _INGREDIENTS_DB.get('ingredient_to_cultures', {})
+    
+    # Categorías y estilos típicos por cultura (estos sí son más conceptuales)
+    culture_metadata = {
+        "american": {
+            "typical_categories": [DishCategory.MEAT, DishCategory.PASTRY, DishCategory.SNACK],
+            "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.MODERN],
+        },
+        "chinese": {
+            "typical_categories": [DishCategory.RICE, DishCategory.MEAT, DishCategory.VEGETABLE],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
+        },
+        "french": {
+            "typical_categories": [DishCategory.CREAM, DishCategory.MEAT, DishCategory.PASTRY],
+            "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.GOURMET],
+        },
+        "indian": {
+            "typical_categories": [DishCategory.LEGUME, DishCategory.RICE, DishCategory.MEAT],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
+        },
+        "italian": {
+            "typical_categories": [DishCategory.PASTA, DishCategory.MEAT, DishCategory.VEGETABLE],
+            "styles": [CulinaryStyle.CLASSIC, CulinaryStyle.REGIONAL],
+        },
+        "japanese": {
+            "typical_categories": [DishCategory.FISH, DishCategory.RICE, DishCategory.SOUP],
+            "styles": [CulinaryStyle.MODERN, CulinaryStyle.SIBARITA],
+        },
+        "korean": {
+            "typical_categories": [DishCategory.MEAT, DishCategory.RICE, DishCategory.VEGETABLE],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
+        },
+        "lebanese": {
+            "typical_categories": [DishCategory.SALAD, DishCategory.MEAT, DishCategory.LEGUME],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
+        },
+        "mexican": {
+            "typical_categories": [DishCategory.MEAT, DishCategory.LEGUME, DishCategory.SNACK],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.FUSION],
+        },
+        "spanish": {
+            "typical_categories": [DishCategory.FISH, DishCategory.RICE, DishCategory.TAPAS],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.CLASSIC],
+        },
+        "thai": {
+            "typical_categories": [DishCategory.SOUP, DishCategory.MEAT, DishCategory.RICE],
+            "styles": [CulinaryStyle.FUSION, CulinaryStyle.REGIONAL],
+        },
+        "vietnamese": {
+            "typical_categories": [DishCategory.SOUP, DishCategory.RICE, DishCategory.SALAD],
+            "styles": [CulinaryStyle.REGIONAL, CulinaryStyle.MODERN],
+        },
+    }
+    
+    # Para cada cultura, extraer sus ingredientes clave
+    for culture_name, tradition_enum in culture_mapping.items():
+        # Encontrar todos los ingredientes asociados a esta cultura
+        key_ingredients = [
+            ingredient 
+            for ingredient, props in ingredient_to_cultures.items()
+            if culture_name in props.get('cultures', [])
+        ]
+        
+        # Limitar a los más representativos (top 10-15)
+        # Priorizar ingredientes únicos o muy característicos
+        key_ingredients = key_ingredients[:15]
+        
+        cultural_chars[tradition_enum] = {
+            "key_ingredients": key_ingredients,
+            "typical_categories": culture_metadata.get(culture_name, {}).get("typical_categories", []),
+            "styles": culture_metadata.get(culture_name, {}).get("styles", []),
+        }
+    
+    return cultural_chars
+
+
+# Construir características culturales dinámicamente
+CULTURAL_CHARACTERISTICS: Dict[CulturalTradition, Dict] = _build_cultural_characteristics()
 
 
 def get_cultural_characteristics(tradition: CulturalTradition) -> Dict:
@@ -534,47 +584,3 @@ CATEGORY_INCOMPATIBILITIES = INCOMPATIBLE_CATEGORIES
 WINE_COMPATIBILITY = WINE_FLAVOR_COMPATIBILITY
 EVENT_STYLE_PREFERENCES = EVENT_STYLES
 CULTURAL_TRADITIONS = CULTURAL_CHARACTERISTICS
-
-# Descripciones de estilos culinarios
-STYLE_DESCRIPTIONS = {
-    CulinaryStyle.CLASSIC: "Cocina clásica que respeta las tradiciones culinarias establecidas, con técnicas probadas y presentación elegante.",
-    CulinaryStyle.MODERN: "Cocina de vanguardia que experimenta con técnicas contemporáneas y presentaciones innovadoras.",
-    CulinaryStyle.FUSION: "Combinación de influencias culinarias de diferentes culturas, creando nuevas armonías de sabores.",
-    CulinaryStyle.REGIONAL: "Cocina de autor que celebra los productos locales y las tradiciones regionales específicas.",
-    CulinaryStyle.SIBARITA: "Alta cocina refinada con técnicas avanzadas, presentación artística y creatividad molecular.",
-    CulinaryStyle.GOURMET: "Gastronomía de lujo centrada en ingredientes de máxima calidad y elaboración meticulosa."
-}
-
-# Firma de chefs de referencia
-CHEF_SIGNATURES = {
-    CulinaryStyle.SIBARITA: {
-        "chef": "Ferran Adrià",
-        "restaurant": "elBulli",
-        "characteristics": ["esferificación", "gelificación", "espumas", "técnicas moleculares"]
-    },
-    CulinaryStyle.GOURMET: {
-        "chef": "Paul Bocuse",
-        "restaurant": "L'Auberge du Pont de Collonges",
-        "characteristics": ["nouvelle cuisine", "presentación elegante", "salsas finas"]
-    },
-    CulinaryStyle.CLASSIC: {
-        "chef": "Auguste Escoffier",
-        "restaurant": "Savoy Hotel",
-        "characteristics": ["recetas francesas clásicas", "presentación formal"]
-    },
-    CulinaryStyle.FUSION: {
-        "chef": "Nobu Matsuhisa",
-        "restaurant": "Nobu",
-        "characteristics": ["cocina japonesa-peruana", "técnicas de vanguardia"]
-    },
-    CulinaryStyle.MODERN: {
-        "chef": "Grant Achatz",
-        "restaurant": "Alinea",
-        "characteristics": ["experiencia multisensorial", "presentación teatral"]
-    },
-    CulinaryStyle.REGIONAL: {
-        "chef": "Juan Mari Arzak",
-        "restaurant": "Arzak",
-        "characteristics": ["cocina vasca de autor", "productos locales", "innovación"]
-    }
-}

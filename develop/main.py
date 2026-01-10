@@ -41,8 +41,8 @@ try:
     from .cycle.explanation import ExplanationGenerator
     from .cycle.diversity import ensure_diversity, get_diversity_explanation
     from .core.knowledge import (
-        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+        EVENT_STYLE_PREFERENCES,
+        CULTURAL_TRADITIONS
     )
 except ImportError:
     # Cuando se ejecuta como script o desde demo sin ser módulo
@@ -59,8 +59,8 @@ except ImportError:
     from cycle.explanation import ExplanationGenerator
     from cycle.diversity import ensure_diversity, get_diversity_explanation
     from core.knowledge import (
-        EVENT_STYLE_PREFERENCES, STYLE_DESCRIPTIONS,
-        CULTURAL_TRADITIONS, CHEF_SIGNATURES
+        EVENT_STYLE_PREFERENCES,
+        CULTURAL_TRADITIONS
     )
 
 
@@ -486,7 +486,7 @@ class ChefDigitalCBR:
         except Exception as e:
             return False
     
-    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request):
+    def learn_from_feedback(self, feedback_data: FeedbackData, request: Request, menu: Menu = None) -> 'Feedback':
         """
         Aprende de feedback del usuario y actualiza pesos de similitud.
         
@@ -494,8 +494,12 @@ class ChefDigitalCBR:
         de cada criterio según la satisfacción del cliente.
         
         Args:
-            feedback_data: Datos de feedback del cliente
+            feedback_data: Datos de feedback del cliente (con dimensiones separadas)
             request: Request original del caso
+            menu: Menú generado (opcional, para calcular dietas cumplidas)
+            
+        Returns:
+            Feedback calculado con todas las dimensiones
         """
         # Convertir FeedbackData a objeto Feedback compatible
         try:
@@ -503,17 +507,59 @@ class ChefDigitalCBR:
         except ImportError:
             from core.models import Feedback
         
+        # Usar las dimensiones específicas de FeedbackData si están disponibles
+        # Si no, usar el score general como fallback
+        price_sat = feedback_data.price_satisfaction if feedback_data.price_satisfaction is not None else feedback_data.score
+        cultural_sat = feedback_data.cultural_satisfaction if feedback_data.cultural_satisfaction is not None else (feedback_data.score if request.cultural_preference else 3.0)
+        flavor_sat = feedback_data.flavor_satisfaction if feedback_data.flavor_satisfaction is not None else feedback_data.score
+        
+        # Calcular satisfacción dietética proporcional
+        dietary_sat = 5.0 if feedback_data.success else 2.0  # Fallback binario
+        
+        if menu and request.required_diets:
+            # Importar ingredient_adapter para verificar ingredientes
+            try:
+                from .cycle.ingredient_adapter import get_ingredient_adapter
+            except ImportError:
+                from cycle.ingredient_adapter import get_ingredient_adapter
+            
+            adapter = get_ingredient_adapter()
+            diets_fulfilled = 0
+            diets_required = len(request.required_diets)
+            
+            # Verificar cada dieta requerida contra los ingredientes ACTUALES del menú
+            for diet in request.required_diets:
+                diet_satisfied = True
+                
+                # Verificar todos los platos
+                for dish in [menu.starter, menu.main_course, menu.dessert]:
+                    # Verificar si algún ingrediente viola esta dieta
+                    for ingredient in dish.ingredients:
+                        if adapter.violates_dietary_restriction(ingredient, diet):
+                            diet_satisfied = False
+                            break
+                    if not diet_satisfied:
+                        break
+                
+                if diet_satisfied:
+                    diets_fulfilled += 1
+            
+            # Calcular score proporcional: 1.0 (0%) a 5.0 (100%)
+            if diets_required > 0:
+                diet_ratio = diets_fulfilled / diets_required
+                dietary_sat = 1.0 + (diet_ratio * 4.0)
+        
         feedback = Feedback(
             overall_satisfaction=feedback_data.score,
-            price_satisfaction=feedback_data.score,  # Simplificado
-            cultural_satisfaction=feedback_data.score if request.cultural_preference else 3.0,
-            flavor_satisfaction=feedback_data.score,
-            dietary_satisfaction=5.0 if feedback_data.success else 2.0,
+            price_satisfaction=price_sat,
+            cultural_satisfaction=cultural_sat,
+            flavor_satisfaction=flavor_sat,
+            dietary_satisfaction=dietary_sat,
             comments=feedback_data.comments
         )
         
         # Actualizar pesos mediante aprendizaje
-        adjustments = self.weight_learner.update_from_feedback(feedback, request)
+        adjustments = self.weight_learner.update_from_feedback(feedback, request, menu)
         
         # Actualizar pesos en el retriever
         self.retriever.similarity_calc.weights = self.weight_learner.get_current_weights()
@@ -529,6 +575,9 @@ class ChefDigitalCBR:
                 print(f"\n📈 Pesos más cambiados desde inicio:")
                 for item in summary['most_changed']:
                     print(f"   {item['weight']}: {item['change_pct']}")
+        
+        # Retornar el feedback calculado
+        return feedback
     
     def save_learning_data(self, filepath: str = 'data/learning_history.json'):
         """
@@ -581,31 +630,6 @@ class ChefDigitalCBR:
             "supported_seasons": [s.value for s in Season],
             "cultural_traditions": list(CULTURAL_TRADITIONS.keys())
         }
-    
-    def explain_style(self, style: CulinaryStyle) -> str:
-        """
-        Obtiene explicación detallada de un estilo culinario.
-        
-        Args:
-            style: Estilo a explicar
-            
-        Returns:
-            Descripción del estilo
-        """
-        description = STYLE_DESCRIPTIONS.get(style, "")
-        signature = CHEF_SIGNATURES.get(style, {})
-        
-        lines = [f"Estilo: {style.value.upper()}"]
-        lines.append("=" * 40)
-        lines.append(description)
-        
-        if signature:
-            lines.append("")
-            lines.append(f"Chef de referencia: {signature.get('chef', 'N/A')}")
-            lines.append(f"Restaurante: {signature.get('restaurant', 'N/A')}")
-            lines.append(f"Características: {', '.join(signature.get('characteristics', []))}")
-        
-        return "\n".join(lines)
 
 
 def create_cbr_system(case_base_path: Optional[str] = None,

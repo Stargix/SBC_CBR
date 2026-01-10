@@ -43,9 +43,13 @@ class FeedbackData:
     """
     menu_id: str
     success: bool
-    score: float  # 1-5
+    score: float  # 1-5 (puntuación general)
     comments: str
     would_recommend: bool
+    # Dimensiones específicas de satisfacción (1-5 cada una)
+    price_satisfaction: Optional[float] = None
+    cultural_satisfaction: Optional[float] = None
+    flavor_satisfaction: Optional[float] = None
 
 
 class CaseRetainer:
