@@ -123,7 +123,10 @@ class ChefDigitalCBR:
         )
         self.adapter = CaseAdapter(self.case_base)
         self.reviser = MenuReviser()
-        self.retainer = CaseRetainer(self.case_base)
+        self.retainer = CaseRetainer(
+            self.case_base,
+            weights=self.weight_learner.get_current_weights(),
+        )
         self.explainer = ExplanationGenerator()
         
         # Cargar base de casos si existe
@@ -461,7 +464,10 @@ class ChefDigitalCBR:
             
             # Actualizar referencias en componentes
             self.retriever = CaseRetriever(self.case_base)
-            self.retainer = CaseRetainer(self.case_base)
+            self.retainer = CaseRetainer(
+                self.case_base,
+                weights=self.weight_learner.get_current_weights(),
+            )
             
             return True
         except Exception as e:
@@ -563,6 +569,8 @@ class ChefDigitalCBR:
         
         # Actualizar pesos en el retriever
         self.retriever.similarity_calc.weights = self.weight_learner.get_current_weights()
+        # Mantener coherencia en el retainer
+        self.retainer.similarity_calc.weights = self.weight_learner.get_current_weights()
         
         if self.config.verbose and adjustments:
             print(f"\n📊 Pesos ajustados mediante aprendizaje:")

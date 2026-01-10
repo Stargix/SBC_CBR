@@ -21,7 +21,7 @@ import random
 
 from ..core.models import Case, Menu, Request
 from ..core.case_base import CaseBase
-from ..core.similarity import SimilarityCalculator, calculate_menu_similarity
+from ..core.similarity import SimilarityCalculator, SimilarityWeights, calculate_menu_similarity
 
 
 @dataclass
@@ -61,7 +61,7 @@ class CaseRetainer:
     mantener la base de conocimiento.
     """
     
-    def __init__(self, case_base: CaseBase):
+    def __init__(self, case_base: CaseBase, weights: Optional[SimilarityWeights] = None):
         """
         Inicializa el gestor de retención.
         
@@ -69,7 +69,7 @@ class CaseRetainer:
             case_base: Base de casos a gestionar
         """
         self.case_base = case_base
-        self.similarity_calc = SimilarityCalculator()
+        self.similarity_calc = SimilarityCalculator(weights)
         
         # Umbrales de retención (ajustados para aprendizaje más permisivo)
         self.novelty_threshold = 0.92  # Si similitud < este, es novedoso (antes 0.85)
@@ -120,8 +120,9 @@ class CaseRetainer:
                 action="discard"
             )
         
-        # 2. Buscar casos similares existentes
-        existing_cases = self.case_base.get_all_cases()
+        # 2. Buscar casos similares existentes (solo positivos para evitar
+        #     que un caso negativo bloquee la retención de un caso bueno)
+        existing_cases = [c for c in self.case_base.get_all_cases() if not c.is_negative]
         
         if not existing_cases:
             return RetentionDecision(
@@ -222,7 +223,7 @@ class CaseRetainer:
                 id=f"case-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{random.randint(100, 999)}",
                 request=request,
                 menu=menu,
-                success=feedback.success,
+                success=False if is_negative else feedback.success,
                 feedback_score=feedback.score,
                 feedback_comments=feedback.comments,
                 source=source_type,
@@ -251,13 +252,19 @@ class CaseRetainer:
             if decision.most_similar_case:
                 old_case = decision.most_similar_case
                 old_case.menu = menu
+                old_case.request = request
                 old_case.feedback_score = feedback.score
-                old_case.feedback_comments = feedback.comments
+                if feedback.comments:
+                    old_case.feedback_comments = feedback.comments
+                old_case.success = feedback.success
                 old_case.increment_usage()
                 old_case.adaptation_notes.append(
                     f"Actualizado con mejor feedback ({feedback.score}/5)"
                 )
-                
+
+                # La actualización de request/menú puede afectar los índices
+                self._rebuild_indexes()
+
                 return True, f"Caso actualizado: {old_case.id}"
         
         return False, "No se pudo retener el caso"
@@ -586,6 +593,9 @@ class CaseRetainer:
         
         for case in cases_to_remove:
             self.case_base.cases.remove(case)
+
+        # Los índices pueden quedar desactualizados tras eliminar casos
+        self._rebuild_indexes()
     
     def export_learned_cases(self) -> List[Dict[str, Any]]:
         """
