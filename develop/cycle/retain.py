@@ -61,29 +61,33 @@ class CaseRetainer:
     mantener la base de conocimiento.
     """
     
-    def __init__(self, case_base: CaseBase, weights: Optional[SimilarityWeights] = None):
+    def __init__(self, case_base: CaseBase, weights: Optional[SimilarityWeights] = None, case_base_path: str = "cases.json"):
         """
         Inicializa el gestor de retención.
         
         Args:
             case_base: Base de casos a gestionar
+            weights: Pesos de similitud
+            case_base_path: Ruta del archivo donde guardar casos
         """
         self.case_base = case_base
+        self.case_base_path = case_base_path
         self.similarity_calc = SimilarityCalculator(weights)
         
         # Umbrales de retención (ajustados para aprendizaje más permisivo)
-        self.novelty_threshold = 0.92  # Si similitud < este, es novedoso (antes 0.85)
-        self.quality_threshold = 3.0   # Mínimo feedback para retener como positivo (antes 3.5)
-        self.negative_threshold = 2.5  # Feedback < 2.5 se guarda como caso negativo (antes 3.0)
+        self.novelty_threshold = 0.85  # Si similitud < este, es novedoso (más permisivo)
+        self.quality_threshold = 3.0   # Mínimo feedback para retener como positivo
+        self.negative_threshold = 2.5  # Feedback < 2.5 se guarda como caso negativo
         self.max_cases_per_event = 50  # Límite de casos por tipo de evento
         self.max_cases_total = 200  # Límite total para evitar crecimiento infinito
+        self.max_negative_cases = 30  # Límite específico para casos negativos
         
         # Mantenimiento periódico (no en cada inserción)
         self.maintenance_frequency = 10  # Cada 10 casos añadidos
         self.cases_since_maintenance = 0
         
         # Umbral de redundancia para eliminar casos duplicados
-        self.redundancy_threshold = 0.90  # Casos con sim > 0.90 son redundantes
+        self.redundancy_threshold = 0.95  # Casos con sim > 0.95 son redundantes (más conservador)
     
     def evaluate_retention(self, request: Request, menu: Menu,
                            feedback: FeedbackData) -> RetentionDecision:
@@ -234,6 +238,14 @@ class CaseRetainer:
             self.case_base.add_case(new_case)
             self.cases_since_maintenance += 1
             
+            # CONTROL DE CASOS NEGATIVOS: Limitar cantidad para evitar sesgo
+            if is_negative:
+                negative_cases = [c for c in self.case_base.cases if c.is_negative]
+                if len(negative_cases) > self.max_negative_cases:
+                    # Eliminar el caso negativo más antiguo o de menor utilidad
+                    negative_cases.sort(key=lambda c: self._calculate_case_utility(c))
+                    self.case_base.cases.remove(negative_cases[0])
+            
             # POLÍTICA DE OLVIDO: Si excedemos el límite total, hacer limpieza
             if len(self.case_base.get_all_cases()) > self.max_cases_total:
                 self._enforce_case_limit()
@@ -242,6 +254,9 @@ class CaseRetainer:
             if self.cases_since_maintenance >= self.maintenance_frequency:
                 self._maintenance_if_needed(request.event_type)
                 self.cases_since_maintenance = 0
+            
+            # GUARDAR AUTOMÁTICAMENTE al archivo
+            self.case_base.save_to_file(self.case_base_path)
             
             tipo = "negativo (failure)" if is_negative else "positivo"
             adaptacion = f" (adaptado culturalmente de {original_case_id})" if menu.cultural_adaptations else ""
@@ -264,6 +279,9 @@ class CaseRetainer:
 
                 # La actualización de request/menú puede afectar los índices
                 self._rebuild_indexes()
+                
+                # GUARDAR AUTOMÁTICAMENTE al archivo
+                self.case_base.save_to_file(self.case_base_path)
 
                 return True, f"Caso actualizado: {old_case.id}"
         

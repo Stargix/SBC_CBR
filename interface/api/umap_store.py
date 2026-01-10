@@ -7,24 +7,34 @@ from develop.config import umap as umap_pipeline
 
 
 class UmapStore:
-    def __init__(self, config_dir: Path = None):
+    def __init__(self, config_dir: Path = None, cases_path: Path = None):
         self.config_dir = config_dir or umap_pipeline.CONFIG_DIR
         self.embedding_path = self.config_dir / "umap_embeddings.json"
         self.model_path = self.config_dir / "umap_model.pkl"
         self.spec_path = self.config_dir / "umap_feature_spec.pkl"
-        self._embeddings_cache: List[Dict[str, Any]] = []
+        # Usar cases.json del directorio API por defecto
+        if cases_path is None:
+            api_dir = Path(__file__).parent
+            self.cases_path = api_dir / "cases.json"
+        else:
+            self.cases_path = cases_path
+        self._embeddings_cache: List[Dict[str, Any]] = None
+        self._is_fitted: bool = False
 
     def _load_embeddings(self) -> List[Dict[str, Any]]:
         with self.embedding_path.open("r", encoding="utf-8") as f:
             return json.load(f)
 
     def ensure_fit(self) -> None:
+        """Ensure UMAP model is fitted and embeddings are loaded."""
         if not (self.embedding_path.exists() and self.model_path.exists() and self.spec_path.exists()):
             self._fit_initial()
-        if not self._embeddings_cache:
+        if self._embeddings_cache is None:
             self._embeddings_cache = self._load_embeddings()
+            self._is_fitted = True
 
     def _fit_initial(self) -> None:
+        """Fit UMAP from initial cases for first-time setup."""
         dishes = umap_pipeline._load_json(self.config_dir / "dishes.json")
         beverages = umap_pipeline._load_json(self.config_dir / "beverages.json")
         ingredients_data = umap_pipeline._load_json(self.config_dir / "ingredients.json")
@@ -58,7 +68,8 @@ class UmapStore:
             pickle.dump(artifacts, f)
 
         self._embeddings_cache = records
-
+        self._is_fitted = True
+    
     def get_embeddings(self) -> List[Dict[str, Any]]:
         self.ensure_fit()
         return self._embeddings_cache
@@ -114,4 +125,12 @@ class UmapStore:
             record["case_index"] = self._embeddings_cache[existing_index].get("case_index", existing_index)
             self._embeddings_cache[existing_index] = record
 
+        # GUARDAR embeddings actualizados al archivo
+        with self.embedding_path.open("w", encoding="utf-8") as f:
+            json.dump(self._embeddings_cache, f, indent=2, ensure_ascii=True)
+
         return record
+
+
+# Instancia singleton global
+umap_store = UmapStore()

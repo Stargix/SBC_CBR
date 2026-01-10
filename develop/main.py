@@ -111,7 +111,8 @@ class ChefDigitalCBR:
         self.config = config or CBRConfig()
         
         # Inicializar componentes
-        self.case_base = CaseBase()
+        # Usar ruta de persistencia configurada para cargar/guardar casos
+        self.case_base = CaseBase(self.config.case_base_path)
         
         # Aprendizaje adaptativo de pesos
         self.weight_learner = AdaptiveWeightLearner(learning_rate=0.05)
@@ -126,6 +127,7 @@ class ChefDigitalCBR:
         self.retainer = CaseRetainer(
             self.case_base,
             weights=self.weight_learner.get_current_weights(),
+            case_base_path=self.config.case_base_path
         )
         self.explainer = ExplanationGenerator()
         
@@ -467,6 +469,7 @@ class ChefDigitalCBR:
             self.retainer = CaseRetainer(
                 self.case_base,
                 weights=self.weight_learner.get_current_weights(),
+                case_base_path=self.config.case_base_path
             )
             
             return True

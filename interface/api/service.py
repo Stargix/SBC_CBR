@@ -1,6 +1,7 @@
 import random
 import re
 import time
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 from uuid import uuid4
 
@@ -15,6 +16,7 @@ from develop.core.models import (
 )
 from develop.cycle.retain import FeedbackData
 from develop.cycle.diversity import ensure_diversity
+from api.umap_store import umap_store
 
 
 def _parse_enum(enum_cls, value, default):
@@ -115,9 +117,13 @@ def _validation_score_to_feedback(score: Optional[float]) -> float:
 
 class CBRService:
     def __init__(self, case_base_path: Optional[str] = None):
+        # Usar ruta absoluta consistente relativa al directorio de la API
+        if case_base_path is None:
+            api_dir = Path(__file__).parent
+            case_base_path = str(api_dir / "cases.json")
+        
         config = CBRConfig(verbose=False)
-        if case_base_path:
-            config.case_base_path = case_base_path
+        config.case_base_path = case_base_path
         self.cbr = ChefDigitalCBR(config)
         self._trace_cache: Dict[str, Dict[str, Any]] = {}
         self._trace_order: List[str] = []
@@ -347,20 +353,55 @@ class CBRService:
                     "details": str(exc),
                 }
 
-            config = LLMSimulationConfig(num_interactions=1, verbose=False, save_results=False)
-            simulator = LLMCBRSimulator(config)
-            result = simulator.run_simulation()
-            interaction = result.interactions[0] if result.interactions else None
-            interaction_eval = interaction.llm_evaluation if interaction else ""
-            interaction_score = interaction.llm_score if interaction else 0.0
+            try:
+                # El simulador hace TODO: genera, procesa, evalúa con LLM, y guarda casos
+                config = LLMSimulationConfig(
+                    num_interactions=1, 
+                    verbose=False, 
+                    save_results=True,  # Guardar resultados para estadísticas
+                    enable_adaptive_weights=True  # Habilitar aprendizaje de pesos
+                )
+                simulator = LLMCBRSimulator(config)
+                result = simulator.run_simulation()
+                
+                # Después de la simulación, recargar nuestro CBR para ver los nuevos casos
+                # Reinicializar el CBR para que cargue los casos nuevos del archivo
+                cbr_config = CBRConfig(verbose=False, case_base_path=self.cbr.config.case_base_path)
+                self.cbr = ChefDigitalCBR(cbr_config)
+                
+                # Añadir casos retenidos al UMAP
+                from api.umap_store import umap_store
+                
+                for interaction in result.interactions:
+                    if interaction.retained_case_id:
+                        # Buscar el caso en el CBR recargado
+                        for case in self.cbr.case_base.cases:
+                            if case.id == interaction.retained_case_id:
+                                try:
+                                    umap_store.upsert_case_embedding(case.to_dict())
+                                    if getattr(self.cbr.config, "verbose", False):
+                                        print(f"✅ Caso {case.id} añadido al UMAP")
+                                except Exception as embed_error:
+                                    print(f"⚠️ Error añadiendo {case.id} al UMAP: {embed_error}")
+                                break
+                
+                interaction = result.interactions[0] if result.interactions else None
+                interaction_eval = interaction.llm_evaluation if interaction else ""
+                interaction_score = interaction.llm_score if interaction else 0.0
 
-            return {
-                "request": interaction.generated_request if interaction else None,
-                "llm_score": interaction_score or result.llm_score,
-                "llm_evaluation": interaction_eval,
-                "llm_summary": result.llm_evaluation,
-                "interactions": [i.__dict__ for i in result.interactions],
-            }
+                return {
+                    "request": interaction.generated_request if interaction else None,
+                    "llm_score": interaction_score or result.llm_score,
+                    "llm_evaluation": interaction_eval,
+                    "llm_summary": result.llm_evaluation,
+                    "interactions": [i.__dict__ for i in result.interactions],
+                }
+            except Exception as e:
+                import traceback
+                return {
+                    "error": f"Simulation failed: {str(e)}",
+                    "details": traceback.format_exc(),
+                }
 
         request_payload = self.generate_random_request()
         trace = self.process_with_trace(request_payload)
@@ -530,15 +571,18 @@ class CBRService:
             
             case_retained = False
             case_id = None
+            case_obj = None
             
+            retention_message = None
             if menu_to_retain:
                 before_ids = {case.id for case in self.cbr.case_base.get_all_cases()}
                 retained, message = self.cbr.retainer.retain(
-                    request, 
-                    menu_to_retain, 
-                    feedback, 
+                    request,
+                    menu_to_retain,
+                    feedback,
                     source_case
                 )
+                retention_message = message
                 
                 if retained:
                     case_retained = True
@@ -546,6 +590,7 @@ class CBRService:
                     new_case = next((c for c in after_cases if c.id not in before_ids), None)
                     if new_case:
                         case_id = new_case.id
+                        case_obj = new_case
             
             # Get updated weights for response
             weights_info = None
@@ -562,12 +607,23 @@ class CBRService:
             except AttributeError:
                 pass
             
+            # Si hay caso retenido, agregarlo al UMAP para que aparezca en la web
+            embedding_info = None
+            if case_obj:
+                try:
+                    embedding_info = umap_store.upsert_case_embedding(case_obj.to_dict())
+                except Exception as embed_error:
+                    # No interrumpir el flujo de feedback por fallos de embedding
+                    embedding_info = {"error": str(embed_error)}
+
             return {
                 "success": True,
                 "message": f"Feedback procesado. {'Caso guardado!' if case_retained else 'Pesos actualizados.'}",
                 "case_retained": case_retained,
                 "case_id": case_id,
                 "weights_updated": weights_info,
+                "embedding": embedding_info,
+                "retention_message": retention_message,
             }
             
         except Exception as e:

@@ -54,6 +54,7 @@ class InteractionResult:
     llm_score: float = 0.0
     feedback_breakdown: Optional[Dict[str, float]] = None
     timestamp: str = ""
+    retained_case_id: Optional[str] = None  # ID del caso si fue retenido
 
 
 @dataclass
@@ -349,6 +350,7 @@ class LLMCBRSimulator:
             )
         
         # RETAIN: Guardar el mejor menú evaluado en la base de casos si tiene puntuación >= 3.5
+        retained_case_id = None
         if menus_details and result and hasattr(result, 'proposed_menus') and result.proposed_menus:
             best_proposal = result.proposed_menus[0]  # Ya está ordenado por ranking
             if llm_eval['score'] >= 3.5:  # Solo guardar si es satisfactorio
@@ -370,8 +372,15 @@ class LLMCBRSimulator:
                         feedback_data,
                         source_case
                     )
-                    if self.config.verbose and retained:
-                        print(f"✅ Caso añadido a la base de datos: {message}")
+                    if retained:
+                        # Extraer el case_id del mensaje de retain
+                        import re
+                        match = re.search(r'(case-[\d\-]+)', message)
+                        if match:
+                            retained_case_id = match.group(1)
+                        
+                        if self.config.verbose:
+                            print(f"✅ Caso añadido a la base de datos: {message}")
                 except Exception as e:
                     if self.config.verbose:
                         print(f"⚠ Error al guardar caso: {e}")
@@ -385,7 +394,8 @@ class LLMCBRSimulator:
             llm_evaluation=llm_eval["evaluation_text"],
             llm_score=llm_eval["score"],
             feedback_breakdown=feedback_breakdown,
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
+            retained_case_id=retained_case_id
         )
     
     def _evaluate_simulation_with_llm(self, interactions: List[InteractionResult]) -> Dict[str, Any]:
