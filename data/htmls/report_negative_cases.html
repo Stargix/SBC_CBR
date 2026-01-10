@@ -220,6 +220,8 @@
         }
     </style>
     
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
 </head>
 <body>
     <div class="container">
@@ -250,6 +252,108 @@
                 </div>
             </div>
         </div>
+        
+        <div class="panel">
+            <h2>📈 Case Base Evolution</h2>
+            <div class="plot-container">
+                <div id="caseEvolutionPlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>⚠️ Feedback Distribution</h2>
+            <div class="plot-container">
+                <div id="feedbackDistPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            // Case base evolution
+            var caseTypes = ['Positive/Neutral', 'Negative'];
+            var initialCounts = [41, 0];
+            var finalCounts = [41, 1];
+            
+            var initialTrace = {
+                x: caseTypes,
+                y: initialCounts,
+                name: 'Initial',
+                type: 'bar',
+                marker: {color: '#5b6474'}
+            };
+            
+            var finalTrace = {
+                x: caseTypes,
+                y: finalCounts,
+                name: 'Final',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var evolutionLayout = {
+                title: 'Case Base Composition: Before vs After',
+                xaxis: {title: 'Case Type'},
+                yaxis: {title: 'Number of Cases'},
+                barmode: 'group',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('caseEvolutionPlot', [initialTrace, finalTrace], evolutionLayout, {responsive: true});
+            
+            // Feedback distribution
+            var feedbackScenarios = [];
+            var feedbackValues = [];
+            var feedbackColors = [];
+    
+            feedbackScenarios.push('Negative Case Creation');
+            feedbackValues.push(2.1);
+            feedbackColors.push(2.1 > 3.5 ? '#059669' : 2.1 > 2.5 ? '#f59e0b' : '#dc2626');
+            
+            feedbackScenarios.push('Positive Case Creation');
+            feedbackValues.push(4.7);
+            feedbackColors.push(4.7 > 3.5 ? '#059669' : 4.7 > 2.5 ? '#f59e0b' : '#dc2626');
+            
+            var feedbackTrace = {
+                x: feedbackScenarios,
+                y: feedbackValues,
+                type: 'bar',
+                marker: {color: feedbackColors},
+                text: feedbackValues.map(v => v.toFixed(1) + '/5'),
+                textposition: 'outside'
+            };
+            
+            var feedbackLayout = {
+                title: 'Feedback Scores by Scenario',
+                xaxis: {title: 'Scenario'},
+                yaxis: {title: 'Feedback Score', range: [0, 5.5]},
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'},
+                shapes: [{
+                    type: 'line',
+                    x0: -0.5,
+                    x1: feedbackScenarios.length - 0.5,
+                    y0: 3.5,
+                    y1: 3.5,
+                    line: {
+                        color: '#059669',
+                        width: 2,
+                        dash: 'dash'
+                    }
+                }],
+                annotations: [{
+                    x: feedbackScenarios.length - 0.5,
+                    y: 3.5,
+                    text: 'Success Threshold',
+                    showarrow: false,
+                    xanchor: 'left',
+                    yanchor: 'bottom'
+                }]
+            };
+            
+            Plotly.newPlot('feedbackDistPlot', [feedbackTrace], feedbackLayout, {responsive: true});
+        </script>
     
         <div class="panel">
             <h2>Negative Case Creation</h2>
@@ -272,7 +376,7 @@
                     <div class="stat-value">✓</div>
                 </div>
             </div>
-            <div class="alert warning">Nuevo caso negativo (failure) añadido: case-20260110-033241-615</div></div>
+            <div class="alert warning">Nuevo caso negativo (failure) añadido: case-20260110-033953-725</div></div>
         <div class="panel">
             <h2>Negative Case Warning</h2>
             <div class="alert info">
@@ -291,7 +395,7 @@
                 <tbody>
             
                     <tr>
-                        <td><code>case-20260110-033241-615</code></td>
+                        <td><code>case-20260110-033953-725</code></td>
                         <td><span class="badge warning">81.96%</span></td>
                         <td><span class="badge warning">2.1/5</span></td>
                     </tr>
@@ -323,7 +427,7 @@
             </div>
     </div>
     <div class="footer">
-        <p>Generated on 2026-01-10 03:32:42</p>
+        <p>Generated on 2026-01-10 03:39:54</p>
         <p>CBR Chef System - Experimental Results Report</p>
     </div>
 </body>

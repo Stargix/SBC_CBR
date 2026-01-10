@@ -972,7 +972,7 @@ def generate_user_simulation_html(data, output_path):
 
 def generate_complete_cbr_cycle_html(data, output_path):
     """Genera HTML para test de complete CBR cycle."""
-    html = get_html_template("Complete CBR Cycle", has_plots=False)
+    html = get_html_template("Complete CBR Cycle", has_plots=True)
     
     html += """
         <div class="header">
@@ -1014,6 +1014,124 @@ def generate_complete_cbr_cycle_html(data, output_path):
                 </div>
             </div>
         </div>
+        
+        <div class="panel">
+            <h2>📈 4R Cycle Performance</h2>
+            <div class="plot-container">
+                <div id="cyclePerformancePlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🎯 Quality Metrics by Scenario</h2>
+            <div class="plot-container">
+                <div id="qualityMetricsPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var scenarios = [];
+            var topSimilarity = [];
+            var avgSimilarity = [];
+            var culturalAdapt = [];
+            var feedbackScores = [];
+    """
+    
+    for i, scenario in enumerate(scenarios, 1):
+        phases = scenario['phases']
+        html += f"""
+            scenarios.push('Scenario {i}');
+            topSimilarity.push({phases['retrieve']['top_similarity']});
+            avgSimilarity.push({phases['retrieve']['avg_similarity']});
+            culturalAdapt.push({phases['adapt']['cultural_adaptations']});
+            feedbackScores.push({phases['retain']['feedback_score']});
+        """
+    
+    html += """
+            // Cycle performance - Radar-like stacked bars
+            var retrieveTrace = {
+                x: scenarios,
+                y: topSimilarity,
+                name: 'Retrieve Quality',
+                type: 'bar',
+                marker: {color: '#0f766e'}
+            };
+            
+            var adaptTrace = {
+                x: scenarios,
+                y: culturalAdapt.map(v => v / 5), // Normalize to 0-1 scale
+                name: 'Adapt Intensity',
+                type: 'bar',
+                marker: {color: '#f59e0b'}
+            };
+            
+            var feedbackTrace = {
+                x: scenarios,
+                y: feedbackScores.map(v => v / 5), // Normalize to 0-1 scale
+                name: 'Retain Quality',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var cycleLayout = {
+                title: '4R Cycle Phase Performance (Normalized)',
+                xaxis: {title: 'Scenario'},
+                yaxis: {title: 'Performance Score', range: [0, 1]},
+                barmode: 'group',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('cyclePerformancePlot', [retrieveTrace, adaptTrace, feedbackTrace], cycleLayout, {responsive: true});
+            
+            // Quality metrics - dual axis
+            var simTrace = {
+                x: scenarios,
+                y: avgSimilarity,
+                name: 'Avg Similarity',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#0f766e', width: 3},
+                marker: {size: 10},
+                yaxis: 'y1'
+            };
+            
+            var feedbackLineTrace = {
+                x: scenarios,
+                y: feedbackScores,
+                name: 'Feedback Score',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#e07a5f', width: 3},
+                marker: {size: 10},
+                yaxis: 'y2'
+            };
+            
+            var qualityLayout = {
+                title: 'Similarity vs Feedback Across Scenarios',
+                xaxis: {title: 'Scenario'},
+                yaxis: {
+                    title: 'Similarity Score',
+                    titlefont: {color: '#0f766e'},
+                    tickfont: {color: '#0f766e'},
+                    range: [0, 1]
+                },
+                yaxis2: {
+                    title: 'Feedback Score',
+                    titlefont: {color: '#e07a5f'},
+                    tickfont: {color: '#e07a5f'},
+                    overlaying: 'y',
+                    side: 'right',
+                    range: [0, 5]
+                },
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('qualityMetricsPlot', [simTrace, feedbackLineTrace], qualityLayout, {responsive: true});
+        </script>
     """
     
     # Individual scenarios
@@ -1064,7 +1182,7 @@ def generate_complete_cbr_cycle_html(data, output_path):
 
 def generate_negative_cases_html(data, output_path):
     """Genera HTML para test de negative cases."""
-    html = get_html_template("Negative Cases Learning", has_plots=False)
+    html = get_html_template("Negative Cases Learning", has_plots=True)
     
     html += """
         <div class="header">
@@ -1098,6 +1216,113 @@ def generate_negative_cases_html(data, output_path):
                 </div>
             </div>
         </div>
+        
+        <div class="panel">
+            <h2>📈 Case Base Evolution</h2>
+            <div class="plot-container">
+                <div id="caseEvolutionPlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>⚠️ Feedback Distribution</h2>
+            <div class="plot-container">
+                <div id="feedbackDistPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            // Case base evolution
+            var caseTypes = ['Positive/Neutral', 'Negative'];
+            var initialCounts = [{summary['initial_total_cases'] - summary['initial_negative_cases']}, {summary['initial_negative_cases']}];
+            var finalCounts = [{summary['final_total_cases'] - summary['final_negative_cases']}, {summary['final_negative_cases']}];
+            
+            var initialTrace = {{
+                x: caseTypes,
+                y: initialCounts,
+                name: 'Initial',
+                type: 'bar',
+                marker: {{color: '#5b6474'}}
+            }};
+            
+            var finalTrace = {{
+                x: caseTypes,
+                y: finalCounts,
+                name: 'Final',
+                type: 'bar',
+                marker: {{color: '#e07a5f'}}
+            }};
+            
+            var evolutionLayout = {{
+                title: 'Case Base Composition: Before vs After',
+                xaxis: {{title: 'Case Type'}},
+                yaxis: {{title: 'Number of Cases'}},
+                barmode: 'group',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {{family: '-apple-system, BlinkMacSystemFont, sans-serif'}}
+            }};
+            
+            Plotly.newPlot('caseEvolutionPlot', [initialTrace, finalTrace], evolutionLayout, {{responsive: true}});
+            
+            // Feedback distribution
+            var feedbackScenarios = [];
+            var feedbackValues = [];
+            var feedbackColors = [];
+    """
+    
+    for scenario in scenarios:
+        if 'feedback' in scenario:
+            feedback = scenario['feedback']
+            score = feedback['score']
+            scenario_name = scenario['scenario_id'].replace('_', ' ').title()
+            html += f"""
+            feedbackScenarios.push('{scenario_name}');
+            feedbackValues.push({score});
+            feedbackColors.push({score} > 3.5 ? '#059669' : {score} > 2.5 ? '#f59e0b' : '#dc2626');
+            """
+    
+    html += """
+            var feedbackTrace = {
+                x: feedbackScenarios,
+                y: feedbackValues,
+                type: 'bar',
+                marker: {color: feedbackColors},
+                text: feedbackValues.map(v => v.toFixed(1) + '/5'),
+                textposition: 'outside'
+            };
+            
+            var feedbackLayout = {
+                title: 'Feedback Scores by Scenario',
+                xaxis: {title: 'Scenario'},
+                yaxis: {title: 'Feedback Score', range: [0, 5.5]},
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'},
+                shapes: [{
+                    type: 'line',
+                    x0: -0.5,
+                    x1: feedbackScenarios.length - 0.5,
+                    y0: 3.5,
+                    y1: 3.5,
+                    line: {
+                        color: '#059669',
+                        width: 2,
+                        dash: 'dash'
+                    }
+                }],
+                annotations: [{
+                    x: feedbackScenarios.length - 0.5,
+                    y: 3.5,
+                    text: 'Success Threshold',
+                    showarrow: false,
+                    xanchor: 'left',
+                    yanchor: 'bottom'
+                }]
+            };
+            
+            Plotly.newPlot('feedbackDistPlot', [feedbackTrace], feedbackLayout, {responsive: true});
+        </script>
     """
     
     # Scenarios

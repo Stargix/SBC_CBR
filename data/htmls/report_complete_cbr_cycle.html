@@ -220,6 +220,8 @@
         }
     </style>
     
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
 </head>
 <body>
     <div class="container">
@@ -258,6 +260,130 @@
                 </div>
             </div>
         </div>
+        
+        <div class="panel">
+            <h2>📈 4R Cycle Performance</h2>
+            <div class="plot-container">
+                <div id="cyclePerformancePlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🎯 Quality Metrics by Scenario</h2>
+            <div class="plot-container">
+                <div id="qualityMetricsPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var scenarios = [];
+            var topSimilarity = [];
+            var avgSimilarity = [];
+            var culturalAdapt = [];
+            var feedbackScores = [];
+    
+            scenarios.push('Scenario 1');
+            topSimilarity.push(1.0);
+            avgSimilarity.push(0.9686);
+            culturalAdapt.push(0);
+            feedbackScores.push(4.7);
+        
+            scenarios.push('Scenario 2');
+            topSimilarity.push(0.9309999999999998);
+            avgSimilarity.push(0.8002);
+            culturalAdapt.push(0);
+            feedbackScores.push(4.5);
+        
+            scenarios.push('Scenario 3');
+            topSimilarity.push(0.8560000000000001);
+            avgSimilarity.push(0.8241333333333335);
+            culturalAdapt.push(3);
+            feedbackScores.push(4.8);
+        
+            // Cycle performance - Radar-like stacked bars
+            var retrieveTrace = {
+                x: scenarios,
+                y: topSimilarity,
+                name: 'Retrieve Quality',
+                type: 'bar',
+                marker: {color: '#0f766e'}
+            };
+            
+            var adaptTrace = {
+                x: scenarios,
+                y: culturalAdapt.map(v => v / 5), // Normalize to 0-1 scale
+                name: 'Adapt Intensity',
+                type: 'bar',
+                marker: {color: '#f59e0b'}
+            };
+            
+            var feedbackTrace = {
+                x: scenarios,
+                y: feedbackScores.map(v => v / 5), // Normalize to 0-1 scale
+                name: 'Retain Quality',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var cycleLayout = {
+                title: '4R Cycle Phase Performance (Normalized)',
+                xaxis: {title: 'Scenario'},
+                yaxis: {title: 'Performance Score', range: [0, 1]},
+                barmode: 'group',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('cyclePerformancePlot', [retrieveTrace, adaptTrace, feedbackTrace], cycleLayout, {responsive: true});
+            
+            // Quality metrics - dual axis
+            var simTrace = {
+                x: scenarios,
+                y: avgSimilarity,
+                name: 'Avg Similarity',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#0f766e', width: 3},
+                marker: {size: 10},
+                yaxis: 'y1'
+            };
+            
+            var feedbackLineTrace = {
+                x: scenarios,
+                y: feedbackScores,
+                name: 'Feedback Score',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#e07a5f', width: 3},
+                marker: {size: 10},
+                yaxis: 'y2'
+            };
+            
+            var qualityLayout = {
+                title: 'Similarity vs Feedback Across Scenarios',
+                xaxis: {title: 'Scenario'},
+                yaxis: {
+                    title: 'Similarity Score',
+                    titlefont: {color: '#0f766e'},
+                    tickfont: {color: '#0f766e'},
+                    range: [0, 1]
+                },
+                yaxis2: {
+                    title: 'Feedback Score',
+                    titlefont: {color: '#e07a5f'},
+                    tickfont: {color: '#e07a5f'},
+                    overlaying: 'y',
+                    side: 'right',
+                    range: [0, 5]
+                },
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('qualityMetricsPlot', [simTrace, feedbackLineTrace], qualityLayout, {responsive: true});
+        </script>
     
         <div class="panel">
             <h2>Scenario 1: Italian cultural preference, summer wedding</h2>
@@ -360,7 +486,7 @@
         
     </div>
     <div class="footer">
-        <p>Generated on 2026-01-10 03:32:42</p>
+        <p>Generated on 2026-01-10 03:39:54</p>
         <p>CBR Chef System - Experimental Results Report</p>
     </div>
 </body>
