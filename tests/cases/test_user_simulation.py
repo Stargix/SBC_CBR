@@ -248,4 +248,24 @@ def generate_feedback_evolution_plot(results: Dict):
 
 
 if __name__ == "__main__":
-    main()
+    print("Starting Expanded Multi-User Simulation Test...")
+    print("Configuration: 20 users × 20 iterations = 400 total interactions")
+    results = run_test(num_users=20, iterations=20)
+    
+    output_file = Path(__file__).parent.parent.parent / "data" / "results" / "test_user_simulation.json"
+    output_file.parent.mkdir(exist_ok=True)
+    
+    with open(output_file, 'w') as f:
+        json.dump(results, f, indent=2)
+    
+    # Generate plot
+    generate_feedback_evolution_plot(results)
+    
+    print(f"\nTest completed. Results saved to: {output_file}")
+    print(f"\nSummary:")
+    print(f"  Total requests: {results['summary']['total_requests']}")
+    print(f"  Cases learned: {results['summary']['total_cases_learned']}")
+    print(f"  Initial avg feedback: {results['summary']['avg_initial_feedback']:.3f}")
+    print(f"  Final avg feedback: {results['summary']['avg_final_feedback']:.3f}")
+    print(f"  Improvement: {results['summary']['improvement']:+.3f}")
+    print(f"  Success rate: {results['summary']['avg_success_rate']:.1%}")

@@ -1,6 +1,6 @@
 {
   "test_name": "Complete CBR Cycle",
-  "timestamp": "2026-01-10T03:39:50.758752",
+  "timestamp": "2026-01-12T20:49:11.285668",
   "scenarios": [
     {
       "scenario_id": "scenario_1",
@@ -20,9 +20,9 @@
           "validation_passed": true
         },
         "retain": {
-          "should_retain": true,
-          "retention_action": "add_new",
-          "retained": true,
+          "should_retain": false,
+          "retention_action": "discard",
+          "retained": false,
           "feedback_score": 4.7
         }
       }
@@ -34,7 +34,7 @@
         "retrieve": {
           "cases_found": 5,
           "top_similarity": 0.9309999999999998,
-          "avg_similarity": 0.8002
+          "avg_similarity": 0.8131999999999999
         },
         "adapt": {
           "menus_adapted": 3,
@@ -71,7 +71,7 @@
         },
         "retain": {
           "should_retain": true,
-          "retention_action": "add_new",
+          "retention_action": "update_existing",
           "retained": true,
           "feedback_score": 4.8
         }
@@ -79,12 +79,12 @@
     }
   ],
   "summary": {
-    "initial_cases": 41,
+    "initial_cases": 43,
     "final_cases": 44,
-    "cases_learned": 3,
+    "cases_learned": 1,
     "scenarios_executed": 3,
     "avg_retrieval_similarity": 0.9289999999999999,
     "avg_valid_proposals": 3.0,
-    "retention_rate": 1.0
+    "retention_rate": 0.6666666666666666
   }
 }

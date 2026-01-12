@@ -1,13 +1,13 @@
 # CBR System - Formal Experimental Results
 
-**Report Generated:** 2026-01-10 03:39:54
+**Report Generated:** 2026-01-12 20:49:52
 
 ---
 
 ## Executive Summary
 
-- **Total Tests Executed:** 8
-- **Successful Tests:** 8/8
+- **Total Tests Executed:** 10
+- **Successful Tests:** 10/10
 
 ---
 
@@ -20,13 +20,13 @@
 
 **Key Metrics:**
 
-- Initial Cases: 41
+- Initial Cases: 43
 - Final Cases: 44
-- Cases Learned: 3
+- Cases Learned: 1
 - Scenarios Executed: 3
 - Avg Retrieval Similarity: 0.929
 - Avg Valid Proposals: 3.000
-- Retention Rate: 100.0%
+- Retention Rate: 66.7%
 
 
 ### Multi-User Simulation
@@ -36,13 +36,13 @@
 
 **Key Metrics:**
 
-- Initial Cases: 41
-- Final Cases: 47
-- Total Cases Learned: 6
-- Total Requests: 75
-- Avg Final Feedback: 4.060
-- Avg Initial Feedback: 3.703
-- Improvement: 35.7%
+- Initial Cases: 44
+- Final Cases: 145
+- Total Cases Learned: 101
+- Total Requests: 400
+- Avg Final Feedback: 3.608
+- Avg Initial Feedback: 3.377
+- Improvement: 23.0%
 - Avg Success Rate: 100.0%
 
 
@@ -54,10 +54,10 @@
 **Key Metrics:**
 
 - Test Cases: 5
-- Static Avg Similarity: 0.818
-- Adaptive Avg Similarity: 0.818
+- Static Avg Similarity: 0.835
+- Adaptive Avg Similarity: 0.834
 - Improvement: -0.0%
-- Improvement Pct: -1.7%
+- Improvement Pct: -4.2%
 
 
 ### Semantic Cultural Adaptation
@@ -82,12 +82,12 @@
 
 **Key Metrics:**
 
-- Cultures Tested: 5
-- Total Cases Retrieved: 25
-- Exact Cultural Matches: 15
-- Exact Match Rate: 60.0%
-- Top Result Match Rate: 100.0%
-- Avg Retrieval Similarity: 0.972
+- Cultures Tested: 12
+- Total Cases Retrieved: 60
+- Exact Cultural Matches: 32
+- Exact Match Rate: 53.3%
+- Top Result Match Rate: 91.7%
+- Avg Retrieval Similarity: 0.945
 
 
 ### Negative Cases Learning
@@ -98,11 +98,14 @@
 **Key Metrics:**
 
 - Initial Total Cases: 41
-- Final Total Cases: 42
+- Final Total Cases: 51
 - Initial Negative Cases: 0
-- Final Negative Cases: 1
-- Cases Added: 1
-- Negative Cases Added: 1
+- Final Negative Cases: 10
+- Cases Added: 10
+- Negative Cases Created: 10
+- Negative Patterns Tested: 10
+- Avoidance Tests Conducted: 5
+- Avg Proposals Despite Negatives: 2.200
 
 
 ### Semantic RETAIN
@@ -129,13 +132,13 @@
 - Test Type: Comparative Evaluation
 - Static Precision: 0.900
 - Static Satisfaction: 4.400
-- Static Time: 0.014
+- Static Time: 0.060
 - Adaptive Precision: 0.900
 - Adaptive Satisfaction: 4.400
-- Adaptive Time: 0.016
+- Adaptive Time: 0.064
 - Precision Improvement Pct: 0.0%
 - Satisfaction Improvement: 0.0%
-- Time Overhead Seconds: 0.002
+- Time Overhead Seconds: 0.005
 - Total Test Cases: 10
 
 

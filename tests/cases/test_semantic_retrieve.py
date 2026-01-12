@@ -46,13 +46,22 @@ def run_test() -> Dict:
     
     results["case_base_distribution"] = culture_distribution
     
-    # Test different cultural preferences
+    # Test different cultural preferences - EXPANDED to include underrepresented cultures
     cultural_tests = [
+        # Well-represented cultures
         CulturalTradition.ITALIAN,
         CulturalTradition.SPANISH,
         CulturalTradition.FRENCH,
         CulturalTradition.JAPANESE,
-        CulturalTradition.MEXICAN
+        CulturalTradition.MEXICAN,
+        # Underrepresented cultures (testing cultural proximity fallback)
+        CulturalTradition.KOREAN,
+        CulturalTradition.VIETNAMESE,
+        CulturalTradition.LEBANESE,
+        CulturalTradition.AMERICAN,
+        CulturalTradition.CHINESE,
+        CulturalTradition.INDIAN,
+        CulturalTradition.THAI
     ]
     
     for culture in cultural_tests:

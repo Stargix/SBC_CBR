@@ -44,7 +44,9 @@ def plot_cultural_similarity_heatmap():
             print("⏭️  No hay datos de cultural retrieve")
             return
         
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+        # Ajustar tamaño de figura según número de culturas
+        fig_width = max(14, len(cultures) * 1.0)
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(fig_width, 6))
         
         # Plot 1: Similarity scores
         x = np.arange(len(cultures))
@@ -53,23 +55,24 @@ def plot_cultural_similarity_heatmap():
         bars1 = ax1.bar(x - width/2, top_similarities, width, label='Top Match', color='#0f766e')
         bars2 = ax1.bar(x + width/2, avg_similarities, width, label='Average Top 5', color='#e07a5f')
         
-        ax1.set_xlabel('Cultura')
-        ax1.set_ylabel('Similaridad')
-        ax1.set_title('Calidad de Recuperación por Cultura', fontsize=12, fontweight='bold')
+        ax1.set_xlabel('Cultura', fontsize=11)
+        ax1.set_ylabel('Similaridad', fontsize=11)
+        ax1.set_title(f'Calidad de Recuperación por Cultura ({len(cultures)} culturas)', fontsize=12, fontweight='bold')
         ax1.set_xticks(x)
-        ax1.set_xticklabels(cultures, rotation=45, ha='right')
+        ax1.set_xticklabels(cultures, rotation=45, ha='right', fontsize=9)
         ax1.legend()
         ax1.set_ylim(0, 1.1)
         ax1.grid(axis='y', alpha=0.3)
         
         # Plot 2: Match counts
         colors = ['#059669' if c == 5 else '#f59e0b' if c >= 3 else '#dc2626' for c in match_counts]
-        bars3 = ax2.bar(cultures, match_counts, color=colors)
+        bars3 = ax2.bar(x, match_counts, color=colors)
         
-        ax2.set_xlabel('Cultura')
-        ax2.set_ylabel('Matches Culturales Exactos (de 5)')
+        ax2.set_xlabel('Cultura', fontsize=11)
+        ax2.set_ylabel('Matches Culturales Exactos (de 5)', fontsize=11)
         ax2.set_title('Precisión Cultural en Recuperación', fontsize=12, fontweight='bold')
-        ax2.set_xticklabels(cultures, rotation=45, ha='right')
+        ax2.set_xticks(x)
+        ax2.set_xticklabels(cultures, rotation=45, ha='right', fontsize=9)
         ax2.set_ylim(0, 6)
         ax2.axhline(y=5, color='#059669', linestyle='--', alpha=0.5, label='Máximo')
         ax2.legend()
@@ -367,6 +370,115 @@ def plot_retention_strategies():
         print(f"❌ Error en retention_strategies: {e}")
 
 
+def plot_dietary_restrictions_compliance():
+    """Genera plot de compliance de restricciones dietéticas."""
+    try:
+        data = load_json('data/results/test_dietary_restrictions.json')
+        individual_tests = data.get('individual_tests', [])
+        combination_tests = data.get('combination_tests', [])
+        
+        if not individual_tests:
+            print("⏭️  No hay datos de dietary restrictions")
+            return
+        
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 6))
+        
+        # Plot 1: Compliance por restricción individual
+        restrictions = [test['restriction'] for test in individual_tests]
+        compliance_rates = [test['compliance_rate'] * 100 for test in individual_tests]
+        categories = [test['category'] for test in individual_tests]
+        
+        # Colores por categoría
+        category_colors = {
+            'allergens': '#e07a5f',
+            'lifestyle': '#0f766e',
+            'health': '#4a90e2',
+            'meat_restrictions': '#f59e0b'
+        }
+        colors = [category_colors.get(cat, '#5b6474') for cat in categories]
+        
+        x = np.arange(len(restrictions))
+        bars1 = ax1.barh(x, compliance_rates, color=colors)
+        
+        ax1.set_yticks(x)
+        ax1.set_yticklabels(restrictions, fontsize=8)
+        ax1.set_xlabel('Compliance Rate (%)', fontsize=11)
+        ax1.set_title('Individual Dietary Restrictions Compliance', fontsize=12, fontweight='bold')
+        ax1.axvline(x=80, color='#059669', linestyle='--', alpha=0.5, label='Target (80%)')
+        ax1.set_xlim(0, 105)
+        ax1.legend()
+        ax1.grid(axis='x', alpha=0.3)
+        
+        # Plot 2: Compliance por categoría
+        summary = data.get('summary', {})
+        categories_summary = {
+            'Individual\n(1 restriction)': summary.get('individual_compliance_rate', 0) * 100,
+            'Dual\n(2 restrictions)': summary.get('dual_compliance_rate', 0) * 100,
+            'Extreme\n(3+ restrictions)': summary.get('extreme_success_rate', 0) * 100
+        }
+        
+        cat_names = list(categories_summary.keys())
+        cat_values = list(categories_summary.values())
+        cat_colors = ['#059669', '#f59e0b', '#dc2626']
+        
+        bars2 = ax2.bar(cat_names, cat_values, color=cat_colors)
+        
+        ax2.set_ylabel('Success Rate (%)', fontsize=11)
+        ax2.set_title('Compliance by Complexity', fontsize=12, fontweight='bold')
+        ax2.set_ylim(0, 105)
+        ax2.axhline(y=70, color='#059669', linestyle='--', alpha=0.5, label='Threshold')
+        ax2.legend()
+        ax2.grid(axis='y', alpha=0.3)
+        
+        # Añadir valores en las barras
+        for bar in bars2:
+            height = bar.get_height()
+            ax2.annotate(f'{height:.0f}%',
+                       xy=(bar.get_x() + bar.get_width() / 2, height),
+                       xytext=(0, 3),
+                       textcoords="offset points",
+                       ha='center', va='bottom', fontsize=10, fontweight='bold')
+        
+        # Plot 3: Distribución por categoría de restricción
+        category_counts = {}
+        for test in individual_tests:
+            cat = test['category']
+            if cat not in category_counts:
+                category_counts[cat] = {'total': 0, 'compliant': 0}
+            category_counts[cat]['total'] += 1
+            if test['compliance_rate'] >= 0.8:
+                category_counts[cat]['compliant'] += 1
+        
+        cat_labels = []
+        cat_compliance = []
+        for cat, counts in category_counts.items():
+            cat_labels.append(cat.replace('_', ' ').title())
+            cat_compliance.append((counts['compliant'] / counts['total'] * 100) if counts['total'] > 0 else 0)
+        
+        wedges, texts, autotexts = ax3.pie(
+            cat_compliance,
+            labels=cat_labels,
+            autopct='%1.0f%%',
+            colors=[category_colors.get(cat.lower().replace(' ', '_'), '#5b6474') for cat in cat_labels],
+            startangle=90
+        )
+        
+        ax3.set_title('Compliance Distribution by Category', fontsize=12, fontweight='bold')
+        
+        for autotext in autotexts:
+            autotext.set_color('white')
+            autotext.set_fontweight('bold')
+            autotext.set_fontsize(9)
+        
+        plt.tight_layout()
+        plt.savefig('data/plots/dietary_restrictions_compliance.png', dpi=150, bbox_inches='tight')
+        print("✅ Generado: dietary_restrictions_compliance.png")
+        plt.close()
+        
+    except Exception as e:
+        print(f"❌ Error en dietary_restrictions_compliance: {e}")
+
+
 def main():
     """Genera todos los plots adicionales."""
     print("\n🎨 Generando plots adicionales...\n")
@@ -382,6 +494,8 @@ def main():
     plot_adaptation_intensity()
     plot_negative_learning()
     plot_retention_strategies()
+    plot_dietary_restrictions_compliance()
+    plot_adaptation_strategies_breakdown()
     
     print("\n✅ Todos los plots adicionales generados en data/plots/")
     print("\nPlots disponibles:")
@@ -393,6 +507,129 @@ def main():
     print("  - adaptation_intensity.png (nuevo)")
     print("  - negative_learning.png (nuevo)")
     print("  - retention_strategies.png (nuevo)")
+    print("  - dietary_restrictions_compliance.png (nuevo)")
+    print("  - adaptation_strategies_breakdown.png (nuevo)")
+
+
+def plot_adaptation_strategies_breakdown():
+    """
+    Genera visualización de distribución de estrategias de adaptación.
+    Experimento 10: Análisis cuantitativo de estrategias.
+    """
+    try:
+        data = load_json('data/results/test_adaptation_strategies.json')
+        summary = data.get('summary', {})
+        
+        setup_plot_style()
+        fig = plt.figure(figsize=(16, 5))
+        
+        # Panel 1: Distribución de niveles de adaptación
+        ax1 = plt.subplot(1, 3, 1)
+        
+        levels = ['Nivel 0\n(Sin adapt.)', 'Nivel 1\n(Ingredientes)', 
+                  'Nivel 2\n(Platos)', 'Nivel 3\n(Rechazo)']
+        counts = [
+            summary.get('level_0_no_adaptation', 0),
+            summary.get('level_1_ingredient_substitution', 0),
+            summary.get('level_2_dish_replacement', 0),
+            summary.get('level_3_case_rejection', 0)
+        ]
+        percentages = [
+            summary.get('level_0_pct', 0),
+            summary.get('level_1_pct', 0),
+            summary.get('level_2_pct', 0),
+            summary.get('level_3_pct', 0)
+        ]
+        
+        colors = ['#95e1d3', '#38ada9', '#f38181', '#aa3333']
+        bars = ax1.barh(levels, counts, color=colors, edgecolor='black', linewidth=1.2)
+        
+        # Añadir etiquetas con porcentajes
+        for i, (bar, pct) in enumerate(zip(bars, percentages)):
+            width = bar.get_width()
+            ax1.text(width + 0.5, bar.get_y() + bar.get_height()/2, 
+                    f'{int(width)} ({pct:.1f}%)',
+                    va='center', fontsize=10, fontweight='bold')
+        
+        ax1.set_xlabel('Número de Casos', fontsize=12, fontweight='bold')
+        ax1.set_title('Distribución de Estrategias de Adaptación\n(30 casos totales)', 
+                     fontsize=13, fontweight='bold', pad=15)
+        ax1.set_xlim(0, max(counts) * 1.3)
+        ax1.grid(axis='x', alpha=0.3)
+        
+        # Panel 2: Granularidad de adaptación
+        ax2 = plt.subplot(1, 3, 2)
+        
+        categories = ['Ingredientes\nsustituidos', 'Platos\nreemplazados']
+        values = [
+            summary.get('avg_ingredients_per_case', 0),
+            summary.get('avg_dishes_per_case', 0)
+        ]
+        totals = [
+            summary.get('total_ingredients_substituted', 0),
+            summary.get('total_dishes_replaced', 0)
+        ]
+        
+        bars = ax2.bar(categories, values, color=['#38ada9', '#f38181'], 
+                      edgecolor='black', linewidth=1.2, alpha=0.8)
+        
+        # Añadir etiquetas
+        for i, (bar, val, total) in enumerate(zip(bars, values, totals)):
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2, height + 0.1,
+                    f'{val:.2f}\n({total} total)',
+                    ha='center', va='bottom', fontsize=10, fontweight='bold')
+        
+        ax2.set_ylabel('Promedio por Caso', fontsize=12, fontweight='bold')
+        ax2.set_title('Granularidad de Adaptaciones', 
+                     fontsize=13, fontweight='bold', pad=15)
+        ax2.set_ylim(0, max(values) * 1.4)
+        ax2.grid(axis='y', alpha=0.3)
+        
+        # Panel 3: Mejora de similitud
+        ax3 = plt.subplot(1, 3, 3)
+        
+        metrics = ['Similitud\nAntes', 'Similitud\nDespués', 'Mejora']
+        sim_before = summary.get('avg_similarity_before', 0)
+        sim_after = summary.get('avg_similarity_after', 0)
+        improvement = summary.get('similarity_improvement', 0)
+        
+        values_sim = [sim_before, sim_after, improvement]
+        colors_sim = ['#f38181', '#38ada9', '#ffd75e']
+        
+        bars = ax3.bar(metrics, values_sim, color=colors_sim, 
+                      edgecolor='black', linewidth=1.2, alpha=0.8)
+        
+        # Añadir etiquetas
+        for bar, val in zip(bars, values_sim):
+            height = bar.get_height()
+            label = f'{val:.3f}'
+            if val == improvement:
+                pct = summary.get('similarity_improvement_pct', 0)
+                label = f'+{val:.3f}\n({pct:+.1f}%)'
+            ax3.text(bar.get_x() + bar.get_width()/2, height + 0.01,
+                    label,
+                    ha='center', va='bottom', fontsize=10, fontweight='bold')
+        
+        ax3.set_ylabel('Similitud', fontsize=12, fontweight='bold')
+        ax3.set_title('Impacto en Similitud Global', 
+                     fontsize=13, fontweight='bold', pad=15)
+        ax3.set_ylim(0, max(sim_before, sim_after) * 1.3)
+        ax3.grid(axis='y', alpha=0.3)
+        ax3.axhline(y=sim_before, color='red', linestyle='--', alpha=0.5, linewidth=1)
+        
+        plt.tight_layout()
+        
+        output_path = Path('data/plots/adaptation_strategies_breakdown.png')
+        plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='#faf7f1')
+        plt.close()
+        
+        print(f"✅ Generado: adaptation_strategies_breakdown.png")
+        
+    except FileNotFoundError:
+        print("⏭️  Saltando adaptation_strategies_breakdown (archivo no encontrado)")
+    except Exception as e:
+        print(f"❌ Error generando adaptation_strategies_breakdown: {e}")
 
 
 if __name__ == '__main__':

@@ -83,8 +83,10 @@ def execute_all_tests(verbose: bool = True) -> Dict:
         "test_semantic_cultural_adaptation",
         "test_semantic_retrieve",
         "test_negative_cases",
+        "test_dietary_restrictions",
         "test_semantic_retain",
-        "test_adaptive_learning"
+        "test_adaptive_learning",
+        "test_adaptation_strategies"
     ]
     
     master_report = {

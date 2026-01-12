@@ -1,6 +1,6 @@
 {
   "test_name": "Adaptive Weight Learning",
-  "timestamp": "2026-01-10T03:39:53.033775",
+  "timestamp": "2026-01-12T20:49:43.093052",
   "systems": {
     "static": {
       "name": "Static Weights",
@@ -8,32 +8,32 @@
         {
           "iteration": 1,
           "proposals_count": 3,
-          "top_similarity": 0.7968181818181818,
-          "avg_similarity": 0.7456060606060606
+          "top_similarity": 0.8362205614633751,
+          "avg_similarity": 0.7996795810938523
         },
         {
           "iteration": 2,
           "proposals_count": 3,
-          "top_similarity": 0.7150000000000001,
-          "avg_similarity": 0.685
+          "top_similarity": 0.742,
+          "avg_similarity": 0.7160000000000001
         },
         {
           "iteration": 3,
           "proposals_count": 3,
-          "top_similarity": 0.9395,
-          "avg_similarity": 0.8982777777777778
+          "top_similarity": 0.9261243754340472,
+          "avg_similarity": 0.9142712908005309
         },
         {
           "iteration": 4,
           "proposals_count": 3,
-          "top_similarity": 0.8799999999999999,
-          "avg_similarity": 0.8346666666666667
+          "top_similarity": 0.8969999999999999,
+          "avg_similarity": 0.8643333333333333
         },
         {
           "iteration": 5,
           "proposals_count": 3,
-          "top_similarity": 0.7593928571428572,
-          "avg_similarity": 0.7318531746031747
+          "top_similarity": 0.7711851445540966,
+          "avg_similarity": 0.75122479211085
         }
       ]
     },
@@ -43,8 +43,8 @@
         {
           "iteration": 1,
           "proposals_count": 3,
-          "top_similarity": 0.7968181818181818,
-          "avg_similarity": 0.7456060606060606,
+          "top_similarity": 0.8362205614633751,
+          "avg_similarity": 0.7996795810938523,
           "weights": {
             "event_type": 0.2,
             "season": 0.12,
@@ -60,8 +60,8 @@
         {
           "iteration": 2,
           "proposals_count": 3,
-          "top_similarity": 0.7143924302788844,
-          "avg_similarity": 0.6845119521912352,
+          "top_similarity": 0.74203187250996,
+          "avg_similarity": 0.7111056341950374,
           "weights": {
             "event_type": 0.19920318725099603,
             "season": 0.1195219123505976,
@@ -77,8 +77,8 @@
         {
           "iteration": 3,
           "proposals_count": 3,
-          "top_similarity": 0.9396118122321094,
-          "avg_similarity": 0.8985581515145892,
+          "top_similarity": 0.926565569492536,
+          "avg_similarity": 0.9140899615446112,
           "weights": {
             "event_type": 0.19880557609879843,
             "season": 0.11928334565927905,
@@ -94,8 +94,8 @@
         {
           "iteration": 4,
           "proposals_count": 3,
-          "top_similarity": 0.8802177068799084,
-          "avg_similarity": 0.8352674851850845,
+          "top_similarity": 0.8961795577060799,
+          "avg_similarity": 0.8643852783185192,
           "weights": {
             "event_type": 0.1983098015948114,
             "season": 0.11898588095688684,
@@ -111,8 +111,8 @@
         {
           "iteration": 5,
           "proposals_count": 3,
-          "top_similarity": 0.7589950218041774,
-          "avg_similarity": 0.7313235585826462,
+          "top_similarity": 0.769782379058792,
+          "avg_similarity": 0.7557366690607775,
           "weights": {
             "event_type": 0.19761813811142143,
             "season": 0.11857088286685284,
@@ -130,10 +130,10 @@
   },
   "summary": {
     "test_cases": 5,
-    "static_avg_similarity": 0.8181422077922077,
-    "adaptive_avg_similarity": 0.8180070306026522,
-    "improvement": -0.00013517718955546876,
-    "improvement_pct": -0.01652245639792259,
+    "static_avg_similarity": 0.8345060162903037,
+    "adaptive_avg_similarity": 0.8341559880461485,
+    "improvement": -0.0003500282441551983,
+    "improvement_pct": -0.041944364369139814,
     "weight_changes": {
       "event_type": {
         "initial": 0.2,

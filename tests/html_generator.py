@@ -1208,11 +1208,11 @@ def generate_negative_cases_html(data, output_path):
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Negative Cases Created</div>
-                    <div class="stat-value warning">{summary['negative_cases_added']}</div>
+                    <div class="stat-value warning">{summary.get('negative_cases_created', summary.get('negative_cases_added', 0))}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Warning System</div>
-                    <div class="stat-value positive">{'✓ Functional' if summary['warning_system_functional'] else '✗ Failed'}</div>
+                    <div class="stat-label">Patterns Tested</div>
+                    <div class="stat-value positive">{summary.get('negative_patterns_tested', 'N/A')}</div>
                 </div>
             </div>
         </div>
@@ -1904,6 +1904,18 @@ def generate_index_html(htmls_dir):
                     <h2>Negative Cases</h2>
                     <p>Failure learning and negative feedback handling</p>
                 </a>
+                
+                <a href="report_dietary_restrictions.html" class="report-card">
+                    <span class="icon">🥗</span>
+                    <h2>Dietary Restrictions</h2>
+                    <p>Testing all 33 dietary restrictions with 100% compliance validation</p>
+                </a>
+                
+                <a href="report_adaptation_strategies.html" class="report-card">
+                    <span class="icon">🔧</span>
+                    <h2>Adaptation Strategies</h2>
+                    <p>Quantifying ADAPT phase: ingredient substitution vs dish replacement</p>
+                </a>
             </div>
         </div>
     </div>
@@ -1912,6 +1924,569 @@ def generate_index_html(htmls_dir):
 """
     
     with open(htmls_dir / 'index.html', 'w', encoding='utf-8') as f:
+        f.write(html)
+
+
+def generate_dietary_restrictions_html(data, output_path):
+    """Genera reporte HTML para test de restricciones dietéticas."""
+    summary = data.get('summary', {})
+    individual_tests = data.get('individual_tests', [])
+    combination_tests = data.get('combination_tests', [])
+    extreme_tests = data.get('extreme_tests', [])
+    
+    # Usar el template base
+    base_template = get_html_template("Dietary Restrictions Test", has_plots=False)
+    
+    # Extraer solo la parte de styles del template
+    html = base_template.split('</head>')[0] + """
+</head>
+<body>
+    <div class="container">
+        <h1>🥗 Dietary Restrictions Compliance Test</h1>
+        <p class="subtitle">Testing all 33 available dietary restrictions</p>
+        
+        <div class="panel">
+            <h2>📊 Executive Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Restrictions Tested</div>
+                    <div class="stat-value">{}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Individual Compliance</div>
+                    <div class="stat-value positive">{}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Dual Compliance</div>
+                    <div class="stat-value warning">{}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Extreme Success</div>
+                    <div class="stat-value">{}%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📈 Individual Restrictions (Top 15 Common)</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Restriction</th>
+                        <th>Category</th>
+                        <th>Menus Generated</th>
+                        <th>Compliant</th>
+                        <th>Compliance Rate</th>
+                        <th>Avg Adaptation</th>
+                    </tr>
+                </thead>
+                <tbody>
+""".format(
+        summary.get('individual_restrictions_tested', 0),
+        int(summary.get('individual_compliance_rate', 0)*100),
+        int(summary.get('dual_compliance_rate', 0)*100),
+        int(summary.get('extreme_success_rate', 0)*100)
+    )
+    
+    for test in individual_tests:
+        compliance_rate = test['compliance_rate'] * 100
+        status_class = 'positive' if compliance_rate >= 80 else 'warning' if compliance_rate >= 60 else 'negative'
+        html += """
+                    <tr>
+                        <td><strong>{}</strong></td>
+                        <td><span class="badge">{}</span></td>
+                        <td>{}</td>
+                        <td>{}</td>
+                        <td class="{}">{:.0f}%</td>
+                        <td>{:.3f}</td>
+                    </tr>
+""".format(test['restriction'], test['category'], test['menus_generated'], 
+           test['compliant_menus'], status_class, compliance_rate, 
+           test['avg_adaptation_score'])
+    
+    html += """
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>🔗 Dual Restrictions (2 simultaneous)</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Restrictions</th>
+                        <th>Categories</th>
+                        <th>Menus Generated</th>
+                        <th>Compliance Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+"""
+    
+    for test in combination_tests:
+        compliance_rate = test['compliance_rate'] * 100
+        status_class = 'positive' if compliance_rate >= 70 else 'warning' if compliance_rate >= 50 else 'negative'
+        restrictions_str = ' + '.join(test['restrictions'])
+        categories_str = ', '.join(set(test['categories']))
+        html += """
+                    <tr>
+                        <td><strong>{}</strong></td>
+                        <td>{}</td>
+                        <td>{}</td>
+                        <td class="{}">{:.0f}%</td>
+                    </tr>
+""".format(restrictions_str, categories_str, test['menus_generated'], status_class, compliance_rate)
+    
+    html += """
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>⚡ Extreme Cases (3+ restrictions)</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Restrictions</th>
+                        <th>Count</th>
+                        <th>Menus Generated</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+"""
+    
+    for test in extreme_tests:
+        restrictions_str = ', '.join(test['restrictions'])
+        status = '✅ Success' if test['menus_generated'] > 0 else '❌ No menus'
+        status_class = 'positive' if test['menus_generated'] > 0 else 'negative'
+        html += """
+                    <tr>
+                        <td>{}</td>
+                        <td>{}</td>
+                        <td>{}</td>
+                        <td class="{}"><strong>{}</strong></td>
+                    </tr>
+""".format(restrictions_str, test['num_restrictions'], test['menus_generated'], status_class, status)
+    
+    html += """
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>📊 Visualization</h2>
+            <div class="plot-container">
+                <img src="../plots/dietary_restrictions_compliance.png" alt="Dietary Restrictions Compliance" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📋 Categories Information</h2>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Allergens (15 restrictions)</h3>
+                <p style="color: var(--muted);">celery-free, crustacean-free, dairy-free, egg-free, fish-free, lupine-free, mollusk-free, mustard-free, peanut-free, sesame-free, shellfish-free, soy-free, sulfite-free, tree-nut-free, wheat-free</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Lifestyle (7 restrictions)</h3>
+                <p style="color: var(--muted);">vegan, vegetarian, pescatarian, paleo, keto-friendly, mediterranean, kosher</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Health (9 restrictions)</h3>
+                <p style="color: var(--muted);">alcohol-free, dash, fodmap-free, gluten-free, immuno-supportive, kidney-friendly, low potassium, no oil added, sugar-conscious</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Meat Restrictions (2 restrictions)</h3>
+                <p style="color: var(--muted);">pork-free, red-meat-free</p>
+            </div>
+        </div>
+        
+        <div class="timestamp">Generated: {}</div>
+    </div>
+</body>
+</html>
+""".format(data.get('timestamp', 'N/A'))
+    
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+
+def generate_adaptation_strategies_html(data, output_path):
+    """Genera reporte HTML para test de estrategias de adaptación."""
+    summary = data.get('summary', {})
+    
+    # Extract strategy distribution from summary
+    strategy_distribution = {
+        'level_0': summary.get('level_0_no_adaptation', 0),
+        'level_0_pct': summary.get('level_0_pct', 0.0),
+        'level_1': summary.get('level_1_ingredient_substitution', 0),
+        'level_1_pct': summary.get('level_1_pct', 0.0),
+        'level_2': summary.get('level_2_dish_replacement', 0),
+        'level_2_pct': summary.get('level_2_pct', 0.0),
+        'level_3': summary.get('level_3_case_rejection', 0),
+        'level_3_pct': summary.get('level_3_pct', 0.0),
+    }
+    
+    # Extract granularity
+    granularity = {
+        'total_ingredients_substituted': summary.get('total_ingredients_substituted', 0),
+        'avg_ingredients_per_case': summary.get('avg_ingredients_per_case', 0.0),
+        'total_dishes_replaced': summary.get('total_dishes_replaced', 0),
+        'avg_dishes_per_case': summary.get('avg_dishes_per_case', 0.0),
+    }
+    
+    # Extract effectiveness
+    effectiveness = {
+        'avg_similarity_before': summary.get('avg_similarity_before', 0.0),
+        'avg_similarity_after': summary.get('avg_similarity_after', 0.0),
+        'similarity_improvement': summary.get('similarity_improvement', 0.0),
+        'similarity_improvement_pct': summary.get('similarity_improvement_pct', 0.0),
+        'success_rate': summary.get('success_rate', 0.0),
+    }
+    
+    # Extract by_conflict_type (may not exist in current JSON)
+    by_conflict_type = {
+        'cultural': {
+            'level_1_cases': 0, 'level_1_pct': 0.0, 'avg_ingredients_level_1': 0.0, 
+            'avg_dishes_level_1': 0.0, 'level_2_cases': 0, 'level_2_pct': 0.0,
+            'avg_ingredients_level_2': 0.0, 'avg_dishes_level_2': 0.0, 'similarity_improvement': 0.0
+        },
+        'dietary': {
+            'level_1_cases': 0, 'level_1_pct': 0.0, 'avg_ingredients_level_1': 0.0,
+            'avg_dishes_level_1': 0.0, 'level_2_cases': 0, 'level_2_pct': 0.0,
+            'avg_ingredients_level_2': 0.0, 'avg_dishes_level_2': 0.0, 'similarity_improvement': 0.0
+        },
+        'mixed': {
+            'level_1_cases': 0, 'level_1_pct': 0.0, 'avg_ingredients_level_1': 0.0,
+            'avg_dishes_level_1': 0.0, 'level_2_cases': 0, 'level_2_pct': 0.0,
+            'avg_ingredients_level_2': 0.0, 'avg_dishes_level_2': 0.0, 'similarity_improvement': 0.0
+        }
+    }
+    
+    # Calculate from detailed results if available
+    cultural_conflicts = data.get('cultural_conflicts', [])
+    dietary_conflicts = data.get('dietary_conflicts', [])
+    mixed_conflicts = data.get('mixed_conflicts', [])
+    
+    for conflict_list, conflict_key in [(cultural_conflicts, 'cultural'), 
+                                         (dietary_conflicts, 'dietary'), 
+                                         (mixed_conflicts, 'mixed')]:
+        level_1_items = [c for c in conflict_list if c.get('adaptation_level') == 1]
+        level_2_items = [c for c in conflict_list if c.get('adaptation_level') == 2]
+        total = len(conflict_list)
+        
+        if total > 0:
+            by_conflict_type[conflict_key]['level_1_cases'] = len(level_1_items)
+            by_conflict_type[conflict_key]['level_1_pct'] = (len(level_1_items) / total) * 100
+            by_conflict_type[conflict_key]['level_2_cases'] = len(level_2_items)
+            by_conflict_type[conflict_key]['level_2_pct'] = (len(level_2_items) / total) * 100
+            
+            if level_1_items:
+                by_conflict_type[conflict_key]['avg_ingredients_level_1'] = sum(c.get('ingredients_substituted', 0) for c in level_1_items) / len(level_1_items)
+                by_conflict_type[conflict_key]['avg_dishes_level_1'] = sum(c.get('dishes_replaced', 0) for c in level_1_items) / len(level_1_items)
+            
+            if level_2_items:
+                by_conflict_type[conflict_key]['avg_ingredients_level_2'] = sum(c.get('ingredients_substituted', 0) for c in level_2_items) / len(level_2_items)
+                by_conflict_type[conflict_key]['avg_dishes_level_2'] = sum(c.get('dishes_replaced', 0) for c in level_2_items) / len(level_2_items)
+            
+            # Calculate similarity improvement
+            sim_improvements = [c.get('similarity_after', 0) - c.get('similarity_before', 0) for c in conflict_list]
+            by_conflict_type[conflict_key]['similarity_improvement'] = sum(sim_improvements) / len(sim_improvements) if sim_improvements else 0.0
+    
+    # Usar el template base
+    base_template = get_html_template("Adaptation Strategies Test", has_plots=False)
+    
+    html = base_template.split('</head>')[0] + """
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Adaptation Strategies Analysis</h1>
+        <p class="subtitle">Quantifying ADAPT phase behavior: ingredient substitution vs dish replacement</p>
+        
+        <div class="panel">
+            <h2>📊 Executive Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Cases</div>
+                    <div class="stat-value">{}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Success Rate</div>
+                    <div class="stat-value positive">{}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Similarity Improvement</div>
+                    <div class="stat-value accent">+{:.1f}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Similarity After</div>
+                    <div class="stat-value">{:.3f}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📈 Strategy Distribution</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Strategy</th>
+                        <th>Cases</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Level 0</strong></td>
+                        <td>No adaptation needed</td>
+                        <td>{}</td>
+                        <td class="muted">{:.1f}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Level 1</strong></td>
+                        <td>Ingredient substitution</td>
+                        <td>{}</td>
+                        <td class="positive">{:.1f}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Level 2</strong></td>
+                        <td>Full dish replacement</td>
+                        <td>{}</td>
+                        <td class="accent">{:.1f}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Level 3</strong></td>
+                        <td>Rejection (no solution)</td>
+                        <td>{}</td>
+                        <td class="negative">{:.1f}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>🔬 Granularity Metrics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Ingredients Substituted</div>
+                    <div class="stat-value">{}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg per Case</div>
+                    <div class="stat-value">{:.2f}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Dishes Replaced</div>
+                    <div class="stat-value accent">{}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg per Case</div>
+                    <div class="stat-value accent">{:.2f}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>⚡ Effectiveness</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Similarity before adaptation</td>
+                        <td class="muted">{:.3f}</td>
+                    </tr>
+                    <tr>
+                        <td>Similarity after adaptation</td>
+                        <td class="positive">{:.3f}</td>
+                    </tr>
+                    <tr>
+                        <td>Absolute improvement</td>
+                        <td class="accent"><strong>+{:.3f}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Percentage improvement</td>
+                        <td class="accent"><strong>+{:.1f}%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>📊 Analysis by Conflict Type</h2>
+            <h3 style="color: var(--accent); margin: 16px 0 8px;">Cultural Conflicts</h3>
+            <table class="metrics-table">
+                <thead>
+                    <tr><th>Strategy</th><th>Cases</th><th>%</th><th>Avg Ingr. Subs</th><th>Avg Dishes Changed</th><th>Similarity Improvement</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Level 1 (ingredients)</td>
+                        <td>{}</td>
+                        <td>{:.1f}%</td>
+                        <td>{:.2f}</td>
+                        <td>{:.2f}</td>
+                        <td class="accent">+{:.3f}</td>
+                    </tr>
+                    <tr>
+                        <td>Level 2 (dishes)</td>
+                        <td>{}</td>
+                        <td>{:.1f}%</td>
+                        <td>{:.2f}</td>
+                        <td>{:.2f}</td>
+                        <td class="accent">+{:.3f}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="color: var(--accent); margin: 16px 0 8px;">Dietary Conflicts</h3>
+            <table class="metrics-table">
+                <thead>
+                    <tr><th>Strategy</th><th>Cases</th><th>%</th><th>Avg Ingr. Subs</th><th>Avg Dishes Changed</th><th>Similarity Improvement</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Level 1 (ingredients)</td>
+                        <td>{}</td>
+                        <td>{:.1f}%</td>
+                        <td>{:.2f}</td>
+                        <td>{:.2f}</td>
+                        <td class="accent">+{:.3f}</td>
+                    </tr>
+                    <tr>
+                        <td>Level 2 (dishes)</td>
+                        <td>{}</td>
+                        <td>{:.1f}%</td>
+                        <td>{:.2f}</td>
+                        <td>{:.2f}</td>
+                        <td class="accent">+{:.3f}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="color: var(--accent); margin: 16px 0 8px;">Mixed Conflicts</h3>
+            <table class="metrics-table">
+                <thead>
+                    <tr><th>Strategy</th><th>Cases</th><th>%</th><th>Avg Ingr. Subs</th><th>Avg Dishes Changed</th><th>Similarity Improvement</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Level 1 (ingredients)</td>
+                        <td>{}</td>
+                        <td>{:.1f}%</td>
+                        <td>{:.2f}</td>
+                        <td>{:.2f}</td>
+                        <td class="accent">+{:.3f}</td>
+                    </tr>
+                    <tr>
+                        <td>Level 2 (dishes)</td>
+                        <td>{}</td>
+                        <td>{:.1f}%</td>
+                        <td>{:.2f}</td>
+                        <td>{:.2f}</td>
+                        <td class="accent">+{:.3f}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>📊 Visualization</h2>
+            <div class="plot-container">
+                <img src="../plots/adaptation_strategies_breakdown.png" alt="Adaptation Strategies" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>💡 Key Insights</h2>
+            <ul style="color: var(--muted); line-height: 1.8;">
+                <li><strong>Dominant Strategy:</strong> Level 2 (dish replacement) used in {:.1f}% of cases</li>
+                <li><strong>Granular Adaptations:</strong> Level 1 (ingredient substitution) used in {:.1f}% of cases</li>
+                <li><strong>Similarity Improvement:</strong> Average gain of {:.1f}% after adaptation</li>
+                <li><strong>Dishes vs Ingredients:</strong> {:.1f} dishes replaced per case vs {:.2f} ingredients substituted</li>
+                <li><strong>Conflict Patterns:</strong> Cultural conflicts show {:.1f}% Level 1 usage, dietary show {:.1f}%</li>
+            </ul>
+        </div>
+        
+        <div class="timestamp">Generated: {}</div>
+    </div>
+</body>
+</html>
+""".format(
+        summary.get('total_cases', 0),
+        effectiveness.get('success_rate', 0.0) * 100,
+        effectiveness.get('similarity_improvement_pct', 0.0),
+        effectiveness.get('avg_similarity_after', 0.0),
+        
+        strategy_distribution.get('level_0', 0),
+        strategy_distribution.get('level_0_pct', 0.0),
+        strategy_distribution.get('level_1', 0),
+        strategy_distribution.get('level_1_pct', 0.0),
+        strategy_distribution.get('level_2', 0),
+        strategy_distribution.get('level_2_pct', 0.0),
+        strategy_distribution.get('level_3', 0),
+        strategy_distribution.get('level_3_pct', 0.0),
+        
+        granularity.get('total_ingredients_substituted', 0),
+        granularity.get('avg_ingredients_per_case', 0.0),
+        granularity.get('total_dishes_replaced', 0),
+        granularity.get('avg_dishes_per_case', 0.0),
+        
+        effectiveness.get('avg_similarity_before', 0.0),
+        effectiveness.get('avg_similarity_after', 0.0),
+        effectiveness.get('similarity_improvement', 0.0),
+        effectiveness.get('similarity_improvement_pct', 0.0),
+        
+        by_conflict_type.get('cultural', {}).get('level_1_cases', 0),
+        by_conflict_type.get('cultural', {}).get('level_1_pct', 0.0),
+        by_conflict_type.get('cultural', {}).get('avg_ingredients_level_1', 0.0),
+        by_conflict_type.get('cultural', {}).get('avg_dishes_level_1', 0.0),
+        by_conflict_type.get('cultural', {}).get('similarity_improvement', 0.0),
+        by_conflict_type.get('cultural', {}).get('level_2_cases', 0),
+        by_conflict_type.get('cultural', {}).get('level_2_pct', 0.0),
+        by_conflict_type.get('cultural', {}).get('avg_ingredients_level_2', 0.0),
+        by_conflict_type.get('cultural', {}).get('avg_dishes_level_2', 0.0),
+        by_conflict_type.get('cultural', {}).get('similarity_improvement', 0.0),
+        
+        by_conflict_type.get('dietary', {}).get('level_1_cases', 0),
+        by_conflict_type.get('dietary', {}).get('level_1_pct', 0.0),
+        by_conflict_type.get('dietary', {}).get('avg_ingredients_level_1', 0.0),
+        by_conflict_type.get('dietary', {}).get('avg_dishes_level_1', 0.0),
+        by_conflict_type.get('dietary', {}).get('similarity_improvement', 0.0),
+        by_conflict_type.get('dietary', {}).get('level_2_cases', 0),
+        by_conflict_type.get('dietary', {}).get('level_2_pct', 0.0),
+        by_conflict_type.get('dietary', {}).get('avg_ingredients_level_2', 0.0),
+        by_conflict_type.get('dietary', {}).get('avg_dishes_level_2', 0.0),
+        by_conflict_type.get('dietary', {}).get('similarity_improvement', 0.0),
+        
+        by_conflict_type.get('mixed', {}).get('level_1_cases', 0),
+        by_conflict_type.get('mixed', {}).get('level_1_pct', 0.0),
+        by_conflict_type.get('mixed', {}).get('avg_ingredients_level_1', 0.0),
+        by_conflict_type.get('mixed', {}).get('avg_dishes_level_1', 0.0),
+        by_conflict_type.get('mixed', {}).get('similarity_improvement', 0.0),
+        by_conflict_type.get('mixed', {}).get('level_2_cases', 0),
+        by_conflict_type.get('mixed', {}).get('level_2_pct', 0.0),
+        by_conflict_type.get('mixed', {}).get('avg_ingredients_level_2', 0.0),
+        by_conflict_type.get('mixed', {}).get('avg_dishes_level_2', 0.0),
+        by_conflict_type.get('mixed', {}).get('similarity_improvement', 0.0),
+        
+        strategy_distribution.get('level_2_pct', 0.0),
+        strategy_distribution.get('level_1_pct', 0.0),
+        effectiveness.get('similarity_improvement_pct', 0.0),
+        granularity.get('avg_dishes_per_case', 0.0),
+        granularity.get('avg_ingredients_per_case', 0.0),
+        by_conflict_type.get('cultural', {}).get('level_1_pct', 0.0),
+        by_conflict_type.get('dietary', {}).get('level_1_pct', 0.0),
+        
+        data.get('timestamp', 'N/A')
+    )
+    
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
 
 
@@ -1938,8 +2513,10 @@ def generate_test_html(master_report=None, verbose=True):
         'test_user_simulation.json': ('report_user_simulation.html', generate_user_simulation_html),
         'test_complete_cbr_cycle.json': ('report_complete_cbr_cycle.html', generate_complete_cbr_cycle_html),
         'test_negative_cases.json': ('report_negative_cases.html', generate_negative_cases_html),
+        'test_dietary_restrictions.json': ('report_dietary_restrictions.html', generate_dietary_restrictions_html),
         'test_semantic_cultural_adaptation.json': ('report_semantic_cultural_adaptation.html', generate_semantic_cultural_html),
         'test_semantic_retain.json': ('report_semantic_retain.html', generate_semantic_retain_html),
+        'test_adaptation_strategies.json': ('report_adaptation_strategies.html', generate_adaptation_strategies_html),
     }
     
     generated = 0
@@ -1978,6 +2555,8 @@ def main():
         'test_negative_cases.json': ('report_negative_cases.html', generate_negative_cases_html),
         'test_semantic_cultural_adaptation.json': ('report_semantic_cultural_adaptation.html', generate_semantic_cultural_html),
         'test_semantic_retain.json': ('report_semantic_retain.html', generate_semantic_retain_html),
+        'test_dietary_restrictions.json': ('report_dietary_restrictions.html', generate_dietary_restrictions_html),
+        'test_adaptation_strategies.json': ('report_adaptation_strategies.html', generate_adaptation_strategies_html),
     }
     
     for json_file, (html_file, generator_func) in generators.items():

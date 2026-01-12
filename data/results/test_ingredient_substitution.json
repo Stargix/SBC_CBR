@@ -1,0 +1,126 @@
+{
+  "experiment": "test_ingredient_substitution",
+  "timestamp": "2026-01-12T20:20:54.653000",
+  "summary": {
+    "total_tests": 10,
+    "successful": 10,
+    "level_0": 0,
+    "level_1": 0,
+    "level_2": 10,
+    "level_3": 0,
+    "total_ingredient_substitutions": 0,
+    "total_dish_replacements": 0
+  },
+  "results": [
+    {
+      "diet": "dairy-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "egg-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "gluten-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "vegetarian",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "vegan",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "soy-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "tree-nut-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "peanut-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "shellfish-free",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    },
+    {
+      "diet": "pescatarian",
+      "success": true,
+      "level": 2,
+      "level_name": "Nivel 2 (Generaci\u00f3n nueva)",
+      "ingredient_substitutions": 0,
+      "dish_replacements": 0,
+      "adaptations": [
+        "Men\u00fa generado desde cero"
+      ]
+    }
+  ]
+}

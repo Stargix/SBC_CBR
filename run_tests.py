@@ -33,7 +33,9 @@ from generate_plots import (
     plot_cbr_cycle_phases,
     plot_adaptation_intensity,
     plot_negative_learning,
-    plot_retention_strategies
+    plot_retention_strategies,
+    plot_dietary_restrictions_compliance,
+    plot_adaptation_strategies_breakdown
 )
 
 
@@ -95,6 +97,8 @@ def main():
             plot_adaptation_intensity()
             plot_negative_learning()
             plot_retention_strategies()
+            plot_dietary_restrictions_compliance()
+            plot_adaptation_strategies_breakdown()
             if verbose:
                 print("✅ Plots generados exitosamente en data/plots/")
         except Exception as e:

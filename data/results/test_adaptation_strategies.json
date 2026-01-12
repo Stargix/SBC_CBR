@@ -1,0 +1,425 @@
+{
+  "experiment": "test_adaptation_strategies",
+  "timestamp": "2026-01-12T20:49:52.298243",
+  "summary": {
+    "total_cases": 30,
+    "level_0_no_adaptation": 0,
+    "level_1_ingredient_substitution": 0,
+    "level_2_dish_replacement": 30,
+    "level_3_case_rejection": 0,
+    "level_0_pct": 0.0,
+    "level_1_pct": 0.0,
+    "level_2_pct": 100.0,
+    "level_3_pct": 0.0,
+    "total_ingredients_substituted": 33,
+    "total_dishes_replaced": 36,
+    "avg_ingredients_per_case": 1.1,
+    "avg_dishes_per_case": 1.2,
+    "avg_similarity_before": 0.8302777777777778,
+    "avg_similarity_after": 0.9029883040935673,
+    "similarity_improvement": 0.07271052631578956,
+    "similarity_improvement_pct": 8.757373527495565,
+    "success_rate": 1.0
+  },
+  "all_results": [
+    {
+      "category": "dietary",
+      "label": "vegan",
+      "level": 2,
+      "ingredient_subs": 2,
+      "dish_replacements": 1,
+      "similarity_before": 0.7786666666666667,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Baked Ziti Made Lighter → Linguine with Summer Vegetables (cumple vegan)",
+        "Plato cambiado: We're Back, with Cookies! → Meyer Lemon and Cantaloupe Ice (cumple vegan)",
+        "Cambiado Caymus Cabernet Sauvignon por Estrella Damm (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "vegetarian",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 2,
+      "similarity_before": 0.805,
+      "similarity_after": 0.9538011695906433,
+      "adaptations": [
+        "Sustituido French Onion Soup Crostini por Portobello Mushroom Burger with Avocado Chimichurri (más apropiado para summer)",
+        "Cambiado Silver Oak Cabernet por Linden Blossom Tea (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "gluten-free",
+      "level": 2,
+      "ingredient_subs": 2,
+      "dish_replacements": 1,
+      "similarity_before": 0.7786666666666667,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Baked Ziti Made Lighter → Linguine with Summer Vegetables (cumple gluten-free)",
+        "We're Back, with Cookies!: whole wheat flour→almond flour (Dietary: violates gluten-free, same group (flour_group))",
+        "Cambiado Caymus Cabernet Sauvignon por Rooibos Plain (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "dairy-free",
+      "level": 2,
+      "ingredient_subs": 2,
+      "dish_replacements": 1,
+      "similarity_before": 0.7786666666666667,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Baked Ziti Made Lighter → Linguine with Summer Vegetables (cumple dairy-free)",
+        "Plato cambiado: We're Back, with Cookies! → Whole Wheat Chocolate Waffles (cumple dairy-free)",
+        "Cambiado Caymus Cabernet Sauvignon por Fanta Lemon (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "pescatarian",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 2,
+      "similarity_before": 0.805,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Sustituido French Onion Soup Crostini por Portobello Mushroom Burger with Avocado Chimichurri (más apropiado para summer)",
+        "Cambiado Silver Oak Cabernet por Ginger Lemon Blend (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "kosher",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 2,
+      "similarity_before": 0.805,
+      "similarity_after": 0.9502923976608187,
+      "adaptations": [
+        "Sustituido French Onion Soup Crostini por Portobello Mushroom Burger with Avocado Chimichurri (más apropiado para summer)",
+        "Cambiado Silver Oak Cabernet por Sprite (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "paleo",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 1,
+      "similarity_before": 0.7786666666666667,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Fresh Cucumber Salad → Russian Tomato and Cucumber Salad (cumple paleo)",
+        "Plato cambiado: Baked Ziti Made Lighter → Grilled Goat Kebabs with Pomegranate-Cumin Glaze (cumple paleo)",
+        "Plato cambiado: We're Back, with Cookies! → Strawberry Chia Freeze {clean Eating Snack Recipe} (cumple paleo)",
+        "Cambiado Caymus Cabernet Sauvignon por Aquarius (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "keto-friendly",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 1,
+      "similarity_before": 0.7786666666666667,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Fresh Cucumber Salad → ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS (cumple keto-friendly)",
+        "Plato cambiado: Baked Ziti Made Lighter → Whole Chicken And Cabbage In A Dutch Oven/Braiser (cumple keto-friendly)",
+        "Plato cambiado: We're Back, with Cookies! → Parmesan & Chive Sunflower Crackers (cumple keto-friendly)",
+        "Cambiado Caymus Cabernet Sauvignon por Linden Blossom Tea (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "egg-free",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.801,
+      "similarity_after": 0.8555555555555556,
+      "adaptations": [
+        "Cambiado Caymus Cabernet Sauvignon por Rooibos Plain (sin alcohol)"
+      ]
+    },
+    {
+      "category": "dietary",
+      "label": "peanut-free",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8486666666666667,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Cambiado Caymus Cabernet Sauvignon por Sparkling Water (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "wedding",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8345,
+      "similarity_after": 0.8555555555555557,
+      "adaptations": [
+        "Cambiado Château d'Esclans Garrus Rosé por Anise Chamomile (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "corporate",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8750000000000002,
+      "similarity_after": 0.8277777777777777,
+      "adaptations": [
+        "Cambiado Josh Cellars Cabernet Sauvignon por Rooibos Plain (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "familiar",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8610000000000001,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Cambiado Silver Oak Cabernet por Aquarius (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "communion",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.9144999999999999,
+      "similarity_after": 0.8430555555555554,
+      "adaptations": [
+        "Cambiado Château d'Esclans Garrus Rosé por Bitter Kas (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "christening",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.9209999999999999,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Cambiado Silver Oak Cabernet por Fennel Digestive (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "congress",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.895,
+      "similarity_after": 0.8361111111111112,
+      "adaptations": [
+        "Cambiado Josh Cellars Cabernet Sauvignon por Green Tea with Mint (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "wedding",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8345,
+      "similarity_after": 0.826388888888889,
+      "adaptations": [
+        "Cambiado Château d'Esclans Garrus Rosé por Peppermint Herbal (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "corporate",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8750000000000002,
+      "similarity_after": 0.8194444444444443,
+      "adaptations": [
+        "Cambiado Josh Cellars Cabernet Sauvignon por Chamomile Infusion (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "familiar",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8610000000000001,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Cambiado Silver Oak Cabernet por Schweppes (sin alcohol)"
+      ]
+    },
+    {
+      "category": "event",
+      "label": "communion",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.9144999999999999,
+      "similarity_after": 0.8305555555555556,
+      "adaptations": [
+        "Cambiado Château d'Esclans Garrus Rosé por Fanta Orange (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "wedding+vegan,gluten-free",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 1,
+      "similarity_before": 0.7470000000000001,
+      "similarity_after": 0.7555555555555556,
+      "adaptations": [
+        "Plato cambiado: Frisee Salad with Winter Spiced Poached Pears → Grilled Cobb Salad (cumple vegan)",
+        "Plato cambiado: White Chili → Roasted Baby Artichokes (cumple vegan)",
+        "Plato cambiado: This Cookie Concoction Is Out-of-control Good → Sweet Bourbon Plantains {Recipe Redux} (cumple vegan, gluten-free)",
+        "Cambiado Venus La Universal Dido La Solució Rosa por Chamomile Infusion (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "corporate+vegetarian",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.7795000000000001,
+      "similarity_after": 0.8,
+      "adaptations": [
+        "Sustituido BROCCOLI LASAGNA BIANCA por Spaghettini with Pesto Tomatoes and Grilled Eggplant (ahorro: 7.00€)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "familiar+dairy-free",
+      "level": 2,
+      "ingredient_subs": 4,
+      "dish_replacements": 1,
+      "similarity_before": 0.8010000000000002,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: French Onion Soup Crostini → Clean Eating Potato Leek Soup (cumple dairy-free)",
+        "Potato Leek and Feta Pie: milk→almond milk (Dietary: violates dairy-free, same group (milk_group))",
+        "Potato Leek and Feta Pie: sour cream→almond milk (Dietary: violates dairy-free, same group (milk_group))",
+        "Plato cambiado: Boozy Apple Pie → Blackberry Oatmeal Breakfast Cookies (cumple dairy-free)",
+        "Cambiado Silver Oak Cabernet por Hibiscus Red Tea (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "communion+pescatarian,dairy-free",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 2,
+      "similarity_before": 0.863,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Frisee Salad with Winter Spiced Poached Pears → Grilled Cobb Salad (cumple pescatarian, dairy-free)",
+        "White Chili: ground turkey→chicken breasts (Dietary: violates pescatarian, same group (meat_group))",
+        "Plato cambiado: This Cookie Concoction Is Out-of-control Good → Cookie Dough Nut Butter (cumple dairy-free)",
+        "Sustituido Grilled Cobb Salad por Bulgur & Quinoa Salad with Mint Dressing (más apropiado para winter)",
+        "Cambiado Venus La Universal Dido La Solució Rosa por Estrella Damm (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "christening+kosher",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8710000000000001,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Cambiado Josh Cellars Cabernet Sauvignon por Sparkling Water (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "congress+vegan",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 2,
+      "similarity_before": 0.7923333333333336,
+      "similarity_after": 0.7111111111111111,
+      "adaptations": [
+        "Jalapeno Kaiser Hamburger Bun: milk→almond milk (Dietary: violates vegan, same group (milk_group))",
+        "Plato cambiado: Mini Turkey Meatloaf with Ranch Potatoes and Broccoli → Roasted Baby Artichokes (cumple vegan)",
+        "Plato cambiado: Chocolate Chunk Pancakes with Fresh Raspberry Maple Syrup → Chocolate Hazelnut Raspberry Toast (cumple vegan)",
+        "Sustituido Jalapeno Kaiser Hamburger Bun por Homemade Pizza Dough (más apropiado para summer)",
+        "Cambiado Josh Cellars Cabernet Sauvignon por Aquarius (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "wedding+paleo",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 2,
+      "similarity_before": 0.7770000000000001,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Rosemary Cheddar Cornbread → ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS (cumple paleo)",
+        "Plato cambiado: General Tso's Chicken → Delectable Coq au Vin Redux (cumple paleo)",
+        "Plato cambiado: Peanut Butter Crumb Cakes 4 → Coconut Mud Cake (cumple paleo)",
+        "Sustituido ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS por Hearty Oxtail Soup (más apropiado para autumn)",
+        "Cambiado Château d'Esclans Garrus Rosé por Ginger Lemon Blend (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "corporate+keto-friendly",
+      "level": 2,
+      "ingredient_subs": 3,
+      "dish_replacements": 1,
+      "similarity_before": 0.8136666666666668,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Bourbon Pecan Bread: milk→almond milk (Dietary: violates keto-friendly, same group (milk_group))",
+        "Plato cambiado: CAPOCOLLO AND MINI SWEET PEPPER PASTA → Thanksgiving Recipe: Whipped Cauliflower with Crème Fraîche (cumple keto-friendly)",
+        "Homemade Nutter Butters: milk→almond milk (Dietary: violates keto-friendly, same group (milk_group))",
+        "Cambiado Kendall-Jackson Cabernet Sauvignon por Hibiscus Red Tea (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "familiar+egg-free",
+      "level": 2,
+      "ingredient_subs": 0,
+      "dish_replacements": 1,
+      "similarity_before": 0.8245,
+      "similarity_after": 0.9355555555555556,
+      "adaptations": [
+        "Cambiado Stag's Leap Cabernet por Peppermint Herbal (sin alcohol)"
+      ]
+    },
+    {
+      "category": "mixed",
+      "label": "communion+peanut-free,dairy-free",
+      "level": 2,
+      "ingredient_subs": 2,
+      "dish_replacements": 1,
+      "similarity_before": 0.8953333333333332,
+      "similarity_after": 0.9555555555555556,
+      "adaptations": [
+        "Plato cambiado: Baked Ziti Made Lighter → Linguine with Summer Vegetables (cumple dairy-free)",
+        "Plato cambiado: We're Back, with Cookies! → Whole Wheat Chocolate Waffles (cumple dairy-free)",
+        "Cambiado Caymus Cabernet Sauvignon por Estrella Damm (sin alcohol)"
+      ]
+    }
+  ]
+}
