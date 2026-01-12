@@ -74,8 +74,8 @@ class CaseRetainer:
         self.case_base_path = case_base_path
         self.similarity_calc = SimilarityCalculator(weights)
         
-        # Umbrales de retención (ajustados para aprendizaje más permisivo)
-        self.novelty_threshold = 0.85  # Si similitud < este, es novedoso (más permisivo)
+        # Umbrales de retención (ajustados para evitar duplicados)
+        self.novelty_threshold = 0.87  # Si similitud < este, es novedoso (evita casos muy similares)
         self.quality_threshold = 3.0   # Mínimo feedback para retener como positivo
         self.negative_threshold = 2.5  # Feedback < 2.5 se guarda como caso negativo
         self.max_cases_per_event = 50  # Límite de casos por tipo de evento

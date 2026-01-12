@@ -9,21 +9,19 @@
     {
       "request_num": 1,
       "generated_request": {
-        "event_type": "WEDDING",
+        "event_type": "CORPORATE",
         "num_guests": 8,
         "season": "SUMMER",
-        "price_min": 39,
-        "price_max": 72,
+        "price_min": 16,
+        "price_max": 33,
         "wants_wine": true,
         "required_diets": [
-          "vegan",
-          "immuno-supportive"
+          "vegetarian",
+          "lupine-free"
         ],
-        "restricted_ingredients": [
-          "celery"
-        ],
-        "preferred_style": "CLASSIC",
-        "cultural_preference": "VIETNAMESE"
+        "restricted_ingredients": [],
+        "preferred_style": "FUSION",
+        "cultural_preference": "KOREAN"
       },
       "proposed_dishes": [],
       "adaptations_made": [],
@@ -31,15 +29,15 @@
       "llm_evaluation": "",
       "llm_score": 0.0,
       "feedback_breakdown": null,
-      "timestamp": "2026-01-10T19:28:12.946168"
+      "timestamp": "2026-01-12T21:45:02.442313"
     }
   ],
-  "start_time": "2026-01-10T19:28:12.907536",
-  "end_time": "2026-01-10T19:28:13.447503",
-  "duration_seconds": 0.539967,
+  "start_time": "2026-01-12T21:45:02.442197",
+  "end_time": "2026-01-12T21:45:02.942866",
+  "duration_seconds": 0.500669,
   "total_requests": 1,
   "successful_proposals": 0,
-  "llm_evaluation": "RESUMEN DE EVALUACIONES INDIVIDUALES:\n==================================================\n\nSolicitud #1:\n  Evento: WEDDING\n  Puntuación: 0.0/5.0\n  Comentario: Sin evaluación...\n\n==================================================\nPUNTUACIÓN PROMEDIO: 0.00/5.00",
+  "llm_evaluation": "RESUMEN DE EVALUACIONES INDIVIDUALES:\n==================================================\n\nSolicitud #1:\n  Evento: CORPORATE\n  Puntuación: 0.0/5.0\n  Comentario: Sin evaluación...\n\n==================================================\nPUNTUACIÓN PROMEDIO: 0.00/5.00",
   "llm_score": 0.0,
   "summary": {
     "avg_dishes_per_request": 0.0,
