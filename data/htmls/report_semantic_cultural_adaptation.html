@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semantic Cultural Adaptation - Chef Digital CBR</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <title>Semantic Cultural Adaptation - CBR System Report</title>
     <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,664 +21,430 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f4f1eb 100%);
+            color: var(--ink);
+            padding: 28px;
             min-height: 100vh;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
         }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
+            margin-bottom: 32px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 16px;
         }
         
-        .summary-cards {
+        .panel {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+        
+        .panel h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .panel h3 {
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
+        }
+        
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            background: #f8f9fa;
+            gap: 16px;
+            margin-bottom: 24px;
         }
         
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+        .stat-card {
+            background: #faf7f1;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-        }
-        
-        .card-title {
-            font-size: 0.9em;
-            color: #666;
+        .stat-label {
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        
-        .card-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .card-subtitle {
-            font-size: 0.85em;
-            color: #999;
-            margin-top: 5px;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .section {
-            margin-bottom: 50px;
-        }
-        
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .adaptation-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-            border-left: 5px solid #667eea;
-        }
-        
-        .adaptation-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f8f9fa;
-        }
-        
-        .adaptation-title {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .adaptation-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .adaptation-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .info-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        
-        .info-label {
-            font-size: 0.85em;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.08em;
+            color: var(--muted);
             margin-bottom: 8px;
         }
         
-        .info-value {
-            font-size: 1.2em;
-            color: #333;
-            font-weight: 600;
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
         }
         
-        .ingredient-list {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border-left: 4px solid #ffc107;
+        .stat-value.positive {
+            color: #059669;
         }
         
-        .ingredient-list-title {
-            font-weight: bold;
-            color: #856404;
-            margin-bottom: 10px;
+        .stat-value.negative {
+            color: #dc2626;
         }
         
-        .ingredient-list ul {
-            list-style: none;
-            padding-left: 0;
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
         }
         
-        .ingredient-list li {
-            padding: 5px 0;
-            color: #856404;
-        }
-        
-        .ingredient-list li:before {
-            content: "→ ";
-            font-weight: bold;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .metric-box {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
+        .comparison-table th {
+            background: var(--accent);
             color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
-        .metric-box-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 10px 0;
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--line);
         }
         
-        .metric-box-label {
-            font-size: 0.9em;
-            opacity: 0.9;
+        .comparison-table tr:hover {
+            background: #faf7f1;
         }
         
-        .insight-box {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 30px;
+        .plot-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--line);
         }
         
-        .insight-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
+        .plot-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
         }
         
-        .insight-text {
-            color: #555;
-            line-height: 1.6;
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .alert.info {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(15, 118, 110, 0.2);
+        }
+        
+        .alert.success {
+            background: rgba(5, 150, 105, 0.08);
+            color: #059669;
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        
+        .alert.warning {
+            background: rgba(224, 122, 95, 0.08);
+            color: var(--accent-2);
+            border: 1px solid rgba(224, 122, 95, 0.2);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge.success {
+            background: rgba(5, 150, 105, 0.15);
+            color: #059669;
+        }
+        
+        .badge.neutral {
+            background: rgba(91, 100, 116, 0.15);
+            color: var(--muted);
+        }
+        
+        .badge.warning {
+            background: rgba(224, 122, 95, 0.15);
+            color: var(--accent-2);
         }
         
         .footer {
-            background: #2c3e50;
-            color: white;
+            margin-top: 40px;
             text-align: center;
+            color: var(--muted);
+            font-size: 14px;
             padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
             font-size: 0.9em;
+            color: var(--accent-2);
         }
     </style>
+    
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
 </head>
 <body>
     <div class="container">
+
         <div class="header">
-            <h1>🔄 Semantic Cultural ADAPTATION Test</h1>
-            <p>Embedding-Based Cultural Adaptation with Ingredient Substitution</p>
-            <p style="font-size: 0.9em; opacity: 0.7; margin-top: 10px;">Executed: January 5, 2026</p>
+            <h1>🌍 Semantic Cultural Adaptation</h1>
+            <p class="subtitle">Cross-Cultural Recipe Adaptation Analysis</p>
         </div>
-        
-        <div class="summary-cards">
-            <div class="card">
-                <div class="card-title">Scenarios Tested</div>
-                <div class="card-value">6</div>
-                <div class="card-subtitle">Cultural adaptations</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Success Rate</div>
-                <div class="card-value">100%</div>
-                <div class="card-subtitle">All adaptations completed</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Avg Similarity</div>
-                <div class="card-value">90.8%</div>
-                <div class="card-subtitle">Retrieval quality</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Ingredient Subs</div>
-                <div class="card-value">0</div>
-                <div class="card-subtitle">No replacements needed</div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2 class="section-title">📊 Similarity vs Adaptation Success</h2>
-                <div class="chart-container">
-                    <canvas id="similarityChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">🌍 Cultural Adaptations by Type</h2>
-                <div class="chart-container">
-                    <canvas id="cultureChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">🎯 Detailed Adaptation Scenarios</h2>
-                
-                <!-- Scenario 1 -->
-                <div class="adaptation-card">
-                    <div class="adaptation-header">
-                        <div class="adaptation-title">Escenario 1: French → Italian</div>
-                        <div class="adaptation-badge">✓ Adaptado</div>
-                    </div>
-                    <div class="adaptation-grid">
-                        <div class="info-box">
-                            <div class="info-label">Caso Recuperado</div>
-                            <div class="info-value">case-8 - French Ratatouille</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Similitud</div>
-                            <div class="info-value">87.4%</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Origen</div>
-                            <div class="info-value">French</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Destino</div>
-                            <div class="info-value">Italian</div>
-                        </div>
-                    </div>
-                    <div class="ingredient-list">
-                        <div class="ingredient-list-title">Ingredientes Originales</div>
-                        <ul>
-                            <li>Zucchini</li>
-                            <li>Eggplant</li>
-                            <li>Tomatoes</li>
-                            <li>Bell pepper</li>
-                            <li>Herbs de Provence</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Scenario 2 -->
-                <div class="adaptation-card">
-                    <div class="adaptation-header">
-                        <div class="adaptation-title">Escenario 2: Italian → Japanese</div>
-                        <div class="adaptation-badge">✓ Adaptado</div>
-                    </div>
-                    <div class="adaptation-grid">
-                        <div class="info-box">
-                            <div class="info-label">Caso Recuperado</div>
-                            <div class="info-value">case-7 - Italian Risotto</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Similitud</div>
-                            <div class="info-value">79.3%</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Origen</div>
-                            <div class="info-value">Italian</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Destino</div>
-                            <div class="info-value">Japanese</div>
-                        </div>
-                    </div>
-                    <div class="ingredient-list">
-                        <div class="ingredient-list-title">Ingredientes Originales</div>
-                        <ul>
-                            <li>Arborio rice</li>
-                            <li>Mushrooms</li>
-                            <li>Parmesan cheese</li>
-                            <li>White wine</li>
-                            <li>Butter</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Scenario 3 -->
-                <div class="adaptation-card">
-                    <div class="adaptation-header">
-                        <div class="adaptation-title">Escenario 3: Mexican → French</div>
-                        <div class="adaptation-badge">✓ Adaptado</div>
-                    </div>
-                    <div class="adaptation-grid">
-                        <div class="info-box">
-                            <div class="info-label">Caso Recuperado</div>
-                            <div class="info-value">case-51 - Mexican Tacos</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Similitud</div>
-                            <div class="info-value">87.6%</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Origen</div>
-                            <div class="info-value">Mexican</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Destino</div>
-                            <div class="info-value">French</div>
-                        </div>
-                    </div>
-                    <div class="ingredient-list">
-                        <div class="ingredient-list-title">Ingredientes Originales</div>
-                        <ul>
-                            <li>Corn tortillas</li>
-                            <li>Carne asada</li>
-                            <li>Cilantro</li>
-                            <li>Lime</li>
-                            <li>Avocado</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Scenario 4 -->
-                <div class="adaptation-card">
-                    <div class="adaptation-header">
-                        <div class="adaptation-title">Escenario 4: Japanese → Spanish</div>
-                        <div class="adaptation-badge">✓ Adaptado</div>
-                    </div>
-                    <div class="adaptation-grid">
-                        <div class="info-box">
-                            <div class="info-label">Caso Recuperado</div>
-                            <div class="info-value">case-26 - Japanese Teriyaki</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Similitud</div>
-                            <div class="info-value">94.4%</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Origen</div>
-                            <div class="info-value">Japanese</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Destino</div>
-                            <div class="info-value">Spanish</div>
-                        </div>
-                    </div>
-                    <div class="ingredient-list">
-                        <div class="ingredient-list-title">Ingredientes Originales</div>
-                        <ul>
-                            <li>Chicken</li>
-                            <li>Soy sauce</li>
-                            <li>Mirin</li>
-                            <li>Sake</li>
-                            <li>Ginger</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Scenario 5 -->
-                <div class="adaptation-card">
-                    <div class="adaptation-header">
-                        <div class="adaptation-title">Escenario 5: Spanish → Mexican</div>
-                        <div class="adaptation-badge">✓ Adaptado</div>
-                    </div>
-                    <div class="adaptation-grid">
-                        <div class="info-box">
-                            <div class="info-label">Caso Recuperado</div>
-                            <div class="info-value">case-2 - Spanish Paella</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Similitud</div>
-                            <div class="info-value">98.1%</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Origen</div>
-                            <div class="info-value">Spanish</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Destino</div>
-                            <div class="info-value">Mexican</div>
-                        </div>
-                    </div>
-                    <div class="ingredient-list">
-                        <div class="ingredient-list-title">Ingredientes Originales</div>
-                        <ul>
-                            <li>Bomba rice</li>
-                            <li>Saffron</li>
-                            <li>Seafood mix</li>
-                            <li>Bell peppers</li>
-                            <li>Paprika</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Scenario 6 -->
-                <div class="adaptation-card">
-                    <div class="adaptation-header">
-                        <div class="adaptation-title">Escenario 6: Italian → Spanish</div>
-                        <div class="adaptation-badge">✓ Adaptado</div>
-                    </div>
-                    <div class="adaptation-grid">
-                        <div class="info-box">
-                            <div class="info-label">Caso Recuperado</div>
-                            <div class="info-value">case-9 - Italian Pasta</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Similitud</div>
-                            <div class="info-value">97.9%</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Origen</div>
-                            <div class="info-value">Italian</div>
-                        </div>
-                        <div class="info-box">
-                            <div class="info-label">Cultura Destino</div>
-                            <div class="info-value">Spanish</div>
-                        </div>
-                    </div>
-                    <div class="ingredient-list">
-                        <div class="ingredient-list-title">Ingredientes Originales</div>
-                        <ul>
-                            <li>Spaghetti</li>
-                            <li>Tomatoes</li>
-                            <li>Basil</li>
-                            <li>Garlic</li>
-                            <li>Olive oil</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">📈 Key Metrics</h2>
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="metric-box-label">Min Similarity</div>
-                        <div class="metric-box-value">79.3%</div>
-                        <div class="metric-box-label">Italian → Japanese</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-box-label">Max Similarity</div>
-                        <div class="metric-box-value">98.1%</div>
-                        <div class="metric-box-label">Spanish → Mexican</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-box-label">Avg Similarity</div>
-                        <div class="metric-box-value">90.8%</div>
-                        <div class="metric-box-label">All scenarios</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-box-label">Success Rate</div>
-                        <div class="metric-box-value">100%</div>
-                        <div class="metric-box-label">6 / 6 scenarios</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="insight-box">
-                <div class="insight-title">💡 Key Insights</div>
-                <div class="insight-text">
-                    <strong>Alta Calidad de Recuperación:</strong> La similitud promedio de 90.8% demuestra que el sistema de embeddings semánticos es altamente efectivo para encontrar casos culturalmente relevantes.<br><br>
-                    <strong>Sin Sustituciones Necesarias:</strong> Ningún escenario requirió sustitución de ingredientes, indicando que la base de casos tiene buena cobertura cultural.<br><br>
-                    <strong>Adaptación Cross-Cultural:</strong> Los 6 escenarios representan adaptaciones complejas entre 5 culturas diferentes (Italian, French, Spanish, Mexican, Japanese), demostrando la versatilidad del sistema.<br><br>
-                    <strong>Distancia Cultural Variable:</strong> La similitud más baja (79.3%) ocurrió en la adaptación Italian → Japanese, reflejando mayor distancia cultural, mientras que Spanish → Mexican alcanzó 98.1% debido a similaridades gastronómicas.
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p><strong>Chef Digital CBR System</strong> | Semantic Cultural Adaptation Evaluation</p>
-            <p style="opacity: 0.7; margin-top: 5px;">Sistema de Adaptación Cultural con Similitud Semántica y Sustitución de Ingredientes</p>
-        </div>
-    </div>
     
-    <script>
-        // Similarity Chart
-        const simCtx = document.getElementById('similarityChart').getContext('2d');
-        new Chart(simCtx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Scenario 1\nFrench→Italian',
-                    'Scenario 2\nItalian→Japanese',
-                    'Scenario 3\nMexican→French',
-                    'Scenario 4\nJapanese→Spanish',
-                    'Scenario 5\nSpanish→Mexican',
-                    'Scenario 6\nItalian→Spanish'
-                ],
-                datasets: [{
-                    label: 'Retrieval Similarity (%)',
-                    data: [87.4, 79.3, 87.6, 94.4, 98.1, 97.9],
-                    backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
-                        'rgba(237, 100, 166, 0.8)',
-                        'rgba(255, 154, 158, 0.8)',
-                        'rgba(250, 208, 196, 0.8)',
-                        'rgba(247, 183, 211, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(102, 126, 234, 1)',
-                        'rgba(118, 75, 162, 1)',
-                        'rgba(237, 100, 166, 1)',
-                        'rgba(255, 154, 158, 1)',
-                        'rgba(250, 208, 196, 1)',
-                        'rgba(247, 183, 211, 1)'
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Similarity Scores for Each Adaptation Scenario',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    },
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        title: {
-                            display: true,
-                            text: 'Similarity (%)'
-                        }
-                    }
-                }
-            }
-        });
+        <div class="panel">
+            <h2>📊 Summary Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Cultures Tested</div>
+                    <div class="stat-value">4</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Adaptations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Similarity</div>
+                    <div class="stat-value">0.904</div>
+                </div>
+            </div>
+        </div>
         
-        // Culture Chart
-        const cultureCtx = document.getElementById('cultureChart').getContext('2d');
-        new Chart(cultureCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Italian', 'French', 'Spanish', 'Japanese', 'Mexican'],
-                datasets: [{
-                    label: 'Adaptations',
-                    data: [2, 2, 2, 1, 1],
-                    backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
-                        'rgba(237, 100, 166, 0.8)',
-                        'rgba(255, 154, 158, 0.8)',
-                        'rgba(250, 208, 196, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(102, 126, 234, 1)',
-                        'rgba(118, 75, 162, 1)',
-                        'rgba(237, 100, 166, 1)',
-                        'rgba(255, 154, 158, 1)',
-                        'rgba(250, 208, 196, 1)'
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Distribution of Target Cultures in Adaptations',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    },
-                    legend: {
-                        position: 'right'
-                    }
-                }
-            }
-        });
-    </script>
+        <div class="panel">
+            <h2>🎯 Retrieval Quality by Culture</h2>
+            <div class="plot-container">
+                <div id="retrievalQualityPlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🔧 Adaptation Intensity</h2>
+            <div class="plot-container">
+                <div id="adaptationPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var cultures = [];
+            var topSim = [];
+            var avgSim = [];
+            var adaptations = [];
+            var substitutions = [];
+            var replacements = [];
+    
+            cultures.push('ITALIAN');
+            topSim.push(1.0);
+            avgSim.push(0.9635999999999999);
+            adaptations.push(0);
+            substitutions.push(0);
+            replacements.push(0);
+        
+            cultures.push('SPANISH');
+            topSim.push(0.895);
+            avgSim.push(0.8624);
+            adaptations.push(2);
+            substitutions.push(0);
+            replacements.push(0);
+        
+            cultures.push('JAPANESE');
+            topSim.push(0.742);
+            avgSim.push(0.6984);
+            adaptations.push(3);
+            substitutions.push(0);
+            replacements.push(1);
+        
+            cultures.push('FRENCH');
+            topSim.push(0.9809999999999999);
+            avgSim.push(0.8858285714285714);
+            adaptations.push(0);
+            substitutions.push(0);
+            replacements.push(0);
+        
+            // Retrieval quality
+            var topSimTrace = {
+                x: cultures,
+                y: topSim,
+                name: 'Top Match',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#0f766e', width: 3},
+                marker: {size: 10}
+            };
+            
+            var avgSimTrace = {
+                x: cultures,
+                y: avgSim,
+                name: 'Avg of Top 5',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#e07a5f', width: 3},
+                marker: {size: 10}
+            };
+            
+            var retrievalLayout = {
+                title: 'Semantic Similarity in Retrieval Phase',
+                xaxis: {title: 'Target Culture'},
+                yaxis: {title: 'Similarity Score', range: [0, 1]},
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('retrievalQualityPlot', [topSimTrace, avgSimTrace], retrievalLayout, {responsive: true});
+            
+            // Adaptation intensity
+            var adaptTrace = {
+                x: cultures,
+                y: adaptations,
+                name: 'Cultural Adaptations',
+                type: 'bar',
+                marker: {color: '#0f766e'}
+            };
+            
+            var substTrace = {
+                x: cultures,
+                y: substitutions,
+                name: 'Ingredient Substitutions',
+                type: 'bar',
+                marker: {color: '#f59e0b'}
+            };
+            
+            var replaceTrace = {
+                x: cultures,
+                y: replacements,
+                name: 'Dish Replacements',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var adaptLayout = {
+                title: 'Adaptation Operations Applied',
+                xaxis: {title: 'Target Culture'},
+                yaxis: {title: 'Number of Operations'},
+                barmode: 'stack',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('adaptationPlot', [adaptTrace, substTrace, replaceTrace], adaptLayout, {responsive: true});
+        </script>
+    
+        <div class="panel">
+            <h2>ITALIAN Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">1.000</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€45.20</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>SPANISH Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">0.895</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€34.10</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>JAPANESE Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">0.742</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€40.00</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>FRENCH Adaptation Details</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top Similarity</div>
+                    <div class="stat-value">0.981</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Adaptations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Menu Price</div>
+                    <div class="stat-value">€48.30</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="footer">
+        <p>Generated on 2026-01-12 20:49:52</p>
+        <p>CBR Chef System - Experimental Results Report</p>
+    </div>
 </body>
 </html>

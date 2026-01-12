@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semantic Cultural Retrieve - Chef Digital CBR</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <title>Semantic Similarity Retrieval - CBR System Report</title>
     <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,612 +21,371 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f4f1eb 100%);
+            color: var(--ink);
+            padding: 28px;
             min-height: 100vh;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
         }
         
         .header {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            color: white;
-            padding: 40px;
+            margin-bottom: 32px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 16px;
         }
         
-        .summary-cards {
+        .panel {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+        
+        .panel h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .panel h3 {
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
+        }
+        
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            background: #f8f9fa;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
         
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+        .stat-card {
+            background: #faf7f1;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-        }
-        
-        .card-title {
-            font-size: 0.9em;
-            color: #666;
+        .stat-label {
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 8px;
         }
         
-        .card-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #fa709a;
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
         }
         
-        .card-subtitle {
-            font-size: 0.85em;
-            color: #999;
-            margin-top: 5px;
+        .stat-value.positive {
+            color: #059669;
         }
         
-        .content {
-            padding: 40px;
+        .stat-value.negative {
+            color: #dc2626;
         }
         
-        .section {
-            margin-bottom: 50px;
-        }
-        
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #fa709a;
-        }
-        
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .culture-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-        
-        .culture-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-top: 5px solid #fa709a;
-        }
-        
-        .culture-header {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            text-transform: capitalize;
-        }
-        
-        .culture-flag {
-            font-size: 2em;
-            margin-right: 10px;
-        }
-        
-        .metric-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            margin: 8px 0;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .metric-label {
-            font-weight: 600;
-            color: #555;
-            font-size: 0.9em;
-        }
-        
-        .metric-value {
-            font-weight: bold;
-            color: #fa709a;
-            font-size: 1.1em;
-        }
-        
-        .ranking-table {
+        .comparison-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin: 20px 0;
         }
         
-        .ranking-table th {
-            background: #f8f9fa;
+        .comparison-table th {
+            background: var(--accent);
+            color: white;
             padding: 12px;
             text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .comparison-table tr:hover {
+            background: #faf7f1;
+        }
+        
+        .plot-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        
+        .plot-title {
+            font-size: 18px;
             font-weight: 600;
-            color: #555;
-            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 16px;
+            color: var(--accent);
         }
         
-        .ranking-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #dee2e6;
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
         }
         
-        .ranking-table tr:hover {
-            background: #f8f9fa;
+        .alert.info {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(15, 118, 110, 0.2);
         }
         
-        .match-badge {
+        .alert.success {
+            background: rgba(5, 150, 105, 0.08);
+            color: #059669;
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        
+        .alert.warning {
+            background: rgba(224, 122, 95, 0.08);
+            color: var(--accent-2);
+            border: 1px solid rgba(224, 122, 95, 0.2);
+        }
+        
+        .badge {
             display: inline-block;
             padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.85em;
+            border-radius: 999px;
+            font-size: 12px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
-        .match-yes {
-            background: #d4edda;
-            color: #155724;
+        .badge.success {
+            background: rgba(5, 150, 105, 0.15);
+            color: #059669;
         }
         
-        .match-no {
-            background: #f8d7da;
-            color: #721c24;
+        .badge.neutral {
+            background: rgba(91, 100, 116, 0.15);
+            color: var(--muted);
+        }
+        
+        .badge.warning {
+            background: rgba(224, 122, 95, 0.15);
+            color: var(--accent-2);
         }
         
         .footer {
-            background: #2c3e50;
-            color: white;
+            margin-top: 40px;
             text-align: center;
+            color: var(--muted);
+            font-size: 14px;
             padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
             font-size: 0.9em;
+            color: var(--accent-2);
         }
     </style>
+    
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
 </head>
 <body>
     <div class="container">
+
         <div class="header">
-            <h1>🌍 Semantic Cultural RETRIEVE Test</h1>
-            <p>Embedding-Based Cultural Similarity Matching</p>
-            <p style="font-size: 0.9em; opacity: 0.7; margin-top: 10px;">Executed: January 5, 2026</p>
+            <h1>🔍 Semantic Similarity Retrieval</h1>
+            <p class="subtitle">Recipe Retrieval with Semantic Similarity Analysis</p>
         </div>
-        
-        <div class="summary-cards">
-            <div class="card">
-                <div class="card-title">Cultures Tested</div>
-                <div class="card-value">5</div>
-                <div class="card-subtitle">Different traditions</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Exact Match Rate</div>
-                <div class="card-value">48%</div>
-                <div class="card-subtitle">12 of 25 cases</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Top Result Match</div>
-                <div class="card-value">60%</div>
-                <div class="card-subtitle">3 of 5 cultures</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Avg Similarity</div>
-                <div class="card-value">91.0%</div>
-                <div class="card-subtitle">High accuracy</div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2 class="section-title">📊 Cultural Matching Performance</h2>
-                <div class="chart-container">
-                    <canvas id="cultureMatchChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">📈 Similarity Scores by Culture</h2>
-                <div class="chart-container">
-                    <canvas id="similarityChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">🎯 Detailed Culture Analysis</h2>
-                <div class="culture-grid">
-                    <!-- Italian -->
-                    <div class="culture-card">
-                        <div class="culture-header">
-                            <span class="culture-flag">🇮🇹</span>
-                            Italian
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Top Similarity</span>
-                            <span class="metric-value">100%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Exact Matches</span>
-                            <span class="metric-value">5 / 5</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Avg Similarity</span>
-                            <span class="metric-value">97.4%</span>
-                        </div>
-                        <table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Case</th>
-                                    <th>Culture</th>
-                                    <th>Sim</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>case-7</td>
-                                    <td><span class="match-badge match-yes">✓ Italian</span></td>
-                                    <td>100%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>case-16</td>
-                                    <td><span class="match-badge match-yes">✓ Italian</span></td>
-                                    <td>100%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>case-9</td>
-                                    <td><span class="match-badge match-yes">✓ Italian</span></td>
-                                    <td>96.6%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Spanish -->
-                    <div class="culture-card">
-                        <div class="culture-header">
-                            <span class="culture-flag">🇪🇸</span>
-                            Spanish
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Top Similarity</span>
-                            <span class="metric-value">83.3%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Exact Matches</span>
-                            <span class="metric-value">0 / 5</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Avg Similarity</span>
-                            <span class="metric-value">78.5%</span>
-                        </div>
-                        <table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Case</th>
-                                    <th>Culture</th>
-                                    <th>Sim</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>case-7</td>
-                                    <td><span class="match-badge match-no">✗ Italian</span></td>
-                                    <td>83.3%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>case-16</td>
-                                    <td><span class="match-badge match-no">✗ Italian</span></td>
-                                    <td>81.2%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>case-8</td>
-                                    <td><span class="match-badge match-no">✗ French</span></td>
-                                    <td>76.2%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- French -->
-                    <div class="culture-card">
-                        <div class="culture-header">
-                            <span class="culture-flag">🇫🇷</span>
-                            French
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Top Similarity</span>
-                            <span class="metric-value">99.4%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Exact Matches</span>
-                            <span class="metric-value">5 / 5</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Avg Similarity</span>
-                            <span class="metric-value">98.0%</span>
-                        </div>
-                        <table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Case</th>
-                                    <th>Culture</th>
-                                    <th>Sim</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>case-8</td>
-                                    <td><span class="match-badge match-yes">✓ French</span></td>
-                                    <td>99.4%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>case-43</td>
-                                    <td><span class="match-badge match-yes">✓ French</span></td>
-                                    <td>99.3%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>case-6</td>
-                                    <td><span class="match-badge match-yes">✓ French</span></td>
-                                    <td>98.8%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Japanese -->
-                    <div class="culture-card">
-                        <div class="culture-header">
-                            <span class="culture-flag">🇯🇵</span>
-                            Japanese
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Top Similarity</span>
-                            <span class="metric-value">79.3%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Exact Matches</span>
-                            <span class="metric-value">0 / 5</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Avg Similarity</span>
-                            <span class="metric-value">75.9%</span>
-                        </div>
-                        <table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Case</th>
-                                    <th>Culture</th>
-                                    <th>Sim</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>case-7</td>
-                                    <td><span class="match-badge match-no">✗ Italian</span></td>
-                                    <td>79.3%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>case-16</td>
-                                    <td><span class="match-badge match-no">✗ Italian</span></td>
-                                    <td>77.2%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>case-31</td>
-                                    <td><span class="match-badge match-no">✗ American</span></td>
-                                    <td>75.3%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Mexican -->
-                    <div class="culture-card">
-                        <div class="culture-header">
-                            <span class="culture-flag">🇲🇽</span>
-                            Mexican
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Top Similarity</span>
-                            <span class="metric-value">92.9%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Exact Matches</span>
-                            <span class="metric-value">2 / 5</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Avg Similarity</span>
-                            <span class="metric-value">83.6%</span>
-                        </div>
-                        <table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Case</th>
-                                    <th>Culture</th>
-                                    <th>Sim</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>case-51</td>
-                                    <td><span class="match-badge match-yes">✓ Mexican</span></td>
-                                    <td>92.9%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>case-29</td>
-                                    <td><span class="match-badge match-yes">✓ Mexican</span></td>
-                                    <td>90.8%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>case-7</td>
-                                    <td><span class="match-badge match-no">✗ Italian</span></td>
-                                    <td>79.3%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p><strong>Chef Digital CBR System</strong> | Semantic Cultural Similarity Evaluation</p>
-            <p style="opacity: 0.7; margin-top: 5px;">Sistema de Recuperación con Similitud Semántica Basada en Embeddings</p>
-        </div>
-    </div>
     
-    <script>
-        // Culture Match Chart
-        const matchCtx = document.getElementById('cultureMatchChart').getContext('2d');
-        new Chart(matchCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Italian', 'Spanish', 'French', 'Japanese', 'Mexican'],
-                datasets: [{
-                    label: 'Exact Matches',
-                    data: [5, 0, 5, 0, 2],
-                    backgroundColor: 'rgba(46, 213, 115, 0.8)',
-                    borderColor: 'rgba(46, 213, 115, 1)',
-                    borderWidth: 2
-                }, {
-                    label: 'No Match',
-                    data: [0, 5, 0, 5, 3],
-                    backgroundColor: 'rgba(235, 77, 75, 0.8)',
-                    borderColor: 'rgba(235, 77, 75, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Exact Cultural Matches (out of 5 cases per culture)',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true,
-                        max: 5,
-                        title: {
-                            display: true,
-                            text: 'Number of Cases'
-                        }
-                    }
-                }
-            }
-        });
+        <div class="panel">
+            <h2>📊 Retrieval Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Cultures Tested</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Retrieved</div>
+                    <div class="stat-value">60</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Retrieved per Culture</div>
+                    <div class="stat-value">5.0</div>
+                </div>
+            </div>
+        </div>
         
-        // Similarity Chart
-        const simCtx = document.getElementById('similarityChart').getContext('2d');
-        new Chart(simCtx, {
-            type: 'radar',
-            data: {
-                labels: ['Italian', 'Spanish', 'French', 'Japanese', 'Mexican'],
-                datasets: [{
-                    label: 'Top Similarity Score',
-                    data: [100, 83.3, 99.4, 79.3, 92.9],
-                    borderColor: '#fa709a',
-                    backgroundColor: 'rgba(250, 112, 154, 0.2)',
-                    borderWidth: 3,
-                    pointRadius: 5,
-                    pointHoverRadius: 8
-                }, {
-                    label: 'Average Similarity Score',
-                    data: [97.4, 78.5, 98.0, 75.9, 83.6],
-                    borderColor: '#fee140',
-                    backgroundColor: 'rgba(254, 225, 64, 0.2)',
-                    borderWidth: 3,
-                    pointRadius: 5,
-                    pointHoverRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Cultural Similarity Scores by Tradition (%)',
-                        font: {
-                            size: 16,
-                            weight: 'bold'
-                        }
-                    }
+        <div class="panel">
+            <h2>📈 Similarity Scores by Culture</h2>
+            <div class="plot-container">
+                <div id="cultureSimilarityPlot"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>🎯 Cultural Match Analysis</h2>
+            <div class="plot-container">
+                <div id="culturalMatchPlot"></div>
+            </div>
+        </div>
+        
+        <script>
+            var cultures = [];
+            var topScores = [];
+            var avgScores = [];
+            var matchCounts = [];
+    
+            cultures.push('italian');
+            topScores.push(1.0);
+            avgScores.push(0.9635999999999999);
+            matchCounts.push(5);
+        
+            cultures.push('spanish');
+            topScores.push(1.0);
+            avgScores.push(0.8332);
+            matchCounts.push(1);
+        
+            cultures.push('french');
+            topScores.push(0.996);
+            avgScores.push(0.9022);
+            matchCounts.push(4);
+        
+            cultures.push('japanese');
+            topScores.push(0.9309999999999998);
+            avgScores.push(0.8116);
+            matchCounts.push(1);
+        
+            cultures.push('mexican');
+            topScores.push(0.9309999999999998);
+            avgScores.push(0.8604666666666667);
+            matchCounts.push(4);
+        
+            cultures.push('korean');
+            topScores.push(0.889);
+            avgScores.push(0.8064);
+            matchCounts.push(1);
+        
+            cultures.push('vietnamese');
+            topScores.push(0.797);
+            avgScores.push(0.7632000000000001);
+            matchCounts.push(0);
+        
+            cultures.push('lebanese');
+            topScores.push(0.9309999999999998);
+            avgScores.push(0.8066000000000001);
+            matchCounts.push(1);
+        
+            cultures.push('american');
+            topScores.push(0.988);
+            avgScores.push(0.9474666666666668);
+            matchCounts.push(5);
+        
+            cultures.push('chinese');
+            topScores.push(1.0);
+            avgScores.push(0.9527999999999999);
+            matchCounts.push(4);
+        
+            cultures.push('indian');
+            topScores.push(0.9804999999999999);
+            avgScores.push(0.9043999999999999);
+            matchCounts.push(5);
+        
+            cultures.push('thai');
+            topScores.push(0.899);
+            avgScores.push(0.7934);
+            matchCounts.push(1);
+        
+            // Similarity scores plot
+            var topTrace = {
+                x: cultures,
+                y: topScores,
+                name: 'Top Similarity',
+                type: 'bar',
+                marker: {color: '#0f766e'}
+            };
+            
+            var avgTrace = {
+                x: cultures,
+                y: avgScores,
+                name: 'Avg Similarity',
+                type: 'bar',
+                marker: {color: '#e07a5f'}
+            };
+            
+            var similarityLayout = {
+                title: 'Top vs Average Similarity by Culture',
+                xaxis: {title: 'Culture'},
+                yaxis: {title: 'Similarity Score', range: [0, 1]},
+                barmode: 'group',
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('cultureSimilarityPlot', [topTrace, avgTrace], similarityLayout, {responsive: true});
+            
+            // Cultural match plot
+            var matchTrace = {
+                x: cultures,
+                y: matchCounts,
+                type: 'bar',
+                marker: {
+                    color: matchCounts.map(v => v === 5 ? '#059669' : v >= 3 ? '#f59e0b' : '#dc2626')
                 },
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+                text: matchCounts.map(v => v + '/5'),
+                textposition: 'outside'
+            };
+            
+            var matchLayout = {
+                title: 'Exact Cultural Matches (out of 5 retrieved)',
+                xaxis: {title: 'Culture'},
+                yaxis: {title: 'Number of Matches', range: [0, 6]},
+                plot_bgcolor: '#faf7f1',
+                paper_bgcolor: '#ffffff',
+                font: {family: '-apple-system, BlinkMacSystemFont, sans-serif'}
+            };
+            
+            Plotly.newPlot('culturalMatchPlot', [matchTrace], matchLayout, {responsive: true});
+        </script>
+    
+    </div>
+    <div class="footer">
+        <p>Generated on 2026-01-12 20:49:52</p>
+        <p>CBR Chef System - Experimental Results Report</p>
+    </div>
 </body>
 </html>

@@ -373,8 +373,124 @@ class CaseBase:
         Args:
             filepath: Ruta del archivo
         """
-        # Implementación de carga - se haría reconstruyendo objetos desde JSON
-        pass
+        if not os.path.exists(filepath):
+            return
+
+        with open(filepath, 'r', encoding='utf-8') as f:
+            payload = json.load(f)
+
+        cases_data = payload.get("cases", [])
+
+        # Reiniciar almacenamiento e índices, conservando platos y bebidas cargados
+        self.cases = []
+        self.index_by_event = {e: [] for e in EventType}
+        self.index_by_price_range = {
+            "low": [],
+            "medium": [],
+            "high": [],
+            "premium": []
+        }
+        self.index_by_season = {s: [] for s in Season}
+        self.index_by_style = {s: [] for s in CulinaryStyle}
+
+        def _dish_from_dict(data: Dict[str, Any]) -> Dish:
+            return Dish(
+                id=data['id'],
+                name=data['name'],
+                dish_type=DishType[data['dish_type'].upper()],
+                price=data['price'],
+                category=DishCategory[data['category'].upper()],
+                styles=[CulinaryStyle[s.upper()] for s in data.get('styles', [])],
+                seasons=[Season[s.upper()] for s in data.get('seasons', [])],
+                temperature=Temperature[data['temperature'].upper()],
+                complexity=Complexity[data['complexity'].upper()],
+                calories=data.get('calories', 0),
+                max_guests=data.get('max_guests', 100),
+                flavors=[Flavor[f.upper()] for f in data.get('flavors', [])],
+                diets=data.get('diets', []),
+                ingredients=data.get('ingredients', []),
+                compatible_beverages=data.get('compatible_beverages', []),
+                cultural_traditions=[CulturalTradition[t.upper()] for t in data.get('cultural_traditions', [])],
+                chef_style=data.get('chef_style'),
+                presentation_notes=data.get('presentation_notes', "")
+            )
+
+        def _beverage_from_dict(data: Dict[str, Any]) -> Beverage:
+            return Beverage(
+                id=data['id'],
+                name=data['name'],
+                alcoholic=data['alcoholic'],
+                price=data['price'],
+                type=data['type'],
+                subtype=data.get('subtype')
+            )
+
+        def _menu_from_dict(data: Dict[str, Any]) -> Menu:
+            starter = _dish_from_dict(data['starter'])
+            main = _dish_from_dict(data['main_course'])
+            dessert = _dish_from_dict(data['dessert'])
+            beverage = _beverage_from_dict(data['beverage'])
+
+            return Menu(
+                id=data['id'],
+                starter=starter,
+                main_course=main,
+                dessert=dessert,
+                beverage=beverage,
+                dominant_style=CulinaryStyle[data['dominant_style'].upper()] if data.get('dominant_style') else None,
+                cultural_theme=CulturalTradition[data['cultural_theme'].upper()] if data.get('cultural_theme') else None,
+                explanation=data.get('explanation', []),
+                score=data.get('score', 0.0)
+            )
+
+        def _request_from_dict(data: Dict[str, Any]) -> Request:
+            return Request(
+                id=data.get('id', ''),
+                event_type=EventType[data['event_type'].upper()],
+                season=Season[data['season'].upper()],
+                num_guests=data.get('num_guests', -1),
+                price_min=data.get('price_min', -1.0),
+                price_max=data.get('price_max', -1.0),
+                wants_wine=data.get('wants_wine', False),
+                wine_per_dish=data.get('wine_per_dish', False),
+                preferred_style=CulinaryStyle[data['preferred_style'].upper()] if data.get('preferred_style') else None,
+                cultural_preference=CulturalTradition[data['cultural_preference'].upper()] if data.get('cultural_preference') else None,
+                required_diets=data.get('required_diets', []),
+                soft_diets=data.get('soft_diets', []),
+                restricted_ingredients=data.get('restricted_ingredients', []),
+                soft_restricted_ingredients=data.get('soft_restricted_ingredients', []),
+                chef_style_preference=data.get('chef_style_preference'),
+                show_explanations=data.get('show_explanations', True),
+                options_per_category=data.get('options_per_category', 3)
+            )
+
+        for case_data in cases_data:
+            try:
+                request = _request_from_dict(case_data['request'])
+                menu = _menu_from_dict(case_data['menu'])
+                case = Case(
+                    id=case_data['id'],
+                    request=request,
+                    menu=menu,
+                    success=case_data.get('success', True),
+                    feedback_score=case_data.get('feedback_score', 0.0),
+                    feedback_comments=case_data.get('feedback_comments', ""),
+                    usage_count=case_data.get('usage_count', 0),
+                    created_at=case_data.get('created_at', ""),
+                    last_used=case_data.get('last_used', ""),
+                    adaptation_notes=case_data.get('adaptation_notes', []),
+                    source=case_data.get('source', "manual"),
+                    is_negative=case_data.get('is_negative', False),
+                    original_case_id=case_data.get('original_case_id')
+                )
+                # Restaurar contador de uso/recencia
+                if case.last_used:
+                    case.usage_count = case.usage_count or 0
+
+                self.add_case(case)
+            except Exception:
+                # Si un caso falla al reconstruir, continuar con el resto
+                continue
     
     def get_statistics(self) -> Dict[str, Any]:
         """Obtiene estadísticas de la base de casos"""

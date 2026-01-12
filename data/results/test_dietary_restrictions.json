@@ -1,0 +1,317 @@
+{
+  "test_name": "Dietary Restrictions Compliance",
+  "timestamp": "2026-01-12T20:49:47.786418",
+  "total_restrictions_available": 33,
+  "categories": {
+    "allergens": [
+      "celery-free",
+      "crustacean-free",
+      "dairy-free",
+      "egg-free",
+      "fish-free",
+      "lupine-free",
+      "mollusk-free",
+      "mustard-free",
+      "peanut-free",
+      "sesame-free",
+      "shellfish-free",
+      "soy-free",
+      "sulfite-free",
+      "tree-nut-free",
+      "wheat-free"
+    ],
+    "lifestyle": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "paleo",
+      "keto-friendly",
+      "mediterranean",
+      "kosher"
+    ],
+    "health": [
+      "alcohol-free",
+      "dash",
+      "fodmap-free",
+      "gluten-free",
+      "immuno-supportive",
+      "kidney-friendly",
+      "low potassium",
+      "no oil added",
+      "sugar-conscious"
+    ],
+    "meat_restrictions": [
+      "pork-free",
+      "red-meat-free"
+    ]
+  },
+  "individual_tests": [
+    {
+      "restriction": "vegan",
+      "category": "lifestyle",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.6833333333333332
+    },
+    {
+      "restriction": "vegetarian",
+      "category": "lifestyle",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.8833333333333333
+    },
+    {
+      "restriction": "gluten-free",
+      "category": "health",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9166666666666666
+    },
+    {
+      "restriction": "dairy-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.8833333333333333
+    },
+    {
+      "restriction": "egg-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9500000000000001
+    },
+    {
+      "restriction": "peanut-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 1.0
+    },
+    {
+      "restriction": "shellfish-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 1.0
+    },
+    {
+      "restriction": "soy-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 1.0
+    },
+    {
+      "restriction": "kosher",
+      "category": "lifestyle",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9500000000000001
+    },
+    {
+      "restriction": "pescatarian",
+      "category": "lifestyle",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.7833333333333333
+    },
+    {
+      "restriction": "keto-friendly",
+      "category": "lifestyle",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9166666666666666
+    },
+    {
+      "restriction": "paleo",
+      "category": "lifestyle",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.6499999999999999
+    },
+    {
+      "restriction": "alcohol-free",
+      "category": "health",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 1.0
+    },
+    {
+      "restriction": "wheat-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9166666666666666
+    },
+    {
+      "restriction": "tree-nut-free",
+      "category": "allergens",
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9500000000000001
+    }
+  ],
+  "combination_tests": [
+    {
+      "restrictions": [
+        "vegan",
+        "gluten-free"
+      ],
+      "num_restrictions": 2,
+      "categories": [
+        "lifestyle",
+        "health"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.8333333333333334
+    },
+    {
+      "restrictions": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "num_restrictions": 2,
+      "categories": [
+        "lifestyle",
+        "allergens"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.8666666666666667
+    },
+    {
+      "restrictions": [
+        "kosher",
+        "peanut-free"
+      ],
+      "num_restrictions": 2,
+      "categories": [
+        "lifestyle",
+        "allergens"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9333333333333332
+    },
+    {
+      "restrictions": [
+        "pescatarian",
+        "shellfish-free"
+      ],
+      "num_restrictions": 2,
+      "categories": [
+        "lifestyle",
+        "allergens"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9500000000000001
+    },
+    {
+      "restrictions": [
+        "keto-friendly",
+        "dairy-free"
+      ],
+      "num_restrictions": 2,
+      "categories": [
+        "lifestyle",
+        "allergens"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.6999999999999998
+    }
+  ],
+  "extreme_tests": [
+    {
+      "restrictions": [
+        "vegan",
+        "gluten-free",
+        "soy-free"
+      ],
+      "num_restrictions": 3,
+      "categories": [
+        "lifestyle",
+        "health",
+        "allergens"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.8333333333333334
+    },
+    {
+      "restrictions": [
+        "vegetarian",
+        "dairy-free",
+        "egg-free",
+        "wheat-free"
+      ],
+      "num_restrictions": 4,
+      "categories": [
+        "lifestyle",
+        "allergens",
+        "allergens",
+        "allergens"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.8666666666666667
+    },
+    {
+      "restrictions": [
+        "pescatarian",
+        "shellfish-free",
+        "dairy-free",
+        "gluten-free"
+      ],
+      "num_restrictions": 4,
+      "categories": [
+        "lifestyle",
+        "allergens",
+        "allergens",
+        "health"
+      ],
+      "menus_generated": 3,
+      "compliant_menus": 3,
+      "compliance_rate": 1.0,
+      "avg_adaptation_score": 0.9
+    }
+  ],
+  "summary": {
+    "individual_restrictions_tested": 15,
+    "individual_compliant": 15,
+    "individual_compliance_rate": 1.0,
+    "dual_combinations_tested": 5,
+    "dual_compliant": 5,
+    "dual_compliance_rate": 1.0,
+    "extreme_cases_tested": 3,
+    "extreme_successful": 3,
+    "extreme_success_rate": 1.0,
+    "overall_restrictions_tested": 15,
+    "overall_test_cases": 23
+  }
+}

@@ -1,0 +1,2290 @@
+{
+  "execution_timestamp": "2026-01-12T20:49:11.170632",
+  "tests_executed": 10,
+  "results": {
+    "test_complete_cbr_cycle": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Complete CBR Cycle Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_complete_cbr_cycle.json\n\nSummary:\n  Scenarios: 3\n  Cases learned: 1\n  Avg retrieval similarity: 0.929\n  Avg valid proposals: 3.0\n  Retention rate: 66.7%\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Complete CBR Cycle",
+        "timestamp": "2026-01-12T20:49:11.285668",
+        "scenarios": [
+          {
+            "scenario_id": "scenario_1",
+            "description": "Italian cultural preference, summer wedding",
+            "phases": {
+              "retrieve": {
+                "cases_found": 5,
+                "top_similarity": 1.0,
+                "avg_similarity": 0.9686
+              },
+              "adapt": {
+                "menus_adapted": 3,
+                "cultural_adaptations": 0
+              },
+              "revise": {
+                "valid_proposals": 3,
+                "validation_passed": true
+              },
+              "retain": {
+                "should_retain": false,
+                "retention_action": "discard",
+                "retained": false,
+                "feedback_score": 4.7
+              }
+            }
+          },
+          {
+            "scenario_id": "scenario_2",
+            "description": "Chinese cultural preference, congress event",
+            "phases": {
+              "retrieve": {
+                "cases_found": 5,
+                "top_similarity": 0.9309999999999998,
+                "avg_similarity": 0.8131999999999999
+              },
+              "adapt": {
+                "menus_adapted": 3,
+                "cultural_adaptations": 0
+              },
+              "revise": {
+                "valid_proposals": 3,
+                "validation_passed": true
+              },
+              "retain": {
+                "should_retain": true,
+                "retention_action": "add_new",
+                "retained": true,
+                "feedback_score": 4.5
+              }
+            }
+          },
+          {
+            "scenario_id": "scenario_3",
+            "description": "Spanish regional style, family event",
+            "phases": {
+              "retrieve": {
+                "cases_found": 5,
+                "top_similarity": 0.8560000000000001,
+                "avg_similarity": 0.8241333333333335
+              },
+              "adapt": {
+                "menus_adapted": 3,
+                "cultural_adaptations": 3
+              },
+              "revise": {
+                "valid_proposals": 3,
+                "validation_passed": true
+              },
+              "retain": {
+                "should_retain": true,
+                "retention_action": "update_existing",
+                "retained": true,
+                "feedback_score": 4.8
+              }
+            }
+          }
+        ],
+        "summary": {
+          "initial_cases": 43,
+          "final_cases": 44,
+          "cases_learned": 1,
+          "scenarios_executed": 3,
+          "avg_retrieval_similarity": 0.9289999999999999,
+          "avg_valid_proposals": 3.0,
+          "retention_rate": 0.6666666666666666
+        }
+      }
+    },
+    "test_user_simulation": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Expanded Multi-User Simulation Test...\nConfiguration: 20 users \u00d7 20 iterations = 400 total interactions\n  Plot saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/plots/feedback_evolution.png\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_user_simulation.json\n\nSummary:\n  Total requests: 400\n  Cases learned: 101\n  Initial avg feedback: 3.377\n  Final avg feedback: 3.608\n  Improvement: +0.230\n  Success rate: 100.0%\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Multi-User Simulation",
+        "timestamp": "2026-01-12T20:49:13.581073",
+        "parameters": {
+          "num_users": 20,
+          "iterations": 20
+        },
+        "iterations": [
+          {
+            "iteration": 1,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 66.9104466008245,
+            "cases_retained": 4,
+            "avg_feedback_score": 3.345522330041225,
+            "success_rate": 1.0,
+            "current_case_count": 46
+          },
+          {
+            "iteration": 2,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 67.2647480645165,
+            "cases_retained": 1,
+            "avg_feedback_score": 3.363237403225825,
+            "success_rate": 1.0,
+            "current_case_count": 46
+          },
+          {
+            "iteration": 3,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 68.45948349243118,
+            "cases_retained": 3,
+            "avg_feedback_score": 3.422974174621559,
+            "success_rate": 1.0,
+            "current_case_count": 49
+          },
+          {
+            "iteration": 4,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 72.68285161403729,
+            "cases_retained": 9,
+            "avg_feedback_score": 3.6341425807018646,
+            "success_rate": 1.0,
+            "current_case_count": 55
+          },
+          {
+            "iteration": 5,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 71.90577567768591,
+            "cases_retained": 7,
+            "avg_feedback_score": 3.5952887838842953,
+            "success_rate": 1.0,
+            "current_case_count": 61
+          },
+          {
+            "iteration": 6,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 68.36553980315874,
+            "cases_retained": 8,
+            "avg_feedback_score": 3.418276990157937,
+            "success_rate": 1.0,
+            "current_case_count": 68
+          },
+          {
+            "iteration": 7,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 70.35054202326619,
+            "cases_retained": 8,
+            "avg_feedback_score": 3.517527101163309,
+            "success_rate": 1.0,
+            "current_case_count": 76
+          },
+          {
+            "iteration": 8,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 72.19877077241887,
+            "cases_retained": 5,
+            "avg_feedback_score": 3.6099385386209435,
+            "success_rate": 1.0,
+            "current_case_count": 79
+          },
+          {
+            "iteration": 9,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 68.0187115059445,
+            "cases_retained": 7,
+            "avg_feedback_score": 3.4009355752972246,
+            "success_rate": 1.0,
+            "current_case_count": 85
+          },
+          {
+            "iteration": 10,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 70.01259605362034,
+            "cases_retained": 7,
+            "avg_feedback_score": 3.500629802681017,
+            "success_rate": 1.0,
+            "current_case_count": 92
+          },
+          {
+            "iteration": 11,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 66.72442507888375,
+            "cases_retained": 5,
+            "avg_feedback_score": 3.3362212539441876,
+            "success_rate": 1.0,
+            "current_case_count": 97
+          },
+          {
+            "iteration": 12,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 71.08005311616799,
+            "cases_retained": 5,
+            "avg_feedback_score": 3.5540026558083992,
+            "success_rate": 1.0,
+            "current_case_count": 102
+          },
+          {
+            "iteration": 13,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 74.05187096870401,
+            "cases_retained": 6,
+            "avg_feedback_score": 3.7025935484352006,
+            "success_rate": 1.0,
+            "current_case_count": 108
+          },
+          {
+            "iteration": 14,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 71.81677286912611,
+            "cases_retained": 5,
+            "avg_feedback_score": 3.5908386434563058,
+            "success_rate": 1.0,
+            "current_case_count": 113
+          },
+          {
+            "iteration": 15,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 67.75705255510051,
+            "cases_retained": 7,
+            "avg_feedback_score": 3.387852627755026,
+            "success_rate": 1.0,
+            "current_case_count": 120
+          },
+          {
+            "iteration": 16,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 71.45981343629887,
+            "cases_retained": 8,
+            "avg_feedback_score": 3.5729906718149436,
+            "success_rate": 1.0,
+            "current_case_count": 128
+          },
+          {
+            "iteration": 17,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 72.78306850459022,
+            "cases_retained": 4,
+            "avg_feedback_score": 3.639153425229511,
+            "success_rate": 1.0,
+            "current_case_count": 131
+          },
+          {
+            "iteration": 18,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 72.02164103188207,
+            "cases_retained": 4,
+            "avg_feedback_score": 3.6010820515941036,
+            "success_rate": 1.0,
+            "current_case_count": 135
+          },
+          {
+            "iteration": 19,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 70.58858277935023,
+            "cases_retained": 6,
+            "avg_feedback_score": 3.5294291389675116,
+            "success_rate": 1.0,
+            "current_case_count": 140
+          },
+          {
+            "iteration": 20,
+            "requests_processed": 20,
+            "successful_proposals": 20,
+            "total_feedback_score": 73.85117635600963,
+            "cases_retained": 5,
+            "avg_feedback_score": 3.6925588178004816,
+            "success_rate": 1.0,
+            "current_case_count": 145
+          }
+        ],
+        "summary": {
+          "initial_cases": 44,
+          "final_cases": 145,
+          "total_cases_learned": 101,
+          "total_requests": 400,
+          "avg_final_feedback": 3.6076900027873653,
+          "avg_initial_feedback": 3.3772446359628696,
+          "improvement": 0.23044536682449568,
+          "avg_success_rate": 1.0
+        }
+      }
+    },
+    "test_adaptive_weights": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Adaptive Weight Learning Test...\n  Plot saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/plots/weight_evolution.png\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_adaptive_weights.json\n\nSummary:\n  Test cases: 5\n  Static avg similarity: 0.835\n  Adaptive avg similarity: 0.834\n  Improvement: -0.000 (-0.0%)\n\n  Top weight changes:\n    wine_preference: +0.004 (+7.7%)\n    event_type: -0.002 (-1.2%)\n    price_range: +0.002 (+1.0%)\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Adaptive Weight Learning",
+        "timestamp": "2026-01-12T20:49:43.093052",
+        "systems": {
+          "static": {
+            "name": "Static Weights",
+            "results": [
+              {
+                "iteration": 1,
+                "proposals_count": 3,
+                "top_similarity": 0.8362205614633751,
+                "avg_similarity": 0.7996795810938523
+              },
+              {
+                "iteration": 2,
+                "proposals_count": 3,
+                "top_similarity": 0.742,
+                "avg_similarity": 0.7160000000000001
+              },
+              {
+                "iteration": 3,
+                "proposals_count": 3,
+                "top_similarity": 0.9261243754340472,
+                "avg_similarity": 0.9142712908005309
+              },
+              {
+                "iteration": 4,
+                "proposals_count": 3,
+                "top_similarity": 0.8969999999999999,
+                "avg_similarity": 0.8643333333333333
+              },
+              {
+                "iteration": 5,
+                "proposals_count": 3,
+                "top_similarity": 0.7711851445540966,
+                "avg_similarity": 0.75122479211085
+              }
+            ]
+          },
+          "adaptive": {
+            "name": "Adaptive Weights",
+            "results": [
+              {
+                "iteration": 1,
+                "proposals_count": 3,
+                "top_similarity": 0.8362205614633751,
+                "avg_similarity": 0.7996795810938523,
+                "weights": {
+                  "event_type": 0.2,
+                  "season": 0.12,
+                  "price_range": 0.18,
+                  "style": 0.12,
+                  "cultural": 0.08,
+                  "dietary": 0.1,
+                  "guests": 0.05,
+                  "wine_preference": 0.05,
+                  "success_bonus": 0.1
+                }
+              },
+              {
+                "iteration": 2,
+                "proposals_count": 3,
+                "top_similarity": 0.74203187250996,
+                "avg_similarity": 0.7111056341950374,
+                "weights": {
+                  "event_type": 0.19920318725099603,
+                  "season": 0.1195219123505976,
+                  "price_range": 0.1802788844621514,
+                  "style": 0.1195219123505976,
+                  "cultural": 0.0796812749003984,
+                  "dietary": 0.10109561752988049,
+                  "guests": 0.04980079681274901,
+                  "wine_preference": 0.05129482071713148,
+                  "success_bonus": 0.09960159362549802
+                }
+              },
+              {
+                "iteration": 3,
+                "proposals_count": 3,
+                "top_similarity": 0.926565569492536,
+                "avg_similarity": 0.9140899615446112,
+                "weights": {
+                  "event_type": 0.19880557609879843,
+                  "season": 0.11928334565927905,
+                  "price_range": 0.18091705036142855,
+                  "style": 0.11928334565927905,
+                  "cultural": 0.07952223043951936,
+                  "dietary": 0.1008938298701402,
+                  "guests": 0.05069939801671558,
+                  "wine_preference": 0.051192435845440594,
+                  "success_bonus": 0.09940278804939921
+                }
+              },
+              {
+                "iteration": 4,
+                "proposals_count": 3,
+                "top_similarity": 0.8961795577060799,
+                "avg_similarity": 0.8643852783185192,
+                "weights": {
+                  "event_type": 0.1983098015948114,
+                  "season": 0.11898588095688684,
+                  "price_range": 0.18146339188172425,
+                  "style": 0.11898588095688684,
+                  "cultural": 0.07932392063792455,
+                  "dietary": 0.10064222430936678,
+                  "guests": 0.05057296560270881,
+                  "wine_preference": 0.05256103326228489,
+                  "success_bonus": 0.0991549007974057
+                }
+              },
+              {
+                "iteration": 5,
+                "proposals_count": 3,
+                "top_similarity": 0.769782379058792,
+                "avg_similarity": 0.7557366690607775,
+                "weights": {
+                  "event_type": 0.19761813811142143,
+                  "season": 0.11857088286685284,
+                  "price_range": 0.18182699739085625,
+                  "style": 0.11857088286685284,
+                  "cultural": 0.07904725524456856,
+                  "dietary": 0.10029120509154636,
+                  "guests": 0.05139308978844924,
+                  "wine_preference": 0.05387247958374179,
+                  "success_bonus": 0.09880906905571071
+                }
+              }
+            ]
+          }
+        },
+        "summary": {
+          "test_cases": 5,
+          "static_avg_similarity": 0.8345060162903037,
+          "adaptive_avg_similarity": 0.8341559880461485,
+          "improvement": -0.0003500282441551983,
+          "improvement_pct": -0.041944364369139814,
+          "weight_changes": {
+            "event_type": {
+              "initial": 0.2,
+              "final": 0.19761813811142143,
+              "change": -0.0023818618885785847,
+              "change_pct": -1.1909309442892924
+            },
+            "season": {
+              "initial": 0.12,
+              "final": 0.11857088286685284,
+              "change": -0.0014291171331471536,
+              "change_pct": -1.1909309442892948
+            },
+            "price_range": {
+              "initial": 0.18,
+              "final": 0.18182699739085625,
+              "change": 0.001826997390856261,
+              "change_pct": 1.0149985504757006
+            },
+            "style": {
+              "initial": 0.12,
+              "final": 0.11857088286685284,
+              "change": -0.0014291171331471536,
+              "change_pct": -1.1909309442892948
+            },
+            "cultural": {
+              "initial": 0.08,
+              "final": 0.07904725524456856,
+              "change": -0.000952744755431445,
+              "change_pct": -1.1909309442893061
+            },
+            "dietary": {
+              "initial": 0.1,
+              "final": 0.10029120509154636,
+              "change": 0.00029120509154635654,
+              "change_pct": 0.29120509154635654
+            },
+            "guests": {
+              "initial": 0.05,
+              "final": 0.05139308978844924,
+              "change": 0.0013930897884492366,
+              "change_pct": 2.786179576898473
+            },
+            "wine_preference": {
+              "initial": 0.05,
+              "final": 0.05387247958374179,
+              "change": 0.003872479583741789,
+              "change_pct": 7.744959167483579
+            },
+            "success_bonus": {
+              "initial": 0.1,
+              "final": 0.09880906905571071,
+              "change": -0.0011909309442892924,
+              "change_pct": -1.1909309442892924
+            }
+          },
+          "most_changed_weights": [
+            {
+              "name": "wine_preference",
+              "initial": 0.05,
+              "final": 0.05387247958374179,
+              "change": 0.003872479583741789,
+              "change_pct": 7.744959167483579
+            },
+            {
+              "name": "event_type",
+              "initial": 0.2,
+              "final": 0.19761813811142143,
+              "change": -0.0023818618885785847,
+              "change_pct": -1.1909309442892924
+            },
+            {
+              "name": "price_range",
+              "initial": 0.18,
+              "final": 0.18182699739085625,
+              "change": 0.001826997390856261,
+              "change_pct": 1.0149985504757006
+            }
+          ]
+        }
+      }
+    },
+    "test_semantic_cultural_adaptation": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Semantic Cultural Adaptation Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_semantic_cultural_adaptation.json\n\nSummary:\n  Scenarios tested: 4\n  Avg retrieval similarity: 0.904\n  Total adaptations: 5\n  Ingredient substitutions: 0\n  Dish replacements: 1\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Semantic Cultural Adaptation",
+        "timestamp": "2026-01-12T20:49:45.379169",
+        "test_cases": [
+          {
+            "scenario_id": "italian_adaptation",
+            "target_culture": "ITALIAN",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 1.0,
+              "avg_similarity": 0.9635999999999999
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 0,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 0,
+              "cultural_theme": "italian",
+              "total_price": 45.2
+            }
+          },
+          {
+            "scenario_id": "spanish_adaptation",
+            "target_culture": "SPANISH",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 0.895,
+              "avg_similarity": 0.8624
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 2,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 0,
+              "cultural_theme": "spanish",
+              "total_price": 34.1
+            }
+          },
+          {
+            "scenario_id": "japanese_adaptation",
+            "target_culture": "JAPANESE",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 0.742,
+              "avg_similarity": 0.6984
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 3,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 1,
+              "cultural_theme": "japanese",
+              "total_price": 40.0
+            }
+          },
+          {
+            "scenario_id": "french_adaptation",
+            "target_culture": "FRENCH",
+            "retrieval": {
+              "cases_found": 5,
+              "top_similarity": 0.9809999999999999,
+              "avg_similarity": 0.8858285714285714
+            },
+            "adaptation": {
+              "menus_generated": 3,
+              "cultural_adaptations_applied": 0,
+              "ingredient_substitutions": 0,
+              "dish_replacements": 0,
+              "cultural_theme": "french",
+              "total_price": 48.3
+            }
+          }
+        ],
+        "summary": {
+          "scenarios_tested": 4,
+          "avg_retrieval_similarity": 0.9045,
+          "total_cultural_adaptations": 5,
+          "total_ingredient_substitutions": 0,
+          "total_dish_replacements": 1,
+          "adaptation_rate": 1.25
+        }
+      }
+    },
+    "test_semantic_retrieve": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Semantic RETRIEVE Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_semantic_retrieve.json\n\nSummary:\n  Cultures tested: 12\n  Exact match rate: 53.3%\n  Top result match rate: 91.7%\n  Avg retrieval similarity: 0.945\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Semantic Similarity in RETRIEVE",
+        "timestamp": "2026-01-12T20:49:46.112298",
+        "cultural_preferences": [
+          {
+            "target_culture": "italian",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-5",
+                "similarity_score": 1.0,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-13",
+                "similarity_score": 1.0,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-21",
+                "similarity_score": 0.962,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-10",
+                "similarity_score": 0.95,
+                "case_culture": "italian",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-37",
+                "similarity_score": 0.9060000000000001,
+                "case_culture": "italian",
+                "cultural_match": true
+              }
+            ],
+            "metrics": {
+              "top_similarity": 1.0,
+              "avg_similarity": 0.9635999999999999,
+              "exact_cultural_matches": 5,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "spanish",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-30",
+                "similarity_score": 1.0,
+                "case_culture": "spanish",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.8370000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-13",
+                "similarity_score": 0.8140000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-6",
+                "similarity_score": 0.764,
+                "case_culture": "french",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7510000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 1.0,
+              "avg_similarity": 0.8332,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "french",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-6",
+                "similarity_score": 0.996,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-28",
+                "similarity_score": 0.923,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-8",
+                "similarity_score": 0.907,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-24",
+                "similarity_score": 0.8560000000000001,
+                "case_culture": "french",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-5",
+                "similarity_score": 0.8290000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.996,
+              "avg_similarity": 0.9022,
+              "exact_cultural_matches": 4,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "japanese",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-35",
+                "similarity_score": 0.9309999999999998,
+                "case_culture": "japanese",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7830000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-13",
+                "similarity_score": 0.774,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-33",
+                "similarity_score": 0.7730000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8116,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "mexican",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-39",
+                "similarity_score": 0.9309999999999998,
+                "case_culture": "mexican",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-23",
+                "similarity_score": 0.925,
+                "case_culture": "mexican",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-2",
+                "similarity_score": 0.8660000000000001,
+                "case_culture": "mexican",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-41",
+                "similarity_score": 0.7833333333333334,
+                "case_culture": "mexican",
+                "cultural_match": true
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8604666666666667,
+              "exact_cultural_matches": 4,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "korean",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-34",
+                "similarity_score": 0.889,
+                "case_culture": "korean",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7910000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-33",
+                "similarity_score": 0.7810000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-13",
+                "similarity_score": 0.774,
+                "case_culture": "italian",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.889,
+              "avg_similarity": 0.8064,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "vietnamese",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-13",
+                "similarity_score": 0.774,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7510000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-6",
+                "similarity_score": 0.748,
+                "case_culture": "french",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-30",
+                "similarity_score": 0.746,
+                "case_culture": "spanish",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.797,
+              "avg_similarity": 0.7632000000000001,
+              "exact_cultural_matches": 0,
+              "top_result_is_match": false
+            }
+          },
+          {
+            "target_culture": "lebanese",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-12",
+                "similarity_score": 0.9309999999999998,
+                "case_culture": "lebanese",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.8130000000000001,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-13",
+                "similarity_score": 0.79,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7510000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-6",
+                "similarity_score": 0.748,
+                "case_culture": "french",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.9309999999999998,
+              "avg_similarity": 0.8066000000000001,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "american",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-38",
+                "similarity_score": 0.988,
+                "case_culture": "american",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-7",
+                "similarity_score": 0.968,
+                "case_culture": "american",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-1",
+                "similarity_score": 0.9583333333333333,
+                "case_culture": "american",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-17",
+                "similarity_score": 0.9239999999999999,
+                "case_culture": "american",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-20",
+                "similarity_score": 0.899,
+                "case_culture": "american",
+                "cultural_match": true
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.988,
+              "avg_similarity": 0.9474666666666668,
+              "exact_cultural_matches": 5,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "chinese",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-25",
+                "similarity_score": 1.0,
+                "case_culture": "chinese",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-33",
+                "similarity_score": 0.9969999999999999,
+                "case_culture": "chinese",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-32",
+                "similarity_score": 0.988,
+                "case_culture": "chinese",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-4",
+                "similarity_score": 0.982,
+                "case_culture": "chinese",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 1.0,
+              "avg_similarity": 0.9527999999999999,
+              "exact_cultural_matches": 4,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "indian",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-22",
+                "similarity_score": 0.9804999999999999,
+                "case_culture": "indian",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-29",
+                "similarity_score": 0.9480000000000002,
+                "case_culture": "indian",
+                "cultural_match": true
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-11",
+                "similarity_score": 0.8939999999999999,
+                "case_culture": "indian",
+                "cultural_match": true
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-40",
+                "similarity_score": 0.855,
+                "case_culture": "indian",
+                "cultural_match": true
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-14",
+                "similarity_score": 0.8444999999999998,
+                "case_culture": "indian",
+                "cultural_match": true
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.9804999999999999,
+              "avg_similarity": 0.9043999999999999,
+              "exact_cultural_matches": 5,
+              "top_result_is_match": true
+            }
+          },
+          {
+            "target_culture": "thai",
+            "cases_retrieved": 5,
+            "retrieved_cases": [
+              {
+                "rank": 1,
+                "case_id": "case-init-31",
+                "similarity_score": 0.899,
+                "case_culture": "thai",
+                "cultural_match": true
+              },
+              {
+                "rank": 2,
+                "case_id": "case-init-5",
+                "similarity_score": 0.797,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 3,
+                "case_id": "case-init-13",
+                "similarity_score": 0.774,
+                "case_culture": "italian",
+                "cultural_match": false
+              },
+              {
+                "rank": 4,
+                "case_id": "case-init-25",
+                "similarity_score": 0.7510000000000001,
+                "case_culture": "chinese",
+                "cultural_match": false
+              },
+              {
+                "rank": 5,
+                "case_id": "case-init-30",
+                "similarity_score": 0.746,
+                "case_culture": "spanish",
+                "cultural_match": false
+              }
+            ],
+            "metrics": {
+              "top_similarity": 0.899,
+              "avg_similarity": 0.7934,
+              "exact_cultural_matches": 1,
+              "top_result_is_match": true
+            }
+          }
+        ],
+        "summary": {
+          "cultures_tested": 12,
+          "total_cases_retrieved": 60,
+          "exact_cultural_matches": 32,
+          "exact_match_rate": 0.5333333333333333,
+          "top_result_match_rate": 0.9166666666666666,
+          "avg_retrieval_similarity": 0.9452083333333331
+        },
+        "case_base_distribution": {
+          "american": 8,
+          "mexican": 5,
+          "indian": 6,
+          "chinese": 4,
+          "italian": 8,
+          "french": 4,
+          "lebanese": 1,
+          "japanese": 2,
+          "spanish": 1,
+          "thai": 1,
+          "korean": 1
+        }
+      }
+    },
+    "test_negative_cases": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Expanded Negative Cases Learning Test...\nTesting 10 diverse failure patterns...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_negative_cases.json\n\nSummary:\n  Negative patterns tested: 10\n  Negative cases created: 10\n  Avoidance tests: 5\n  Avg proposals despite negatives: 2.2\n  Final negative cases in base: 10\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Negative Cases Learning",
+        "timestamp": "2026-01-12T20:49:46.363930",
+        "scenarios": [
+          {
+            "scenario_id": "price_too_high",
+            "description": "Price exceeded budget significantly",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 1.8,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-198"
+            }
+          },
+          {
+            "scenario_id": "cultural_mismatch",
+            "description": "Cultural adaptation was superficial",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.0,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-978"
+            }
+          },
+          {
+            "scenario_id": "dietary_violation",
+            "description": "Contained meat products",
+            "retrieval_count": 1,
+            "adapted_count": 1,
+            "feedback": {
+              "score": 1.5,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-421"
+            }
+          },
+          {
+            "scenario_id": "complexity_too_low",
+            "description": "Too simple for gourmet event",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.2,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-608"
+            }
+          },
+          {
+            "scenario_id": "temperature_mismatch",
+            "description": "Cold starter inappropriate for winter",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.4,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-822"
+            }
+          },
+          {
+            "scenario_id": "flavor_clash",
+            "description": "Flavors clashed between courses",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.0,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-158"
+            }
+          },
+          {
+            "scenario_id": "scale_mismatch",
+            "description": "Too complex for large-scale production",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 1.9,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-731"
+            }
+          },
+          {
+            "scenario_id": "seasonal_mismatch",
+            "description": "Heavy winter dishes in summer",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.3,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-747"
+            }
+          },
+          {
+            "scenario_id": "wine_pairing_fail",
+            "description": "Wine pairing was inappropriate",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 2.1,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-274"
+            }
+          },
+          {
+            "scenario_id": "allergen_risk",
+            "description": "Contained restricted allergens",
+            "retrieval_count": 3,
+            "adapted_count": 3,
+            "feedback": {
+              "score": 1.6,
+              "success": false,
+              "retained": true,
+              "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-880"
+            }
+          }
+        ],
+        "summary": {
+          "initial_total_cases": 41,
+          "final_total_cases": 51,
+          "initial_negative_cases": 0,
+          "final_negative_cases": 10,
+          "cases_added": 10,
+          "negative_cases_created": 10,
+          "negative_patterns_tested": 10,
+          "avoidance_tests_conducted": 5,
+          "avg_proposals_despite_negatives": 2.2
+        },
+        "avoidance_tests": [
+          {
+            "test_id": "avoid_price_high",
+            "similar_to_negative": "price_too_high",
+            "proposals_generated": 2,
+            "proposals_valid": 2,
+            "avoidance_checks": [
+              {
+                "negative_case": "price_too_high",
+                "avoided": true
+              }
+            ]
+          },
+          {
+            "test_id": "avoid_cultural",
+            "similar_to_negative": "cultural_mismatch",
+            "proposals_generated": 3,
+            "proposals_valid": 3,
+            "avoidance_checks": [
+              {
+                "negative_case": "cultural_mismatch",
+                "avoided": true
+              }
+            ]
+          },
+          {
+            "test_id": "avoid_dietary",
+            "similar_to_negative": "dietary_violation",
+            "proposals_generated": 0,
+            "proposals_valid": 0,
+            "avoidance_checks": [
+              {
+                "negative_case": "dietary_violation",
+                "avoided": false
+              }
+            ]
+          },
+          {
+            "test_id": "avoid_allergen",
+            "similar_to_negative": "allergen_risk",
+            "proposals_generated": 3,
+            "proposals_valid": 3,
+            "avoidance_checks": [
+              {
+                "negative_case": "allergen_risk",
+                "avoided": true
+              }
+            ]
+          },
+          {
+            "test_id": "avoid_scale",
+            "similar_to_negative": "scale_mismatch",
+            "proposals_generated": 3,
+            "proposals_valid": 3,
+            "avoidance_checks": [
+              {
+                "negative_case": "scale_mismatch",
+                "avoided": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "test_dietary_restrictions": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Dietary Restrictions Test...\nTesting 33 available restrictions\n\n--- Testing Individual Restrictions ---\n  \u2713 vegan                - 3 menus, 100% compliance\n  \u2713 vegetarian           - 3 menus, 100% compliance\n  \u2713 gluten-free          - 3 menus, 100% compliance\n  \u2713 dairy-free           - 3 menus, 100% compliance\n  \u2713 egg-free             - 3 menus, 100% compliance\n  \u2713 peanut-free          - 3 menus, 100% compliance\n  \u2713 shellfish-free       - 3 menus, 100% compliance\n  \u2713 soy-free             - 3 menus, 100% compliance\n  \u2713 kosher               - 3 menus, 100% compliance\n  \u2713 pescatarian          - 3 menus, 100% compliance\n  \u2713 keto-friendly        - 3 menus, 100% compliance\n  \u2713 paleo                - 3 menus, 100% compliance\n  \u2713 alcohol-free         - 3 menus, 100% compliance\n  \u2713 wheat-free           - 3 menus, 100% compliance\n  \u2713 tree-nut-free        - 3 menus, 100% compliance\n\n--- Testing Dual Restrictions ---\n  \u2713 vegan + gluten-free                 - 3 menus, 100% compliance\n  \u2713 vegetarian + dairy-free             - 3 menus, 100% compliance\n  \u2713 kosher + peanut-free                - 3 menus, 100% compliance\n  \u2713 pescatarian + shellfish-free        - 3 menus, 100% compliance\n  \u2713 keto-friendly + dairy-free          - 3 menus, 100% compliance\n\n--- Testing Extreme Cases (3+ restrictions) ---\n  \u2713 3 restrictions - 3 menus generated\n  \u2713 4 restrictions - 3 menus generated\n  \u2713 4 restrictions - 3 menus generated\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_dietary_restrictions.json\n\nSummary:\n  Individual restrictions: 15/15 compliant (100%)\n  Dual combinations: 5/5 compliant (100%)\n  Extreme cases: 3/3 successful (100%)\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Dietary Restrictions Compliance",
+        "timestamp": "2026-01-12T20:49:47.786418",
+        "total_restrictions_available": 33,
+        "categories": {
+          "allergens": [
+            "celery-free",
+            "crustacean-free",
+            "dairy-free",
+            "egg-free",
+            "fish-free",
+            "lupine-free",
+            "mollusk-free",
+            "mustard-free",
+            "peanut-free",
+            "sesame-free",
+            "shellfish-free",
+            "soy-free",
+            "sulfite-free",
+            "tree-nut-free",
+            "wheat-free"
+          ],
+          "lifestyle": [
+            "vegan",
+            "vegetarian",
+            "pescatarian",
+            "paleo",
+            "keto-friendly",
+            "mediterranean",
+            "kosher"
+          ],
+          "health": [
+            "alcohol-free",
+            "dash",
+            "fodmap-free",
+            "gluten-free",
+            "immuno-supportive",
+            "kidney-friendly",
+            "low potassium",
+            "no oil added",
+            "sugar-conscious"
+          ],
+          "meat_restrictions": [
+            "pork-free",
+            "red-meat-free"
+          ]
+        },
+        "individual_tests": [
+          {
+            "restriction": "vegan",
+            "category": "lifestyle",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.6833333333333332
+          },
+          {
+            "restriction": "vegetarian",
+            "category": "lifestyle",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.8833333333333333
+          },
+          {
+            "restriction": "gluten-free",
+            "category": "health",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9166666666666666
+          },
+          {
+            "restriction": "dairy-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.8833333333333333
+          },
+          {
+            "restriction": "egg-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9500000000000001
+          },
+          {
+            "restriction": "peanut-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 1.0
+          },
+          {
+            "restriction": "shellfish-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 1.0
+          },
+          {
+            "restriction": "soy-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 1.0
+          },
+          {
+            "restriction": "kosher",
+            "category": "lifestyle",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9500000000000001
+          },
+          {
+            "restriction": "pescatarian",
+            "category": "lifestyle",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.7833333333333333
+          },
+          {
+            "restriction": "keto-friendly",
+            "category": "lifestyle",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9166666666666666
+          },
+          {
+            "restriction": "paleo",
+            "category": "lifestyle",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.6499999999999999
+          },
+          {
+            "restriction": "alcohol-free",
+            "category": "health",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 1.0
+          },
+          {
+            "restriction": "wheat-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9166666666666666
+          },
+          {
+            "restriction": "tree-nut-free",
+            "category": "allergens",
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9500000000000001
+          }
+        ],
+        "combination_tests": [
+          {
+            "restrictions": [
+              "vegan",
+              "gluten-free"
+            ],
+            "num_restrictions": 2,
+            "categories": [
+              "lifestyle",
+              "health"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.8333333333333334
+          },
+          {
+            "restrictions": [
+              "vegetarian",
+              "dairy-free"
+            ],
+            "num_restrictions": 2,
+            "categories": [
+              "lifestyle",
+              "allergens"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.8666666666666667
+          },
+          {
+            "restrictions": [
+              "kosher",
+              "peanut-free"
+            ],
+            "num_restrictions": 2,
+            "categories": [
+              "lifestyle",
+              "allergens"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9333333333333332
+          },
+          {
+            "restrictions": [
+              "pescatarian",
+              "shellfish-free"
+            ],
+            "num_restrictions": 2,
+            "categories": [
+              "lifestyle",
+              "allergens"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9500000000000001
+          },
+          {
+            "restrictions": [
+              "keto-friendly",
+              "dairy-free"
+            ],
+            "num_restrictions": 2,
+            "categories": [
+              "lifestyle",
+              "allergens"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.6999999999999998
+          }
+        ],
+        "extreme_tests": [
+          {
+            "restrictions": [
+              "vegan",
+              "gluten-free",
+              "soy-free"
+            ],
+            "num_restrictions": 3,
+            "categories": [
+              "lifestyle",
+              "health",
+              "allergens"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.8333333333333334
+          },
+          {
+            "restrictions": [
+              "vegetarian",
+              "dairy-free",
+              "egg-free",
+              "wheat-free"
+            ],
+            "num_restrictions": 4,
+            "categories": [
+              "lifestyle",
+              "allergens",
+              "allergens",
+              "allergens"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.8666666666666667
+          },
+          {
+            "restrictions": [
+              "pescatarian",
+              "shellfish-free",
+              "dairy-free",
+              "gluten-free"
+            ],
+            "num_restrictions": 4,
+            "categories": [
+              "lifestyle",
+              "allergens",
+              "allergens",
+              "health"
+            ],
+            "menus_generated": 3,
+            "compliant_menus": 3,
+            "compliance_rate": 1.0,
+            "avg_adaptation_score": 0.9
+          }
+        ],
+        "summary": {
+          "individual_restrictions_tested": 15,
+          "individual_compliant": 15,
+          "individual_compliance_rate": 1.0,
+          "dual_combinations_tested": 5,
+          "dual_compliant": 5,
+          "dual_compliance_rate": 1.0,
+          "extreme_cases_tested": 3,
+          "extreme_successful": 3,
+          "extreme_success_rate": 1.0,
+          "overall_restrictions_tested": 15,
+          "overall_test_cases": 23
+        }
+      }
+    },
+    "test_semantic_retain": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "Starting Semantic RETAIN Test...\n\nTest completed. Results saved to: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_semantic_retain.json\n\nSummary:\n  Test menus submitted: 3\n  Menus retained: 3\n  Retention rate: 100.0%\n  Semantic similarity enabled: True\n",
+        "stderr": ""
+      },
+      "data": {
+        "test_name": "Semantic Similarity in RETAIN",
+        "timestamp": "2026-01-12T20:49:47.919313",
+        "test_cases": [
+          {
+            "test_id": "italian_vs_spanish",
+            "description": "Italian menu vs existing Spanish cases (semantically similar)",
+            "menu_culture": "ITALIAN",
+            "decision": {
+              "should_retain": true,
+              "action": "add_new",
+              "reason": "Caso novedoso para la base de conocimiento",
+              "retained": true
+            }
+          },
+          {
+            "test_id": "japanese_vs_european",
+            "description": "Japanese menu vs European cases (semantically different)",
+            "menu_culture": "JAPANESE",
+            "decision": {
+              "should_retain": true,
+              "action": "add_new",
+              "reason": "Caso novedoso para la base de conocimiento",
+              "retained": true
+            }
+          },
+          {
+            "test_id": "french_vs_european",
+            "description": "French menu vs European cases (semantically similar)",
+            "menu_culture": "FRENCH",
+            "decision": {
+              "should_retain": true,
+              "action": "update_existing",
+              "reason": "Mejora caso existente (4.8 vs 4.5)",
+              "retained": true
+            }
+          }
+        ],
+        "summary": {
+          "initial_cases": 41,
+          "final_cases": 43,
+          "test_menus_submitted": 3,
+          "menus_retained": 3,
+          "retention_rate": 1.0,
+          "semantic_similarity_used": true
+        }
+      }
+    },
+    "test_adaptive_learning": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "\n============================================================\n\ud83e\uddea EVALUACI\u00d3N COMPARATIVA: CBR Est\u00e1tico vs Adaptativo\n============================================================\n\ud83d\udccb Total de casos de prueba: 10\n\u23f0 Inicio: 2026-01-12 20:49:48\n\n============================================================\n\ud83d\udd39 EVALUACI\u00d3N: CBR EST\u00c1TICO (Pesos Fijos)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.07s\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.15s\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 3 propuestas en 0.09s\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.02s\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.17s\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.04s\n\n\ud83d\udcca RESULTADOS EST\u00c1TICO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.06s\n\n============================================================\n\ud83d\udd38 EVALUACI\u00d3N: CBR ADAPTATIVO (Aprendizaje Activo)\n============================================================\n\n\u25b8 Procesando BODA-001...\n  \u2713 3 propuestas en 0.09s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando CONGRESO-001...\n  \u2713 3 propuestas en 0.14s\n  \ud83d\udcda Pesos actualizados con feedback (4.0/5.0)\n\n\u25b8 Procesando FAMILIAR-001...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.8/5.0)\n\n\u25b8 Procesando BODA-002...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-002...\n  \u2713 3 propuestas en 0.10s\n  \ud83d\udcda Pesos actualizados con feedback (3.8/5.0)\n\n\u25b8 Procesando BODA-003...\n  \u2713 3 propuestas en 0.01s\n  \ud83d\udcda Pesos actualizados con feedback (4.2/5.0)\n\n\u25b8 Procesando FAMILIAR-002...\n  \u2713 3 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (4.5/5.0)\n\n\u25b8 Procesando BODA-004...\n  \u2713 3 propuestas en 0.02s\n  \ud83d\udcda Pesos actualizados con feedback (5.0/5.0)\n\n\u25b8 Procesando CONGRESO-003...\n  \u2713 3 propuestas en 0.19s\n  \ud83d\udcda Pesos actualizados con feedback (3.5/5.0)\n\n\u25b8 Procesando BODA-005...\n  \u2713 0 propuestas en 0.05s\n\n\ud83d\udcca RESULTADOS ADAPTATIVO:\n  Precisi\u00f3n: 90.0%\n  Satisfacci\u00f3n promedio: 4.40/5.0\n  Tiempo promedio: 0.06s\n\u2705 Historial de aprendizaje guardado en: data/results/learning_history_test.json\n\u2705 Gr\u00e1fica guardada en: data/plots/weight_evolution.png\n\u2705 Gr\u00e1fica de correlaci\u00f3n guardada en: data/plots/feedback_correlation.png\n\u2705 Gr\u00e1ficas generadas en: data/plots/\n\n============================================================\n\ud83d\udcc8 COMPARACI\u00d3N DE RESULTADOS\n============================================================\n\n\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n\u2502 M\u00e9trica                     \u2502 Est\u00e1tico \u2502 Adaptivo \u2502  Mejora  \u2502\n\u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2524\n\u2502 Precisi\u00f3n                   \u2502   90.0% \u2502   90.0% \u2502    +0.0% \u2502\n\u2502 Satisfacci\u00f3n promedio       \u2502   4.40/5 \u2502   4.40/5 \u2502   +0.00   \u2502\n\u2502 Tiempo promedio (s)         \u2502   0.060  \u2502   0.064  \u2502   +0.005  \u2502\n\u2502 Casos exitosos              \u2502     9    \u2502     9    \u2502    +0    \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\ud83c\udfaf CONCLUSIONES:\n   \u2796 Precisi\u00f3n sin cambios\n   \u2796 Satisfacci\u00f3n sin cambios\n   \u2705 Tiempo de procesamiento similar (overhead m\u00ednimo)\n\n\ud83d\udcbe Comparaci\u00f3n guardada en: data/evaluation_comparison.json\n\u2705 Evaluaci\u00f3n completada\n\u23f0 Fin: 2026-01-12 20:49:51\n============================================================\n\n",
+        "stderr": ""
+      },
+      "data": {
+        "summary": {
+          "test_type": "Comparative Evaluation",
+          "static_precision": 0.9,
+          "static_satisfaction": 4.4,
+          "static_time": 0.059717106819152835,
+          "adaptive_precision": 0.9,
+          "adaptive_satisfaction": 4.4,
+          "adaptive_time": 0.06427743434906005,
+          "precision_improvement_pct": 0.0,
+          "satisfaction_improvement": 0.0,
+          "time_overhead_seconds": 0.004560327529907218,
+          "total_test_cases": 10,
+          "adaptive_better": false
+        }
+      }
+    },
+    "test_adaptation_strategies": {
+      "execution": {
+        "status": "success",
+        "returncode": 0,
+        "stdout": "\n================================================================================\nEXPERIMENTO 10: AN\u00c1LISIS DE ESTRATEGIAS DE ADAPTACI\u00d3N\n================================================================================\n\n[DIETARY] Procesando 10 casos\n--------------------------------------------------------------------------------\n  [1/10] vegan: Nivel 2, 2 ingr., 1 platos\n  [2/10] vegetarian: Nivel 2, 0 ingr., 2 platos\n  [3/10] gluten-free: Nivel 2, 2 ingr., 1 platos\n  [4/10] dairy-free: Nivel 2, 2 ingr., 1 platos\n  [5/10] pescatarian: Nivel 2, 0 ingr., 2 platos\n  [6/10] kosher: Nivel 2, 0 ingr., 2 platos\n  [7/10] paleo: Nivel 2, 3 ingr., 1 platos\n  [8/10] keto-friendly: Nivel 2, 3 ingr., 1 platos\n  [9/10] egg-free: Nivel 2, 0 ingr., 1 platos\n  [10/10] peanut-free: Nivel 2, 0 ingr., 1 platos\n\n[EVENT] Procesando 10 casos\n--------------------------------------------------------------------------------\n  [1/10] wedding: Nivel 2, 0 ingr., 1 platos\n  [2/10] corporate: Nivel 2, 0 ingr., 1 platos\n  [3/10] familiar: Nivel 2, 0 ingr., 1 platos\n  [4/10] communion: Nivel 2, 0 ingr., 1 platos\n  [5/10] christening: Nivel 2, 0 ingr., 1 platos\n  [6/10] congress: Nivel 2, 0 ingr., 1 platos\n  [7/10] wedding: Nivel 2, 0 ingr., 1 platos\n  [8/10] corporate: Nivel 2, 0 ingr., 1 platos\n  [9/10] familiar: Nivel 2, 0 ingr., 1 platos\n  [10/10] communion: Nivel 2, 0 ingr., 1 platos\n\n[MIXED] Procesando 10 casos\n--------------------------------------------------------------------------------\n  [1/10] wedding+vegan,gluten-free: Nivel 2, 3 ingr., 1 platos\n  [2/10] corporate+vegetarian: Nivel 2, 0 ingr., 1 platos\n  [3/10] familiar+dairy-free: Nivel 2, 4 ingr., 1 platos\n  [4/10] communion+pescatarian,dairy-free: Nivel 2, 3 ingr., 2 platos\n  [5/10] christening+kosher: Nivel 2, 0 ingr., 1 platos\n  [6/10] congress+vegan: Nivel 2, 3 ingr., 2 platos\n  [7/10] wedding+paleo: Nivel 2, 3 ingr., 2 platos\n  [8/10] corporate+keto-friendly: Nivel 2, 3 ingr., 1 platos\n  [9/10] familiar+egg-free: Nivel 2, 0 ingr., 1 platos\n  [10/10] communion+peanut-free,dairy-free: Nivel 2, 2 ingr., 1 platos\n\n================================================================================\nAN\u00c1LISIS AGREGADO\n================================================================================\n\nDistribuci\u00f3n de Estrategias:\n  Nivel 0 (Sin adaptaci\u00f3n):         0 casos (0.0%)\n  Nivel 1 (Sust. ingredientes):     0 casos (0.0%)\n  Nivel 2 (Cambio de plato):       30 casos (100.0%)\n  Nivel 3 (Rechazo):                 0 casos (0.0%)\n\nGranularidad:\n  Ingredientes sustituidos (total): 33\n  Ingredientes por caso (promedio): 1.10\n  Platos reemplazados (total):      36\n  Platos por caso (promedio):       1.20\n\nEfectividad:\n  Similitud antes de adaptaci\u00f3n:    0.830\n  Similitud despu\u00e9s de adaptaci\u00f3n:  0.903\n  Mejora de similitud:              +0.073\n  Tasa de \u00e9xito:                    100.0%\n\n\u2705 Resultados guardados en: /home/stargix/Desktop/uni/SBC/Final/CBR/data/results/test_adaptation_strategies.json\n================================================================================\n\n",
+        "stderr": ""
+      },
+      "data": {
+        "experiment": "test_adaptation_strategies",
+        "timestamp": "2026-01-12T20:49:52.298243",
+        "summary": {
+          "total_cases": 30,
+          "level_0_no_adaptation": 0,
+          "level_1_ingredient_substitution": 0,
+          "level_2_dish_replacement": 30,
+          "level_3_case_rejection": 0,
+          "level_0_pct": 0.0,
+          "level_1_pct": 0.0,
+          "level_2_pct": 100.0,
+          "level_3_pct": 0.0,
+          "total_ingredients_substituted": 33,
+          "total_dishes_replaced": 36,
+          "avg_ingredients_per_case": 1.1,
+          "avg_dishes_per_case": 1.2,
+          "avg_similarity_before": 0.8302777777777778,
+          "avg_similarity_after": 0.9029883040935673,
+          "similarity_improvement": 0.07271052631578956,
+          "similarity_improvement_pct": 8.757373527495565,
+          "success_rate": 1.0
+        },
+        "all_results": [
+          {
+            "category": "dietary",
+            "label": "vegan",
+            "level": 2,
+            "ingredient_subs": 2,
+            "dish_replacements": 1,
+            "similarity_before": 0.7786666666666667,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Baked Ziti Made Lighter \u2192 Linguine with Summer Vegetables (cumple vegan)",
+              "Plato cambiado: We're Back, with Cookies! \u2192 Meyer Lemon and Cantaloupe Ice (cumple vegan)",
+              "Cambiado Caymus Cabernet Sauvignon por Estrella Damm (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "vegetarian",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 2,
+            "similarity_before": 0.805,
+            "similarity_after": 0.9538011695906433,
+            "adaptations": [
+              "Sustituido French Onion Soup Crostini por Portobello Mushroom Burger with Avocado Chimichurri (m\u00e1s apropiado para summer)",
+              "Cambiado Silver Oak Cabernet por Linden Blossom Tea (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "gluten-free",
+            "level": 2,
+            "ingredient_subs": 2,
+            "dish_replacements": 1,
+            "similarity_before": 0.7786666666666667,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Baked Ziti Made Lighter \u2192 Linguine with Summer Vegetables (cumple gluten-free)",
+              "We're Back, with Cookies!: whole wheat flour\u2192almond flour (Dietary: violates gluten-free, same group (flour_group))",
+              "Cambiado Caymus Cabernet Sauvignon por Rooibos Plain (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "dairy-free",
+            "level": 2,
+            "ingredient_subs": 2,
+            "dish_replacements": 1,
+            "similarity_before": 0.7786666666666667,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Baked Ziti Made Lighter \u2192 Linguine with Summer Vegetables (cumple dairy-free)",
+              "Plato cambiado: We're Back, with Cookies! \u2192 Whole Wheat Chocolate Waffles (cumple dairy-free)",
+              "Cambiado Caymus Cabernet Sauvignon por Fanta Lemon (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "pescatarian",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 2,
+            "similarity_before": 0.805,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Sustituido French Onion Soup Crostini por Portobello Mushroom Burger with Avocado Chimichurri (m\u00e1s apropiado para summer)",
+              "Cambiado Silver Oak Cabernet por Ginger Lemon Blend (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "kosher",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 2,
+            "similarity_before": 0.805,
+            "similarity_after": 0.9502923976608187,
+            "adaptations": [
+              "Sustituido French Onion Soup Crostini por Portobello Mushroom Burger with Avocado Chimichurri (m\u00e1s apropiado para summer)",
+              "Cambiado Silver Oak Cabernet por Sprite (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "paleo",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 1,
+            "similarity_before": 0.7786666666666667,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Fresh Cucumber Salad \u2192 Russian Tomato and Cucumber Salad (cumple paleo)",
+              "Plato cambiado: Baked Ziti Made Lighter \u2192 Grilled Goat Kebabs with Pomegranate-Cumin Glaze (cumple paleo)",
+              "Plato cambiado: We're Back, with Cookies! \u2192 Strawberry Chia Freeze {clean Eating Snack Recipe} (cumple paleo)",
+              "Cambiado Caymus Cabernet Sauvignon por Aquarius (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "keto-friendly",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 1,
+            "similarity_before": 0.7786666666666667,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Fresh Cucumber Salad \u2192 ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS (cumple keto-friendly)",
+              "Plato cambiado: Baked Ziti Made Lighter \u2192 Whole Chicken And Cabbage In A Dutch Oven/Braiser (cumple keto-friendly)",
+              "Plato cambiado: We're Back, with Cookies! \u2192 Parmesan & Chive Sunflower Crackers (cumple keto-friendly)",
+              "Cambiado Caymus Cabernet Sauvignon por Linden Blossom Tea (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "egg-free",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.801,
+            "similarity_after": 0.8555555555555556,
+            "adaptations": [
+              "Cambiado Caymus Cabernet Sauvignon por Rooibos Plain (sin alcohol)"
+            ]
+          },
+          {
+            "category": "dietary",
+            "label": "peanut-free",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8486666666666667,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Cambiado Caymus Cabernet Sauvignon por Sparkling Water (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "wedding",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8345,
+            "similarity_after": 0.8555555555555557,
+            "adaptations": [
+              "Cambiado Ch\u00e2teau d'Esclans Garrus Ros\u00e9 por Anise Chamomile (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "corporate",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8750000000000002,
+            "similarity_after": 0.8277777777777777,
+            "adaptations": [
+              "Cambiado Josh Cellars Cabernet Sauvignon por Rooibos Plain (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "familiar",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8610000000000001,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Cambiado Silver Oak Cabernet por Aquarius (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "communion",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.9144999999999999,
+            "similarity_after": 0.8430555555555554,
+            "adaptations": [
+              "Cambiado Ch\u00e2teau d'Esclans Garrus Ros\u00e9 por Bitter Kas (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "christening",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.9209999999999999,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Cambiado Silver Oak Cabernet por Fennel Digestive (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "congress",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.895,
+            "similarity_after": 0.8361111111111112,
+            "adaptations": [
+              "Cambiado Josh Cellars Cabernet Sauvignon por Green Tea with Mint (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "wedding",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8345,
+            "similarity_after": 0.826388888888889,
+            "adaptations": [
+              "Cambiado Ch\u00e2teau d'Esclans Garrus Ros\u00e9 por Peppermint Herbal (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "corporate",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8750000000000002,
+            "similarity_after": 0.8194444444444443,
+            "adaptations": [
+              "Cambiado Josh Cellars Cabernet Sauvignon por Chamomile Infusion (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "familiar",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8610000000000001,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Cambiado Silver Oak Cabernet por Schweppes (sin alcohol)"
+            ]
+          },
+          {
+            "category": "event",
+            "label": "communion",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.9144999999999999,
+            "similarity_after": 0.8305555555555556,
+            "adaptations": [
+              "Cambiado Ch\u00e2teau d'Esclans Garrus Ros\u00e9 por Fanta Orange (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "wedding+vegan,gluten-free",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 1,
+            "similarity_before": 0.7470000000000001,
+            "similarity_after": 0.7555555555555556,
+            "adaptations": [
+              "Plato cambiado: Frisee Salad with Winter Spiced Poached Pears \u2192 Grilled Cobb Salad (cumple vegan)",
+              "Plato cambiado: White Chili \u2192 Roasted Baby Artichokes (cumple vegan)",
+              "Plato cambiado: This Cookie Concoction Is Out-of-control Good \u2192 Sweet Bourbon Plantains {Recipe Redux} (cumple vegan, gluten-free)",
+              "Cambiado Venus La Universal Dido La Soluci\u00f3 Rosa por Chamomile Infusion (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "corporate+vegetarian",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.7795000000000001,
+            "similarity_after": 0.8,
+            "adaptations": [
+              "Sustituido BROCCOLI LASAGNA BIANCA por Spaghettini with Pesto Tomatoes and Grilled Eggplant (ahorro: 7.00\u20ac)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "familiar+dairy-free",
+            "level": 2,
+            "ingredient_subs": 4,
+            "dish_replacements": 1,
+            "similarity_before": 0.8010000000000002,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: French Onion Soup Crostini \u2192 Clean Eating Potato Leek Soup (cumple dairy-free)",
+              "Potato Leek and Feta Pie: milk\u2192almond milk (Dietary: violates dairy-free, same group (milk_group))",
+              "Potato Leek and Feta Pie: sour cream\u2192almond milk (Dietary: violates dairy-free, same group (milk_group))",
+              "Plato cambiado: Boozy Apple Pie \u2192 Blackberry Oatmeal Breakfast Cookies (cumple dairy-free)",
+              "Cambiado Silver Oak Cabernet por Hibiscus Red Tea (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "communion+pescatarian,dairy-free",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 2,
+            "similarity_before": 0.863,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Frisee Salad with Winter Spiced Poached Pears \u2192 Grilled Cobb Salad (cumple pescatarian, dairy-free)",
+              "White Chili: ground turkey\u2192chicken breasts (Dietary: violates pescatarian, same group (meat_group))",
+              "Plato cambiado: This Cookie Concoction Is Out-of-control Good \u2192 Cookie Dough Nut Butter (cumple dairy-free)",
+              "Sustituido Grilled Cobb Salad por Bulgur & Quinoa Salad with Mint Dressing (m\u00e1s apropiado para winter)",
+              "Cambiado Venus La Universal Dido La Soluci\u00f3 Rosa por Estrella Damm (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "christening+kosher",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8710000000000001,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Cambiado Josh Cellars Cabernet Sauvignon por Sparkling Water (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "congress+vegan",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 2,
+            "similarity_before": 0.7923333333333336,
+            "similarity_after": 0.7111111111111111,
+            "adaptations": [
+              "Jalapeno Kaiser Hamburger Bun: milk\u2192almond milk (Dietary: violates vegan, same group (milk_group))",
+              "Plato cambiado: Mini Turkey Meatloaf with Ranch Potatoes and Broccoli \u2192 Roasted Baby Artichokes (cumple vegan)",
+              "Plato cambiado: Chocolate Chunk Pancakes with Fresh Raspberry Maple Syrup \u2192 Chocolate Hazelnut Raspberry Toast (cumple vegan)",
+              "Sustituido Jalapeno Kaiser Hamburger Bun por Homemade Pizza Dough (m\u00e1s apropiado para summer)",
+              "Cambiado Josh Cellars Cabernet Sauvignon por Aquarius (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "wedding+paleo",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 2,
+            "similarity_before": 0.7770000000000001,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Rosemary Cheddar Cornbread \u2192 ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS (cumple paleo)",
+              "Plato cambiado: General Tso's Chicken \u2192 Delectable Coq au Vin Redux (cumple paleo)",
+              "Plato cambiado: Peanut Butter Crumb Cakes 4 \u2192 Coconut Mud Cake (cumple paleo)",
+              "Sustituido ROMAINE SALAD WITH BACON AND HARD-BOILED EGGS por Hearty Oxtail Soup (m\u00e1s apropiado para autumn)",
+              "Cambiado Ch\u00e2teau d'Esclans Garrus Ros\u00e9 por Ginger Lemon Blend (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "corporate+keto-friendly",
+            "level": 2,
+            "ingredient_subs": 3,
+            "dish_replacements": 1,
+            "similarity_before": 0.8136666666666668,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Bourbon Pecan Bread: milk\u2192almond milk (Dietary: violates keto-friendly, same group (milk_group))",
+              "Plato cambiado: CAPOCOLLO AND MINI SWEET PEPPER PASTA \u2192 Thanksgiving Recipe: Whipped Cauliflower with Cr\u00e8me Fra\u00eeche (cumple keto-friendly)",
+              "Homemade Nutter Butters: milk\u2192almond milk (Dietary: violates keto-friendly, same group (milk_group))",
+              "Cambiado Kendall-Jackson Cabernet Sauvignon por Hibiscus Red Tea (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "familiar+egg-free",
+            "level": 2,
+            "ingredient_subs": 0,
+            "dish_replacements": 1,
+            "similarity_before": 0.8245,
+            "similarity_after": 0.9355555555555556,
+            "adaptations": [
+              "Cambiado Stag's Leap Cabernet por Peppermint Herbal (sin alcohol)"
+            ]
+          },
+          {
+            "category": "mixed",
+            "label": "communion+peanut-free,dairy-free",
+            "level": 2,
+            "ingredient_subs": 2,
+            "dish_replacements": 1,
+            "similarity_before": 0.8953333333333332,
+            "similarity_after": 0.9555555555555556,
+            "adaptations": [
+              "Plato cambiado: Baked Ziti Made Lighter \u2192 Linguine with Summer Vegetables (cumple dairy-free)",
+              "Plato cambiado: We're Back, with Cookies! \u2192 Whole Wheat Chocolate Waffles (cumple dairy-free)",
+              "Cambiado Caymus Cabernet Sauvignon por Estrella Damm (sin alcohol)"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

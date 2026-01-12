@@ -1,0 +1,90 @@
+{
+  "test_name": "Complete CBR Cycle",
+  "timestamp": "2026-01-12T20:49:11.285668",
+  "scenarios": [
+    {
+      "scenario_id": "scenario_1",
+      "description": "Italian cultural preference, summer wedding",
+      "phases": {
+        "retrieve": {
+          "cases_found": 5,
+          "top_similarity": 1.0,
+          "avg_similarity": 0.9686
+        },
+        "adapt": {
+          "menus_adapted": 3,
+          "cultural_adaptations": 0
+        },
+        "revise": {
+          "valid_proposals": 3,
+          "validation_passed": true
+        },
+        "retain": {
+          "should_retain": false,
+          "retention_action": "discard",
+          "retained": false,
+          "feedback_score": 4.7
+        }
+      }
+    },
+    {
+      "scenario_id": "scenario_2",
+      "description": "Chinese cultural preference, congress event",
+      "phases": {
+        "retrieve": {
+          "cases_found": 5,
+          "top_similarity": 0.9309999999999998,
+          "avg_similarity": 0.8131999999999999
+        },
+        "adapt": {
+          "menus_adapted": 3,
+          "cultural_adaptations": 0
+        },
+        "revise": {
+          "valid_proposals": 3,
+          "validation_passed": true
+        },
+        "retain": {
+          "should_retain": true,
+          "retention_action": "add_new",
+          "retained": true,
+          "feedback_score": 4.5
+        }
+      }
+    },
+    {
+      "scenario_id": "scenario_3",
+      "description": "Spanish regional style, family event",
+      "phases": {
+        "retrieve": {
+          "cases_found": 5,
+          "top_similarity": 0.8560000000000001,
+          "avg_similarity": 0.8241333333333335
+        },
+        "adapt": {
+          "menus_adapted": 3,
+          "cultural_adaptations": 3
+        },
+        "revise": {
+          "valid_proposals": 3,
+          "validation_passed": true
+        },
+        "retain": {
+          "should_retain": true,
+          "retention_action": "update_existing",
+          "retained": true,
+          "feedback_score": 4.8
+        }
+      }
+    }
+  ],
+  "summary": {
+    "initial_cases": 43,
+    "final_cases": 44,
+    "cases_learned": 1,
+    "scenarios_executed": 3,
+    "avg_retrieval_similarity": 0.9289999999999999,
+    "avg_valid_proposals": 3.0,
+    "retention_rate": 0.6666666666666666
+  }
+}

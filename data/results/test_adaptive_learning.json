@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "test_type": "Comparative Evaluation",
+    "static_precision": 0.9,
+    "static_satisfaction": 4.4,
+    "static_time": 0.059717106819152835,
+    "adaptive_precision": 0.9,
+    "adaptive_satisfaction": 4.4,
+    "adaptive_time": 0.06427743434906005,
+    "precision_improvement_pct": 0.0,
+    "satisfaction_improvement": 0.0,
+    "time_overhead_seconds": 0.004560327529907218,
+    "total_test_cases": 10,
+    "adaptive_better": false
+  }
+}

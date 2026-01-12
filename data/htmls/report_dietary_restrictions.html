@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dietary Restrictions Test - CBR System Report</title>
+    <style>
+        :root {
+            --surface: #ffffff;
+            --ink: #0f172a;
+            --muted: #5b6474;
+            --accent: #0f766e;
+            --accent-2: #e07a5f;
+            --line: #e1dacf;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf7f1 0%, #f4f1eb 100%);
+            color: var(--ink);
+            padding: 28px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .panel {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+        
+        .panel h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .panel h3 {
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: #faf7f1;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .stat-value.positive {
+            color: #059669;
+        }
+        
+        .stat-value.negative {
+            color: #dc2626;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: var(--accent);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+        
+        .comparison-table tr:hover {
+            background: #faf7f1;
+        }
+        
+        .plot-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        
+        .plot-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .alert.info {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(15, 118, 110, 0.2);
+        }
+        
+        .alert.success {
+            background: rgba(5, 150, 105, 0.08);
+            color: #059669;
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        
+        .alert.warning {
+            background: rgba(224, 122, 95, 0.08);
+            color: var(--accent-2);
+            border: 1px solid rgba(224, 122, 95, 0.2);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge.success {
+            background: rgba(5, 150, 105, 0.15);
+            color: #059669;
+        }
+        
+        .badge.neutral {
+            background: rgba(91, 100, 116, 0.15);
+            color: var(--muted);
+        }
+        
+        .badge.warning {
+            background: rgba(224, 122, 95, 0.15);
+            color: var(--accent-2);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--accent-2);
+        }
+    </style>
+    
+
+</head>
+<body>
+    <div class="container">
+        <h1>🥗 Dietary Restrictions Compliance Test</h1>
+        <p class="subtitle">Testing all 33 available dietary restrictions</p>
+        
+        <div class="panel">
+            <h2>📊 Executive Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Restrictions Tested</div>
+                    <div class="stat-value">15</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Individual Compliance</div>
+                    <div class="stat-value positive">100%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Dual Compliance</div>
+                    <div class="stat-value warning">100%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Extreme Success</div>
+                    <div class="stat-value">100%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📈 Individual Restrictions (Top 15 Common)</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Restriction</th>
+                        <th>Category</th>
+                        <th>Menus Generated</th>
+                        <th>Compliant</th>
+                        <th>Compliance Rate</th>
+                        <th>Avg Adaptation</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><strong>vegan</strong></td>
+                        <td><span class="badge">lifestyle</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.683</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>vegetarian</strong></td>
+                        <td><span class="badge">lifestyle</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.883</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>gluten-free</strong></td>
+                        <td><span class="badge">health</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.917</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>dairy-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.883</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>egg-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.950</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>peanut-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>1.000</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>shellfish-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>1.000</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>soy-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>1.000</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>kosher</strong></td>
+                        <td><span class="badge">lifestyle</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.950</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>pescatarian</strong></td>
+                        <td><span class="badge">lifestyle</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.783</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>keto-friendly</strong></td>
+                        <td><span class="badge">lifestyle</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.917</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>paleo</strong></td>
+                        <td><span class="badge">lifestyle</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.650</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>alcohol-free</strong></td>
+                        <td><span class="badge">health</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>1.000</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>wheat-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.917</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>tree-nut-free</strong></td>
+                        <td><span class="badge">allergens</span></td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                        <td>0.950</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>🔗 Dual Restrictions (2 simultaneous)</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Restrictions</th>
+                        <th>Categories</th>
+                        <th>Menus Generated</th>
+                        <th>Compliance Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><strong>vegan + gluten-free</strong></td>
+                        <td>lifestyle, health</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>vegetarian + dairy-free</strong></td>
+                        <td>lifestyle, allergens</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>kosher + peanut-free</strong></td>
+                        <td>lifestyle, allergens</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>pescatarian + shellfish-free</strong></td>
+                        <td>lifestyle, allergens</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>keto-friendly + dairy-free</strong></td>
+                        <td>lifestyle, allergens</td>
+                        <td>3</td>
+                        <td class="positive">100%</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>⚡ Extreme Cases (3+ restrictions)</h2>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Restrictions</th>
+                        <th>Count</th>
+                        <th>Menus Generated</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>vegan, gluten-free, soy-free</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td class="positive"><strong>✅ Success</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>vegetarian, dairy-free, egg-free, wheat-free</td>
+                        <td>4</td>
+                        <td>3</td>
+                        <td class="positive"><strong>✅ Success</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>pescatarian, shellfish-free, dairy-free, gluten-free</td>
+                        <td>4</td>
+                        <td>3</td>
+                        <td class="positive"><strong>✅ Success</strong></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <h2>📊 Visualization</h2>
+            <div class="plot-container">
+                <img src="../plots/dietary_restrictions_compliance.png" alt="Dietary Restrictions Compliance" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📋 Categories Information</h2>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Allergens (15 restrictions)</h3>
+                <p style="color: var(--muted);">celery-free, crustacean-free, dairy-free, egg-free, fish-free, lupine-free, mollusk-free, mustard-free, peanut-free, sesame-free, shellfish-free, soy-free, sulfite-free, tree-nut-free, wheat-free</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Lifestyle (7 restrictions)</h3>
+                <p style="color: var(--muted);">vegan, vegetarian, pescatarian, paleo, keto-friendly, mediterranean, kosher</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Health (9 restrictions)</h3>
+                <p style="color: var(--muted);">alcohol-free, dash, fodmap-free, gluten-free, immuno-supportive, kidney-friendly, low potassium, no oil added, sugar-conscious</p>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--accent); margin-bottom: 8px;">Meat Restrictions (2 restrictions)</h3>
+                <p style="color: var(--muted);">pork-free, red-meat-free</p>
+            </div>
+        </div>
+        
+        <div class="timestamp">Generated: 2026-01-12T20:49:47.786418</div>
+    </div>
+</body>
+</html>

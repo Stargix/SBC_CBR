@@ -1,0 +1,199 @@
+{
+  "test_name": "Negative Cases Learning",
+  "timestamp": "2026-01-12T20:49:46.363930",
+  "scenarios": [
+    {
+      "scenario_id": "price_too_high",
+      "description": "Price exceeded budget significantly",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 1.8,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-198"
+      }
+    },
+    {
+      "scenario_id": "cultural_mismatch",
+      "description": "Cultural adaptation was superficial",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 2.0,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-978"
+      }
+    },
+    {
+      "scenario_id": "dietary_violation",
+      "description": "Contained meat products",
+      "retrieval_count": 1,
+      "adapted_count": 1,
+      "feedback": {
+        "score": 1.5,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-421"
+      }
+    },
+    {
+      "scenario_id": "complexity_too_low",
+      "description": "Too simple for gourmet event",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 2.2,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-608"
+      }
+    },
+    {
+      "scenario_id": "temperature_mismatch",
+      "description": "Cold starter inappropriate for winter",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 2.4,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-822"
+      }
+    },
+    {
+      "scenario_id": "flavor_clash",
+      "description": "Flavors clashed between courses",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 2.0,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-158"
+      }
+    },
+    {
+      "scenario_id": "scale_mismatch",
+      "description": "Too complex for large-scale production",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 1.9,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-731"
+      }
+    },
+    {
+      "scenario_id": "seasonal_mismatch",
+      "description": "Heavy winter dishes in summer",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 2.3,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-747"
+      }
+    },
+    {
+      "scenario_id": "wine_pairing_fail",
+      "description": "Wine pairing was inappropriate",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 2.1,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-274"
+      }
+    },
+    {
+      "scenario_id": "allergen_risk",
+      "description": "Contained restricted allergens",
+      "retrieval_count": 3,
+      "adapted_count": 3,
+      "feedback": {
+        "score": 1.6,
+        "success": false,
+        "retained": true,
+        "message": "Nuevo caso negativo (failure) a\u00f1adido: case-20260112-204946-880"
+      }
+    }
+  ],
+  "summary": {
+    "initial_total_cases": 41,
+    "final_total_cases": 51,
+    "initial_negative_cases": 0,
+    "final_negative_cases": 10,
+    "cases_added": 10,
+    "negative_cases_created": 10,
+    "negative_patterns_tested": 10,
+    "avoidance_tests_conducted": 5,
+    "avg_proposals_despite_negatives": 2.2
+  },
+  "avoidance_tests": [
+    {
+      "test_id": "avoid_price_high",
+      "similar_to_negative": "price_too_high",
+      "proposals_generated": 2,
+      "proposals_valid": 2,
+      "avoidance_checks": [
+        {
+          "negative_case": "price_too_high",
+          "avoided": true
+        }
+      ]
+    },
+    {
+      "test_id": "avoid_cultural",
+      "similar_to_negative": "cultural_mismatch",
+      "proposals_generated": 3,
+      "proposals_valid": 3,
+      "avoidance_checks": [
+        {
+          "negative_case": "cultural_mismatch",
+          "avoided": true
+        }
+      ]
+    },
+    {
+      "test_id": "avoid_dietary",
+      "similar_to_negative": "dietary_violation",
+      "proposals_generated": 0,
+      "proposals_valid": 0,
+      "avoidance_checks": [
+        {
+          "negative_case": "dietary_violation",
+          "avoided": false
+        }
+      ]
+    },
+    {
+      "test_id": "avoid_allergen",
+      "similar_to_negative": "allergen_risk",
+      "proposals_generated": 3,
+      "proposals_valid": 3,
+      "avoidance_checks": [
+        {
+          "negative_case": "allergen_risk",
+          "avoided": true
+        }
+      ]
+    },
+    {
+      "test_id": "avoid_scale",
+      "similar_to_negative": "scale_mismatch",
+      "proposals_generated": 3,
+      "proposals_valid": 3,
+      "avoidance_checks": [
+        {
+          "negative_case": "scale_mismatch",
+          "avoided": true
+        }
+      ]
+    }
+  ]
+}

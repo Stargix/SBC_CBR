@@ -21,7 +21,7 @@ import random
 
 from ..core.models import Case, Menu, Request
 from ..core.case_base import CaseBase
-from ..core.similarity import SimilarityCalculator, calculate_menu_similarity
+from ..core.similarity import SimilarityCalculator, SimilarityWeights, calculate_menu_similarity
 
 
 @dataclass
@@ -61,29 +61,33 @@ class CaseRetainer:
     mantener la base de conocimiento.
     """
     
-    def __init__(self, case_base: CaseBase):
+    def __init__(self, case_base: CaseBase, weights: Optional[SimilarityWeights] = None, case_base_path: str = "cases.json"):
         """
         Inicializa el gestor de retención.
         
         Args:
             case_base: Base de casos a gestionar
+            weights: Pesos de similitud
+            case_base_path: Ruta del archivo donde guardar casos
         """
         self.case_base = case_base
-        self.similarity_calc = SimilarityCalculator()
+        self.case_base_path = case_base_path
+        self.similarity_calc = SimilarityCalculator(weights)
         
-        # Umbrales de retención (ajustados para aprendizaje más permisivo)
-        self.novelty_threshold = 0.92  # Si similitud < este, es novedoso (antes 0.85)
-        self.quality_threshold = 3.0   # Mínimo feedback para retener como positivo (antes 3.5)
-        self.negative_threshold = 2.5  # Feedback < 2.5 se guarda como caso negativo (antes 3.0)
+        # Umbrales de retención (ajustados para evitar duplicados)
+        self.novelty_threshold = 0.87  # Si similitud < este, es novedoso (evita casos muy similares)
+        self.quality_threshold = 3.0   # Mínimo feedback para retener como positivo
+        self.negative_threshold = 2.5  # Feedback < 2.5 se guarda como caso negativo
         self.max_cases_per_event = 50  # Límite de casos por tipo de evento
         self.max_cases_total = 200  # Límite total para evitar crecimiento infinito
+        self.max_negative_cases = 30  # Límite específico para casos negativos
         
         # Mantenimiento periódico (no en cada inserción)
         self.maintenance_frequency = 10  # Cada 10 casos añadidos
         self.cases_since_maintenance = 0
         
         # Umbral de redundancia para eliminar casos duplicados
-        self.redundancy_threshold = 0.90  # Casos con sim > 0.90 son redundantes
+        self.redundancy_threshold = 0.95  # Casos con sim > 0.95 son redundantes (más conservador)
     
     def evaluate_retention(self, request: Request, menu: Menu,
                            feedback: FeedbackData) -> RetentionDecision:
@@ -120,8 +124,9 @@ class CaseRetainer:
                 action="discard"
             )
         
-        # 2. Buscar casos similares existentes
-        existing_cases = self.case_base.get_all_cases()
+        # 2. Buscar casos similares existentes (solo positivos para evitar
+        #     que un caso negativo bloquee la retención de un caso bueno)
+        existing_cases = [c for c in self.case_base.get_all_cases() if not c.is_negative]
         
         if not existing_cases:
             return RetentionDecision(
@@ -222,7 +227,7 @@ class CaseRetainer:
                 id=f"case-{datetime.now().strftime('%Y%m%d-%H%M%S')}-{random.randint(100, 999)}",
                 request=request,
                 menu=menu,
-                success=feedback.success,
+                success=False if is_negative else feedback.success,
                 feedback_score=feedback.score,
                 feedback_comments=feedback.comments,
                 source=source_type,
@@ -233,6 +238,14 @@ class CaseRetainer:
             self.case_base.add_case(new_case)
             self.cases_since_maintenance += 1
             
+            # CONTROL DE CASOS NEGATIVOS: Limitar cantidad para evitar sesgo
+            if is_negative:
+                negative_cases = [c for c in self.case_base.cases if c.is_negative]
+                if len(negative_cases) > self.max_negative_cases:
+                    # Eliminar el caso negativo más antiguo o de menor utilidad
+                    negative_cases.sort(key=lambda c: self._calculate_case_utility(c))
+                    self.case_base.cases.remove(negative_cases[0])
+            
             # POLÍTICA DE OLVIDO: Si excedemos el límite total, hacer limpieza
             if len(self.case_base.get_all_cases()) > self.max_cases_total:
                 self._enforce_case_limit()
@@ -241,6 +254,9 @@ class CaseRetainer:
             if self.cases_since_maintenance >= self.maintenance_frequency:
                 self._maintenance_if_needed(request.event_type)
                 self.cases_since_maintenance = 0
+            
+            # GUARDAR AUTOMÁTICAMENTE al archivo
+            self.case_base.save_to_file(self.case_base_path)
             
             tipo = "negativo (failure)" if is_negative else "positivo"
             adaptacion = f" (adaptado culturalmente de {original_case_id})" if menu.cultural_adaptations else ""
@@ -251,13 +267,22 @@ class CaseRetainer:
             if decision.most_similar_case:
                 old_case = decision.most_similar_case
                 old_case.menu = menu
+                old_case.request = request
                 old_case.feedback_score = feedback.score
-                old_case.feedback_comments = feedback.comments
+                if feedback.comments:
+                    old_case.feedback_comments = feedback.comments
+                old_case.success = feedback.success
                 old_case.increment_usage()
                 old_case.adaptation_notes.append(
                     f"Actualizado con mejor feedback ({feedback.score}/5)"
                 )
+
+                # La actualización de request/menú puede afectar los índices
+                self._rebuild_indexes()
                 
+                # GUARDAR AUTOMÁTICAMENTE al archivo
+                self.case_base.save_to_file(self.case_base_path)
+
                 return True, f"Caso actualizado: {old_case.id}"
         
         return False, "No se pudo retener el caso"
@@ -586,6 +611,9 @@ class CaseRetainer:
         
         for case in cases_to_remove:
             self.case_base.cases.remove(case)
+
+        # Los índices pueden quedar desactualizados tras eliminar casos
+        self._rebuild_indexes()
     
     def export_learned_cases(self) -> List[Dict[str, Any]]:
         """

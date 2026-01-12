@@ -1,0 +1,47 @@
+{
+  "test_name": "Semantic Similarity in RETAIN",
+  "timestamp": "2026-01-12T20:49:47.919313",
+  "test_cases": [
+    {
+      "test_id": "italian_vs_spanish",
+      "description": "Italian menu vs existing Spanish cases (semantically similar)",
+      "menu_culture": "ITALIAN",
+      "decision": {
+        "should_retain": true,
+        "action": "add_new",
+        "reason": "Caso novedoso para la base de conocimiento",
+        "retained": true
+      }
+    },
+    {
+      "test_id": "japanese_vs_european",
+      "description": "Japanese menu vs European cases (semantically different)",
+      "menu_culture": "JAPANESE",
+      "decision": {
+        "should_retain": true,
+        "action": "add_new",
+        "reason": "Caso novedoso para la base de conocimiento",
+        "retained": true
+      }
+    },
+    {
+      "test_id": "french_vs_european",
+      "description": "French menu vs European cases (semantically similar)",
+      "menu_culture": "FRENCH",
+      "decision": {
+        "should_retain": true,
+        "action": "update_existing",
+        "reason": "Mejora caso existente (4.8 vs 4.5)",
+        "retained": true
+      }
+    }
+  ],
+  "summary": {
+    "initial_cases": 41,
+    "final_cases": 43,
+    "test_menus_submitted": 3,
+    "menus_retained": 3,
+    "retention_rate": 1.0,
+    "semantic_similarity_used": true
+  }
+}
